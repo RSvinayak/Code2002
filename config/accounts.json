@@ -1,0 +1,227 @@
+{
+    "mainclass":[
+        {
+            "mcid": 1,
+            "value": "Asset",
+            "maingroup": [
+                {
+                    "mgid": "MG1",
+                    "mcid": 1,
+                    "value": "Fixed Asset",
+                    "hasopbalance": 1,
+                    "defaultbalance": 1,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG2",
+                    "mcid": 1,
+                    "value": "Current Asset",
+                    "hasopbalance": 1,
+                    "defaultbalance": 1,
+                    "subgroup": [
+                        {
+                            "sgid": "SG1",
+                            "mgid": "MG2",
+                            "value": "Sundry Debtors",
+                            "fixed": 1,
+                            "sortorder": 1
+                        },
+                        {
+                            "sgid": "SG2",
+                            "mgid": "MG2",
+                            "value": "Loan n Advances",
+                            "fixed": 1,
+                            "sortorder": 2
+                        },
+                        {
+                            "sgid": "SG3",
+                            "mgid": "MG2",
+                            "value": "Bank Accounts",
+                            "fixed": 1,
+                            "sortorder": 3
+                        },
+                        {
+                            "sgid": "SG4",
+                            "mgid": "MG2",
+                            "value": "Stock-in-Hand",
+                            "fixed": 1,
+                            "sortorder": 4
+                        },
+                        {
+                            "sgid": "SG5",
+                            "mgid": "MG2",
+                            "value": "Cash-in-Hand",
+                            "fixed": 1,
+                            "sortorder": 5
+                        }
+                    ]
+                },
+                {
+                    "mgid": "MG3",
+                    "mcid": 1,
+                    "value": "Investments",
+                    "hasopbalance": 1,
+                    "defaultbalance": 1,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG4",
+                    "mcid": 1,
+                    "value": "Misc Expenditure",
+                    "hasopbalance": 1,
+                    "defaultbalance": 1,
+                    "subgroup": []
+                }
+            ]
+        },
+        {
+            "mcid": 2,
+            "value": "Liability",
+            "maingroup":[
+                {
+                    "mgid": "MG5",
+                    "mcid": 2,
+                    "value": "Capital Group",
+                    "hasopbalance": 1,
+                    "defaultbalance": 0,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG6",
+                    "mcid": 2,
+                    "value": "Current Liability",
+                    "hasopbalance": 1,
+                    "defaultbalance": 0,
+                    "subgroup": [
+                        {
+                            "sgid": "SG6",
+                            "mgid": "MG6",
+                            "value": "Sundry Creditors",
+                            "fixed": 1,
+                            "sortorder": 1
+                        },
+                        {
+                            "sgid": "SG7",
+                            "mgid": "MG6",
+                            "value": "Provisions",
+                            "fixed": 1,
+                            "sortorder": 2
+                        }
+                    ]
+                },
+                {
+                    "mgid": "MG7",
+                    "mcid": 2,
+                    "value": "Reserve n Surplus",
+                    "hasopbalance": 1,
+                    "defaultbalance": 0,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG8",
+                    "mcid": 2,
+                    "value": "Loans",
+                    "hasopbalance": 1,
+                    "defaultbalance": 0,
+                    "subgroup": [
+                        {
+                            "sgid": "SG8",
+                            "mgid": "MG8",
+                            "value": "Secured Loans",
+                            "fixed": 1,
+                            "sortorder": 1
+                        },
+                        {
+                            "sgid": "SG9",
+                            "mgid": "MG8",
+                            "value": "Unsecured Loans",
+                            "fixed": 1,
+                            "sortorder": 2
+                        },
+                        {
+                            "sgid": "SG10",
+                            "mgid": "MG8",
+                            "value": "Bank OD/ CC",
+                            "fixed": 1,
+                            "sortorder": 3
+                        },
+                        {
+                            "sgid": "SG11",
+                            "mgid": "MG2",
+                            "value": "Subscribers",
+                            "fixed": 0,
+                            "sortorder": 6
+                        },
+                        {
+                            "sgid": "SG12",
+                            "mgid": "MG6",
+                            "value": "Subscribers ( L )",
+                            "fixed": 0,
+                            "sortorder": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "mcid": 3,
+            "value": "Income",
+            "maingroup":[
+                {
+                    "mgid": "MG9",
+                    "mcid": 3,
+                    "value": "Sales Group",
+                    "hasopbalance": 0,
+                    "defaultbalance": -1,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG10",
+                    "mcid": 3,
+                    "value": "Direct Sales",
+                    "hasopbalance": 0,
+                    "defaultbalance": -1,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG11",
+                    "mcid": 3,
+                    "value": "Indirect Sales",
+                    "hasopbalance": 0,
+                    "defaultbalance": -1,
+                    "subgroup": []
+                }
+            ]
+        },
+        {
+            "mcid": 4,
+            "value": "Expense",
+            "maingroup":[
+                {
+                    "mgid": "MG12",
+                    "mcid": 4,
+                    "value": "Purchase Group",
+                    "hasopbalance": 0,
+                    "defaultbalance": -1,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG13",
+                    "mcid": 4,
+                    "value": "Direct Expense",
+                    "hasopbalance": 0,
+                    "defaultbalance": -1,
+                    "subgroup": []
+                },
+                {
+                    "mgid": "MG14",
+                    "mcid": 4,
+                    "value": "Indirect Expense",
+                    "hasopbalance": 0,
+                    "defaultbalance": -1,
+                    "subgroup": []
+                }
+            ]
+        }
+    ]
+}

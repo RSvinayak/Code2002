@@ -1,0 +1,250 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+ <title>Report</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+ </head> 
+
+ <style type="text/css">
+
+ .panel.panel-default
+{
+  height: 80%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+
+.fieldset-auto-width {
+         display: inline-block;
+    }
+
+
+  thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+
+        thead th {
+            height: 50px;
+              width: 10%;
+
+            float: left;
+
+            /*text-align: left;*/
+        }
+
+        tbody {
+            height: 450px;
+            overflow-y: auto;
+        }
+
+        tbody td {
+
+            width: 10%;
+
+            float: left;
+        }
+
+ </style>
+
+ <body  style="background-color:#bdc3c7;" ng-controller="reportCntrl">
+ <br>
+ <br>
+ <!-- <div class="row"> -->
+ 	<div class="col-sm-1">
+
+<form>
+
+ 		<!-- Barcode
+		<br>
+	
+  <input type="radio" ng-model="radio.barcode" ng-change="radiobutton1()" value="yes" > Yes
+  <br>
+  <input type="radio" ng-model="radio.barcode" ng-change="radiobutton1()" value="no" > No
+   -->
+   Group
+ 
+   <select ng-model="sort.Group" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+	
+	</div> 
+	<div class="col-sm-2">
+ 	<!-- 	Weight
+		<br>
+
+  <input type="radio" ng-model="radio.weight" ng-change="radiobutton1()" value="gwt" > Gross
+  <br>
+  <input type="radio" ng-model="radio.weight" ng-change="radiobutton1()" value="ntwt" > Nett -->
+   SaleCategory
+   
+   <select ng-model="sort.SaleCty" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+
+	
+	</div>
+
+	<div class="col-sm-2">
+ 	<!-- 	Report By
+		<br>
+  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="purity" > Purity <br>
+  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="itemName" > Item <br> -->
+   Purity
+  
+   <select ng-model="sort.Purity" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+   </select>
+
+
+	</div>
+  <div class="col-sm-2">
+  <!--  Report By
+    <br>
+  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="purity" > Purity <br>
+  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="itemName" > Item <br> -->
+   Item
+  
+   <select ng-model="sort.Item" >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+   </select>
+
+
+  </div>
+
+	<div class="col-sm-2">
+		As On 
+		<input  type="date" id="yourDatePicker" ng-model="bit2.date1" > 
+	</div>
+	<!-- <div class="col-sm-3">
+		Transaction Type 
+		<br>
+
+  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="regular" > Regular
+  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="estimate"> Estimate
+  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="scheme" > Scheme
+  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="party"> Party
+	</div> -->
+
+	<div class="col-sm-3">
+		<button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button>
+<!-- 
+    <button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button> -->
+    <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a>
+
+		<!-- <button  ng-click="save()" class="btn btn-info" id="save" >P D F</button>
+		<button ng-click="save()" class="btn btn-danger" id="save" >Export</button> -->
+	</div>
+
+<!--  </div> -->
+ <br>
+ <br>
+    <br>
+ <div class="panel panel-default">
+ 	<table class="table">
+ 	  <thead>
+          <tr >
+             <!-- <th><span class="text">Item Name</span></th> -->
+             <th><span class="text">{{sort1}}</span></th>
+             <th><span class="text">{{sort2}}</span></th>
+             <th><span class="text">{{sort3}}</span></th>
+             <th><span class="text">{{sort4}}</span></th>
+
+        <!-- <th ng-if = " radio.report =='purity' " >Group</th>
+        <th ng-if = " radio.report =='purity' " >SaleCategory</th>
+        <th ng-if = " radio.report =='purity' " >Purity</th> -->
+         
+            <!--  <th>Item</th> -->
+           <!--   <th>UoM</th> -->
+           <!--   <th>Op Qty</th>
+             <th>Op Pcs</th> -->
+             <th>Rcv Qty</th>
+             <th>Rcv Pcs</th>
+             <!-- <th>Tot Qty</th>
+             <th>Tot Pcs</th>
+ -->             <th>Iss Qty</th>
+             <th>Iss Pcs</th>
+             <th>CI Qty</th>
+             <th>CI Pcs</th>
+
+           </tr>
+     </thead>
+     <tbody >
+     	<tr ng-repeat ="details in reportonedate1" >
+            
+          <!-- <td ng-if = " sort1 =='Group' " ng-show="reportonedate1[$index-1].group!= details.group" >{{details.group}}</td>
+           <td ng-if = " sort1 =='Group' " ng-show="reportonedate1[$index-1].group == details.group" >{{}}</td> -->
+           <td ng-if = " sort1 =='Group' " >{{details.group}}</td>
+        <td ng-if = " sort1 =='Purity' " >{{details.purity}}</td>
+        <td ng-if = " sort1 =='SaleCty' ">{{details.salesCtg}}</td>
+         <td ng-if = " sort1 =='Item' ">{{details.item}}</td>
+
+        <td ng-if = " sort2 =='Group' " >{{details.group}}</td>
+        
+        <td ng-if = " sort2 =='Purity' " >{{details.purity}}</td>
+        <td ng-if = " sort2 =='SaleCty' ">{{details.salesCtg}}</td>
+         <td ng-if = " sort2 =='Item' ">{{details.item}}</td>
+
+        <td ng-if = " sort3 =='Group' " >{{details.group}}</td>
+
+        <td ng-if = " sort3 =='Purity' " >{{details.purity}}</td>
+        <td ng-if = " sort3 =='SaleCty' ">{{details.salesCtg}}</td>
+        <td ng-if = " sort3 =='Item' ">{{details.item}}</td>
+
+          <td ng-if = " sort4 =='Group' " >{{details.group}}</td>
+
+        <td ng-if = " sort4 =='Purity' " >{{details.purity}}</td>
+        <td ng-if = " sort4 =='SaleCty' ">{{details.salesCtg}}</td>
+        <td ng-if = " sort4 =='Item' ">{{details.item}}</td>
+           
+             <td>{{details.rcvQty | number:3}}</td> 
+              <td>{{details.rcvPcs| number:3}}</td>
+              <!--  <td>{{details.totQty}}</td>   
+                <td>{{details.totPcs}}</td> -->
+                 <td>{{details.issQty | number:3}}</td>
+                  <td>{{details.issPcs | number:3}}</td>
+                   <td>{{details.ciQty | number:3}}</td>
+                   <td>{{details.ciPcs | number:3}}</td>
+                   
+
+         </tr>
+          
+     </tbody>
+    </table>
+ 	
+ </div>
+ <!-- <div>
+  <a href='mainpage.html'><button class="col-md-2 col-md-offset-5" > close</button></a>
+</div> -->
+
+ </body>
+<!-- for javascript date -->
+ <script>
+document.getElementById("yourDatePicker").valueAsDate = new Date()
+</script>
+
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/reportCntrl.js"></script> 
+
+ </html>

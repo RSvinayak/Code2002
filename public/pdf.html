@@ -1,0 +1,400 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+
+    <title>Inventory</title>  
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+       <!--  <body>
+    <p id="to-pdf">HTML content...</p>
+</body> -->
+<script type="text/javascript">
+function exportPDF()
+{
+  //alert(pdf function call)
+var pdf = new jsPDF('p','pt','a4');
+pdf.addHTML(document.body,function() {
+    pdf.save('web.pdf');
+});
+}
+</script>
+<title>Pdf</title> 
+
+        <!-- <script type="text/javascript">
+
+
+    function myFunction(export-table)
+    {
+        var docDefinition = {
+
+  content: [
+
+export-table
+]
+}
+  
+    pdfMake.createPdf(docDefinition).download('Report.pdf');
+
+    }
+    </script> -->
+    <style type="text/css">
+      /*.table >thead >tr >th { border: 1px solid #2980B9; }*/
+      #theadsize  {
+  font-size: 80%;
+    }
+     #right2{
+    text-align: right;
+    
+        }
+    </style>
+    </head>
+    <body ng-controller="PdfCntrl" class="container"> 
+    <article>
+      <div id="myDIV">
+  <header >
+    <h4 ng-cloak>{{ShopName}}</h4>
+    <p ng-cloak>{{Landmark }}<br>{{Street}}<br>{{Place}}<br>{{Phone}}{{Mobile}} <br>{{email}}</p>
+    </p>
+  </header>
+</div>
+
+  <!-- <p>Lorem Ipsum dolor set amet....</p> -->
+</article>
+<!-- <h3 align="center">Tax Invoice[{{billType}}]</h3>//25/4 -->
+<h3 align="center" ng-cloak>{{trans}}</h3>
+<div class="row">
+
+<div class="col-sm-10">
+<p ng-cloak>Party Name:{{partyname}} <br>
+Party License:{{partyLicense}}<br>
+Party PAN:{{partyPAN}}<br>
+Party Address:{{city}}<br>
+City:{{city}}</p>
+ 
+
+<!-- <p>Amount in words: </p> -->
+ <!-- <input type="text" name="number"  onkeyup="word.innerHTML=convertNumberToWords(this.value)" /> -->
+</div>
+<div ng-cloak>Invoice No:{{invoice}}<br>
+  <!-- <p>Invoice No:B1393<br> -->
+  Date:{{FromDate | date }}</p>
+</div>
+</div>
+    <!-- <h1><font color="black">{{partyname}}</h1> -->
+    <!-- <button type="button" class="btn btn-primary" id="button" ng-click="getDetails()">partynames</button> <table style="font-family:arial;" ....>-->
+    <div style="overflow-x:auto;">
+  <table  class="table no-border" id="to-pdf" ng-cloak> 
+    <thead id="theadsize">
+      <tr><font color="white">
+      <th >Sl No</th>
+      <th>Particulars</th>
+      <th>Hsc</th>
+      <th>Description</th>
+        <th ng-if="urdweight =='Gross Wt' || trans =='Regular Sale'">Gross Wt</th>
+         <th  ng-if="trans =='Regular Sale'">Gross Pcs</th>
+        <th  ng-if="trans =='Regular Sale'">St.Wt</th>
+        <th ng-if="urdweight =='NettWt' || trans =='Regular Sale' ">NettWt</th>
+       <th ng-if=" printWastage=='yes'">Wastage</th>
+        <th ng-if="trans =='Regular Sale'">Credit Adj</th>
+         <th ng-if="trans =='Regular Sale'">ChrgWt</th>
+        <th ng-if="trans =='Urd Purchase' && printChgWt=='Wt'">Wt</th>
+        <th ng-if="trans =='Urd Purchase' && printChgWt=='ChgWt'">ChgWt</th>
+       <!--  <th ng-if="trans =='Urd Purchase' ">Wt</th> -->
+        <th>Rate/MRP</th>
+        <th ng-if="trans =='Regular Sale'">St Amt</th>
+        <th ng-if="trans =='Regular Sale' && printLabour=='yes'" >Labour</th>
+        <th >Total</th>  
+     </font>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="theadsize" ng-repeat="item in userdisplay">
+      <td>{{$index+1}}</td>
+       <td>{{item.itemName}}</td>
+
+        <td>{{item.Hsc}}</td>
+        <td>{{item.desc}}</td>
+
+       <td ng-if="urdweight =='Gross Wt' || trans =='Regular Sale'">{{item.gwt}}</td>
+       <td ng-if="trans =='Regular Sale'">{{item.gpcs}}</td>
+       <td ng-if="trans =='Regular Sale'">{{item.stwt}}</td>
+       <td ng-if="urdweight =='NettWt' || trans =='Regular Sale'">{{item.ntwt}}</td>
+       <td ng-if=" printWastage=='yes'">{{item.wastage}}</td>
+       <td ng-if="trans =='Regular Sale'">{{item.matadj}}</td>
+       <td ng-if="trans =='Regular Sale'">{{item.chgunt}}</td>
+        <td ng-if="trans =='Urd Purchase' && printChgWt=='Wt'">{{item.chgunt}}</td>
+        <td ng-if="trans =='Urd Purchase' && printChgWt=='ChgWt'">{{item.chgunt}}</td>
+       <td >{{item.rate}}</td>
+       <td ng-if="trans =='Regular Sale'">{{item.stval}}</td>
+       <td ng-if="trans =='Regular Sale' && printLabour=='yes'" >{{item.labval}}</td>
+       <td>{{item.taxval}}</td> 
+   </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+ 
+<div class="row" ng-cloak>
+
+<div class="col-sm-4">
+<table class="table no-border">
+    <thead>
+      <tr ng-if = "sca != 0 || smca != 0 || orad != 0 || ormd != 0||urd_adj != 0 "><font color="white">
+      <th>Particulars</th>
+        <th >Adjusted</th>
+        <th>Balance</th>
+      <!--   <th>{{adj}}</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-if = "sca != 0">
+       <td>Scheme Credit Adjusted
+          
+       </td>
+       <td>0</td>
+       <td>0</td>
+</tr>
+<tr ng-if = "smca != 0">
+<td>Scheme Material Credit Adjusted</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr ng-if = "orad != 0">
+  <td>Order Advance Adjusted</td>
+  <td>0</td>
+  <td>0</td>
+</tr>
+<tr ng-if = "ormd != 0">
+  <td >Order Material Advance Adjusted</td>
+  <td>0</td>
+  <td>0</td>
+</tr>
+<tr ng-if = "urd_adj != 0 || adj !=0">
+  <td ng-if = "urd_adj != 0 ">Last URD Purchase</td>
+  <td  ng-if = "urd_adj != 0 ">{{adj}}</td>
+  <td ng-if = "urd_adj != 0 ">{{urd_adj}}</td>
+ 
+ <!-- <td>{{urdTotalBalance}}</td>  -->
+</tr>
+<tr ng-if = "urd_adj != 0 " ng-repeat="urdDetails in urdDetails">
+  <td ng-if = "urd_adj != 0 ">Urd BillNo</td>
+  <td ng-if = "urd_adj != 0 ">{{urdDetails1.urdDate | date  : "dd-MM-y"}}</td>
+  <td ng-if = "urd_adj != 0 ">{{urdDetails1.urdVoucherNo }}</td>
+ 
+ <!-- <td>{{urdTotalBalance}}</td>  -->
+</tr>
+</tbody>
+</table>
+
+</div>
+<div class="col-sm-4">
+<table class="table no-border">   
+    <thead>
+      <tr ng-if = "v1 != 0||v2 != 0||charge1 != 0||charge2 != 0||labour != 0 ||labourValue !=0 "><font color="white">
+      <th>Particulars</th>
+        <th >Value</th>
+        <th>Amount</th>
+    <!--     <th>{{charge1 }}</th> -->
+
+        
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-if = "v1 != 0">
+       <td>V1 1% on</td>
+       <!-- <td>28290</td>
+       <td>282.9</td> 14/5-->
+       <td>0</td>
+       <td>0</td>
+</tr>
+
+<tr ng-if = "LabourTaxCheck== 'Yes' && labourValue != 0 ">
+       <td>LabourTax</td>
+       <!-- <td>28290</td>
+       <td>282.9</td> 14/5-->
+       <td>{{labourValue}}</td>
+       <td>{{labourtax}}</td>
+</tr>
+
+<tr ng-if = "v2 != 0">
+<td>v2</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr ng-if = "charge1 != 0">
+  <td>CreditCard Charges </td>
+  <td>{{charge1}}</td>
+  <td>{{charge1}}</td>
+</tr>
+<tr ng-if = "charge2 != 0">
+  <td>Charge 2</td>
+  <td>0</td>
+  <td>0</td>
+</tr>
+<tr ng-if = "labour != 0">
+  <td>Labour</td>
+  <td>0</td>
+  <td>0</td>
+
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="col-md-4">
+
+  <div style="border:1px solid black;">
+  <table width="250px">
+    <tr>
+      <th >Item Total:</th>
+      <td  id="right2">{{taxableval}}</td>
+    </tr>  
+    <tr>
+      <th ng-if="gst == 'cgst'">Cgst Total:</th>
+      <td  id="right2">{{cgsttax}}</td>
+
+    </tr> 
+    <tr>
+      <th ng-if="gst == 'cgst'">Sgst Total:</th>
+      <td  id="right2">{{sgsttax}}</td>
+
+    </tr> 
+    <tr>
+      <th ng-if="gst == 'igst'">Igst Total:</th>
+      <td  id="right2">{{igsttax}}</td>
+
+    </tr>
+     <tr>
+      <th ng-if="LabourTaxCheck == 'Yes'">Labour Value:</th>
+      <td  id="right2"  ng-if="LabourTaxCheck == 'Yes'">{{labourValue}}</td>
+    </tr>  
+    <tr>
+      <th ng-if="LabourTaxCheck == 'Yes'">Labour Tax:</th>
+      <td  id="right2">{{labourtax}}</td>
+
+    </tr> 
+    <tr>
+      <th ng-if="trans =='Regular Sale'">Discount:</th>
+      <td  id="right2">{{discount}}</td>
+    </tr> 
+    <tr>
+      <th  >Subtotal:</th>
+      <td  id="right2">{{subtotal}}</td>
+    </tr> 
+    <tr>
+      <th ng-if="trans =='Regular Sale'">Charge Total:</th>
+      <td  id="right2">{{charge}}</td>
+    </tr> 
+    <tr>
+      <th ng-if="trans =='Regular Sale'">Credit Adjusted:</th>
+      <td  id="right2">{{adj}}</td>
+    </tr> 
+     <tr>
+      <th>Transaction Nett:</th>
+      <td  id="right2"><b>{{nett}}</b></td>
+     </tr> 
+    <tr>
+       <th>Invoice Value:</th>
+      <td  id="right2"><b>{{nett}}</b></td>
+    </tr>  
+
+
+     
+  </table>
+
+
+  </div>
+</div>
+
+</div>
+<br><h4 ng-if="trans !='Urd Purchase'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}</h4>
+<h4 ng-if="trans =='Urd Purchase'" ng-cloak><font color="black">Invoice Value In Words:{{wor}}</h4>
+<br>
+
+
+
+
+<div class="row" ng-if="trans !='Urd Purchase' && trans !='Valuation'" ng-cloak>
+
+<div class="col-sm-4">
+<table class="table table-bordered" >
+    <thead>
+      <!-- <tr><font color="white"> -->
+      <tr><font color="white">
+      <th>Receipt Details</th>
+        <th >OB</th>
+        <th>Dr/cr</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+       <td>
+          
+       </td>
+       <td>cash</td>
+       <td></td>
+</tr>
+<tr>
+<td></td>
+<td>CC/DC</td>
+<td>Tr No,Bank</td>
+</tr>
+<tr>
+  <td></td>
+  <td>Cq</td>
+  <td>Cq No,Bank</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="col-sm-4">
+<table class="table table-bordered">
+    <thead>
+      <tr><font color="white">
+      <th>Refund Details</th>
+      <th></th>  
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+       
+       <td>cash</td>
+       <td>{{urdRefund}}</td>
+      
+</tr>
+<tr>
+<td>CC/DC</td>
+<td>Tr No,Bank</td>
+</tr>
+<tr>
+  <td>Cq</td>
+  <td>Cq No,Bank</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<button onclick="exportPDF();id='ww'; style.display = 'none'" class="btn btn-primary" ng-click="bill()" ng-cloak>Bill</button>
+<!-- <button onclick="exportPDF()" class="btn btn-primary" ng-click="bill()">Bill</button> -->
+
+
+
+
+</body>
+
+      
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="controller/controller.js"></script>   
+
+</html>

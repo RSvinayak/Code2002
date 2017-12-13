@@ -1,0 +1,183 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+ <title>StockDetails</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="stockdetailscntrl.js"></script> -->
+ </head> 
+
+ <style type="text/css">
+ .panel.panel-default
+{
+  height: 80%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+
+        th, td {
+    width: 10px;
+    border: none;
+    text-align: left;
+    padding: 8px;
+    overflow: hidden;
+}
+
+#tscroll {
+  height:90%;
+  overflow:auto;
+   margin-top: 5%;
+   }
+#table-wrapper {
+  position:relative;
+
+}
+
+
+#table-wrapper table thead th .text {
+  position:absolute;   
+  top:-5%;
+ height:10%;
+  
+
+ }
+
+
+
+ </style>
+
+ <body  style="background-color:#bdc3c7;" ng-controller="stockDetailsCntrl" >
+ <br>
+ <br>
+
+  <div class="col-sm-2">
+Group: <select ng-model="item.InvGroupName" ng-change="displayBarcodedItems()">
+       <option ng-repeat="pure in inventorygroupmaster1" >{{pure.InvGroupName}}</option>
+       </select>
+  
+  </div> 
+  <div class="col-sm-2">
+
+   Category: <select ng-model="item.SaleCategory" ng-change="displayBarcodedItems()"  >
+      <option ng-repeat="TypeName in salescategorymaster1 | orderBy : 'SaleCategoryType'" > {{TypeName.SaleCategoryType}}</option>
+    </select>
+    </div>
+
+  
+ 
+  
+<div class="col-sm-3">
+ code:<input type="text" ng-model="item.barcode" ng-change="codedBarcodedItems()">
+   </div>
+  
+<div class="col-sm-4">
+  
+    <button ng-click="resetCall(sortedBarcodeDataItems)" class="btn btn-primary" id="save" >Reset</button>
+
+    </div>
+
+
+<br>
+    <br>
+ 
+  <div class="col-sm-6">
+
+ <div class="panel panel-default" >
+
+  <div id="table-wrapper">
+  <div id="tscroll">
+   
+  
+  <table class ="table no-border" >
+    <thead>
+          <tr  >
+           <th><span class="text">Code</span></th>
+          <th><span class="text">Item</span></th>
+      <th><span class="text">Pieces</span></th>
+            <th ><span class="text">Scale Wt</span></th>
+              <th><span class="text">Value</span></th>
+         
+           </tr >
+
+           <tr ng-repeat="items in displayBarcoded"> 
+             <td>{{items.refid}}</td>
+             <td>{{items.itemName}}</td>
+             <td>{{items.gpcs | number:3}}</td>
+             <td>{{items.gwt | number:3}}</td>
+             <td>{{items.taxval | number:3}}</td>
+           </tr>
+     </thead>
+   </table>
+ </div>
+</div>
+ </div>
+</div>
+
+
+
+  <div class="col-sm-6">
+ <div class="panel panel-default">
+  <div id="table-wrapper">
+  <div id="tscroll">
+  <table class="table no-border" id="barcode">
+
+
+    <thead>
+          <tr >
+           <th><span class="text">Code</span></th>
+          <th><span class="text">Item</span></th>
+      <th><span class="text">Pieces</span></th>
+            <th ><span class="text">Scale Wt</span></th>
+              <th><span class="text">Value</span></th>
+         
+           </tr>
+           <tr ng-repeat="items in sortedBarcodeDataItems"> 
+             <td>{{items.refid }}</td>
+             <td>{{items.itemName }}</td>
+             <td>{{items.gpcs | number:3}}</td>
+             <td>{{items.gwt | number:3}}</td>
+             <td>{{items.taxval | number:3}}</td>
+           </tr>
+     </thead>
+   </table>
+ </div>
+</div>
+</div>
+</div>
+
+  <!-- <div class="row"> -->
+  <div class="col-sm-1">
+ItemsListed:{{itemsListedTotal}}
+  </div> 
+  <div class="col-sm-2">
+ ItemsFound:{{itemsFound}}
+  
+    </div>
+      <div class="col-sm-2"> 
+      FoundScaleWt:{{foundScaleWt}}
+  </div >
+
+   <div class="col-sm-2">
+     FoundPieces: {{foundPieces}}
+    </div>
+    <div class="col-sm-2">
+     TotalScaleWt: {{totalScaleWt}}
+    </div>
+    <div class="col-sm-2">
+     TotalScale: {{totalScale}}
+    </div>
+      
+      <div class="col-sm-1">
+
+  <a href='mainpage.html'><button class="btn btn-primary" > close</button></a>
+    </div>
+  <!-- </div> -->
+   
+    </body>
+      
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/stockdetailscntrl.js"></script> 
+
+ </html>

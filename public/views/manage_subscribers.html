@@ -1,0 +1,132 @@
+<div class="screen-height">
+	<div class="content" data-ng-init="ctrl.init()">
+		<div class="page-header page-header-margin-top-20">
+			<h3>{{ctrl.pgTitle}} &nbsp;&nbsp;<small>{{ctrl.pgSubtitle}}</small></h3>
+		</div>
+		
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero" style="display: block">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero" style="height: 100%">
+				<div id="sec_search" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero" 
+					style="margin-bottom: 10px; display: block;">
+					<div style="display: inline-block;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<!--<cfelement params="ctrl.searchFieldParams" values="ctrl.dynamicModelValues.formParams"></cfelement>-->
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 pad-right-zero" style="display: block; margin-bottom: 5px; "
+							data-ng-repeat="item in ctrl.searchFieldParams">
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 pad-zero">
+								<label class="text-center"><strong>{{item.label}}</strong></label>
+							</div>
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 pad-zero" data-ng-switch on="item.inputType">
+								<div data-ng-switch-when="text">
+									<input id="item.id" data-ng-model="ctrl.dynamicModelValues.formParams[item.model]" 
+										type="text" class="form-control" style="width: 100%"
+										data-ng-change="ctrl.applyFilter(ctrl.dynamicModelValues.formParams[item.model])"
+										placeholder="{{item.placeholder}}"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="sec_griddisplay" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero"
+					style="margin-bottom: 20px; display: block;">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+						style="height: 300px; display: block; margin-bottom: 10px">
+						<div data-ag-grid="ctrl.gridOptions" class="ag-blue" 
+							style="height: 100% !important; clear: both;"></div>
+					</div>
+					<div id="grid-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+						style="width: 100%; display: inline-block">
+						<button type="button" class="btn btn-primary btn-sm float-left"
+							data-ng-click="ctrl.onClickBtn('Print')"><i class="fa fa-print"></i>&nbsp;Print</button>
+					 	<button type="button" class="btn btn-primary btn-sm float-left" data-ng-click="ctrl.onClickBtn('Back')" style="margin-left: 5px"
+							><i class="fa fa-arrow-left"></i>&nbsp;Back</button>
+
+						<button type="button" class="btn btn-danger btn-sm float-right"
+							data-ng-click="ctrl.onClickBtn('Close')"><i class="fa fa-close"></i>&nbsp;Close</button>
+						<button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+							data-ng-click="ctrl.onClickBtn('Edit')"><i class="fa fa-edit"></i>&nbsp;Edit</button>
+						<button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+							data-ng-click="ctrl.onClickBtn('New')"><i class="fa fa-plus"></i>&nbsp;New</button>
+						
+						<button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+							data-ng-click="ctrl.onClickBtn('KYC')" data-ng-show="ctrl.showKYCBtn">
+							&nbsp;KYC</button>
+					</div>
+				</div>
+				<div id="sec_form" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero"
+					data-ng-show="ctrl.isNewClicked || ctrl.isEditClicked">
+					<div class="panel panel-primary">
+						<div class="panel-heading">Create Party</div>
+						<div class="panel-body">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero form-group row">
+								<cfelement params="ctrl.formParams.subscriber" values="ctrl.dynamicModelValues.formParams"></cfelement>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-primary">
+						<div class="panel-heading">Address 1</div>
+						<div class="panel-body">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero form-group row" style="display: block; margin-bottom: 5px;">
+								<cfelement params="ctrl.formParams.address1" values="ctrl.dynamicModelValues.formParams"></cfelement>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-primary">
+						<div class="panel-heading">Address 2</div>
+						<div class="panel-body">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero form-group row" style="display: block; margin-bottom: 5px;">
+								<cfelement params="ctrl.formParams.address2" values="ctrl.dynamicModelValues.formParams"></cfelement>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-primary" data-ng-if="ctrl.isPhotoSectionEnabled && (ctrl.isNewClicked || ctrl.isEditClicked)">
+						<div class="panel-heading">Photo Proofs</div>
+						<div class="panel-body">
+							<div style="display: inline;" class="pad-zero col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<div style="float: left" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+									<div style="float: left" class="pad-zero col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<ng-webcam config="ctrl.config"
+											on-error="ctrl.onError(err)"
+											on-capture-complete="ctrl.onCaptureComplete(src)"></ng-webcam>
+									</div>
+									<select data-ng-options="opt as opt.label for opt in ctrl.Picture.options" 
+										class="form-control" style="width: 100%; margin: 3px auto;" 
+										ng-model="ctrl.pictureModel" data-ng-change="ctrl.onChangePicture()"></select>
+									<select data-ng-options="opt as opt.label for opt in ctrl.ID.options" 
+										class="form-control" style="width: 100%; margin: 3px auto;" 
+										ng-model="ctrl.idModel" data-ng-show="ctrl.isIDShown"
+										data-ng-change="ctrl.onChangeID()"></select>
+									<input class="btn btn btn-primary btn-sm form-control" style="width: 100%"
+										type="button" name="Capture" value="Take picture" data-ng-click="ctrl.capture()">
+								</div>
+
+								<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" 
+									data-ng-if="ctrl.dynamicModelValues.formParams.image_data.length > 0" style="float: right">
+									<div class="w3-card-4 col-xs-3 col-sm-3 col-md-3 col-lg-3" 
+										data-ng-repeat="item in ctrl.dynamicModelValues.formParams.image_data" style="margin: 0px 10px 15px 0px">
+										<div style="margin: 5px 0px 2px 0px; display: inline;">
+											<p style="float: left;">{{item.imgTitle}}</p>
+										</div>
+										
+										<img src="{{item.imgSrc != null ? item.imgSrc : item.imgURL}}" style="width: 100%; margin: 0px 0px 10px 0px">
+										<div id="photo-action-btns">
+											<button type="button" class="btn btn-danger btn-sm float-right" style="margin: 0px 0px 5px 0px"
+												data-ng-click="ctrl.onPhotoDelete(item)"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="grid-action-btns" style="width: 100%; display: inline-block">
+						<button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+							data-ng-click="ctrl.onClickBtn('Clear')"><i class="fa fa-close"></i>&nbsp;Clear</button>
+						<button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+							data-ng-click="ctrl.onClickBtn('Save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

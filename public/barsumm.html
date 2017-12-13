@@ -1,0 +1,286 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+
+<!-- <script type="text/javascript"> 
+document.getElementById("yourDatePicker").innerHTML = 100;
+</script> -->
+
+<title>BarSummary</title> 
+<style type="text/css">
+
+  button {
+    display: inline-block;
+    margin: 20px;
+
+  }
+  /*#inline {
+    margin-left:20px;
+  }*/
+  /* #check
+    {
+       margin-left: 90px;
+    }*/
+   /* #text {
+      height: 50px;
+      width:400px;
+    }*/
+  #to-pdf {
+    /*height: 300px;
+    border:ridge;
+     empty-cells: hide;*/
+  }
+  /* .panel.panel-default
+{
+  height: 25%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}*/
+#star{
+
+     color:red;
+}
+/*#scroll
+{
+   overflow-y:auto;
+   height: 25%;
+}
+ #usr
+ {
+  width: 10em;
+  margin-left: 90px;
+   margin-top: -25px;
+ }*/
+ .selected {
+  background-color: blue;
+}
+
+#table-wrapper {
+  position:relative;
+}
+#tscroll {
+  height:75%;
+  overflow:auto;  
+  /*margin-top:2%;*/
+  /*top:5%;*/
+  margin-top: 1cm;
+}
+#table-wrapper table {
+  width:100%;    
+}
+
+#table-wrapper table thead th .text {
+  position:absolute;   
+  /*position:relative;*/
+  top:-20%;
+  /* margin-top:-20px;*/
+  height:10%;
+  width:80%;  
+ /* width:35%;*/
+ }
+ th {
+  width: 60px;
+}
+ /*#table-wrapper table thead th .text {
+  position:absolute;   
+  
+  top:-20%;
+  
+  height:10%;
+  width:100%;  
+
+ }*/
+ .panel.panel-default
+{
+  height: 25%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+
+
+#buttonwidth{
+width: 8%;
+}
+
+
+ #tag1:focus {
+    background-color: blue;
+}
+#th1{
+    /*color:red;*/
+    width: 10%;
+    /*padding-left: 10px: */
+}
+</style>
+</head>
+
+<body class="container" ng-controller="BarcodeCntrl">
+
+ <!-- <div  style="overflow-y:auto;" id = "scroll"> -->
+<!--  <div id = "scroll"> -->
+<div class="panel panel-default" ng-cloak>
+ <div id="table-wrapper">
+  <div id="tscroll">
+  <table class="table no-border">
+    <thead>
+      <tr>
+      <th id="th1"><span class="text">Date</span></th>
+      <th id="th1"><span class="text">Item Name</span></th>
+        <th id="th1"><span class="text">Total weight</span></th>
+        <th id="th1"><span class="text">Total Pcs</span></th>
+        <th id="th1"><span class="text">Total Tags</span></th>
+        <th id="th1"><span class="text">Remarks</span></th>
+        <th id="th1"><span class="text">Summary No</span></th>
+        <th id="th1"><span class="text">Composite?</span></th>
+        <th id="th1"><span class="text">Splitable?</span></th>
+        <!-- <th>Date</th>
+      <th>Item Name</th>
+        <th>Qty</th>
+        <th>Items</th>
+        <th>Tags</th>
+        <th>Remarks</th>
+        <th>Summary No</th>
+        <th>Composite?</th>
+        <th>Splitable?</th> -->
+        <!-- <th>Combo?</th> -->
+<!-- just for refernce later delete the count -->
+        <!-- <th>Count</th> -->
+<!-- font is missing        
+ -->      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in bardata" ng-click="row3(item)" id="tag1" ng-class="{selected : item === idSelectedVote}">
+      <td >{{item.date | date  : "dd-MM-y" }}</td>
+       <td >{{item.itemname}}</td>
+       <td>{{item.totalweight}}</td>
+       <td>{{item.totalpcs}}</td>
+       <td>{{item.totaltags}}</td>
+       <td>{{item.remarks}}</td>
+        <td>{{item.count}}</td>
+       <td>{{item.composite}}</td>
+       <td>{{item.split}}</td>
+      <!--  <td>{{item.combo}}</td> -->
+<!-- just for refernce later delete the count -->
+       <!-- <td>{{item.count}}</td>  -->
+       </tr>
+       </tbody>
+       </table>
+       </div>
+       </div>
+       </div>
+       <div id="button" align="center" ng-cloak>
+      <!--  <button>NEW</button> -->
+       <button  id="buttonwidth" class="btn btn-info" ng-click="newBarSumm()">New</button>
+       <!-- <button>Edit</button> -->
+         <button  id="buttonwidth" class="btn btn-primary" ng-click="editBarSumm()">Edit</button>
+
+      <!--  <button>DELETE</button> -->
+        <button id="buttonwidth" class="btn btn-warning" ng-click="delete()">Delete</button>
+        <a href='mainpage.html'><button type="button" id="buttonwidth" class="btn btn-danger"  >Close</button></a>
+      <!--  <button>CLOSE</button> -->
+       <!--  <button type="button" class="btn btn-danger" ng-click="close()">CLOSE</button> -->
+       </div><br>
+       <div class="row" ng-cloak>
+       <div class="col-sm-4">
+
+
+      <!--  <form> -->
+        
+        <!-- <label ng-if="date1 == false ">Date<span id="star"><font size="04">*</font></span><input type="date"  ng-model = "bitem.date" value={{date}} ng-disabled="all" required></label> -->
+<!-- <label class="w3-round-xxlarge">Item Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><select  class="selectpicker" ng-model="bitem.ItemName" class="w3-round-xxlarge" ng-disabled="all"  >
+        
+         <option ng-repeat="itemname in items" value="{{itemname.Name}}" required >{{itemname.Name}}</option>
+        </select></label><br><br>
+
+         <button   id="buttonwidth" class="btn btn-success" ng-click="saveBarcode()">Save</button>
+       </form> -->
+        <form>
+       <!-- <label>Summary No <input type="text" class="form-control"  ng-model = "count+1"  id="usr" readonly></label> -->
+       <label>Summary No <input type="text" class="form-control"  ng-model = "count"  id="usr" readonly></label>
+       </div>
+
+       <div class="col-sm-4">
+
+       <!--  <input  type="date" ng-model="data.valor"/> -->
+
+      <!--  <label ng-if="date1 == false ">Date1<span id="star"><font size="04">*</font></span><input type="date"  ng-model = "bitem.date" value={{date}} ng-disabled="all" required></label>
+ -->
+        <label >Date<span id="star"><font size="04">*</font></span><input type="date" ng-model="bit.date"  ng-disabled="all" required></label>
+
+       <!-- <label ng-if="date1 == true">Date<input  type="text"  value = " {{ bitem.date | date : 'dd-MM-y' }}" ng-click="datechange()" > </label> -->
+
+
+
+       </div>
+       </div><br>
+       <!-- <form>
+        
+        <label >Total weight <span id="star"><font size="04">*</font></span><input type="number"  ng-model="bitem.wt"   ng-disabled="all" required></label><br><br>
+         <button   id="buttonwidth" class="btn btn-success" ng-click="saveBarcode()">Save</button>
+       </form> -->
+
+
+      
+
+
+<!-- 
+<input name="myName" ng-model="myName" required>
+<span ng-show="myForm.myName.$touched && myForm.myName.$invalid">The name is required.</span> -->
+
+      <label class="w3-round-xxlarge">Item Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><select  class="selectpicker" ng-model="bitem.ItemName" class="w3-round-xxlarge" ng-disabled="all" required >
+        
+         <option ng-repeat="itemname in items" value="{{itemname.Name}}"  >{{itemname.Name}}</option>
+        </select></label><br><br>
+
+        <div>
+          
+            <label class="w3-round-xxlarge">Stock From&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><select  class="selectpicker" ng-model="bitem.stockin" class="w3-round-xxlarge" ng-disabled="all" required>
+        
+         <option ng-repeat="treasure in treasure"  >{{treasure.stockpointname}}</option>
+        </select></label>
+          
+            <label  class="w3-round-xxlarge">Stock To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><select  class="selectpicker" ng-model="bitem.stockout" class="w3-round-xxlarge" ng-change ="stock()" ng-disabled="all" required>
+        
+         <option ng-repeat="treasure in treasure" >{{treasure.stockpointname}}</option>
+        </select></label>
+          
+        </div>
+
+       <!--  </form> -->
+
+       <div id="check">
+       <input type="checkbox" ng-model="bitem.composite" ng-disabled="all">Is Composite
+       <input type="checkbox" ng-model="bitem.splittable" id="inline" ng-disabled="all">Is Splittable 
+       
+       </div><br>
+       <label >Total weight <span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  ng-model="bitem.wt"   ng-disabled="all" step="0.01" required ></label><br><br>
+
+       <label>Total Pcs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  name="" ng-model="bitem.pcs" ng-disabled="all" required ></label><br><br>
+       
+       <label>Total Tags &nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  name="" ng-model="bitem.titems"  ng-disabled="all"  required></label><br><br>
+
+      <!--  <label>Total Pcs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number"   ng-disabled="all" required ></label><br><br> -->
+
+       <label>Remarks &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="text" ng-model="bitem.remark"   ng-disabled="all"></label> 
+      
+     <div align="center" ng-cloak>
+      <!--  <button ng-click="saveBarcode()">Save New</button> -->
+        <button   id="buttonwidth" class="btn btn-success" ng-click="saveBarcode()">Save</button>
+         <!-- <button type="button"  id="buttonwidth" >Save</button> -->
+      </form>
+      <!--  <button ng-click="cancel()">Cancel</button> -->
+        <button  id="buttonwidth" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+       </div>
+
+
+
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/barcodecntrl.js"></script>   
+ <script src="controller/hotkeys.js"></script>
+</html>

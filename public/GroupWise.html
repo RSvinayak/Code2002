@@ -1,0 +1,111 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+ <title>GroupWise</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="stockcntrl.js"></script> -->
+ </head> 
+
+ <style type="text/css">
+ .panel.panel-default
+{
+  height: 70%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+    
+
+  </style>
+
+ <body  style="background-color:#bdc3c7;" ng-controller="groupWiseController" >
+ <br>
+ <br>
+<!--  <div class="row"> -->
+ <div class="col-sm-2">
+<input type="radio"  ng-model="color.Wt" value="GrossWt" >GrossWt
+<input type="radio"  ng-model="color.Wt" value="NettWt" >NettWt
+  
+  </div> 
+  <div class="col-sm-4">
+For:<input type="date" ng-model="bit2.date1">
+To:<input type="date" ng-model="bit2.date2">
+  
+  </div> 
+  
+ 
+  
+<div class="col-sm-6">
+    <button ng-click="GroupWisePreview()" class="btn btn-primary" id="save" >Preview</button>
+    <!-- <button ng-click="preview1()" class="btn btn-primary" id="save" >PDF</button>
+    <button ng-click="preview1()" class="btn btn-primary" id="save" >Reset</button>
+    <button ng-click="preview1()" class="btn btn-primary" id="save" >Export</button></div> -->
+
+ </div>
+ <br>
+ <br>
+    <br>
+ <!-- <div class="container"> -->
+  <div class="col-sm-12">
+ <div class="panel panel-default">
+<!--   <div class="container"> -->
+  <table class ='table' >
+    <thead>
+          <tr  class="panel panel-default">
+           <th>Trans.Type</th>
+           <th ng-repeat="header in header">{{header.InvGroupName}}</th>
+           </tr>
+      </thead>      
+  <!--      <tbody ng-repeat="(key,value) in header1">  -->
+       <tbody > 
+          
+           <tr   ng-repeat="value in header1 track by $index "> 
+               <td>
+                <span ng-if=" (value.Transaction != 'Closing Stock' && value.Transaction != 'SubTotal') ">
+                {{value.Transaction}}
+               </span>
+                <span ng-if=" (value.Transaction == 'Closing Stock' || value.Transaction == 'SubTotal') ">
+               <b>  {{value.Transaction}}</b>
+               </span>
+               </td>
+             
+               <td   ng-repeat="d in value.sort track by $index " > 
+               <span ng-if=" (value.Transaction != 'Closing Stock' && value.Transaction != 'SubTotal') ">
+                 {{d.opgwt | number:3}}
+               </span>
+                <span ng-if=" (value.Transaction == 'Closing Stock' ||value.Transaction == 'SubTotal') ">
+               <b>  {{d.opgwt | number:3}}</b>
+               </span>
+                </td>
+                               
+           </tr>
+           </tbody>  
+<!--  <tfoot>
+             <tr>
+                <td><b>SubTotal</b></td>
+                <td>80</td>
+             </tr>
+            
+  </tfoot> --> 
+          
+    
+   </table>
+ </div>
+</div>
+
+<!--  <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a> -->
+
+  <a href='mainpage.html'> <button class="col-md-2 col-md-offset-5" > close</button></a>
+
+    <!-- </div> -->
+  </div>
+
+
+</body>
+      
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/groupWiseController.js"></script> 
+
+ </html>

@@ -1,0 +1,18 @@
+<div class="screen-height">
+    <div class="content" data-ng-init="ctrl.init()">
+			<div class="page-header page-header-margin-top-20">
+				<h3>{{ctrl.pgTitle}} &nbsp;&nbsp;<small>{{ctrl.pgSubtitle}}</small></h3>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Transactions</div>
+					<div class="panel-body">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+							style="height: 500px; display: block; margin-bottom: 10px">
+							<div data-ag-grid="ctrl.gridOptions" class="ag-blue" 
+								style="height: 100% !important; clear: both;"></div>
+						</div>
+					</div>
+				</div>
+    </div>
+</div>

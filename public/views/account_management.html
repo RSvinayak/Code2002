@@ -1,0 +1,113 @@
+<div class="screen-height">
+    <div class="content" data-ng-init="ctrl.init()">
+		<div class="page-header page-header-margin-top-20">
+			<h3>{{ctrl.pgTitle}} &nbsp;&nbsp;<small>{{ctrl.pgSubtitle}}</small></h3>
+		</div>
+
+        <div id="mc_container" style="margin-top: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ctrl.headerMC}}</div>
+                <div class="panel-body">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+						style="height: 300px; display: block; margin-bottom: 10px">
+						<div data-ag-grid="ctrl.gridOptMC" class="ag-blue" 
+							style="height: 100% !important; clear: both;"></div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mg_container" style="margin-top: 10px" data-ng-show="ctrl.isMCSelected">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ctrl.headerMG}}</div>
+                <div class="panel-body">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+						style="height: 300px; display: block; margin-bottom: 10px">
+						<div data-ag-grid="ctrl.gridOptMG" class="ag-blue" 
+							style="height: 100% !important; clear: both;"></div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sg_container" style="margin-top: 10px" data-ng-show="ctrl.isMGSelected">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ctrl.headerSG}}</div>
+                <div class="panel-body">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+						style="height: 300px; display: block; margin-bottom: 10px">
+						<div data-ag-grid="ctrl.gridOptSG" class="ag-blue" 
+							style="height: 100% !important; clear: both;"></div>
+					</div>
+
+                    <div id="sggrid-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                        style="width: 100%; display: inline-block; margin-bottom: 10px" 
+                        data-ng-hide="ctrl.isSGRecordFixed">
+                        <button type="button" class="btn btn-danger btn-sm float-right"
+                            data-ng-click="ctrl.onClickBtn('sg_Close')"><i class="fa fa-close"></i>&nbsp;Close</button>
+                        <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('sg_Delete')"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('sg_Edit')"><i class="fa fa-edit"></i>&nbsp;Edit</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('sg_New')"><i class="fa fa-plus"></i>&nbsp;New</button>
+                    </div>
+
+                    <div style="margin-top: 20px" data-ng-show="ctrl.isSGNewClicked || ctrl.isSGEditClicked">
+                        <cfelement params="ctrl.formParams.sub_group" 
+                            values="ctrl.dynamicModelValues.formParams.sub_group"></cfelement>
+
+                        <div id="sggrid-form-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            style="width: 100%; display: inline-block; margin-top: 10px">
+                            <button type="button" class="btn btn-primary btn-sm float-left" style="margin-right: 5px"
+                                data-ng-click="ctrl.onClickBtn('sg_Save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+                            <button type="button" class="btn btn-danger btn-sm float-left" style="margin-right: 5px"
+                                data-ng-click="ctrl.onClickBtn('sg_Cancel')"><i class="fa fa-close"></i>&nbsp;Cancel</button>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+        </div>
+
+        <div id="ug_container" style="margin-top: 10px" data-ng-show="ctrl.isSGSelected">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ctrl.headerUG}}</div>
+                <div class="panel-body">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+						style="height: 300px; display: block; margin-bottom: 10px">
+						<div data-ag-grid="ctrl.gridOptUG" class="ag-blue" 
+							style="height: 100% !important; clear: both;"></div>
+					</div>
+                    <div id="uggrid-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                        style="width: 100%; display: inline-block; margin-bottom: 10px">
+                        <button type="button" class="btn btn-danger btn-sm float-right"
+                            data-ng-click="ctrl.onClickBtn('ug_Close')"><i class="fa fa-close"></i>&nbsp;Close</button>
+                        <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('ug_Delete')"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('ug_Edit')"><i class="fa fa-edit"></i>&nbsp;Edit</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('ug_New')"><i class="fa fa-plus"></i>&nbsp;New</button>
+                    </div>
+
+                    <div style="margin-top: 20px" data-ng-show="ctrl.isUGNewClicked || ctrl.isUGEditClicked">
+                        <cfelement params="ctrl.formParams.user_group" 
+                            values="ctrl.dynamicModelValues.formParams.user_group"></cfelement>
+
+                        <div id="uggrid-form-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                            style="width: 100%; display: inline-block; margin-top: 10px">
+                            <button type="button" class="btn btn-primary btn-sm float-left" style="margin-right: 5px"
+                                data-ng-click="ctrl.onClickBtn('ug_Save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+                            <button type="button" class="btn btn-danger btn-sm float-left" style="margin-right: 5px"
+                                data-ng-click="ctrl.onClickBtn('ug_Cancel')"><i class="fa fa-close"></i>&nbsp;Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

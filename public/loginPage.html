@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html  ng-app="myApp">
+	<head>
+		<title>LoginPage</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<style type="text/css">
+			button#widthButton {
+    			width: 180px;
+				}
+		</style>
+ 	</head>
+	<body ng-controller= "loginCntrl">
+	<div class="bg">
+		<form class="form">
+			<input type="text" placeholder="username" ng-model="username" ng-change="loginCall()"><br><br>
+			<input type="password" placeholder="password" ng-model="password" ng-change="loginCall()"><br><br>
+			<!-- <div class="buttoncss"> -->
+			<p ng-if="failure ==true" style="color:red; ">Please check username and password</p>
+			<div>
+			<a  ng-href="{{myloginlink}}" "><button type="button" class="btn btn-success btn-lg" ng-click = "loginValidateCall()" id="widthButton" >Login</button></a>
+			<!-- <a  ng-href="{{myloginlink}}"></a> -->
+			<button type="button"  class="btn btn-danger btn-lg" ng-click="cancelCall()" id="widthButton">Cancel</button>
+			</div>
+			<!-- </div> -->
+		</form>
+	</div>
+		
+	</body>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<script type="text/javascript" src="controller/logincontroller.js"></script> 
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+  <style type="text/css">
+   .frm {
+       width: 15%;
+     }
+/*     .panel.panel-default
+{
+  height: 50%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}*/
+#star{
+
+     color:red;
+}
+.panel.panel-default {
+  height: 60%;
+  background-color: thistle;
+  border-style: solid;
+  border-color: black;
+}
+        thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        thead th {
+            height: 60px;
+              width: 16%;
+
+            float: left;
+
+            /*text-align: left;*/
+        }
+
+        tbody {
+            height: 270px;
+            overflow-y: auto;
+        }
+
+        tbody td {
+
+            width: 16%;
+
+            float: left;
+        }
+
+.table {
+    
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+}
+#tag1:focus {
+    background-color: blue;
+}
+.selected {
+  background-color: blue;
+}
+#button1{
+    width:80px;
+    margin-bottom: -10px;
+}
+    </style>
+
+
+    <title>List</title>  
+</head>
+
+<body ng-controller="ListCntrl" class="container" >
+<div class="row">
+  <div class="col-sm-4">
+    <div id="frm">
+    
+     Transaction:<span id="star"><font size="04">*</font></span>
+      
+      <select ng-model="transaction" class="selectpicker" ng-click = "Transaction()">
+
+      <option ng-repeat="tran in transactions" value="{{tran.TransactionType}}">{{tran.TransactionType}}</option>
+    </select> 
+  </div>
+  </div>
+</div><br>
+
+<div class="row">
+
+<div class="container">
+<div class="col-sm-8">
+<div class="panel panel-default" id="panel">
+<table class="table "  id="to-pdf" >
+    <thead  class="thead-default">
+
+      <tr>
+      <th>Voucher No</th>
+      <th>Party</th>
+        <th>Ref Date</th>
+        <th>Ref No</th>
+        <th>Date</th>
+        <th>Total</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+     <tr ng-if = " transaction =='Estimate'" ng-repeat="item in List"  ng-click="row1(item)" id="tag1" ng-class="{selected : item === idSelectedVote}">
+      
+      <td>{{item.voucherNo}}</td>
+      
+       <td>{{item.partyname}}</td>
+       <td>{{item.date | date}}</td>
+       <td>{{}}</td>
+       <td>{{item.date | date}}</td>
+       <td>{{item.taxval1}}</td>
+       
+   
+      </tr>
+      <tr ng-if = " transaction !='Estimate'" ng-repeat="item in List"  ng-click="row1(item)" id="tag1" ng-class="{selected : item === idSelectedVote}"  >
+      <!-- ;computeCssClass($last) -->
+      <td >{{item.voucherNo}}</td>
+      
+       <td>{{item.partyname}}</td>
+       <td>{{item.date | date}}</td>
+       <td>{{}}</td>
+       <td>{{item.date | date}}</td>
+       <td>{{item.netamt}}</td>
+       
+   
+      </tr>
+       </tbody>
+       </table>
+       </div>
+       </div>
+       <div class="col-sm-4">
+       <div class="btn-group-vertical">
+
+       <a href="#"> <button id="button1" type="button" class="btn" ng-click = "list()">List</button></a><br><br>
+  
+ <!-- <a href="index.html"> <button id="button1" type="button" class="btn btn-primary" ng-click = "edit()" >Edit</button></a><br><br> -->
+ <a ng-href="{{mylink}}">
+<button id="button1" type="button" class="btn btn-primary" ng-click = "listEdit()" >Edit</button></a><br><br>
+   
+ <!--  <button  type="button" class="btn btn-primary" ng-click = "edit()">Edit</button><br> -->
+
+ <a href="#"> <button id="button1" type="button" class="btn btn-info" ng-disabled=" transaction !='Estimate'">Summary</button></a><br><br>
+  
+  <a href="#"><button id="button1" type="button" class="btn btn-danger" ng-click = "listDelete()" >Delete</button></a></br></br>
+  <!-- <a href='mainpage.html'><button type="button" class="btn btn-danger"  >Close</button></a> -->
+
+   <a href='mainpage.html'><button id="button1" type="button" class="btn btn-danger"  >Close</button></a>
+  </div>
+       </div>
+       </div>
+       
+       </div>
+
+
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/controller.js"></script>   
+</html>

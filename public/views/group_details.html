@@ -1,0 +1,155 @@
+<div class="screen-height">
+	<div class="content" data-ng-init="ctrl.init()">
+		<div class="page-header page-header-margin-top-20">
+			<h3>{{ctrl.pgTitle}} &nbsp;&nbsp;<small>{{ctrl.pgSubtitle}}</small></h3>
+		</div>
+		
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero" style="display: block">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero" style="height: 100%">
+                <div id="sec_griddisplay" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero"
+                    style="margin-bottom: 20px; display: block;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                        style="height: 300px; display: block; margin-bottom: 10px">
+                        <div data-ag-grid="ctrl.summary_gridOptions" class="ag-blue" 
+                            style="height: 100% !important; clear: both;"></div>
+                    </div>
+                    <div id="grid-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                        style="width: 100%; display: inline-block">
+                        <button type="button" class="btn btn-danger btn-sm float-right"
+                            data-ng-click="ctrl.onClickBtn('Close')"><i class="fa fa-close"></i>&nbsp;Close</button>
+                        <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('Delete')"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('Edit')"><i class="fa fa-edit"></i>&nbsp;Edit</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                            data-ng-click="ctrl.onClickBtn('New')"><i class="fa fa-plus"></i>&nbsp;New</button>
+                    </div>
+                </div>
+                <div id="sec_formdisplay" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero"
+                    style="display: block;" data-ng-show="ctrl.isNewClicked || ctrl.isEditClicked">
+                    <uib-tabset active="active" type="pills" justified="true">
+                        <!-- *********** Prior Permission Details *********** -->
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <h5>Prior Permission Details</h5>
+                            </uib-tab-heading>
+                            <div id="prior_permission_details_container" style="margin-top: 10px">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero form-group row">
+                                            <cfelement params="ctrl.formParams.prior_permission" 
+                                                values="ctrl.dynamicModelValues.prior_permission"></cfelement>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero">
+                                            <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                                                data-ng-click="ctrl.onClickBtn('pp_clear')"><i class="fa fa-close"></i>&nbsp;Clear</button>
+                                            <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                                                data-ng-click="ctrl.onClickBtn('pp_save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <!-- *********** Subscriber Ticket Mapping *********** -->
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <h5>Subscriber Ticket Mapping</h5>
+                            </uib-tab-heading>
+                            <div id="subscriber_ticket_mapping_container" style="margin-top: 10px">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                                    style="height: 300px; display: block; margin-bottom: 10px">
+                                    <div data-ag-grid="ctrl.stm_gridOptions" class="ag-blue" 
+                                        style="height: 100% !important; clear: both;">
+                                    </div>
+                                </div>
+                                <div id="grid-action-btns"class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+                                    style="width: 100%; display: inline-block; margin-bottom: 10px">
+                                    <button type="button" class="btn btn-danger btn-sm float-right"
+                                        data-ng-click="ctrl.onClickBtn('stm_close')"><i class="fa fa-close"></i>&nbsp;Close</button>
+                                    <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                                        data-ng-click="ctrl.onClickBtn('stm_edit')"><i class="fa fa-edit"></i>&nbsp;Edit</button>
+                                </div>
+
+                                <div id="subscriber_ticket_mapping_form_container" style="margin-top: 10px" data-ng-show="ctrl.stm_isEditClicked">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <cfelement params="ctrl.formParams.subscriber_ticket_mapping" 
+                                                values="ctrl.stmModelValues.form_values"></cfelement>
+                                            
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero">
+                                                <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                                                    data-ng-click="ctrl.onClickBtn('stm_clear')"><i class="fa fa-close"></i>&nbsp;Clear</button>
+                                                <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                                                    data-ng-click="ctrl.onClickBtn('stm_save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <!-- *********** Commencement Details *********** -->
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <h5>Commencement Details</h5>
+                            </uib-tab-heading>
+                            <div id="commencement_details_container" style="margin-top: 10px">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <cfelement params="ctrl.formParams.commencement_details" 
+                                            values="ctrl.dynamicModelValues.commencement_details"></cfelement>
+                                        <div class="row"></div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">Bank Collateral Details</div>
+                                            <div class="panel-body">
+                                                <div id="bank_collateral_container" style="margin-top: 10px">
+                                                    <cfelement params="ctrl.formParams.bank_collateral" 
+                                                        values="ctrl.dynamicModelValues.commencement_details"></cfelement>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero">
+                                            <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                                                data-ng-click="ctrl.onClickBtn('cd_clear')"><i class="fa fa-close"></i>&nbsp;Clear</button>
+                                            <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                                                data-ng-click="ctrl.onClickBtn('cd_save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <!-- *********** Configuration *********** -->
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <h5>Configuration</h5>
+                            </uib-tab-heading>
+                            <div id="configuration_container" style="margin-top: 10px">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <cfelement params="ctrl.formParams.configuration" 
+                                            values="ctrl.dynamicModelValues.configuration"></cfelement>
+                                        <div class="row"></div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">Dividend Distribution</div>
+                                            <div class="panel-body">
+                                                <div id="bank_collateral_container" style="margin-top: 10px">
+                                                    <cfelement params="ctrl.formParams.dividend_distribution" 
+                                                        values="ctrl.dynamicModelValues.configuration"></cfelement>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-zero">
+                                            <button type="button" class="btn btn-danger btn-sm float-right" style="margin-right: 5px"
+                                                data-ng-click="ctrl.onClickBtn('c_clear')"><i class="fa fa-close"></i>&nbsp;Clear</button>
+                                            <button type="button" class="btn btn-primary btn-sm float-right" style="margin-right: 5px"
+                                                data-ng-click="ctrl.onClickBtn('c_save')"><i class="fa fa-save"></i>&nbsp;Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>						
+		</div>
+	</div>
+</div>

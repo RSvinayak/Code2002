@@ -1,0 +1,24 @@
+[
+    {"id": 1, "value": "Mr.", "type": "fps_title"},
+    {"id": 2, "value": "Mrs.", "type": "fps_title"},
+    {"id": 3, "value": "Ms.", "type": "fps_title"},
+    {"id": 4, "value": "Miss.", "type": "fps_title"},
+    {"id": 5, "value": "Sir.", "type": "fps_title"},
+    {"id": 6, "value": "Dr.", "type": "fps_title"},
+    
+    {"id": 1, "value": "Cash party", "type": "fps_partytype"},
+    {"id": 2, "value": "Subscriber", "type": "fps_partytype"},
+    {"id": 3, "value": "Customer", "type": "fps_partytype"},
+    {"id": 4, "value": "Something", "type": "fps_partytype"},
+
+    {"id": 1, "value": "Bengaluru", "type": "fps_city"},
+    {"id": 2, "value": "Mysore", "type": "fps_city"},
+    {"id": 3, "value": "Mangalore", "type": "fps_city"},
+    {"id": 4, "value": "Belgaum", "type": "fps_city"},
+    {"id": 5, "value": "Gulbarga", "type": "fps_city"},
+    {"id": 6, "value": "Davanagere", "type": "fps_city"},
+    {"id": 7, "value": "Bellary", "type": "fps_city"},
+    {"id": 8, "value": "Bijapur", "type": "fps_city"},
+    {"id": 9, "value": "Shimoga", "type": "fps_city"},
+    {"id": 10, "value": "Tumkur", "type": "fps_city"}
+]

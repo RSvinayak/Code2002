@@ -1,0 +1,263 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+ <title>Item</title>
+
+  <!-- <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css"> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+<!-- for -is -->
+<!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script> -->
+<!--  for css global file -->
+<!-- <LINK rel="stylesheet" type="text/css" media="screen"
+      href="http://www.mysite.org/styles/general.css"> -->
+
+</head>
+<style type="text/css">
+.panel.panel-default
+{
+  height: 80%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+form  { display: table;      }
+  p     { display: table-row;  }
+  label { display: table-cell; text-align: right}
+  input { display: table-cell; }
+  select { display: table-cell; }
+ #selectrow1:focus {
+    background-color: blue;
+}
+
+.selected {
+  background-color: blue;
+}
+
+#table-wrapper {
+  position:relative;
+}
+#tscroll {
+  height:90%;
+  overflow:auto;
+  margin-top:5%;
+}
+#table-wrapper table {
+  width:100%;
+}
+
+#table-wrapper table thead th .text {
+  position:absolute;
+  top:-5%;
+
+  height:5%;
+
+ }
+ #star{
+
+     color:red;
+}
+</style>
+
+<body  ng-controller="ItemCntrl">
+<br>
+<div class="row">
+  <div class="col-sm-1">
+
+  </div>
+  <div class="col-sm-6">
+
+  Filter by Item Type:
+
+   <!-- <select ng-model="item1.filter" ng-options="TypeName.TypeName for TypeName in itemtype1" ng-change ="filterchange()">
+    </select> -->
+
+    <!-- <select ng-model="item1.filter"  ng-change ="filterchange()" > -->
+    <select ng-model="item1.filter"  ng-change ="filterchange()" >
+       <option ng-repeat="Type in itemtype1" >{{Type.TypeName}}</option>
+       </select>
+
+  </div>
+
+  <!-- <div class="col-sm-2">
+   <button type="button" class="btn btn-danger" ng-click = "resetcall()">Reset</button>
+  </div> -->
+</div><br>
+
+
+<div class="row">
+<div class="col-sm-1">
+
+  </div>
+<div class="col-sm-6">
+
+ <div class="panel panel-default">
+        <!-- <div class="panel-heading"> -->
+          <div id="table-wrapper">
+  <div id="tscroll">
+           <table class="table">
+
+    <thead>
+      <tr >
+             <th><span class="text">Item Name</span></th>
+             <th><span class="text">Group</span></th>
+             <th><span class="text">Sale Category</span></th>
+             <th><span class="text">Type</span></th>
+           </tr>
+    </thead>
+    <tbody >
+
+     <tr ng-repeat ="itemdetails1 in itemdetails | orderBy :
+     'itemType'" ng-click="selectrow(itemdetails1)" id="selectrow1" ng-class="{selected : itemdetails1 === idSelectedVote}">
+
+
+             <td>{{itemdetails1.Name}}</td>
+             <td>{{itemdetails1.InvGroupName}}</td>
+             <td>{{itemdetails1.SaleCategory}}</td>
+             <td>{{itemdetails1.ItemType}}</td>
+
+
+
+
+           </tr>
+
+       </tbody>
+       </table>
+       </div>
+       </div>
+    <!--    </div> -->
+       </div>
+
+       <button type="button" class="btn btn-primary" ng-click=edititem()>Edit</button>
+       <button type="button" class="btn btn-warning" ng-click=deleteitem()>Delete</button>
+       <button type="button" class="btn btn-info" ng-click="new()" >New</button>
+      <!--  <button  type="button" class="btn btn-success" ng-click="generateBarcode()">Rate</button> -->
+
+
+      </div>
+
+
+       <div class="container">
+       <div class="col-sm-4">
+     <!--  <form >
+  Country code: <input type="text" name="country_code" pattern="[A-Za-z]{2,30}" title="Alphabets only" required>
+  <input type="submit">
+</form> -->
+
+
+       <form>
+        <p>
+    <label>Name:<span id="star"><font size="04">*</font></span></label>
+     <input type="text" ng-model="item1.Name" pattern="[A-Za-z]{2,30}" title="Alphabets only" ng-disabled="all" required>
+    </p>
+
+
+
+    <br>
+    <p>
+     <label>Hsc:<span id="star"><font size="04">*</font></span></label>
+     <input type="text" ng-model="item1.Hsc" pattern="[A-Za-z]{2,30}" title="Alphabets only" ng-disabled="all" required>
+     </p>
+    <br>
+
+    <p>
+     <label>Combo Item:</label><input type="checkbox" ng-model="item1.comboItem"  ng-disabled="all"></p>  <br>
+
+    <p> <label> Incl. in Margin Report: </label><input type="checkbox" ng-model="item1.marginReport"  ng-disabled="all"></p> <br>
+
+        <p>
+     <label> Desc:<span id="star"><font size="04">*</font></span></label>
+     <input type="text"   oninput="this.value=this.value.replace(/[0-9]/g,'');" ng-disabled="all"  required>
+     </p>
+    <br>
+
+     <p>
+     <label>Inventory Group:<span id="star"><font size="04">*</font></span></label>
+      <!-- <select ng-model="item1.inventory" ng-options="Group.GroupName for Group in inventorygroupmaster1" ng-disabled="all"> -->
+      <!-- <select ng-model="item1.inventory" ng-options="Group.GroupName for Group in inventorygroupmaster1 track by G" ng-disabled="all"> -->
+       <td> <select ng-model="item1.InvGroupName" ng-disabled="all">
+       <option ng-repeat="pure in inventorygroupmaster1" >{{pure.InvGroupName}}</option>
+       </select>
+       </td>
+      </p>
+    <br>
+
+
+     <p>
+     <label> Item Type:<span id="star"><font size="04">*</font></span></label>
+
+      <!-- <option ng-repeat="TypeName in itemtype1">{{TypeName.TypeName}}</option>
+       </select>
+    </select></p> -->
+   <select ng-model="item1.ItemType" ng-disabled="all">
+      <option ng-repeat="TypeNam in itemtype1 | orderBy : 'TypeName'" > {{TypeNam.TypeName}}</option>
+    </select></p>
+    
+    <br><br>
+     <p>
+     <label>  Sale category:<span id="star"><font size="04">*</font></span></label>
+
+    <select ng-model="item1.SaleCategory" ng-disabled="all" >
+      <option ng-repeat="TypeName in salescategorymaster1 | orderBy : 'SaleCategoryType'" > {{TypeName.SaleCategoryType}}</option>
+    </select></p>
+    <br>
+
+     <!-- <ul>
+<li ng-repeat="x in cars | orderBy">{{x}}</li>
+</ul> -->
+      <p>
+     <label> With in state:<span id="star"><font size="04">*</font></span></label>
+      <select ng-model="item1.Withinstate"  ng-disabled="all">
+        <option ng-repeat="Percentage in withinstat" >{{Percentage.taxname}}</option>
+
+    </select></p>
+    <br>
+
+
+
+     <p>
+     <label> Out of state:<span id="star"><font size="04">*</font></span></label>
+      <select ng-model="item1.Outofstate" ng-disabled="all">
+
+      <option ng-repeat="Percentage in outofstat" >{{Percentage.taxname}}</option>
+      <!-- "user.count as user.count for user in res -->
+    </select></p>
+    <br>
+
+    <!--
+    <p>
+     <label> Manufacture:</label>
+      <select>
+        <option value="volvo">Volvo</option>
+    </select></p>
+    <br><br> -->
+
+
+
+    <div align="center">
+<button  class="btn btn-success" ng-click="saveitem()" ng-disabled="all">Save</button>
+</form>
+       <button  class="btn btn-danger" ng-click=cancelitem() ng-disabled="all">Cancel</button><br><br>
+      <!--  <button type="button" class="btn btn-info" >Close</button>
+        -->
+          <a href='mainpage.html'><button type="button" id="buttonwidth" class="btn btn-danger"  >Close</button></a>
+        </div>
+
+       </div>
+
+
+       </div>
+
+       </div>
+
+
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+
+<script type="text/javascript" src="controller/itemcontroller.js"></script>
+</html>
+
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/controller.js"></script>   -->

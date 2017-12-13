@@ -1,0 +1,197 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>Tax Names</title>
+</head>
+
+  <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script> -->
+ <!-- i added here -->
+    <!-- i finished here -->
+<style>
+#star{
+
+     color:red;
+}
+.panel.panel-default {
+  height: 60%;
+  background-color: thistle;
+  border-style: solid;
+  border-color: black;
+}
+        thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        thead th {
+            height: 60px;
+              width: 22.2%;
+
+            float: left;
+
+            /*text-align: left;*/
+        }
+
+        tbody {
+            height: 270px;
+            overflow-y: auto;
+        }
+
+        tbody td {
+
+            width: 23.2%;
+
+            float: left;
+        }
+
+.table {
+    
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+}
+#tax > thead, tbody {
+  
+    text-align: left;
+    padding: 0px;
+  }
+  #tax > tbody {
+  height: 80%;
+}
+
+         
+/*closed here*/
+#tax2 {
+  height: 30%;
+}
+#tax3 {
+  height: 30%;
+}
+.footer-nav {
+  background-color: silver;
+}
+body {
+  background-color: #EEEEEE;
+}
+#sel1 {
+  width: 165px;
+}
+#buttonwidth{
+  width:80px;
+}
+/*.pad{
+  padding-right: 100px;
+}*/
+</style>
+<body>
+  <div class="container" ng-controller="AppCtrl">
+<h1>Tax Configuration</h1>
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a href="indextaxation.html">Tax Structure List</a></li>
+      <li  class="active"><a href="taxation.html">Tax Names</a></li>
+          </ul>
+  </div>
+</nav>
+<!--  Content Area-->
+  <div class="row content">
+    <div class="col-md-6 col-sm-6" background-color: #00ff00;>
+        <div class="panel panel-default">
+       <!--  <div class="panel-body fixed-panel">
+        <div class="panel-heading"> -->
+      <table  class="table " id="tax">
+  <thead>
+    <tr>
+           <th class="pad" >Tax Name</th>
+      <th class="pad">Alias name</th>
+      <th class="pad">Display Order</th>
+       <th>Edit/Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+       <tr ng-repeat="user in res">
+      <td>{{user.name}}</td>
+          <td>{{user.aliasname}}</td>
+          <td>{{user.taxlevel}}</td>
+          <td>
+          <!-- <td><input type="checkbox" ng-model="user.isDelete"/></td>  -->
+      <!--    <td><button class="btn btn-info" ng-click="remove(user._id)">Remove</button> -->
+          <button class="material-icons" ng-click="edit(user._id)">mode_edit</button>
+       <button class="material-icons" ng-click="remove(user._id)">close</button>
+       <!--   <button class="btn btn-info" ng-click="edit(user._id)">Edit</button</td>
+ -->  </td>
+          </tr>
+
+    </tbody>
+</table>
+</div>
+<!-- </div>
+</div> -->
+<center>
+ 
+</center>
+    </div>
+
+  
+    <div class="col-md-6 col-sm-6">
+      <div class="container-fluid">
+        <div class="center"
+        <form>
+  Tax Name:<span id="star"><font size="04">*</font></span>
+  <input type= "text" class="form-control" ng-blur="findTaxName()" ng-model="user.name" value="{{user.name}}" required>
+  <br>
+  <br>
+  Alias name:<span id="star"><font size="04">*</font></span>
+  <input type= "text" class="form-control" ng-blur="findaliasName()" ng-model="user.aliasname" value="{{ user.aliasname }}" required>
+  <br>
+  <br>
+  Display Order:<span id="star"><font size="04">*</font></span>
+<select  ng-model="user.taxlevel" value="{{ user.taxlevel }}" class="form-control">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+</form>
+
+  </div>
+  <br>
+  <br>
+  <button  id="buttonwidth"  class="btn btn-info" ng-click="addnewitem()">Save</button>
+  <button  id="buttonwidth"  class="btn btn-success" ng-click="update()">Update</button>
+  <button id="buttonwidth"  class="btn btn-danger" ng-click="deselect()">Cancel</button>
+
+  
+</div>
+</div>
+ <div class="bottom-footer">
+                        <div class="col-md-12"> 
+                            <ul class="footer-nav">
+                                <center>
+                                 <!--  <button type="button" class="btn btn-default">Close</button> -->
+                                 <a href='mainpage.html'><button id="buttonwidth"  class="btn btn-danger"  >Close</button></a>
+                                </center>
+                            </ul>
+                        </div>
+                    </div>
+
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/taxationcontroller1.js"></script>
+</html>

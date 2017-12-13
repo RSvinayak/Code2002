@@ -1,0 +1,92 @@
+.below-navbar{
+    padding-top: 60px; 
+}
+
+.screen-height{
+    height: 100%;
+}
+
+.pad-zero {
+    padding: 0px;
+}
+
+.pad-left-zero {
+    padding-left: 0px;
+}
+
+.pad-right-zero {
+    padding-right: 0px;
+}
+
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}
+
+label{
+    padding-top: 5px;
+}
+
+.page-header-margin-top-20 {
+    margin-top: 20px;
+}
+
+.text-center{
+    font-size: 13px;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #f1f1f1; /* Black*/
+	opacity: 1;
+    overflow-x: hidden; /* Disable horizontal scroll */
+	padding-top: 60px;
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    color: #18bc9c;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #111;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+div.relative {
+    position: relative;
+}
+
+div.absolute {
+    position: absolute;
+	top: 75%;
+}

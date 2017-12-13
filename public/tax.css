@@ -1,0 +1,26 @@
+table tbody, table thead
+{
+    display: block;
+}
+
+table tbody 
+{
+   overflow: auto;
+   height: 300px;
+  
+     /*padding-left: 20px;*/
+}
+td{
+     width: 100px;
+
+}
+
+table {
+    width: 350px; /* can be dynamic */
+}
+
+th
+{
+
+    width: 100px;
+}

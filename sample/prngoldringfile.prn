@@ -1,0 +1,17 @@
+<xpml><page quantity='0' pitch='15.0 mm'></xpml>^XA
+^MCY^PMN
+^PW699
+^JZY
+^LH0,0^LRN
+^XZ
+<xpml></page></xpml><xpml><page quantity='1' pitch='15.0 mm'></xpml>^XA
+^FT22,27
+^CI0
+^A0N,23,31^FDGold Ring^FS
+^FO14,40
+^BY1^BCN,32,N,N^FD>;81629207^FS
+^FT17,83
+^ABN,11,7^FD81629207^FS
+^PQ1,0,1,Y
+^XZ
+<xpml></page></xpml><xpml><end/></xpml>

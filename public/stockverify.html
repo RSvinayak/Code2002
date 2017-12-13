@@ -1,0 +1,112 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+ <title>StockDetails</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="stockcntrl.js"></script> -->
+ </head> 
+
+ <style type="text/css">
+ .panel.panel-default
+{
+  height: 70%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+}
+#table-wrapper {
+  position:relative;
+}
+#tscroll {
+  height:90%;
+  overflow:auto;
+  margin-top:5%;
+}
+    
+
+  </style>
+
+ <body  style="background-color:#bdc3c7;" ng-controller="stockCntrl" >
+ <br>
+ <br>
+ <!-- <div class="row"> -->
+  <div class="col-sm-6">
+For:<input type="date" ng-model="bit1.date2">
+  
+  </div> 
+ 
+  
+<div class="col-sm-6">
+    <button ng-click="stockVerifyPreview()" class="btn btn-primary" id="save" >Preview</button>
+    <!-- <button ng-click="preview1()" class="btn btn-primary" id="save" >PDF</button>
+    <button ng-click="preview1()" class="btn btn-primary" id="save" >Reset</button>
+    <button ng-click="preview1()" class="btn btn-primary" id="save" >Export</button></div> -->
+
+ </div>
+ <br>
+ <br>
+    <br>
+ <!-- <div class="container"> -->
+  <div class="col-sm-12">
+ <div class="panel panel-default">
+    <div id="table-wrapper">
+<!--   <div class="container"> -->
+  <table class ="table no-border" >
+    <thead>
+          <tr  class="panel panel-default">
+           <th>Category</th>
+          <th>OB Wt</th>
+      <th>OB Items</th>
+            <th >OB Pcs</th>
+              <th>In Wt</th>
+               <th>In Items</th>
+               <th>In Pcs</th>
+              <th>Out Wt</th>
+              <th>Out Items</th>
+               <th>Out Pcs</th>
+          <th>CB Wt</th>
+          <th >CB Items</th>
+      <th>CB Pcs</th>
+           <tr ng-repeat="items in displayReport track by $index"> 
+             <td>{{items.SaleCategory}}</td>
+             <td>{{items.opgwt | number:3}}</td>
+             <td>{{items.opcount | number:3}}</td>
+             <td>{{items.opgpcs| number:3}}</td>
+             
+              <td>{{items.ingwt | number:3}}</td>
+             <td>{{items.incount| number:3}}</td>
+             <td>{{items.ingpcs | number:3}}</td>
+            
+             <td>{{items.outgwt | number:3}}</td>
+             <td>{{items.outcount | number:3}}</td>
+             <td>{{items.outgpcs | number:3}}</td>
+             
+             <td>{{items.cbgwt | number:3}}</td>
+             <td>{{items.cbcount | number:3}}</td>
+             <td>{{items.cbgpcs | number:3}}</td>
+             
+             
+           </tr>
+            
+          </tr>
+     </thead>
+   </table>
+ </div>
+</div>
+
+ 
+
+   <a href='mainpage.html'><button class="col-md-2 col-md-offset-5"> close</button></a>
+
+    </div>
+ <!--  </div> -->
+
+
+</body>
+      
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/stockcntrl.js"></script> 
+
+ </html>
