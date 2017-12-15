@@ -122,6 +122,21 @@ app.get('/bardata',function(req,res)
 })
 
      })
+app.get('/itemdata/:name',function(req,res)
+{
+  //console.log("jjjjjjjjjjjjjjjjjjj")
+   //var name=req.body.name;
+   var sale1=req.params.name;
+  // console.log(id)
+    //console.log("i received a get request from index");
+    sale1 =" "+sale1;
+     db.items.find({ItemType: sale1},function(err,doc)
+    {
+        res.json(doc);
+    })
+//})
+
+     })
 
 
 
@@ -5116,7 +5131,7 @@ app.use(express.static(__dirname + '/subscriber_images'));
 require('./app/routes')(app); // pass our application into our routes
 
 // start app ===============================================
-app.listen(8080); 
+app.listen(808); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8080");
+console.log("server running on port 808");
 exports = module.exports = app;

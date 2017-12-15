@@ -74,8 +74,8 @@ form  { display: table;      }
     </select> -->
 
     <!-- <select ng-model="item1.filter"  ng-change ="filterchange()" > -->
-    <select ng-model="item1.filter"  ng-change ="filterchange()" >
-       <option ng-repeat="Type in itemtype1" >{{Type.TypeName}}</option>
+    <select ng-model="item1.filter"   ng-change ="filterchange()" >
+       <option ng-repeat="Type in itemtype1"  >{{Type.TypeName}}</option>
        </select>
 
   </div>
@@ -166,9 +166,9 @@ form  { display: table;      }
 
     <p> <label> Incl. in Margin Report: </label><input type="checkbox" ng-model="item1.marginReport"  ng-disabled="all"></p> <br>
 
-        <p>
+            <p>
      <label> Desc:<span id="star"><font size="04">*</font></span></label>
-     <input type="text"   oninput="this.value=this.value.replace(/[0-9]/g,'');" ng-disabled="all"  required>
+     <input type="text" ng-model="item1.Desc" pattern="[A-Za-z0-9]{2,30}" title="Alphabets only" ng-disabled="all" required>
      </p>
     <br>
 

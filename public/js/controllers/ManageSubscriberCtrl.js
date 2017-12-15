@@ -138,7 +138,8 @@
             } else if(identifier == "Edit"){
                 onEditClicked();
             } else if(identifier == "Close"){
-                onCloseClicked();
+                onClickClose();
+                //onCloseClicked();
             } else if(identifier == "Print"){
                 //DTOService.showToastMessage(DTOService.MessageType.INFO, DTOService.Messages.UnsupportedOp);
             } else if(identifier == "Clear"){
@@ -332,6 +333,12 @@
             
              window.location = "index1.html";
              window.sessionStorage.setItem("name",nameDetails);
+        }
+           var onClickClose = function(){
+             // alert("subscribe name back "+nameDetails);
+            
+             window.location = "mainpage.html";
+             //window.sessionStorage.setItem("name",nameDetails);
         }
 
         var onEditClicked = function (){

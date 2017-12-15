@@ -8,18 +8,6 @@
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
 
- <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-
- <!-- <script src='build/pdfmake.min.js'></script> -->
-  <!-- <script src='build/vfs_fonts.js'></script> -->
- <!--  <script type="text/javascript">
-  function myfunction()
-  {
-    var x=document.getElementsByName("taxv").value;
-    document.getElementById("demo").innerHTML = x;
-  }
-  </script> -->
-
     <title>Inventory</title>  
   
     <style> 
@@ -53,9 +41,7 @@
   background:black;
   height:80px;
 }
-/*span {
-    display: none;
-}*/
+
 .show {
     display: inline-block;
 }
@@ -98,22 +84,13 @@ td {
 .custom {
     width: 150px !important;
 }
-/*table,th,td,input {
-    width: 100%;
-    padding: 05px;
-    margin: 0px;
-    border: none;
-    background: transparent;
-}*/
+
 input {
     border: none;
     background: transparent;
 }
 
- /*.dropdown
- {
-  width: 2em;
- }      */
+
 
 #frm {
   display: inline-flex;
@@ -154,21 +131,9 @@ input {
 {
 display: inline-block;
 }
-/*table#tags{width:20%; border:1px solid red;}*/
+
 #tags tr td {height:10px; border:1px;}
-/*#tag1{
-  height: 5%;
-}*/
-/*.inline { 
-    display: inline; 
-    border: 1px solid red; 
-    margin:10px;
-    }*/
-/*#text {
-      height: 10px;
-      width:40px;
-    }
-*/  
+ 
 #tag1:focus {
     background-color: blue;
 }
@@ -183,24 +148,22 @@ display: inline-block;
   border-color: black;
 }
 #inlinetext{
-/*display:inline-flex;*/
+
 }
 #blockWidth{
   max-width: 100px;
   border: 1px solid black;
 }
 #blockWidt{
- /* max-width: 300px;*/
+
  width: 50px;
-   /* position: relative;*/
+ 
     left: 30px;
     top: 10px;
- /*   z-index: -1;*/
+
     
 }
-/*body, html, .container-fluid {
-         height: 12%;
-    }*/
+
 
 
 #demo {
@@ -208,8 +171,8 @@ display: inline-block;
   width: 118%;
 }
 
-.ng-pristine.ng-valid {
-  height: 26px;
+.ng-valid {
+  height: 10px;
   display: inline-block;
 }
 
@@ -218,18 +181,14 @@ display: inline-block;
   height: 115px;
   width: 100px;
 }
-/*.btn.btn-primary {
-  margin-left: -59px;
-}*/
-/*.btn.btn-primary {
-  margin-top: -56px;
-}*/
+
 #namnum {
   display: inline;
 }
 #hrefbtn {
   margin-left: 56px;
 }
+
 </style> 
 
     
@@ -301,22 +260,22 @@ display: inline-block;
        </div>
 
           </div>
-       <!--  </div>
-<!-- {{try}} -->
-       <!--  <div class="col-sm-2"> --> 
-            <!-- <a class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click = "history()"  >History</a> -->
+
            
         
 
-        <div class="col-sm-2">
+        <div class="col-sm-2" >
 
- 
-          <input type="radio"  ng-model="radio.state"  ng-change="radiobutton()" value="with in state"> With in State
-          <input type="radio"  ng-model="radio.state" ng-change="radiobutton()" value="out of state">Out of State
+
+          <input type="radio"  ng-model="radio.state"  ng-change="radiobutton()" value="with in state">With in State
+
+              <br>
+          <input type="radio"  ng-model="radio.state" ng-change="radiobutton()" value="out in state" >Out of State
+
         </div>
 
         <!-- <div class="col-sm-4"> -->
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             <div id="frm1">
               <form>
                Bill Type<span id="star"><font size="04">*</font></span>:
@@ -336,24 +295,9 @@ display: inline-block;
 </div>
 
   </div>
-  <!-- <br><br> -->
- <!--  <div class="row" > -->
-       <!-- <div class="col-sm-4" class="inlinetext"> -->
-     <!--   <div class="col-sm-2" id="inlinetext" > -->
-      <!-- Name: <input  type="text" name="name" placeholder="name">
-      
-     -->
+
        
-    <!--    </div> -->
-      <!--  <div class="col-sm-2" id="inlinetext" ng-cloak >
-      Name: <input  type="text" ng-model="partyname" name="name" placeholder="name" id="blockWIdth" readonly>
-      
-      Number: <input type="number"  ng-model="mobile" placeholder="9999999999" id="blockWIdth" readonly>
-      Place: <input type="text" ng-model="place" name="place" placeholder="place" id="blockWIdth" readonly>
-       
-       </div> -->
-  <!-- </div>  --> 
- <!--  </div>  -->  
+
 <br>
    
     <div>
@@ -513,7 +457,7 @@ display: inline-block;
         
           <th  ng-if = " (radiowithinstate !='withinstate' && transaction != 'Urd Purchase')  ">IGST</th>
        
-        <!-- <th  ng-if = " (radiowithinstate =='withinstate' && transaction == 'Regular Sale') ||(radiowithinstate =='withinstate' && transaction == 'RD Purchase') " > -->
+       
         <th  ng-if = " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase') " >
         Taxamt</th>
         <th >Final Val</th>
@@ -584,7 +528,7 @@ display: inline-block;
 
        <td><input type="text" class="form-control" id="usr" ng-model="item.chgunt" ng-value="{{item.chgunt}}"  readonly></td>
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp"  ng-change="mrpCal($index)" readonly></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp"  ng-change="mrpCal($index)" ></td>
 
        <td ><input type="text" class="form-control" id="usr" ng-model="item.rate" ng-change="rateChange($index)" ng-disabled= "disableMrp1($index)"></td>
 
@@ -754,7 +698,7 @@ display: inline-block;
   </form>
   :
   <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.taxableval" ng-value="{{amt.taxableval }}" readonly/>
+  <input type="text" class="form-control"  id="usr"  ng-model="amt.taxableval" ng-value="{{amt.taxableval}}" readonly/>
 </form>
 </div>
 <div id="frm3">
@@ -863,6 +807,14 @@ display: inline-block;
 
   <br>
   <br>
+<!-- 
+        <div class="col-sm-2"> -->
+
+ <!-- 
+          <input type="radio"  ng-model="radio.state"  ng-change="radiobutton()" value="with in state">With in State
+
+          <input type="radio"  ng-model="radio.state" ng-change="radiobutton()" value="out in state">Out of State -->
+      
 
            
             <button ng-hide ="(desgination != 'Billing Person' )  " class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"   ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
@@ -957,9 +909,7 @@ display: inline-block;
 </div>
 </div><br>
 
-
 <a href="pdf.html"><button  class="btn btn-primary" id="buttonwidth"  ng-click = "confirm()">Confirm</button></a>
-<a href="#" class="btn" data-dismiss="modal" ><button class="btn btn-danger">Close</button></a>
 <!-- <button type="button" class="btn btn-primary" id="button" ng-click = "confirm()">Confirm</button> -->
 
              
@@ -976,9 +926,9 @@ display: inline-block;
                  <input type="text" >CASH</div>
                 
              </div> -->
-            <!--  <div class="modal-footer">
-                 <a href="#" class="btn" data-dismiss="modal" class="btn btn-danger">Close</a>
-             </div> -->
+             <div class="modal-footer">
+                 <a href="#" class="btn" data-dismiss="modal">Close</a>
+             </div>
         </div>
     </div>
 </div>
@@ -1052,7 +1002,7 @@ display: inline-block;
 
 
              <div class="modal-footer">
-                 <a href="#" class="btn" data-dismiss="modal" class="btn btn-danger">Close</a>
+                 <a href="#" class="btn" data-dismiss="modal">Close</a>
              </div>
         </div>
     </div>
@@ -1062,25 +1012,6 @@ display: inline-block;
 
 </body>
 
-<!-- <script type="text/javascript"> 
-
-$('.selectpicker').selectpicker();
-$(".dropdown-menu li a").click(function(){
-  var selText = $(this).text();
-  $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-});
-$("button").on("click", function () {
-    var state = $(this).data('state');
-    state = !state;
-    if (state) {
-        $("span").addClass("show");
-    } else {
-        $("span").removeClass("show");
-    }
-    $(this).data('state', state);
-});
-
-  </script> -->
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

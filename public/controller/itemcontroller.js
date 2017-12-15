@@ -9,6 +9,7 @@ function($scope,$http,$window){
   var duplicate = [];
   var selectedrow = null;
  var editcheck = false;
+ // $scope.item1.filter="All "
 
  //validation
 
@@ -228,6 +229,7 @@ $scope.filterchange = function(){
     var item1filter =$scope.item1.filter
       $http.get('/getfilter/'+item1filter).success(function(response){
          $scope.itemdetails = response 
+         //alert(response)
      })
     
 }
@@ -264,6 +266,16 @@ $scope.edititem = function(){
    
    
 }
+var refresh=function(){
+  var item1filter =$scope.item1.filter
+ $http.get('/itemdata/'+item1filter).success(function(response)
+{
+  alert(response)
+  $scope.itemdetails=response
+  
+ 
+})
+}
 
 $scope.deleteitem = function(){
  
@@ -275,18 +287,20 @@ $scope.deleteitem = function(){
               if (r == true) {
                  console.log("true");
                $http.delete('/itemdelete/'+selectedrow._id).success(function(response)
-                     {          
-                     });
+                     {
+                      
+                    });
+              
 
              }else{
                    console.log("false");
 
                   }
   
-   itemdatafetch();
+ 
    selectedrow = null;
    }
-  
+  refresh();
 }
 
 

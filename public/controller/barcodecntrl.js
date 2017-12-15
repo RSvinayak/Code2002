@@ -213,6 +213,7 @@ $http.get('/batchrecords/'+list3).success(function(response)
 var refresh=function(){
 $http.get('/bardata').success(function(response)
 {
+  alert(response)
   $scope.bardata=response;
   console.log(response)
   //alert("bardata "+response)

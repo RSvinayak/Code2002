@@ -88,32 +88,30 @@ function($scope,$http,$window,$filter,$timeout,$q,ControllerService){
           $scope.desgination = window.sessionStorage.getItem("desgination")
         
 
-
+//var $scope.radio.state ="with in state";
 $scope.radiobutton=function(){
-        //alert(indexvalue)
         
+         
         if($scope.radio.state == "with in state"){
            $scope.radiowithinstate = "withinstate";
-              //get tax value in index page
+             
 
               ControllerService.getTaxwithinState().then(
                  function(response){
-                 // console.log(response);
+                
                    var duplicat = [];
                    if(response != null && response.data != null && response.data.length > 0){
-                    // alert(" call in controller from factory "+response.data.length);
+                   
                      for (var i = response.data.length - 1; i >= 0; i--) {
-                      // Things[i]
-                      // alert(" call in controller from factory "+response.data[i]);
-                        //console.log(response.data[i]);
+                     
                         duplicat.push({
               'aliasname':response.data[i].aliasname,
               'taxname':response.data[i].taxname
             });
-                       // console.log(duplicat)
+                       
 
                      }//for
-                     //for checking duplicates in object and removes
+                    
           function arrUnique(arr) {
                var cleaned = [];
                duplicat.forEach(function(itm) {
@@ -125,29 +123,24 @@ $scope.radiobutton=function(){
                 });
                return cleaned;
           }
-     // console.log(duplicat.length);
+    
       var uniqueStandards = arrUnique(duplicat);
-      //console.log(uniqueStandards)
-      //console.log(uniqueStandards.length)
+     
       $scope.withinstat = uniqueStandards;
       duplicat = []
                   
                     }
-                   //rowData = getRowDataFromArray(response);
-                    //ctrl.gridOptions.api.setRowData(rowData);
+                  
                 }, 
-                // function(response){
+                
                     
-                // }
+                
             );
              
-           // $http.get('/gettaxwithinstate').success(function(response){
-           //                  interest1 = response[0].Rate
-           //                  interest2 = response[1].Rate
-              
-           // });
+          
 
-        }else{
+        }
+        else{
 
                  $scope.radiowithinstate = "outofstate";
                   ControllerService.getTaxOutState().then(function(response){
@@ -192,7 +185,7 @@ $scope.radiobutton=function(){
                  //          // $scope.outofstateigst = response[0].Rate
                  //          interest3 = response[0].Rate
                  // });
-             }
+              }
      
 
 }  
@@ -867,88 +860,48 @@ $scope.getDetails=function(rvalue){
 //trial ends
  }
   //finalCalAfterRemove(rvalue,response.length);
-function finalCalAfterRemove(rvalue,length) {
-
-  // alert($scope.edituseritButton);
-  // alert(rvalue+"rvalue");
-  // alert("remove through new method");
-  //alert("finalCalAfterRemove "+$scope.edituseritButton)
-    if($scope.edituseritButton == null || $scope.edituseritButton == false ){
-         // alert(rvalue+"  rvalue "+length+"  length1");
-          // if (rvalue != true ) {
-          // alert("edit final calllll");
-             
-              if (rvalue == undefined) {
-                   $scope.finalCal();
-              }
-              else if(length !=0 && rvalue == true){
-                // alert("1st");
-                  indexvalue=0;
-                    $scope.getTotTaxVal();
-                   $scope.getTotTaxAmt();
-                   $scope.getFinalVal();
-                   $scope.getTotNetAmt();
-              }else{
-                    // alert("2nd");
-                console.log("$scope.saleinv.length==0")
-          
-                 $scope.saleinv[0].taxableval = 0;
-                 $scope.saleinv[0].netamt = 0;
-                 $scope.saleinv[0].invoiceValue = 0;
-                 $scope.saleinv[0].tax=0;
-                 $scope.saleinv[0].subtol = 0;
-                  $scope.saleinv[0].adj = 0;
-                 $scope.saleinv[0].dis = 0;
-                 $scope.saleinv[0].char = 0;
-                 $scope.discount1 = 0;
-                  $scope.discount = 0;
-                  $scope.ccamt1 = 0;
-                   $scope.ccamt = 0;
-
-                 var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
-                     +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
-                      +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals;
-                 console.log(update);
-                 $http.put('/saleinvoicedata12/'+update).success(function(response){
-                            //alert("sale invoice");
 
 
-                  })
-
-              }
-            //}
-     } else if($scope.edituseritButton == true){
-            //  alert("edit final not  calllll");
+ function finalCalAfterRemove(rvalue,length) {
+   // alert(rvalue+"rvalue");
+   // alert(length+"length");
+  //   alert("finalCalAfterRemove "+$scope.edituseritButton)
+  // alert("rvalue "+rvalue+" length "+length);
+    if( rvalue != true && $scope.edituseritButton == null || $scope.edituseritButton == false ){
+         //alert(rvalue+"  rvalue $scope.edituseritButton == null  "+length+"  length1");
+         // if (rvalue != true ) {
+           // alert("edit final calllll");
+              $scope.finalCal();
+            // }
+     } else if($scope.edituseritButton == true || rvalue == true){
+                // alert("edit final not  calllll");
             if (length !=0 && rvalue == undefined ) {
-                   
-                    return
-            }
-            else if(length !=0 && rvalue != undefined){
-              // alert("finalCalAfterRemove1");
-               indexvalue=0;
-                    $scope.getTotTaxVal();
+                // alert("length !=0 && rvalue == undefined ");
+                    indexvalue=0;
+                   $scope.getTotTaxVal();
+                   $scope.getTotTaxAmt();
+                   $scope.getFinalVal();
+                   $scope.getTotNetAmt();
+                  return;
+
+            }else if (length !=0 && rvalue != undefined ) {
+                  // alert("length !=0 && rvalue != undefined ");
+                   indexvalue=0;
+                   $scope.getTotTaxVal();
                    $scope.getTotTaxAmt();
                    $scope.getFinalVal();
                    $scope.getTotNetAmt();
 
-            }
-              else{
-                // alert("finalCalAfterRemove2");
-                      //       alert("try to marrejfasdjhfbjhm nullll ");
+            }else{
+            
+                          alert("try to marrejfasdjhfbjhm nullll ");
                   console.log("$scope.saleinv.length==0")
           
                  $scope.saleinv[0].taxableval = 0;
                  $scope.saleinv[0].netamt = 0;
-                 $scope.saleinv[0].invoiceValue = 0;
+                 $scope.saleinv[0].invoiceValue=0;
                  $scope.saleinv[0].tax=0;
                  $scope.saleinv[0].subtol = 0;
-                  $scope.saleinv[0].adj = 0;
-                 $scope.saleinv[0].dis = 0;
-                 $scope.saleinv[0].char = 0;
-                 $scope.discount1 = 0;
-                  $scope.discount = 0;
-                  $scope.ccamt1 = 0;
-                   $scope.ccamt = 0;
 
                  var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
                      +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
@@ -963,9 +916,9 @@ function finalCalAfterRemove(rvalue,length) {
                }
                  
 
-      }//else $scope.edituseritButton == true
+      }//else if $scope.edituseritButton == true
 
-}//function close
+}//function closeVinayak K, Today 10:58
 
 
 //for edit item to get 
