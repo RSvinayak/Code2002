@@ -7,11 +7,7 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
-<<<<<<< HEAD
-    <title>Inventoryyyyyyyyyyy</title>  
-=======
-    <title>Inventory</title>  
->>>>>>> bdeb8e5b44fd9fa02a12a09fa3e190bca41b4071
+    <title>Inventoryyyyyyyyyyyy</title>  
   
     <style> 
 
@@ -492,7 +488,7 @@ display: inline-block;
        </td>
              
        <td>
-        <input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"   ng-model="item.barcodeNumber" ng-change = "barcodeScan($index)" ng-disabled=" transaction == 'RD Purchase' ||transaction == 'Urd Purchase' " >
+        <input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"   ng-model="item.barcodeNumber" ng-change = "change($index)" ng-disabled=" transaction == 'RD Purchase' ||transaction == 'Urd Purchase' " >
        </td>
        <td>
        <input type="text" class="form-control" id="usr"   ng-model="item.desc"  maxlength="40" ></td>
