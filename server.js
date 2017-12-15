@@ -13,6 +13,7 @@ var db=mongojs('inventory',['user','tags','transaction','saleinvoice','mode','tr
 
 
 var bodyParser=require('body-parser');
+console.log("vijay")
 
 //var app            = express();
 //var mongoose       = require('mongoose');
