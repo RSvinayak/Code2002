@@ -624,6 +624,17 @@ app.get('/batchbarcode',function(req,res)
 //         console.log(doc);
 //     });
 // });
+//for getting dates and voucherNo
+app.get('/iateapple:partyname',function(req,res){
+  console.log("voucher no and dates");
+  var pname=req.params.partyname;
+  db.saleinvoice.find({"partyname":pname},function(err,doc){
+    res.json(doc);
+    console.log(doc+"voucher No and dates");
+  });
+});
+
+//previous
 app.post('/userdata/:updat',function(req,res){
     //console.log("igot order requestttttttttttttttttttttt");
  var str=req.params.updat;
@@ -1218,7 +1229,7 @@ app.get('/bank',function(req,res)
 app.get('/userPartyNames',function(req,res){
     var transaction = req.query.transaction;
     var party_type_id = null;
-    if (transaction == "RD Purchase") {
+    if (transaction == "RD Purchase" || transaction == "Purchase Return") {
       
        party_type_id = "4";
     }else{
@@ -1728,6 +1739,41 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
         console.log(doc);
       })
 });
+//for inseriting new row
+app.put('/insertNewUseritDetails',function(req,res){
+  var transac=req.body.Transaction;
+  console.log(transac+"#@################################################@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+  req.body.gpcs =  parseFloat(req.body.gpcs);
+       req.body.gwt = parseFloat(req.body.gwt);
+        req.body.taxval = parseFloat(req.body.taxval);
+         req.body.voucherNo = null; 
+         req.body.barcodeNumber;
+         delete(req.body._id);
+         delete(req.body.irate);
+         var cat=req.body;
+         var bat=req.body;
+         console.log(req.body.barcodeNumber+"barcodeNumber");
+
+         console.log(req.body)
+          var reference="Sale Return";
+           req.body.RefTransaction=reference;
+           // req.body.Transaction="Sale Return";
+           req.body.orderStatus="completed";
+           db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
+         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+        "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
+       "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
+       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection},function(err,doc)
+      
+        {
+            console.log("updated the data in save during sale return "+doc.length)
+            res.json(doc);
+        
+        });  
+  console.log("inserted the data in save when id not null")
+            
+       });
 
 app.post('/insertUseritDetails',function(req,res)
 {
@@ -1785,6 +1831,21 @@ app.post('/insertUseritDetails',function(req,res)
         
      //    });  
 });
+//for changing the orderStatus
+app.put('/changeOrderStatus:changing',function(req,res){
+  console.log("for changing orderStatus to null");
+  var str=req.params.changing;
+  console.log(str);
+  var str_array=str.split(",");
+  var pid=str_array[0];
+  console.log(pid);
+  var voucher="null";
+  db.transactiondetail.update({_id:mongojs.ObjectId(pid)},{$set:{"voucherNo":voucher}},function(err,doc){
+    res.json(doc);
+    console.log(doc);
+  });
+});
+
 // for update of userit
 app.put('/updateUseritCall',function(req,res)
 {
@@ -1825,6 +1886,61 @@ app.put('/updateUseritCall',function(req,res)
   
       }
         
+});
+//for getting sale data
+app.get('/myneeded/:str1',function(req,res){
+  console.log("for getting the invoice updated");
+  var argument=req.params.str1;
+  console.log(argument);
+  var str3_array=argument.split(",");
+  var voucherNo=str3_array[0];
+  console.log(voucherNo);
+  var pname=str3_array[1];
+  console.log(pname);
+  db.saleinvoice.find({"voucherNo":voucherNo,"partyname":pname},function(err,doc){
+    res.json(doc);
+    console.log(doc+"ssssssssssssssssssssssssssssssssssssssss");
+  });
+});
+//for updating saleinvoice
+app.put('/salesnew/:apple',function(req,res){
+   // console.log(saledata+"dddddddddddddd");
+   // console.log("updating saleinvoice after  return");
+    // console.log(req.params.shivu);
+  var sal=req.params.apple;
+  console.log(sal);
+  console.log("updating saleinvoice after  return");
+  var sal_array=sal.split(",");
+  var taxableval2=sal_array[0];
+  console.log(taxableval2);
+  var tax2=sal_array[1];
+  console.log(tax2);
+  var subtol2=sal_array[2];
+  console.log(subtol2);
+  var invoice2=sal_array[3];
+  console.log(invoice2);
+  var net2=sal_array[4];
+  console.log(net2);
+  var pname=sal_array[5];
+  console.log(pname);
+  var voucher=sal_array[6];
+  console.log(voucher);
+  // var trans=sal_array[7];
+  // console.log(trans);
+  var pid=null;
+   db.saleinvoice.update({"partyname":pname,"voucherNo":voucher},{$set:{"taxableval":taxableval2,
+     "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2}},function(err,doc){
+      
+    //     db.saleinvoice.insert({_id:mongojs.ObjectId(pid),"taxableval":taxableval2,
+    // "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2,"Transaction":trans}},function(err,doc){
+      
+
+
+      res.json(doc);
+      console.log(doc);
+      // console.log(doc[0].taxableval);
+      // console.log(doc[0].tax);
+    });
 });
 
 // for update of userit
@@ -2012,12 +2128,27 @@ app.get('/getSavedDetails',function(req,res){
   var voucherNo = req.query.voucherNo;
   // console.log(trans);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
+     if(trans !="Sale Return"&&trans!="Purchase Return"){
   db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
        
         res.json(doc);
         console.log("get details sent");
         console.log(doc);
     });
+}
+else{
+  console.log("loop for returing items")
+  if(voucherNo!=null){
+  db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
+    res.json(doc);
+    console.log(doc);
+      });
+      }
+      else{
+        console.log("no no");
+        res.json();//for returning empty response for making app.get to wait.
+      }
+}
 });
 
 app.get('/voucherNoGetDetails',function(req,res){
@@ -5250,7 +5381,7 @@ app.use(express.static(__dirname + '/subscriber_images'));
 require('./app/routes')(app); // pass our application into our routes
 //require('./app/rout')(app);
 // start app ===============================================
-app.listen(7080); 
+app.listen(8000); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 7080");
+console.log("server running on port 8000");
 exports = module.exports = app;
