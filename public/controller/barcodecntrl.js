@@ -20,7 +20,8 @@ hotkeys.bindTo($scope).add({
      
     }
   });
-
+ $scope.test = 'display'
+ //$scope.test=='update1'
 var fixdec=2;
 $scope.irate=[];
 //disable of buttons
@@ -213,7 +214,7 @@ $http.get('/batchrecords/'+list3).success(function(response)
 var refresh=function(){
 $http.get('/bardata').success(function(response)
 {
-  alert(response)
+  //alert(response)
   $scope.bardata=response;
   console.log(response)
   //alert("bardata "+response)
@@ -647,6 +648,7 @@ $scope.bitem = [];
     // save the compelete barcode summary button for barcode summary page
 $scope.saveBarcode = function()
 { //validation purpose
+   //$scope.test = 'display'
 if($scope.bitem.ItemName == undefined &&$scope.bitem.stockin == undefined && $scope.bitem.stockout == undefined&&$scope.bitem.wt == undefined && $scope.bitem.pcs == undefined && $scope.bitem.titems == undefined)
   {
 alert("Please Fill All Mandatory Fields")
@@ -696,6 +698,7 @@ alert("Please Fill All Mandatory Fields")
   }
 
  }else{
+  
   
  // reload = 1;
   //alert("entered into save function")
@@ -761,6 +764,7 @@ alert("Please Fill All Mandatory Fields")
 
  //var editsummary =true
   if(editsummary == true){
+     //$scope.test = 'display'
      // $scope.editupdate
     // alert("editsummary")
       console.log(" if loop if  loop")
@@ -780,6 +784,7 @@ alert("Please Fill All Mandatory Fields")
      ","+$scope.bitem.pcs+","+ $scope.bitem.titems+","+ $scope.bitem.remark+","+ $scope.bitem.stockin+","+$scope.bitem.stockout +","+$scope.bitem.composite+
      ","+ $scope.bitem.splittable
    // alert($scope.bit.date)
+
  $http.put('/editsummarycountupdate/'+data).success(function(response)
         { 
             console.log(response)
@@ -794,6 +799,7 @@ alert("Please Fill All Mandatory Fields")
   }
 
   else{
+     //$scope.test = 'display'
     console.log(" else loop else  loop")
  
  //alert(date3)
@@ -821,6 +827,7 @@ alert("Please Fill All Mandatory Fields")
        console.log($scope.bit.date)
 $scope.res = [];
 //alert($scope.bitem.date)
+ //$scope.test = 'display'
   $http.post('/bardata',$scope.bitem).success(function(response){
                // alert("saved successfully"); 
                console.log("iam in save button see me")
@@ -842,7 +849,7 @@ $scope.res = [];
     })
   window.location.reload();
 
-
+//$scope.test = 'display' 
 } //else loop
  // refresh()
  //reload issue
@@ -1427,6 +1434,7 @@ var icomposite = null;
  summarylist()
 // for cancel button
 $scope.cancel = function(){
+   $scope.test = 'display'
   console.log("i got cancel call")
  // $scope.count = ""
  //   'Summaryno':$scope.bitem.summaryno , 
@@ -1444,7 +1452,8 @@ $scope.bitem.composite = ""
 $scope.bitem.stockout = ""
  $scope.count = count3 
 console.log(count3)
-
+window.location.reload();
+//refresh()
 }
 // for new button
 
@@ -1459,10 +1468,10 @@ var editsummary = null;
   $scope.editupdate = null;
  //var editrow3._id = null;
   var id3 =null;
-
+//$scope.test=='update1';
 $scope.editBarSumm = function(){
     
-      
+     
      
 
         if(editrow3 == undefined){
@@ -1514,9 +1523,13 @@ $scope.editBarSumm = function(){
       $scope.bitem.stockout = editrow3.stockto
 
       editsummary = true
-
+      //$scope.test=='update1';
+ $scope.test = 'update1'
+ //window.location.reload();
+ refresh()
 }
-
+//window.location.reload();
+refresh()
 // for delete button
 $scope.delete = function(){
        console.log("i got delete call")

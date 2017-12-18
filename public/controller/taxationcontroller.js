@@ -169,6 +169,7 @@ $scope.addnew = function() {
 
 $scope.remove = function(tax) {
    console.log(tax);
+   $scope.test='display' 
    //alert("kkk")
    //var r = confirm("Are you sure you want to delete the item ");
    $http.get('/editititem2',{params:{"aliasname":tax.aliasname,"taxname":tax.taxname}}).success(function(response) {
@@ -182,9 +183,14 @@ $scope.remove = function(tax) {
                      {
                                 
                      });
-
+  refresh()
+                $scope.pur1=[]
+                   add1()
+            
              }else{
-                   console.log("false");
+                   refresh()
+                $scope.pur1=[]
+                   add1()
 
                   }
           
@@ -234,9 +240,16 @@ $scope.editit = function(tax4) {
 };  
 //for cancel
 $scope.canceldata = function() {
+   if($scope.tax.taxname == undefined && $scope.tax.aliasname  == undefined )
+  {
+   alert("Please fill all mandetory fields");
+  }
+  else{
+  $scope.test='display' 
   refresh()
   $scope.pur1=[]
   add1()
+}
 }
 //for update
 $scope.updated = function() {

@@ -2,7 +2,7 @@
 var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http,$localStorage,$sessionStorage, $window) {
     console.log("Hello World from controller display");
- 
+
 var refresh = function() {
 $http.get('/getitemtaxation').success(function(response) {
  	console.log("i get the data i requested");
@@ -86,39 +86,84 @@ $scope.findTaxName =function(){
          }
 
 $scope.remove = function(id) {
-  console.log("remove call"+id);
+  $scope.test = 'display'
+  
+              var r = confirm("Are you sure you want to delete ");
+               if (r == true)
+               {
+                 $http.delete('/opal/' + id).success(function(response) {
+                       refresh();   
 
-  console.log("this is delete"+id);
-$http.delete('/opal/' + id).success(function(response) {
-    refresh();
-  });
+                     });
+                  $scope.user = ""
+               }
+               else{
+                  
+                    $scope.user = ""
+                     //refresh();
+
+               }
+
+//refresh();
+
 };
 
-
+ $scope.test = 'display'
 $scope.edit = function(id) {
   console.log("edit call" +id);
   console.log("this is " +id);
+   $scope.test = 'update1'
   // var uid=id;
   $http.get('/item1/' + id).success(function(response) {
      $scope.user = response;
-
+//refresh();
   });
 
 };  
 
 $scope.update = function() {
-  console.log($scope.user._id);
-  if($scope.user._id == undefined){
-    alert("Please Select Edit")
+  
+  //alert('gg')
+  $scope.test = 'display'
+   if($scope.user.name == undefined && $scope.user.aliasname== undefined && $scope.user.taxlevel == undefined)
+{
+  alert("Please Fill All Mandetory Fields");
+}
 
-  }else{
 
-  $http.put('/opal/' + $scope.user._id, $scope.user).success (function(response) {
+ else if($scope.user.name == undefined ||$scope.user.aliasname== undefined ||$scope.user.taxlevel == undefined){
+    //alert("");
+
+    for(let k = 0;k<1;k++){
+    console.log($scope.user.name);
+    if($scope.user.name == undefined){
+      alert("Please enter Tax Name");
+      break;
+    }
+    console.log($scope.user.aliasname);
+    if($scope.user.aliasname == undefined){
+      alert("Please enter Alias Name");
+      break;
+    }
+    console.log( $scope.user.taxlevel);
+    if($scope.user.taxlevel == undefined){
+      alert("Please enter Display Order");
+      break;
+    }
+  }//for llop
+ }
+  else {
+    //alert($scope.user._id)
+
+  $http.put('/updatetaxation/' + $scope.user._id, $scope.user).success (function(response) {
+          //alert(response)
            refresh();
+
+
        });
 
    $scope.user = ""
-
+ $scope.test = 'display'
   }
 
 
@@ -126,7 +171,17 @@ $scope.update = function() {
 };
 
 $scope.deselect = function() {
+  //alert('kkSS')
+   if($scope.user.name == undefined && $scope.user.aliasname== undefined && $scope.user.taxlevel == undefined)
+{
+  alert("Please Fill All Mandetory Fields");
+}
+else{
   $scope.user = ""
+   //refresh();
+   $scope.test="display"
+}
+
 }
 
 }]);

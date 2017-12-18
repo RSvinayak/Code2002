@@ -74,7 +74,7 @@ form  { display: table;      }
     </select> -->
 
     <!-- <select ng-model="item1.filter"  ng-change ="filterchange()" > -->
-    <select ng-model="item1.filter"   ng-change ="filterchange()" >
+    <select ng-model="item1.filter"   ng-change ="filterchange()" ng-init="item1.filter='All '">
        <option ng-repeat="Type in itemtype1"  >{{Type.TypeName}}</option>
        </select>
 
@@ -164,7 +164,7 @@ form  { display: table;      }
     <p>
      <label>Combo Item:</label><input type="checkbox" ng-model="item1.comboItem"  ng-disabled="all"></p>  <br>
 
-    <p> <label> Incl. in Margin Report: </label><input type="checkbox" ng-model="item1.marginReport"  ng-disabled="all"></p> <br>
+   <!--  <p> <label> Incl. in Margin Report: </label><input type="checkbox" ng-model="item1.marginReport"  ng-disabled="all"></p>  --><br>
 
             <p>
      <label> Desc:<span id="star"><font size="04">*</font></span></label>
@@ -191,7 +191,7 @@ form  { display: table;      }
        </select>
     </select></p> -->
    <select ng-model="item1.ItemType" ng-disabled="all">
-      <option ng-repeat="TypeNam in itemtype1 | orderBy : 'TypeName'" > {{TypeNam.TypeName}}</option>
+      <option ng-repeat="TypeNam in itemtype1 | orderBy : 'TypeName'" ng-if="TypeNam.TypeName!='All '"> {{TypeNam.TypeName}}</option>
     </select></p>
     
     <br><br>
@@ -206,24 +206,24 @@ form  { display: table;      }
      <!-- <ul>
 <li ng-repeat="x in cars | orderBy">{{x}}</li>
 </ul> -->
-      <p>
+     <!--  <p>
      <label> With in state:<span id="star"><font size="04">*</font></span></label>
       <select ng-model="item1.Withinstate"  ng-disabled="all">
         <option ng-repeat="Percentage in withinstat" >{{Percentage.taxname}}</option>
 
     </select></p>
-    <br>
+    <br> -->
 
 
 
-     <p>
+    <!--  <p>
      <label> Out of state:<span id="star"><font size="04">*</font></span></label>
       <select ng-model="item1.Outofstate" ng-disabled="all">
 
       <option ng-repeat="Percentage in outofstat" >{{Percentage.taxname}}</option>
-      <!-- "user.count as user.count for user in res -->
+     
     </select></p>
-    <br>
+    <br> -->
 
     <!--
     <p>
@@ -236,7 +236,9 @@ form  { display: table;      }
 
 
     <div align="center">
-<button  class="btn btn-success" ng-click="saveitem()" ng-disabled="all">Save</button>
+<!-- <button  class="btn btn-success" ng-click="saveitem()" ng-disabled="all">Save</button> -->
+<button  id="buttonwidth"  class="btn btn-info" ng-if ="test=='display'" class="btn btn-default"  ng-click="saveitem()">Save</button>
+<button type="button" id="buttonwidth" class="btn btn-success" ng-if ="test=='update1'" class="btn btn-default" ng-click="saveitem()">Update</button>
 </form>
        <button  class="btn btn-danger" ng-click=cancelitem() ng-disabled="all">Cancel</button><br><br>
       <!--  <button type="button" class="btn btn-info" >Close</button>

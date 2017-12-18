@@ -4,16 +4,17 @@ var myApp=angular.module('myApp',[]);
 myApp.controller('ItemCntrl',['$scope','$http','$window',
 function($scope,$http,$window){
   //alert("well come to ItemCntrl")
-  $scope.itemdetails = []
+   $scope.itemdetails = []
   var duplicat = [];
   var duplicate = [];
   var selectedrow = null;
  var editcheck = false;
- // $scope.item1.filter="All "
-
+// $scope.TypeName="All "
+  //$scope.item1.filter="All "
+//alert( $scope.item1.filter)
  //validation
 
- 
+ $scope.test = 'display'
   $http.get('/getinventorygroupmaster').success(function(response){
       // console.log(response);
        $scope.inventorygroupmaster1 = response
@@ -95,9 +96,9 @@ for (i=0;i<=response.length-1;i++){
  });
 var itemdatafetch = function(){
   $http.get('/getitemdata').success(function(response){
-        //console.log(response);
+      
         $scope.itemdetails = response
-        // console.log($scope.itemdetails);
+       
     })
 }
  itemdatafetch();
@@ -129,10 +130,12 @@ $scope.new = function(){
     //alert($scope.item1.Name );
     //validation purpose
     $scope.saveitem = function(){
+      $scope.test=='display'
     console.log("saving the call");
     //validation purpose
-    if($scope.item1.Name == undefined ||$scope.item1.Hsc == undefined ||$scope.item1.Desc == undefined ||$scope.item1.InvGroupName == undefined ||$scope.item1.Desc == undefined ||
-      $scope.item1.ItemType == undefined ||$scope.item1.SaleCategory == undefined ||$scope.item1.Withinstate == undefined ||$scope.item1.Outofstate == undefined){
+    if($scope.item1.Name == undefined ||$scope.item1.Hsc == undefined ||$scope.item1.Desc == undefined ||
+      $scope.item1.ItemType == undefined ||$scope.item1.SaleCategory == undefined) {
+
       for(let q =0;q<1;q++){
        console.log("undefined call look this please"); 
        console.log($scope.item1.Name);
@@ -165,16 +168,16 @@ $scope.new = function(){
           alert("Please enter SaleCategory");
           break;
         } 
-           console.log($scope.item1.Withinstate);
-        if($scope.item1.Withinstate == undefined){
-          alert("Please enter Withinstate");
-          break;
-        } 
-           console.log($scope.item1.Outofstate);
-       if($scope.item1.Outofstate == undefined){
-          alert("Please enter Outofstate");
-          break;
-        } 
+           // console.log($scope.item1.Withinstate);
+        // if($scope.item1.Withinstate == undefined){
+        //   alert("Please enter Withinstate");
+        //   break;
+        // } 
+       //     console.log($scope.item1.Outofstate);
+       // if($scope.item1.Outofstate == undefined){
+       //    alert("Please enter Outofstate");
+       //    break;
+       //  } 
       }//for closer
     }else{
     
@@ -184,11 +187,11 @@ $scope.new = function(){
         }else {
         $scope.item1.comboItem = "no"
      }
-     if($scope.item1.marginReport == true){
-        $scope.item1.marginReport = "yes"
-        }else{
-        $scope.item1.marginReport = "no"
-     }
+     // if($scope.item1.marginReport == true){
+     //    $scope.item1.marginReport = "yes"
+     //    }else{
+     //    $scope.item1.marginReport = "no"
+     // }
     //for editable
     if(editcheck == true){
 
@@ -217,15 +220,20 @@ $scope.new = function(){
 }
 $scope.cancelitem = function(){
    // alert("i got cancelitem call")
+    $scope.test = 'display'
     $scope.item1 =null;
     itemdatafetch();
-    
+    //refresh();
+    window.location.reload();
 }
 
+ // var item1filter =$scope.item1.filter
+ // alert(item1filter)
 $scope.filterchange = function(){
   
-   console.log($scope.item1.filter)
+  alert("hh")
    //var item1filter =' '+$scope.item1.filter
+   //alert($scope.item1.filter)
     var item1filter =$scope.item1.filter
       $http.get('/getfilter/'+item1filter).success(function(response){
          $scope.itemdetails = response 
@@ -235,11 +243,13 @@ $scope.filterchange = function(){
 }
 $scope.selectrow = function(tag){
   console.log(tag)
-  //alert("selectrow call")
+ 
   selectedrow = tag
   $scope.idSelectedVote = tag;
 }
 $scope.edititem = function(){
+
+
   editcheck = true
  
   console.log(selectedrow)
@@ -261,24 +271,15 @@ $scope.edititem = function(){
         }else{
         $scope.item1.marginReport = false
      }
-
+$scope.test = 'update1'
    }
    
    
 }
-var refresh=function(){
-  var item1filter =$scope.item1.filter
- $http.get('/itemdata/'+item1filter).success(function(response)
-{
-  alert(response)
-  $scope.itemdetails=response
-  
- 
-})
-}
+
 
 $scope.deleteitem = function(){
- 
+ //alert($scope.item1.filter)
  // console.log(selectedrow._id) 
   if(selectedrow == null ){
     alert("Please select item");
@@ -288,7 +289,7 @@ $scope.deleteitem = function(){
                  console.log("true");
                $http.delete('/itemdelete/'+selectedrow._id).success(function(response)
                      {
-                      
+                        //refresh();
                     });
               
 
@@ -300,7 +301,7 @@ $scope.deleteitem = function(){
  
    selectedrow = null;
    }
-  refresh();
+  $scope.filterchange();
 }
 
 

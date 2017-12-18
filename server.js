@@ -14,6 +14,7 @@ var db=mongojs('inventory',['user','tags','transaction','saleinvoice','mode','tr
 
 var bodyParser=require('body-parser');
 
+
 //var app            = express();
 //var mongoose       = require('mongoose');
 var bodyParser     = require('body-parser');
@@ -2361,6 +2362,19 @@ app.get('/getTaxname:taxx',function(req,res)
         res.json(doc);
 })
 })
+//for tax new
+app.get('/getTaxAlias:taxx',function(req,res)
+{
+   // console.log("i received a get request from count");
+    var taxxx = req.params.taxx;
+   var taxnamee=(taxxx);
+  
+   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+     db.tax.find({"aliasname": taxnamee},function(err,doc){     
+      
+        res.json(doc);
+})
+})
 // edit in barcode generation update
 app.put('/updateBarcodeDataGeneration',function(req,res){
   console.log("entered into put request $scope.userit[i]._id!=null");
@@ -2859,18 +2873,23 @@ app.get('/getitemdata',function(req,res)
         res.json(doc);
 })
 })
+
 // for filter in item page
 app.get('/getfilter/:update',function(req,res)
 {
   var sale1 = req.params.update;
+    //sale1 =" "+sale1;
       console.log(sale1)
       if(sale1 == "All" ){
-        //console.log("entered into if loop loop")
+        console.log("kgggggk")
          db.items.find(function(err,doc){
-        res.json(doc);
+          //console.log("kkkkkkkkkkkkkkkkkkk")
+          //console.log(doc.length)
+       res.json(doc);
 })
 
-      }else{
+      }
+      else{
         sale1 =" "+sale1;
      db.items.find({ItemType: sale1},function(err,doc)
     {
@@ -3019,7 +3038,7 @@ db.taxation.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
 });
 
 
-app.put('/opal/:id', function (req, res) {
+app.put('/updatetaxation/:id', function (req, res) {
   var id = req.params.id;
   console.log(req.body.name);
   db.taxation.findAndModify({
@@ -3068,17 +3087,52 @@ var aliasname=req.query.aliasname;
 var taxname=req.query.taxname;
 console.log(taxname)
 console.log(aliasname)
-// var id = req.body.aliasname;
-// var id = req.body.taxname;
-// console.log(req.params.tax)
-// var taxarr = req.params.tax
-// console.log(taxarr)
-// console.log(taxarr.taxname);
-// console.log(taxarr.aliasname);
-//db.tax.find({aliasname:"gst",taxname:"GST"})
+
 db.tax.find({aliasname:aliasname,taxname:taxname}, function (err, doc) {
   res.json(doc);
   console.log("the edit details r" +doc)
+});
+});
+app.get('/getname:taxx',function(req,res)
+{
+   // console.log("i received a get request from count");
+    var taxxx = req.params.taxx;
+   var taxnamee=(taxxx);
+   //  var ta = req.params.ta;
+   // var taxn=(ta);
+  
+   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+     db.taxation.find({"name": taxnamee,},function(err,doc){     
+      
+        res.json(doc);
+})
+})
+app.get('/getaliasname:taxx',function(req,res)
+{
+   // console.log("i received a get request from count");
+    var taxxx = req.params.taxx;
+   var taxnamee=(taxxx);
+   //  var ta = req.params.ta;
+   // var taxn=(ta);
+  
+   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+     db.taxation.find({"aliasname": taxnamee,},function(err,doc){     
+      
+        res.json(doc);
+})
+})
+
+
+app.get('/remove',function (req, res) {
+  console.log("this is  editititem2 editititem2 editititem2a put request");
+var aliasname=req.query.aliasname;
+var name=req.query.name;
+console.log(taxname)
+console.log(aliasname)
+
+db.taxation.find({aliasname:aliasname,name:name}, function (err, doc) {
+  res.json(doc);
+  //console.log("the edit details r" +doc)
 });
 });
 
@@ -5194,9 +5248,9 @@ app.use(express.static(__dirname + '/subscriber_images'));
 
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
-require('./app/rout')(app);
+//require('./app/rout')(app);
 // start app ===============================================
-app.listen(8080); 
+app.listen(7080); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8080");
+console.log("server running on port 7080");
 exports = module.exports = app;
