@@ -637,6 +637,7 @@ $scope.updateEditTransaction = function(){
 
                 $http.put('/saleinvoicedata12/'+update).success(function(response)
                      {
+                     // alert("jjjjjjjjjjjj")
                           //$scope.result = response;
                         //  console.log(response);
                          // alert("enterd into not null saleinv")
@@ -1081,8 +1082,18 @@ function finalCalAfterRemove(rvalue,length) {
       voucherNoGet = window.sessionStorage.getItem("voucherNo");
       editedInvoice = voucherNoGet
       $http.get('/voucherNoGetDetailsSaleInvoice/'+voucherNoGet).success(function(response){ 
-            //console.log(response);
+            console.log(response);
             $scope.saleinv = response;
+            // $scope.discount1=response[0].dis;
+            //  $scope.discount=response[0].dis;
+            //   $scope.ccamt1=response[0].char;
+            //  $scope.ccamt=response[0].char;
+              $scope.discount = parseFloat (response[0].dis);
+                        $scope.discount1 =parseFloat (response[0].dis);
+                        $scope.ccamt =  parseFloat (response[0].char);
+                        $scope.ccamt1 = parseFloat( response[0].char);
+                        $scope.decimals = parseFloat( response[0].decimals);
+            //$scope.ccamt=$scope.ccamt1;
              //console.log(response[0]._id);
              //alert(response[0]._id);
              saleInvoceEditId = response[0]._id ;
@@ -4952,8 +4963,9 @@ function($scope,$http,$window){
     });
 $scope.Transaction = function( ){
     
-    console.log( $scope.transaction);
+    //alert( $scope.transaction);
      var update=$scope.transaction;
+ $scope.List ="";
      
  }
 
@@ -4966,7 +4978,7 @@ $scope.Transaction = function( ){
 if($scope.transaction == "Estimate" ){
      $http.get('/listtran/'+ $scope.transaction ).success(function(response)
         { 
-            console.log(response)
+            alert(response)
             $scope.List = response;
         })
      }else{

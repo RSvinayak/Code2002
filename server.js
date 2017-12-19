@@ -2006,6 +2006,7 @@ var dis = str_array[9];
      var invoiceValue = str_array[12];
       var decimals = str_array[13];
       var transaction = str_array[14];
+      //console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
       if(transaction == "RegularSale"){
           db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
             "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue}},function(err,doc){
@@ -2233,6 +2234,20 @@ app.get('/getPartyDetailsNumber',function(req,res){
   // console.log(trans);
    
     db.saleinvoice.find({partyname:username,Transaction:trans, status : "In Progress"},function(err,doc){
+        res.json(doc);
+        //console.log("here is data in progress "+ doc);
+       // console.log(doc);
+    });
+   //}
+  
+});
+ app.get('/getitemname',function(req,res){
+ // console.log("I received a new username request for login and document saleinv lok here");
+  var username=req.query.Name;
+  var trans=req.query.InvGroupName;
+  // console.log(trans);
+   
+    db.items.find({Name:username,InvGroupName:trans},function(err,doc){
         res.json(doc);
         //console.log("here is data in progress "+ doc);
        // console.log(doc);
@@ -3252,6 +3267,34 @@ app.get('/getaliasname:taxx',function(req,res)
         res.json(doc);
 })
 })
+// app.get('/getitemname:taxx',function(req,res)
+// {
+//    // console.log("i received a get request from count");
+//     var taxxx = req.params.taxx;
+//    var taxnamee=(taxxx);
+//    //  var ta = req.params.ta;
+//    // var taxn=(ta);
+  
+//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//      db.items.find({"Name": taxnamee,},function(err,doc){     
+      
+//         res.json(doc);
+// })
+// })
+// app.get('/getitemgroupname:taxx',function(req,res)
+// {
+//    // console.log("i received a get request from count");
+//     var taxxx = req.params.taxx;
+//    var taxnamee=(taxxx);
+//    //  var ta = req.params.ta;
+//    // var taxn=(ta);
+  
+//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//      db.items.find({"InvGroupName": taxnamee,},function(err,doc){     
+      
+//         res.json(doc);
+// })
+// })
 
 
 app.get('/remove',function (req, res) {
@@ -3283,21 +3326,12 @@ app.put('/updateedit', function (req, res) {
     });
   });
   
-  app.get('/purchase',  function (req, res) {
+  app.get('/purchasess',  function (req, res) {
    
-      // db.inventorygroupmaster.aggregate([{$project:{"PurchaseAcc.AccNo":1}},
-      //                                     {$unwind:"$PurchaseAcc"},
-      //                                     {$group:{_id:"$PurchaseAcc.AccNo"}}
- 
-      //                                   ],function (err, docs) {
- 
-
-      //                                   res.json(docs);
-      // });
-     // db..find()
-
-    db.ledgeraccounts.find({},function(err,doc){
-     //   console.log(doc);
+    
+console.log("jjjjjjj")
+    db.ledgeraccounts.find({sortOrder: { $exists: true }},function(err,doc){
+   
         res.json(doc);
 })
 
