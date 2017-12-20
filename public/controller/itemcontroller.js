@@ -107,14 +107,20 @@ var itemdatafetch = function(){
 
 $scope.all = true
 $scope.new = function(){
+   //$scope.test = 'display'
     console.log("i got new call")
     $scope.all = false
+       $scope.item1 ="" 
+    //$scope.cancelitem()
+
+//$scope.selectrow();
 }
 
 
     $scope.saveitem = function(){
+      //alert('kk')
 
-       $scope.test=='display'
+       //$scope.test=='display'
       if($scope.item1.Name == undefined &&$scope.item1.Hsc == undefined &&$scope.item1.Desc == undefined &&
       $scope.item1.ItemType == undefined &&$scope.item1.SaleCategory == undefined && $scope.item1.InvGroupName== undefined)
       {
@@ -283,7 +289,8 @@ $scope.edititem = function(){
      
    }
    else{
- $scope.new()
+ //$scope.new()
+  $scope.all = false
       $scope.item1 = selectedrow
     if($scope.item1.comboItem == "yes"){
         $scope.item1.comboItem = true
@@ -299,7 +306,7 @@ $scope.edititem = function(){
 $scope.test = 'update1'
    }
    
-  $scope.filterchange(); 
+  //$scope.filterchange(); 
 }
 
 
@@ -315,11 +322,13 @@ $scope.deleteitem = function(){
                $http.delete('/itemdelete/'+selectedrow._id).success(function(response)
                      {
                         //refresh();
+                         //$scope.item1 ="" 
                     });
               
-
+     $scope.item1 ="" 
              }else{
-                    $scope.cancelitem()
+               $scope.item1 ="" 
+                    //$scope.cancelitem()
    //                   $scope.item1.Name ="" 
    // $scope.item1.Hsc ="" 
    // $scope.item1.Desc = "" 

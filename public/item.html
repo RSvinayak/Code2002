@@ -131,7 +131,7 @@ form  { display: table;      }
 
        <button type="button" class="btn btn-primary" ng-click=edititem()>Edit</button>
        <button type="button" class="btn btn-warning" ng-click=deleteitem()>Delete</button>
-       <button type="button" class="btn btn-info" ng-click="new()" >New</button>
+       <button type="button" class="btn btn-info" ng-click="new()" ng-if ="test=='display'" >New</button>
       <!--  <button  type="button" class="btn btn-success" ng-click="generateBarcode()">Rate</button> -->
 
 
@@ -209,7 +209,7 @@ form  { display: table;      }
 
     <div align="center">
 <!-- <button  class="btn btn-success" ng-click="saveitem()" ng-disabled="all">Save</button> -->
-<button  id="buttonwidth"  class="btn btn-info" ng-if ="test=='display'" class="btn btn-default"  ng-click="saveitem()">Save</button>
+<button  id="buttonwidth"  class="btn btn-info" ng-if ="test=='display'" class="btn btn-default"  ng-click="saveitem()" ng-disabled="all">Save</button>
 <button type="button" id="buttonwidth" class="btn btn-success" ng-if ="test=='update1'" class="btn btn-default" ng-click="saveitem()">Update</button>
 </form>
        <button  class="btn btn-danger" ng-click=cancelitem() ng-disabled="all">Cancel</button><br><br>
