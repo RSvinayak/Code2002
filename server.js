@@ -333,8 +333,8 @@ app.get('/batchBarcode:barcodenum',function(req,res){
          else{
           res.json(doc);
          }
-      })
-})
+      });
+});
 app.get('/getbar:barcodenum',function(req,res)
 {
    // console.log("i received a get request from count");
@@ -634,14 +634,15 @@ app.get('/iateapple:partyname',function(req,res){
   });
 });
 //for getting issue voucherNo
-app.get('/receiptdetails:partyname',function(req,res){
-  console.log("Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher");
-  var pname=req.params.partyname;
-  db.transactiondetail.find({"partyname":pname},function(err,doc){
-    res.json(doc);
-    console.log(doc+"Issue No and dates");
-  });
-});
+// app.get('/receiptdetails:partyname',function(req,res){
+//   console.log("Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher");
+//   var pname=req.params.partyname;
+//   var trans="Issue Voucher";
+//   db.transactiondetail.find({"partyname":pname,"Transaction":trans},function(err,doc){
+//     res.json(doc);
+//     console.log(doc+"Issue No and dates");
+//   });
+// });
 //previous
 app.post('/userdata/:updat',function(req,res){
     //console.log("igot order requestttttttttttttttttttttt");
@@ -874,13 +875,13 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);    
         })
        }else{
-        if(tran == "Issue Voucher"){
+        if(tran == "Issue Voucher"||tran == "Receipt Voucher"){
           console.log("cccccccccccccccccccc");
           db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"completed","StockInward":stockInward,"withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
                 "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
-                "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection},function(err,doc){
+                "stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection},function(err,doc){
                 res.json(doc);
                  console.log("else insert when id is null look here")
                  console.log(doc);   
@@ -893,7 +894,7 @@ app.post('/savedata1/:update',function(req,res){
                 "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
                 "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
                 "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,
-                'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint},function(err,doc){
+                'comboItem':comboItem,'mrp':mrp,"RefId":refid,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint},function(err,doc){
                 res.json(doc);
                  //console.log("else insert when id is null look here")
                 // console.log(doc);   
@@ -1774,8 +1775,14 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
 });
 //for inserting receipt voucher data
 app.post('/insertreceiptUseritDetails',function(req,res){
-   console.log(req.body.refID+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-  db.transactiondetail.insert(req.body,function(err,doc){
+   console.log(req.body+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+  db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
+         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+        "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
+       "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
+       "salesPerson":req.body.salesPerson,"RefId":req.body.refID,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,
+       "taxSelection":req.body.taxSelection},function(err,doc){
     console.log("receipt voucher details inserted");
     res.json(doc);
   });
@@ -2168,14 +2175,14 @@ app.put('/users/:csfdata',function(req,res){
 });
 });
 //for receipt userit
-app.get('/receiptuser:ids',function(req,res){
-  console.log("receipt receipt receipt receipt receipt receipt receipt receipt");
-  var id=req.params.ids;
-  db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
-    res.json(doc);
-    console.log(doc);
-  });
-});
+// app.get('/receiptuser:ids',function(req,res){
+//   console.log("receipt receipt receipt receipt receipt receipt receipt receipt");
+//   var id=req.params.ids;
+//   db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+//     res.json(doc);
+//     console.log(doc);
+//   });
+// });
 //for getdetails url
 app.get('/getSavedDetails',function(req,res){
  // console.log("I received a new username request for login and document from pdf");
@@ -3074,6 +3081,28 @@ app.get('/getitemdata',function(req,res)
         res.json(doc);
 })
 })
+// app.post('/saveitempost/',function(req,res)
+// {
+//   var sale1 = req.params.update;
+//     //sale1 =" "+sale1;
+//       console.log(sale1)
+//       if(sale1 == "All" ){
+//         console.log("kkkkkkkkkkkkkkkkkkkkk")
+//          db.items.find(function(err,doc){
+//           //console.log("kkkkkkkkkkkkkkkkkkk")
+//           //console.log(doc.length)
+//        res.json(doc);
+// })
+
+//       }
+//       else{
+//         sale1 =" "+sale1;
+//      db.items.find({ItemType: sale1},function(err,doc)
+//     {
+//         res.json(doc);
+//     })
+//    }
+// })
 
 // for filter in item page
 app.get('/getfilter/:update',function(req,res)
@@ -3097,6 +3126,8 @@ app.get('/getfilter/:update',function(req,res)
         res.json(doc);
     })
    }
+
+   
 })
 // for delete in item page
 app.delete('/itemdelete/:udelete',function(req,res)
@@ -5470,7 +5501,7 @@ app.use(express.static(__dirname + '/subscriber_images'));
 require('./app/routes')(app); // pass our application into our routes
 //require('./app/rout')(app);
 // start app ===============================================
-app.listen(8000); 
+app.listen(4000); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8000");
+console.log("server running on port 4000");
 exports = module.exports = app;

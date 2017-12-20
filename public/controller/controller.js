@@ -832,7 +832,11 @@ function accountAndPurityCall(index,itemName) {
 }//accountAndPurityCall
 
 $scope.getDetails=function(rvalue,voucherNo,date){
+<<<<<<< HEAD
   // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
+=======
+   // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
+>>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
   $scope.voucherNo=voucherNo;
       window.sessionStorage.setItem("vin",$scope.voucherNo);
       // alert($scope.voucherNo+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
@@ -847,40 +851,43 @@ $scope.getDetails=function(rvalue,voucherNo,date){
                   });
                    $scope.indexSelected=[];
       }
-      if($scope.transaction == "Receipt Voucher" && $scope.partyname!=null){
-        alert("receipt");
-        alert($scope.partyname+"partyname");
-        $http.get('/receiptdetails'+$scope.partyname).success(function(response){
-          console.log(response);
-                     $scope.name=$scope.partyname;
-                    $scope.voucherNo=response.voucherNo;
-                    $scope.date=response.date;
-                    $scope.datex=response;
-                    // $scope.userit=response;
-                    var i;
-                    i=rvalue;
-                    while(i<response.length){
-                      alert("while");
-                      var idv=response[i]._id;
-                      console.log(idv);
-                      $http.get('/receiptuser'+idv).success(function(response){
-                        console.log(response);
-                        $scope.userit=response;
-                      })
-                      break;
-                    }
-        })
+      // if($scope.transaction == "Receipt Voucher" && $scope.partyname!=null){
+      //   alert("receipt");
+      //   alert($scope.partyname+"partyname");
+      //   $http.get('/receiptdetails'+$scope.partyname).success(function(response){
+      //     console.log(response);
+      //                $scope.name=$scope.partyname;
+      //               $scope.voucherNo=response.voucherNo;
+      //               $scope.date=response.date;
+      //               $scope.datex=response;
+      //               // $scope.userit=response;
+      //               var i;
+      //               i=rvalue;
+      //               while(i<response.length){
+      //                 alert("while");
+      //                 var idv=response[i]._id;
+      //                 console.log(idv);
+      //                 $http.get('/receiptuser'+idv).success(function(response){
+      //                   console.log(response);
+      //                   $scope.userit=response;
+      //                 })
+      //                 break;
+      //               }
+      //   })
 
-      }
+      // }
+
+      // if($scope.transaction != "Receipt Voucher"){
      var url = null ; 
     
-     if(voucherNoGet != null){
+      if(voucherNoGet != null){
        $scope.voucherNo=voucherNoGet;
          url = '/voucherNoGetDetails' ;
         // alert("'/voucherNoGetDetails'")
      }else{
           url =  '/getSavedDetails' ; 
      }
+   // }
       // $http.get('/voucherNoGetDetails/'+voucherNoGet)
      // alert("$scope.partyname "+$scope.partyname+" $scope.transaction "+$scope.transaction)
     $http.get(url,{params:{"partyname":$scope.partyname,"Transaction":$scope.transaction,"voucherNo":$scope.voucherNo}}).success(function(response){
@@ -980,6 +987,7 @@ $scope.getDetails=function(rvalue,voucherNo,date){
             if(arrcon.indexOf($scope.userit[i]._id) == -1) {
              // alert("entered to remove duplicates ")
                arrcon.push($scope.userit[i]._id);
+               // alert(arrcon+"arrcon");
                window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
      
                console.log(arrcon)
@@ -2530,7 +2538,7 @@ $scope.removeSelectedRows = function() {
      //  alert("$scope.userit[i]._id is not null");
    console.log(arrcon);
          var udelete=arrcon[$scope.indexSelected[i]];
-         alert("$scope.indexSelected[i] "+$scope.indexSelected[i])
+         // alert("$scope.indexSelected[i] "+$scope.indexSelected[i])
          console.log(udelete);
 
             console.log(udelete);
@@ -3188,15 +3196,15 @@ $scope.resu ;
                                           }//for closer
                                                    
                                       }//if condition ($scope.transaction
-                                        if($scope.transaction == "Receipt Voucher"){
-                                          alert("completed receipt");
-                                          console.log($scope.newreceiptID);
-                                          $scope.userit.refID=$scope.newreceiptID;
-                                          console.log($scope.userit);
-                                           $http.post('/insertreceiptUseritDetails',$scope.userit).success(function(response){
-                                                                    console.log(response+"new row");
-                                                                    });
-                                        }
+                                        // if($scope.transaction == "Receipt Voucher"){
+                                        //   alert("completed receipt");
+                                        //   console.log($scope.newreceiptID);
+                                        //   $scope.userit[i].refID=$scope.newreceiptID;
+                                        //   console.log($scope.userit);
+                                        //    $http.post('/insertreceiptUseritDetails',$scope.userit).success(function(response){
+                                        //                             console.log(response+"new row");
+                                        //                             });
+                                        // }
                                                        else{
                                                                 $http.put('/updateUseritCall',$scope.userit[i]).success(function(response){ 
                                                           
@@ -3228,7 +3236,14 @@ $scope.resu ;
                           }else if($scope.transaction == "RD Purchase"){
                                  $scope.userit[i].stockPoint = $scope.rdPurchaseStockPoint ;
                                  $scope.userit[i].stockInward = "yes";
-                               }else{
+                               }else if($scope.transaction == 'Receipt Voucher'){
+                                console.log($scope.newreceiptID+"$scope.newreceiptID");
+                                  $scope.userit[i].refId=$scope.newreceiptID;
+                                  // alert($scope.userit[i].refId);
+                                  $scope.userit[i].stockInward = "no";
+                                  $scope.userit[i].orderStatus = "completed";
+                               }
+                               else{
                                  $scope.userit[i].stockPoint = $scope.regularSaleStockPoint ;
                                  $scope.userit[i].stockInward = "no"
                                }
@@ -3244,7 +3259,7 @@ $scope.resu ;
                                ","+$scope.userit[i].purity+","+$scope.userit[i].pctcal+","+$scope.userit[i].labcal+","+$scope.userit[i].uom+
                                ","+$scope.userit[i].stonecal+","+$scope.userit[i].salesPerson +","+$scope.userit[i].AccNo +","+$scope.userit[i].labourTaxValue+
                                ","+$scope.userit[i].labamt+","+$scope.userit[i].urdAdjustment+","+$scope.userit[i].stchg +","+$scope.userit[i].comboItem +","+$scope.userit[i].mrp +
-                                ","+ $scope.userit[i].billType+","+$scope.userit[i].taxSelection+","+$scope.refId+","+$scope.userit[i].InvGroupName +","+ $scope.userit[i].SaleCategory; 
+                                ","+ $scope.userit[i].billType+","+$scope.userit[i].taxSelection+","+$scope.userit[i].refId+","+$scope.userit[i].InvGroupName +","+ $scope.userit[i].SaleCategory; 
                                  console.log(data1)
                                //  var date3 = new Date()
                                 $http.post('/savedata1/'+data1).success(function(response){
@@ -3314,7 +3329,7 @@ $scope.resu ;
        
 
 
-        if($scope.transaction != 'Issue Voucher'){
+        if($scope.transaction != 'Issue Voucher' && $scope.transaction != 'Receipt Voucher'){
              saleInoviceDataCall();
            }
             if($scope.transaction !="Valuation"){
@@ -3430,6 +3445,7 @@ $scope.save=function(){
         console.log($scope.userit);
         console.log($scope.userit.length);
         //validation purpose
+        // alert($scope.userit.length);
         if(flag == 0){
 
           if (0 == $scope.userit.length) {
@@ -3530,11 +3546,17 @@ $scope.save=function(){
                    }
 
                 if(i == $scope.userit.length-1 ){
+                  // alert(i+"iiiii");
                      flagCall();
-                      if ($scope.transaction == "Valuation" ) {
+                      if ($scope.transaction == "Valuation"||$scope.transaction == "Issue Voucher" ||$scope.transaction == "Receipt Voucher") {
                       $scope.valuationPrint();
                     }
-
+                      // if($scope.transaction=='Isuue Voucher'){
+                      //   flagCall();
+                      //   for(var j=0;j<$scope.userit.length-1;j++){
+                      //       $scope.valuationPrint();
+                      //   }
+                      // }
                    // $scope.getDetails();
                 }   
 
@@ -3621,11 +3643,22 @@ $scope.save=function(){
     $scope.inoviceNumberGeneration= function(){
           //  alert("inove generation in pay button ");
           var customerDetails = $scope.transaction+","+$scope.partyname;
+<<<<<<< HEAD
 //<<<<<<< HEAD
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 //=======
+=======
+// <<<<<<< HEAD
+          var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
+// =======
+<<<<<<< HEAD
+            if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
+            // alert("issue voucher no");
+=======
+>>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
             if($scope.transaction == "Issue Voucher"){
             alert("issue voucher no");
+>>>>>>> 2ab87d6a376cfb6d07453d0fb06762615a52763b
           $http.get('/getprefix'+$scope.transaction).success(function(response){
             console.log(response);
             console.log(response[0].TransactionPrefix);
@@ -3668,7 +3701,11 @@ $scope.save=function(){
 
           else{
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
+<<<<<<< HEAD
 //>>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
+=======
+// >>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
+>>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
                                 console.log(saleinvoice_id )
                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
@@ -4789,7 +4826,7 @@ console.log( $scope.FromDate)
 //     })
 
 //for urd
-if($scope.trans == "Urd Purchase"){
+if($scope.trans == "Urd Purchase"||$scope.trans == "Issue Voucher"||$scope.trans == "Receipt Voucher"){
     //for barcode data =
     l = 0;
     for(let k=0;k<=user1.length-1;k++)
@@ -4798,6 +4835,7 @@ if($scope.trans == "Urd Purchase"){
          console.log(response)
        //  console.log(l)
           $scope.userdisplay[l] = response[0];
+          // $scope.labourValue=response[0].labval;
            $scope.invoice = response[0].voucherNo ;
           console.log( $scope.userdisplay[l])
           l++;
@@ -4813,7 +4851,7 @@ if($scope.trans == "Urd Purchase"){
 
 //if($scope.trans == "Regular Sale"){
   //if($scope.trans == "Regular Sale" || $scope.trans == "RD Purchase" ){
-  if($scope.trans != "Urd Purchase"  ){
+  if($scope.trans != "Urd Purchase" && $scope.trans !='Receipt Voucher' && $scope.trans !='Issue Voucher'){
   
     //for barcode data 
      if($scope.trans == "Regular Sale" || $scope.trans == "RD Purchase"){
@@ -5068,9 +5106,9 @@ function($scope,$http,$window){
     });
 $scope.Transaction = function( ){
     
-    //alert( $scope.transaction);
+    console.log( $scope.transaction);
      var update=$scope.transaction;
- $scope.List ="";
+     $scope.List=undefined;
      
  }
 
@@ -5080,10 +5118,11 @@ $scope.Transaction = function( ){
     if($scope.transaction == undefined){
       alert("Please Select Transaction");
     }
+   
 if($scope.transaction == "Estimate" ){
      $http.get('/listtran/'+ $scope.transaction ).success(function(response)
         { 
-            alert(response)
+            console.log(response)
             $scope.List = response;
         })
      }else{
@@ -5111,16 +5150,28 @@ var  voucherNoEdit = null;
    console.log(item.voucherNo);
    voucherNoEdit = item.voucherNo; 
    deleteitem = item;
+
 }
 
 //for edit
 $scope.listEdit = function(item){
     console.log("call from edit");
      console.log(deleteitem);
-     if(deleteitem == null){
+        if($scope.transaction == undefined){
+
+      alert("Please Select Transaction");
+    }
+       else if($scope.List == undefined){
+      alert("Please Select List");
+    }
+    else if(deleteitem == null){
       alert("Please Select any Party");
 
-     }else{
+     }
+   
+   
+    
+    else{
 
            $scope.mylink = "index1.html";
            window.sessionStorage.setItem("Str3",JSON.stringify(deleteitem));
@@ -5141,36 +5192,72 @@ $scope.listEdit = function(item){
 // }
 //for deleting the items
 $scope.listDelete = function(){
-   //alert(item);
-   if(deleteitem == null){
+  //alert($scope.List)
+    if($scope.transaction == undefined){
+
+      alert("Please Select Transaction");
+    }
+       else if($scope.List == undefined){
+      alert("Please Select List");
+    }
+    else if(deleteitem == null){
       alert("Please Select any Party");
 
-     }else{
-       // alert("Please Sele");
-         // alert($scope.List[0].voucherNo+" "+ deleteitem.voucherNo);
+     }
+   else{
+      
      
 
-       if ($scope.List[$scope.List.length-1].voucherNo == deleteitem.voucherNo) {
-       // alert("got match");
+   //     if ($scope.List[$scope.List.length-1].voucherNo == deleteitem.voucherNo) {
+   //    // alert("got match");
+   //    alert("Are You Sure You Want To Delete");
+   //       $http.delete('/listDeleteEnter/'+deleteitem.voucherNo).success(function(response)
+   //          {
+   //             //alert("Are You Sure You Want To Delete");
+   //             //  console.log(response)
+   //          });
+   //        clearListDeleted()
+   //      // $scope.remove = function(){
+        
+   // // };
+
+   //     }else{
+   //      alert("Please Delete Only last item");
+
+   //     }
+   var r = confirm("Are you sure you want to delete this ?")
+              if (r == true) {
+                 console.log("true");
+              if ($scope.List[$scope.List.length-1].voucherNo == deleteitem.voucherNo) {
+   //    // alert("got match");
+      //alert("Are You Sure You Want To Delete");
          $http.delete('/listDeleteEnter/'+deleteitem.voucherNo).success(function(response)
             {
+               //alert("Are You Sure You Want To Delete");
                //  console.log(response)
             });
-          clearListDeleted()
-        // $scope.remove = function(){
+        clearListDeleted()
+         $scope.remove = function(){
         
-   // };
-
-       }else{
-        alert("Please Delete Only last item");
+    };
 
        }
+              
+     //$scope.item1 ="" 
+             }
+              else{
+         alert("Please Delete Only last item");
+
+        }
+  
+
+                  }
                
      }
 
 
 
-}//listDelete
+//}//listDelete
 //refresh call for table
 function clearListDeleted() {
   // body...
@@ -5179,6 +5266,7 @@ function clearListDeleted() {
         angular.forEach($scope.List,function(v){
           //console.log(v)
         if(deleteitem != v){
+  //alert("Are You Sure You Want To Delete");
             console.log(v)
             newDataList.push(v);
         }

@@ -161,9 +161,13 @@ $http.get('/batchrecords/'+list3).success(function(response)
            });
 
     })
+ $scope.nu=function(){
+$scope.batch=""
+ }
 
   $scope.dateSearch=function(){
     // for barcode search
+
      // alert("barCodeSearch "+$scope.barCodeSearch);
     if ($scope.barCodeSearch != null || $scope.barCodeSearch != undefined  ) {
         
@@ -338,12 +342,13 @@ $scope.saveBatchGeneration = function(){
                     $scope.updateButton = false;
                     edit1 = null;
                      $scope.userit.splice(0, 1);
-                     
+                
                     
-
+ refresh()
 })
         
    alert("updated successfully"); 
+   refresh()
      }
      }else{
              console.log(" null");
@@ -650,7 +655,13 @@ $scope.bitem = [];
 $scope.saveBarcode = function()
 { //validation purpose
    //$scope.test = 'display'
-if($scope.bitem.ItemName == undefined &&$scope.bitem.stockin == undefined && $scope.bitem.stockout == undefined&&$scope.bitem.wt == undefined && $scope.bitem.pcs == undefined && $scope.bitem.titems == undefined)
+   //alert($scope.bitem.stockout)
+
+if($scope.bitem.ItemName == "" &&$scope.bitem.stockin == "" && $scope.bitem.stockout == ""&&$scope.bitem.wt == ""&& $scope.bitem.pcs == ""&& $scope.bitem.titems == "")
+  {
+alert("Please Fill All Mandatory Fields")
+  }
+  else if($scope.bitem.ItemName == undefined &&$scope.bitem.stockin == undefined && $scope.bitem.stockout == undefined&&$scope.bitem.wt == undefined&& $scope.bitem.pcs == undefined&& $scope.bitem.titems == undefined)
   {
 alert("Please Fill All Mandatory Fields")
   }
@@ -658,7 +669,7 @@ alert("Please Fill All Mandatory Fields")
 
   
 //if($scope.bitem.date == undefined ||$scope.bitem.ItemName == undefined ||$scope.bitem.stockin == undefined || $scope.bitem.stockout == undefined ||$scope.bitem.wt == undefined || $scope.bitem.pcs == undefined || $scope.bitem.titems == undefined){
- else  if($scope.bitem.ItemName == undefined ||$scope.bitem.stockin == undefined || $scope.bitem.stockout == undefined ||$scope.bitem.wt == undefined || $scope.bitem.pcs == undefined || $scope.bitem.titems == undefined){
+ else  if($scope.bitem.ItemName == undefined ||$scope.bitem.stockin == undefined || $scope.bitem.stockout == undefined ||$scope.bitem.wt == undefined || $scope.bitem.pcs == undefined || $scope.bitem.titems == undefined || $scope.bitem.ItemName == "" ||$scope.bitem.stockin == "" || $scope.bitem.stockout == "" ||$scope.bitem.wt == "" || $scope.bitem.pcs == "" || $scope.bitem.titems == ""){
   
   
     for(let m = 0; m<=1;m++){
@@ -669,32 +680,32 @@ alert("Please Fill All Mandatory Fields")
   //   return;
   // }
   console.log($scope.bitem.ItemName)
-  if($scope.bitem.ItemName == undefined){
+  if($scope.bitem.ItemName == undefined || $scope.bitem.ItemName == ""){
     alert("Please select ItemName")
     return;
   }
   console.log($scope.bitem.stockin)
-  if($scope.bitem.stockin == undefined){
+  if($scope.bitem.stockin == undefined || $scope.bitem.stockin == ""){
     alert("Please select Stock From")
     return;
   }
   console.log($scope.bitem.stockout)
-  if($scope.bitem.stockout == undefined){
+  if($scope.bitem.stockout == undefined || $scope.bitem.stockout == ""){
     alert("Please select Stock To")
     return;
   }
-  // if($scope.bitem.wt == undefined){
-  //   alert("Please select Total Wt")
-  //   return;
-  // }
-  // if($scope.bitem.pcs == undefined){
-  //   alert("Please select Total Pcs")
-  //  return;
-  // }
-  // if($scope.bitem.titems == undefined){
-  //   alert("Please select Total Tags")
-  //   return;
-  // }
+  if($scope.bitem.wt == undefined||$scope.bitem.wt == ""){
+    alert("Please select Total Wt")
+    return;
+  }
+  if($scope.bitem.pcs == undefined ||$scope.bitem.pcs == ""){
+    alert("Please select Total Pcs")
+   return;
+  }
+  if($scope.bitem.titems == undefined||$scope.bitem.titems == ""){
+    alert("Please select Total Tags")
+    return;
+  }
  
   }
 
@@ -850,7 +861,8 @@ $scope.res = [];
     })
   window.location.reload();
 
-//$scope.test = 'display' 
+$scope.test = 'display'
+
 } //else loop
  // refresh()
  //reload issue
@@ -859,6 +871,7 @@ $scope.res = [];
  // }
   
 }
+refresh() 
 }
 
 //for validation of treasure
@@ -921,6 +934,7 @@ $scope.row2 = function(row,index){
   //  console.log($scope.batch = batch[0])
  // $scope.batch[index].color = ""
   //color()
+  refresh()
   }
   //change color process
 // var color = function(){
@@ -1043,6 +1057,9 @@ $scope.edit = function(){
 // }
 
 //for delete barcode one
+$scope.close=function(){
+  alert("Are You Sure You Want To Leave This Page")
+}
 $scope.deletebarcodegeneration = function(){
 
     console.log("delete call");
@@ -1435,6 +1452,14 @@ var icomposite = null;
  summarylist()
 // for cancel button
 $scope.cancel = function(){
+  if($scope.bitem.ItemName == "" &&$scope.bitem.stockin == "" && $scope.bitem.stockout == ""&&$scope.bitem.wt == ""&& $scope.bitem.pcs == ""&& $scope.bitem.titems == "")
+  {
+alert("Please Fill All Mandatory Fields")
+  }
+    else if($scope.bitem.ItemName == undefined &&$scope.bitem.stockin == undefined && $scope.bitem.stockout == undefined&&$scope.bitem.wt == undefined&& $scope.bitem.pcs == undefined&& $scope.bitem.titems == undefined)
+  {
+alert("Please Fill All Mandatory Fields")
+  }
    $scope.test = 'display'
   console.log("i got cancel call")
  // $scope.count = ""
@@ -1461,9 +1486,23 @@ console.log(count3)
 
  $scope.all = true
 $scope.newBarSumm = function(){
+   $scope.test = 'display'
   console.log("i got new call")
   $scope.all = false
-  $scope.cancel()
+   $scope.bitem.ItemName = ""
+ $scope.bitem.composite = ""
+ $scope.bitem.splittable = ""
+$scope.bitem.wt = ""
+  $scope.bitem.pcs = ""
+ $scope.bitem.titems = ""
+ $scope.bitem.remark = ""
+$scope.bitem.composite = ""
+ //   'split':$scope.bitem.splittable,
+ $scope.bitem.stockin = ""
+$scope.bitem.stockout = ""
+ $scope.count = count3 
+  //$scope.cancel()
+  refresh()
 }
 
 // for edit button
@@ -1475,13 +1514,16 @@ var editsummary = null;
 $scope.editBarSumm = function(){
     
      
-     
+     //alert("kk")
+      $scope.test = 'update1'
 
         if(editrow3 == undefined){
           alert("Please select any item");
        }
        else{
-         $scope.newBarSumm();
+          $scope.newBarSumm();
+         //    $scope.all = false
+         // $scope.bitem = ""
        }
      
 
@@ -1527,7 +1569,7 @@ $scope.editBarSumm = function(){
 
       editsummary = true
       //$scope.test=='update1';
- $scope.test = 'update1'
+
  //window.location.reload();
  //$scope.newBarSumm()
  refresh()
@@ -1536,6 +1578,7 @@ $scope.editBarSumm = function(){
 refresh()
 // for delete button
 $scope.delete = function(){
+   $scope.test = 'display'
        console.log("i got delete call")
        console.log(editrow3);
        // console.log(editrow3._id);
@@ -1546,11 +1589,35 @@ $scope.delete = function(){
                     if (r == true) {
                  console.log("true");
                  $http.delete('/barcodesummarydelete/'+editrow3._id).success(function(response)
-                     {          
+                     { 
+
                      });
+                                                      $scope.bitem.ItemName = ""
+ $scope.bitem.composite = ""
+ $scope.bitem.splittable = ""
+$scope.bitem.wt = ""
+  $scope.bitem.pcs = ""
+ $scope.bitem.titems = ""
+ $scope.bitem.remark = ""
+$scope.bitem.composite = ""
+ //   'split':$scope.bitem.splittable,
+ $scope.bitem.stockin = ""
+$scope.bitem.stockout = ""
+ $scope.count = count3 
 
              }else{
-                   console.log("false");
+                   $scope.bitem.ItemName = ""
+ $scope.bitem.composite = ""
+ $scope.bitem.splittable = ""
+$scope.bitem.wt = ""
+  $scope.bitem.pcs = ""
+ $scope.bitem.titems = ""
+ $scope.bitem.remark = ""
+$scope.bitem.composite = ""
+ //   'split':$scope.bitem.splittable,
+ $scope.bitem.stockin = ""
+$scope.bitem.stockout = ""
+ $scope.count = count3 
 
                   }
               editrow3 = undefined;

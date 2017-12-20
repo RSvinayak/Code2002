@@ -339,9 +339,9 @@ display: inline-block;
         </div>
            
         <!-- <div class="col-sm-4"> -->
-        <div class="col-sm-2">
+        <div class="col-sm-2" >
             <div id="frm1">
-              <form>
+              <form ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'">
                Bill Type<span id="star"><font size="04">*</font></span>:
               </form>
               <form>
@@ -360,21 +360,21 @@ display: inline-block;
          <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v.voucherNo,v.date)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
               
-                <td  id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td>
+                <td  ng-class="{selected : $index === idSelectedVote}" id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td>
                  <!-- <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td> -->
             </option>
           </tr>
            </table>
-           <table id="table1" ng-show="transaction == 'Receipt Voucher'">
+           <!-- <table id="table1" ng-show="transaction == 'Receipt Voucher'">
             <tr><th id="th1">Issued Vouchers</th></tr>
             <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v.voucherNo,v.date)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
               
                 <td  id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td>
                  <!-- <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td> -->
-            </option>
+         <!--    </option>
           </tr>
-           </table>
+           </table> --> 
         </div>
 </div>
 
@@ -561,7 +561,7 @@ display: inline-block;
         Taxamt</th>
         <th >Final Val</th>
          <th >Sales Person<span id="star"><font size="04">*</font></span></th>
-         <th >Acc No<span id="star"><font size="04">*</font></span></th>
+         <th ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'">Acc No<span id="star"><font size="04">*</font></span></th>
         
     <!--   <th class = "ng-hide">Transaction</th>  -->
   <!--     <th >Transaction</th> 
