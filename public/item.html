@@ -74,7 +74,7 @@ form  { display: table;      }
     </select> -->
 
     <!-- <select ng-model="item1.filter"  ng-change ="filterchange()" > -->
-    <select ng-model="item1.filter"   ng-change ="filterchange()" ng-init="item1.filter='All '">
+    <select ng-model="item.filter"   ng-change ="filterchange()" ng-init="item.filter='All '">
        <option ng-repeat="Type in itemtype1"  >{{Type.TypeName}}</option>
        </select>
 
@@ -149,7 +149,7 @@ form  { display: table;      }
        <form>
         <p>
     <label>Name:<span id="star"><font size="04">*</font></span></label>
-     <input type="text" ng-model="item1.Name" pattern="[A-Za-z]{2,30}" title="Alphabets only" ng-disabled="all" required>
+     <input type="text" ng-model="item1.Name"   ng-disabled="all" >
     </p>
 
 
@@ -157,7 +157,7 @@ form  { display: table;      }
     <br>
     <p>
      <label>Hsc:<span id="star"><font size="04">*</font></span></label>
-     <input type="text" ng-model="item1.Hsc" pattern="[A-Za-z]{2,30}" title="Alphabets only" ng-disabled="all" required>
+     <input type="text" ng-model="item1.Hsc"  ng-disabled="all" >
      </p>
     <br>
 
@@ -168,7 +168,7 @@ form  { display: table;      }
 
             <p>
      <label> Desc:<span id="star"><font size="04">*</font></span></label>
-     <input type="text" ng-model="item1.Desc" pattern="[A-Za-z0-9]{2,30}" title="Alphabets only" ng-disabled="all" required>
+     <input type="text" ng-model="item1.Desc" ng-disabled="all">
      </p>
     <br>
 
@@ -176,7 +176,7 @@ form  { display: table;      }
      <label>Inventory Group:<span id="star"><font size="04">*</font></span></label>
       <!-- <select ng-model="item1.inventory" ng-options="Group.GroupName for Group in inventorygroupmaster1" ng-disabled="all"> -->
       <!-- <select ng-model="item1.inventory" ng-options="Group.GroupName for Group in inventorygroupmaster1 track by G" ng-disabled="all"> -->
-       <td> <select ng-model="item1.InvGroupName" ng-disabled="all">
+       <td> <select ng-model="item1.InvGroupName" ng-disabled="all" ng-blur="findName()">
        <option ng-repeat="pure in inventorygroupmaster1" >{{pure.InvGroupName}}</option>
        </select>
        </td>
@@ -203,35 +203,7 @@ form  { display: table;      }
     </select></p>
     <br>
 
-     <!-- <ul>
-<li ng-repeat="x in cars | orderBy">{{x}}</li>
-</ul> -->
-     <!--  <p>
-     <label> With in state:<span id="star"><font size="04">*</font></span></label>
-      <select ng-model="item1.Withinstate"  ng-disabled="all">
-        <option ng-repeat="Percentage in withinstat" >{{Percentage.taxname}}</option>
-
-    </select></p>
-    <br> -->
-
-
-
-    <!--  <p>
-     <label> Out of state:<span id="star"><font size="04">*</font></span></label>
-      <select ng-model="item1.Outofstate" ng-disabled="all">
-
-      <option ng-repeat="Percentage in outofstat" >{{Percentage.taxname}}</option>
-     
-    </select></p>
-    <br> -->
-
-    <!--
-    <p>
-     <label> Manufacture:</label>
-      <select>
-        <option value="volvo">Volvo</option>
-    </select></p>
-    <br><br> -->
+  
 
 
 

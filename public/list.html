@@ -86,7 +86,7 @@
     
      Transaction:<span id="star"><font size="04">*</font></span>
       
-      <select ng-model="transaction" class="selectpicker" ng-click = "Transaction()">
+      <select ng-model="transaction" class="selectpicker" ng-change = "Transaction()">
 
       <option ng-repeat="tran in transactions" value="{{tran.TransactionType}}">{{tran.TransactionType}}</option>
     </select> 

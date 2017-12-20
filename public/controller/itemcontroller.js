@@ -96,7 +96,7 @@ for (i=0;i<=response.length-1;i++){
  });
 var itemdatafetch = function(){
   $http.get('/getitemdata').success(function(response){
-      
+     // alert(response)
         $scope.itemdetails = response
        
     })
@@ -111,30 +111,19 @@ $scope.new = function(){
     $scope.all = false
 }
 
-//for save item
-//$scope.item1 = {}
-//var $scope.item1.Name=null;
-//alert($scope.item1.Name)
 
-//$scope.saveitem = function(){
-   //var $scope.item1.Name = ;
-//alert($scope.item1.Name)
-// alert($scope.item1.Name)
-//         if(  $scope.item1.Hsc == undefined && $scope.item1.Desc == undefined &&$scope.item1.InvGroupName == undefined &&$scope.item1.Desc == undefined &&
-// $scope.item1.ItemType == undefined &&$scope.item1.SaleCategory == undefined &&$scope.item1.Withinstate == undefined &&$scope.item1.Outofstate == undefined)
-// {
-//    alert("Please fill all mandetory fields");
-         
-// }
-
-    //alert($scope.item1.Name );
-    //validation purpose
     $scope.saveitem = function(){
-      $scope.test=='display'
-    console.log("saving the call");
-    //validation purpose
-    if($scope.item1.Name == undefined ||$scope.item1.Hsc == undefined ||$scope.item1.Desc == undefined ||
-      $scope.item1.ItemType == undefined ||$scope.item1.SaleCategory == undefined) {
+
+       $scope.test=='display'
+      if($scope.item1.Name == undefined &&$scope.item1.Hsc == undefined &&$scope.item1.Desc == undefined &&
+      $scope.item1.ItemType == undefined &&$scope.item1.SaleCategory == undefined && $scope.item1.InvGroupName== undefined)
+      {
+        alert("Please Fill All mandetory Fields")
+      }
+     
+   
+      else if ($scope.item1.Name == undefined ||$scope.item1.Hsc == undefined ||$scope.item1.Desc == undefined ||
+      $scope.item1.ItemType == undefined ||$scope.item1.SaleCategory == undefined || $scope.item1.InvGroupName== undefined) {
 
       for(let q =0;q<1;q++){
        console.log("undefined call look this please"); 
@@ -168,18 +157,11 @@ $scope.new = function(){
           alert("Please enter SaleCategory");
           break;
         } 
-           // console.log($scope.item1.Withinstate);
-        // if($scope.item1.Withinstate == undefined){
-        //   alert("Please enter Withinstate");
-        //   break;
-        // } 
-       //     console.log($scope.item1.Outofstate);
-       // if($scope.item1.Outofstate == undefined){
-       //    alert("Please enter Outofstate");
-       //    break;
-       //  } 
+      
       }//for closer
-    }else{
+    }
+
+    else {
     
 
      if($scope.item1.comboItem == true){
@@ -187,13 +169,8 @@ $scope.new = function(){
         }else {
         $scope.item1.comboItem = "no"
      }
-     // if($scope.item1.marginReport == true){
-     //    $scope.item1.marginReport = "yes"
-     //    }else{
-     //    $scope.item1.marginReport = "no"
-     // }
-    //for editable
-    if(editcheck == true){
+  
+   if(editcheck == true){
 
 
       console.log($scope.item1)
@@ -202,39 +179,82 @@ $scope.new = function(){
                 {
                  // alert("edit call")
                       itemdatafetch();
-                   $scope.cancelitem()
-                   editcheck = false
+                    $scope.cancelitem()
+                      //editcheck = false
+
                 })
 
-     } else{
-
+ //$scope.cancelitem()
+     } 
+     else {
+//alert('ff')
+console.log($scope.item1)
            $http.post('/saveitempost',$scope.item1).success(function(response){
-               
+               alert(response)
                 itemdatafetch();
                 $scope.cancelitem()
+                 //editcheck = false
                 
+            
                })
          }
-
+  //$scope.filterchange();
+   //$scope.itemdatafetch();
   }
 }
+$scope.findName =function(){
+  //alert("aa")
+
+           $http.get('/getitemname',{params:{"Name":$scope.item1.Name,"InvGroupName":$scope.item1.InvGroupName}}).success(function(response)
+              {
+                //alert(response.length);
+                if (response.length >0) {
+                  alert("Duplicates are not allowed in Tax Name");
+                  $scope.item1.Name='';
+                  //user.aliasname="";
+                  $scope.item1.InvGroupName='';
+                }
+              //}
+            })
+         }
+   
 $scope.cancelitem = function(){
-   // alert("i got cancelitem call")
     $scope.test = 'display'
-    $scope.item1 =null;
-    itemdatafetch();
+if($scope.item1.Name == undefined &&$scope.item1.Hsc == undefined &&$scope.item1.Desc == undefined &&
+      $scope.item1.ItemType == undefined &&$scope.item1.SaleCategory == undefined && $scope.item1.InvGroupName== undefined)
+      {
+        alert("Please Fill All mandetory Fields")
+      }
+  
+
+  editcheck = false
+   // $scope.item1 =null;
+   
     //refresh();
-    window.location.reload();
+    //window.location.reload();
+    $scope.item1 ="" 
+   // $scope.item1.Name =null
+   // $scope.item1.Hsc =null 
+   // $scope.item1.Desc =null
+   //     $scope.item1.ItemType =null
+   //     $scope.item1.SaleCategory = null 
+   //      $scope.item1.InvGroupName= null
+    //itemdatafetch();
+  
+ //$scope.saveitem()
+ //$scope.filterchange();
+ $scope.selectrow()
+
 }
 
  // var item1filter =$scope.item1.filter
  // alert(item1filter)
 $scope.filterchange = function(){
   
-  alert("hh")
+  //alert("hh")
    //var item1filter =' '+$scope.item1.filter
    //alert($scope.item1.filter)
-    var item1filter =$scope.item1.filter
+    var item1filter =$scope.item.filter
       $http.get('/getfilter/'+item1filter).success(function(response){
          $scope.itemdetails = response 
          //alert(response)
@@ -248,7 +268,11 @@ $scope.selectrow = function(tag){
   $scope.idSelectedVote = tag;
 }
 $scope.edititem = function(){
-
+// if($scope.item1.Name == undefined &&$scope.item1.Hsc == undefined &&$scope.item1.Desc == undefined &&
+//       $scope.item1.ItemType == undefined &&$scope.item1.SaleCategory == undefined && $scope.item1.InvGroupName== undefined)
+//       {
+//         alert("Please Fill All mandetory Fields")
+//       }
 
   editcheck = true
  
@@ -271,10 +295,11 @@ $scope.edititem = function(){
         }else{
         $scope.item1.marginReport = false
      }
+
 $scope.test = 'update1'
    }
    
-   
+  $scope.filterchange(); 
 }
 
 
@@ -294,7 +319,13 @@ $scope.deleteitem = function(){
               
 
              }else{
-                   console.log("false");
+                    $scope.cancelitem()
+   //                   $scope.item1.Name ="" 
+   // $scope.item1.Hsc ="" 
+   // $scope.item1.Desc = "" 
+      // $scope.item1.ItemType = ""
+      // $scope.item1.SaleCategory = "" 
+      //  $scope.item1.InvGroupName= ""
 
                   }
   

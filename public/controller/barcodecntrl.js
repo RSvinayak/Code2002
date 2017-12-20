@@ -1453,7 +1453,8 @@ $scope.bitem.composite = ""
 $scope.bitem.stockout = ""
  $scope.count = count3 
 console.log(count3)
-window.location.reload();
+//window.location.reload();
+   $scope.list() 
 //refresh()
 }
 // for new button
@@ -1462,6 +1463,7 @@ window.location.reload();
 $scope.newBarSumm = function(){
   console.log("i got new call")
   $scope.all = false
+  $scope.cancel()
 }
 
 // for edit button
@@ -1527,6 +1529,7 @@ $scope.editBarSumm = function(){
       //$scope.test=='update1';
  $scope.test = 'update1'
  //window.location.reload();
+ //$scope.newBarSumm()
  refresh()
 }
 //window.location.reload();

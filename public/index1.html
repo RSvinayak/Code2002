@@ -331,8 +331,13 @@ display: inline-block;
  
           <input type="radio"  ng-model="radio.state"  ng-change="radiobutton()" value="with in state"> With in State
           <input type="radio"  ng-model="radio.state" ng-change="radiobutton()" value="out of state">Out of State
+          <br>
+          <br>
+          <div class="col-sm-2" ng-show="transaction == 'Receipt Voucher'">
+          refID: <input type="number" ng-model="newreceiptID" id="blockWidth" placeholder="refId" required>
+           </div>
         </div>
-
+           
         <!-- <div class="col-sm-4"> -->
         <div class="col-sm-2">
             <div id="frm1">
@@ -340,7 +345,7 @@ display: inline-block;
                Bill Type<span id="star"><font size="04">*</font></span>:
               </form>
               <form>
-                   <select ng-model="billtype" class="selectpicker" ng-change="billType()">
+                   <select ng-model="billtype" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'" class="selectpicker" ng-change="billType()">
                    <!--  > -->
                       <option>Cash</option>
                       <option>Credit</option>
@@ -349,6 +354,7 @@ display: inline-block;
               <p style="    padding-left: 25px; font-size: 20px;
                  font-style: italic;    color: red;">{{usernamedetails}}</p>
             </div>
+
              <table id="table1"  ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'" >
             <tr ><th id="th1">TransactionHistory:</th></tr>
          <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v.voucherNo,v.date)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
@@ -359,7 +365,16 @@ display: inline-block;
             </option>
           </tr>
            </table>
-
+           <table id="table1" ng-show="transaction == 'Receipt Voucher'">
+            <tr><th id="th1">Issued Vouchers</th></tr>
+            <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v.voucherNo,v.date)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
+            <option ng-model="tDate"  required>
+              
+                <td  id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td>
+                 <!-- <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td> -->
+            </option>
+          </tr>
+           </table>
         </div>
 </div>
 
@@ -661,7 +676,7 @@ display: inline-block;
        <option ng-repeat="sales in salesperson" ng-value="{{sales.Name}}"  >{{sales.Name}}</option>
        </select></td>
 
-       <td> <select ng-model="item.AccNo">
+       <td> <select ng-model="item.AccNo" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'">
        <option ng-repeat="acc in item.accNumbers" ng-value="{{acc.AccNo}}">{{acc.AccNo}}</option>
        </select></td>
        
@@ -719,7 +734,7 @@ display: inline-block;
       <tr>
         <td>Cash Discount</td>
         <td>Amount</td>
-        <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" ng-model="discount" style="width: 80px;" ng-change="addDis()" placeholder="0"></td>
+        <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" ng-model="discount" style="width: 80px;" ng-change="addDis()" placeholder="0" ></td>
        <!--  <td>.00</td> -->
        <td>{{discount1}}</td>
 
@@ -880,8 +895,11 @@ display: inline-block;
   <!-- <a ng-if = " transaction =='Urd Purchase'"><button ng-click="save()" class="btn btn-success" id="buttonwidth" >Save</button></a> -->
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 
-  <button  ng-if = " edituseritButton != true && transaction != 'Valuation'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>
+  <button  ng-if = " edituseritButton != true && transaction != 'Valuation'&&transaction != 'Issue Voucher' && transaction != 'Receipt Voucher'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>
+  <br>
+  <br>
   <button  ng-if = " edituseritButton != true && transaction == 'Valuation'"  ng-click="save();" class="btn btn-success" id="buttonwidth" >Print</button>
+  <button class="btn btn-success" id="buttonwidth" ng-show="transaction=='Issue Voucher'||transaction=='Receipt Voucher'" ng-click="save();inoviceNumberGeneration()">Print</button>
   <!-- <button ng-if = " all =='Urd Purchase' ||all =='RD PURCHASE'" ng-click="save()" class="btn btn-primary custom" id="save" ng-disabled="all" >Save</button> -->
  <!-- <button ng-click="save()" class="btn btn-primary custom" id="save" >Save</button> -->
  <!--  <button  ng-if = " transaction !='Urd Purchase'" ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button> -->
@@ -893,7 +911,7 @@ display: inline-block;
   <br>
 
            
-            <button ng-hide ="(desgination != 'Billing Person' )  " class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"   ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
+            <button ng-hide ="(desgination != 'Billing Person' || $scope.transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
            <!--  <button ng-hide ="(desgination != 'Billing Person' )  " class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"   ng-disabled="reqColorPay()" >Pay</button> -->
   <br>
    <br>

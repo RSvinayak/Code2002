@@ -633,7 +633,15 @@ app.get('/iateapple:partyname',function(req,res){
     console.log(doc+"voucher No and dates");
   });
 });
-
+//for getting issue voucherNo
+app.get('/receiptdetails:partyname',function(req,res){
+  console.log("Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher");
+  var pname=req.params.partyname;
+  db.transactiondetail.find({"partyname":pname},function(err,doc){
+    res.json(doc);
+    console.log(doc+"Issue No and dates");
+  });
+});
 //previous
 app.post('/userdata/:updat',function(req,res){
     //console.log("igot order requestttttttttttttttttttttt");
@@ -866,6 +874,20 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);    
         })
        }else{
+        if(tran == "Issue Voucher"){
+          console.log("cccccccccccccccccccc");
+          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+                "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
+                "labval":labval,"orderStatus":"completed","StockInward":stockInward,"withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
+                "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection},function(err,doc){
+                res.json(doc);
+                 console.log("else insert when id is null look here")
+                 console.log(doc);   
+        })
+          
+        }
+       else{
          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
@@ -877,6 +899,7 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);   
         })
        }
+     }
 
 })
 
@@ -1230,7 +1253,7 @@ app.get('/bank',function(req,res)
 app.get('/userPartyNames',function(req,res){
     var transaction = req.query.transaction;
     var party_type_id = null;
-    if (transaction == "RD Purchase" || transaction == "Purchase Return") {
+    if (transaction == "RD Purchase" || transaction == "Purchase Return"|| transaction == "Issue Voucher"||transaction == "Receipt Voucher") {
       
        party_type_id = "4";
     }else{
@@ -1495,7 +1518,17 @@ app.post('/historyupdate/:updat',function(req,res){
         console.log(doc);
     
 })
-})
+});
+
+//for getting transaction prefix
+app.get('/getPrefix:prefix',function(req,res){
+  console.log("getting transactionseries invoice");
+  var myprefix=req.params.prefix;
+  db.transactionSeriesInvoice.find({"TransactionType":myprefix},function(err,doc){
+    res.json(doc);
+    console.log(doc);
+  })
+});
 // for pdf data generation using barcode
 app.get('/getparty',function(req,res)
 {    
@@ -1740,6 +1773,14 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
         console.log(doc);
       })
 });
+//for inserting receipt voucher data
+app.post('/insertreceiptUseritDetails',function(req,res){
+   console.log(req.body.refID+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+  db.transactiondetail.insert(req.body,function(err,doc){
+    console.log("receipt voucher details inserted");
+    res.json(doc);
+  });
+})
 //for inseriting new row
 app.put('/insertNewUseritDetails',function(req,res){
   var transac=req.body.Transaction;
@@ -1754,7 +1795,6 @@ app.put('/insertNewUseritDetails',function(req,res){
          var cat=req.body;
          var bat=req.body;
          console.log(req.body.barcodeNumber+"barcodeNumber");
-
          console.log(req.body)
           var reference="Sale Return";
            req.body.RefTransaction=reference;
@@ -2007,6 +2047,7 @@ var dis = str_array[9];
      var invoiceValue = str_array[12];
       var decimals = str_array[13];
       var transaction = str_array[14];
+      //console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
       if(transaction == "RegularSale"){
           db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
             "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue}},function(err,doc){
@@ -2122,6 +2163,16 @@ app.put('/users/:csfdata',function(req,res){
 {$set:{"csf.$.score":score,"csf.$.percentage":per,"csf.$.date":date,"csf.$.actdef":actdef}})*/
 });
 });
+//for receipt userit
+app.get('/receiptuser:ids',function(req,res){
+  console.log("receipt receipt receipt receipt receipt receipt receipt receipt");
+  var id=req.params.ids;
+  db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+    res.json(doc);
+    console.log(doc);
+  });
+});
+//for getdetails url
 app.get('/getSavedDetails',function(req,res){
  // console.log("I received a new username request for login and document from pdf");
   var partyname=req.query.partyname;
@@ -2234,6 +2285,20 @@ app.get('/getPartyDetailsNumber',function(req,res){
   // console.log(trans);
    
     db.saleinvoice.find({partyname:username,Transaction:trans, status : "In Progress"},function(err,doc){
+        res.json(doc);
+        //console.log("here is data in progress "+ doc);
+       // console.log(doc);
+    });
+   //}
+  
+});
+ app.get('/getitemname',function(req,res){
+ // console.log("I received a new username request for login and document saleinv lok here");
+  var username=req.query.Name;
+  var trans=req.query.InvGroupName;
+  // console.log(trans);
+   
+    db.items.find({Name:username,InvGroupName:trans},function(err,doc){
         res.json(doc);
         //console.log("here is data in progress "+ doc);
        // console.log(doc);
@@ -3253,6 +3318,34 @@ app.get('/getaliasname:taxx',function(req,res)
         res.json(doc);
 })
 })
+// app.get('/getitemname:taxx',function(req,res)
+// {
+//    // console.log("i received a get request from count");
+//     var taxxx = req.params.taxx;
+//    var taxnamee=(taxxx);
+//    //  var ta = req.params.ta;
+//    // var taxn=(ta);
+  
+//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//      db.items.find({"Name": taxnamee,},function(err,doc){     
+      
+//         res.json(doc);
+// })
+// })
+// app.get('/getitemgroupname:taxx',function(req,res)
+// {
+//    // console.log("i received a get request from count");
+//     var taxxx = req.params.taxx;
+//    var taxnamee=(taxxx);
+//    //  var ta = req.params.ta;
+//    // var taxn=(ta);
+  
+//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//      db.items.find({"InvGroupName": taxnamee,},function(err,doc){     
+      
+//         res.json(doc);
+// })
+// })
 
 
 app.get('/remove',function (req, res) {
@@ -3284,21 +3377,12 @@ app.put('/updateedit', function (req, res) {
     });
   });
   
-  app.get('/purchase',  function (req, res) {
+  app.get('/purchasess',  function (req, res) {
    
-      // db.inventorygroupmaster.aggregate([{$project:{"PurchaseAcc.AccNo":1}},
-      //                                     {$unwind:"$PurchaseAcc"},
-      //                                     {$group:{_id:"$PurchaseAcc.AccNo"}}
- 
-      //                                   ],function (err, docs) {
- 
-
-      //                                   res.json(docs);
-      // });
-     // db..find()
-
-    db.ledgeraccounts.find({},function(err,doc){
-     //   console.log(doc);
+    
+console.log("jjjjjjj")
+    db.ledgeraccounts.find({sortOrder: { $exists: true }},function(err,doc){
+   
         res.json(doc);
 })
 

@@ -344,8 +344,8 @@ $http.get('/getitemtaxation').success(function(response) {
     console.log(response);
 
   });
-$http.get('/purchase').success(function(response) {
-  console.log("iam get to server data activated");
+$http.get('/purchasess').success(function(response) {
+  console.log("kkkkkkkkkkkkkkk");
  // $scope.taxp = response;
    console.log(response);
    $scope.purchase = response;
