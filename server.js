@@ -1115,6 +1115,7 @@ app.post('/transactionstock',function(req,res)
     delete(req.body.color)
      delete( req.body.irate)
      delete(req.body.accNumbers);
+       delete( req.body.stockPoint1 );
 
  db.transactiondetail.insert(req.body,function(err,doc){
      

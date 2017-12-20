@@ -3549,7 +3549,7 @@ $scope.save=function(){
     $scope.inoviceNumberGeneration= function(){
           //  alert("inove generation in pay button ");
           var customerDetails = $scope.transaction+","+$scope.partyname;
-           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
+          var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
                                 console.log(saleinvoice_id )
                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
@@ -3587,7 +3587,7 @@ $scope.save=function(){
                                 //     $scope.invoice = editedInvoice ;
                                 // } 
                                 var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-                           //     alert(" generate new "+"user1 "+user1.length)
+                                //     alert(" generate new "+"user1 "+user1.length)
                                 var usecase = user1 +","+$scope.invoice; 
                                 console.log(user1)
                                 $http.post('/user12/'+usecase).success(function(response){
@@ -3676,43 +3676,43 @@ var tpcs = null;
         var defer1=$q.defer();
           // console.log($scope.user[0].itemName);
           
-        for(let i=0;i<=$scope.user.length-1;i++) {  
+        for(var i=0;i<=$scope.user.length-1;i++) {  
                // alert("in for loop groupItem")
-          $scope.comboPack=function(){ 
-                 // alert("comboPack call "+$scope.user[i].itemname);
-                // alert("combo "+$scope.user[i].comboItem)
-              if($scope.user[i].comboItem == "yes") { 
-                        // if($scope.user[i].comboItem == "yes"){
-               
-                         $http.get('/getComboBarcode'+$scope.user[i].barcodeNumber).success(function(response){
-                            console.log(response[0].gwt);
-                            console.log(response[0].gpcs);
-                            $scope.user[i].gwt = response[0].gwt -$scope.user[i].gwt;
-                            $scope.user[i].gpcs = response[0].gpcs - $scope.user[i].gpcs;
-                            console.log($scope.user[i].gwt);
-                            console.log($scope.user[i].gpcs);
-                        
-                                        $http.put('/getComboBarcodeUpdate',$scope.user[i]).success(function(response) { 
-                                        
-                                                 console.log(response)
-                                                // alert("updated values in comboItem")
-                                                
-                                         })  // /getComboBarcodeUpdate                              
-                          })///getComboBarcode
-                   
-                    //   }//$scope.user[i].comboItem 
-                
-                      defer1.resolve("combo1");
-              } //$scope.user[i].comboItem
-                else{
-                      defer1.reject("no combo item ");
-                    }
-           
-                   return defer1.promise;
+            $scope.comboPack=function(){ 
+                               // alert("comboPack call "+$scope.user[i].itemname);
+                               alert("combo comboPack "+$scope.user[i].comboItem)
+                            if($scope.user[i].comboItem == "yes") { 
+                                      // if($scope.user[i].comboItem == "yes"){
+                                       console.log("combo "+$scope.user[i].comboItem)
+                                       // $http.get('/getComboBarcode'+$scope.user[i].barcodeNumber).success(function(response){
+                                       //    console.log(response[0].gwt);
+                                       //    console.log(response[0].gpcs);
+                                       //    $scope.user[i].gwt = response[0].gwt -$scope.user[i].gwt;
+                                       //    $scope.user[i].gpcs = response[0].gpcs - $scope.user[i].gpcs;
+                                       //    console.log($scope.user[i].gwt);
+                                       //    console.log($scope.user[i].gpcs);
+                                      
+                                       //                $http.put('/getComboBarcodeUpdate',$scope.user[i]).success(function(response) { 
+                                                      
+                                       //                         console.log(response)
+                                       //                        // alert("updated values in comboItem")
+                                                              
+                                       //                 })  // /getComboBarcodeUpdate                              
+                                       //  })///getComboBarcode
+                                 
+                                  //   }//$scope.user[i].comboItem 
+                              
+                                   // defer1.resolve("combo1");
+                            } //$scope.user[i].comboItem
+                              // else{
+                              //       defer1.reject("no combo item ");
+                              //     }
+                             defer1.resolve("combo1");
+                                 return defer1.promise;
           }// $scope.comboPa
 
           $scope.rios=function(){
-             
+              console.log("entered into split yes");
                 if($scope.user[i].split == "yes"){
                     
 
@@ -3868,13 +3868,17 @@ var tpcs = null;
 
      
 
-        $scope.comboPack()
-        .then(
-           $scope.rios()
-        )
-         .then(
-           $scope.nextSplit()
-        )
+       // $scope.comboPack()
+       // .then(
+          
+      //      $scope.rios()
+      //      //alert(" combo promsises")
+      // //  )
+      //    .then(
+       
+      //      $scope.nextSplit()
+      //         //alert(" split reetet")
+      //   )
       
         
         // .then(function(){
@@ -4024,6 +4028,7 @@ $scope.confirm = function(){
         })
         .then(function (){
           $scope.afterConfirm();
+          //alert(" $scope.afterConfirm ")
            //just for time being fixed not identifed root cause
                  $scope.saleinv[0].taxableval = "Tax";
                  $scope.saleinv[0].tax="Discount";
