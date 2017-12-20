@@ -60,13 +60,13 @@
  <br>
  <br>
  <!-- <div class="row"> -->
- 	<div class="col-sm-1">
+  <div class="col-sm-1">
 
 <form>
 
- 		<!-- Barcode
-		<br>
-	
+    <!-- Barcode
+    <br>
+  
   <input type="radio" ng-model="radio.barcode" ng-change="radiobutton1()" value="yes" > Yes
   <br>
   <input type="radio" ng-model="radio.barcode" ng-change="radiobutton1()" value="no" > No
@@ -79,11 +79,11 @@
         <option>3</option>
         <option>4</option>
       </select>
-	
-	</div> 
-	<div class="col-sm-2">
- 	<!-- 	Weight
-		<br>
+  
+  </div> 
+  <div class="col-sm-2">
+  <!--  Weight
+    <br>
 
   <input type="radio" ng-model="radio.weight" ng-change="radiobutton1()" value="gwt" > Gross
   <br>
@@ -97,12 +97,12 @@
         <option>4</option>
       </select>
 
-	
-	</div>
+  
+  </div>
 
-	<div class="col-sm-2">
- 	<!-- 	Report By
-		<br>
+  <div class="col-sm-2">
+  <!--  Report By
+    <br>
   <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="purity" > Purity <br>
   <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="itemName" > Item <br> -->
    Purity
@@ -115,7 +115,7 @@
    </select>
 
 
-	</div>
+  </div>
   <div class="col-sm-2">
   <!--  Report By
     <br>
@@ -133,37 +133,37 @@
 
   </div>
 
-	<div class="col-sm-2">
-		As On 
-		<input  type="date" id="yourDatePicker" ng-model="bit2.date1" > 
-	</div>
-	<!-- <div class="col-sm-3">
-		Transaction Type 
-		<br>
+  <div class="col-sm-2">
+    As On 
+    <input  type="date" id="yourDatePicker" ng-model="bit2.date1" > 
+  </div>
+  <!-- <div class="col-sm-3">
+    Transaction Type 
+    <br>
 
   <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="regular" > Regular
   <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="estimate"> Estimate
   <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="scheme" > Scheme
   <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="party"> Party
-	</div> -->
+  </div> -->
 
-	<div class="col-sm-3">
-		<button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button>
+  <div class="col-sm-3">
+    <button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button>
 <!-- 
     <button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button> -->
     <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a>
 
-		<!-- <button  ng-click="save()" class="btn btn-info" id="save" >P D F</button>
-		<button ng-click="save()" class="btn btn-danger" id="save" >Export</button> -->
-	</div>
+    <!-- <button  ng-click="save()" class="btn btn-info" id="save" >P D F</button>
+    <button ng-click="save()" class="btn btn-danger" id="save" >Export</button> -->
+  </div>
 
 <!--  </div> -->
  <br>
  <br>
     <br>
  <div class="panel panel-default">
- 	<table class="table">
- 	  <thead>
+  <table class="table">
+    <thead>
           <tr >
              <!-- <th><span class="text">Item Name</span></th> -->
              <th><span class="text">{{sort1}}</span></th>
@@ -191,37 +191,26 @@
            </tr>
      </thead>
      <tbody >
-     	<tr ng-repeat ="details in reportonedate1" >
+      <tr   ng-repeat ="details in reportonedate1 " >
             
-          <!-- <td ng-if = " sort1 =='Group' " ng-show="reportonedate1[$index-1].group!= details.group" >{{details.group}}</td>
-           <td ng-if = " sort1 =='Group' " ng-show="reportonedate1[$index-1].group == details.group" >{{}}</td> -->
-           <td ng-if = " sort1 =='Group' " >{{details.group}}</td>
-        <td ng-if = " sort1 =='Purity' " >{{details.purity}}</td>
-        <td ng-if = " sort1 =='SaleCty' ">{{details.salesCtg}}</td>
-         <td ng-if = " sort1 =='Item' ">{{details.item}}</td>
-
-        <td ng-if = " sort2 =='Group' " >{{details.group}}</td>
-        
-        <td ng-if = " sort2 =='Purity' " >{{details.purity}}</td>
-        <td ng-if = " sort2 =='SaleCty' ">{{details.salesCtg}}</td>
-         <td ng-if = " sort2 =='Item' ">{{details.item}}</td>
-
-        <td ng-if = " sort3 =='Group' " >{{details.group}}</td>
-
-        <td ng-if = " sort3 =='Purity' " >{{details.purity}}</td>
-        <td ng-if = " sort3 =='SaleCty' ">{{details.salesCtg}}</td>
-        <td ng-if = " sort3 =='Item' ">{{details.item}}</td>
-
-          <td ng-if = " sort4 =='Group' " >{{details.group}}</td>
-
-        <td ng-if = " sort4 =='Purity' " >{{details.purity}}</td>
-        <td ng-if = " sort4 =='SaleCty' ">{{details.salesCtg}}</td>
-        <td ng-if = " sort4 =='Item' ">{{details.item}}</td>
+           <!-- <td >{{details._id.sort1}}{{trail(details._id.sort1)}}</td> -->
+           <td >{{details._id.sort1}}</td>
+          
+        <td >{{details._id.sort2}}</td>
+         
+        <td  >{{details._id.sort3}}</td>
+       
+        <td >{{details._id.sort4}}</td>
            
-             <td>{{details.rcvQty | number:3}}</td> 
-              <td>{{details.rcvPcs| number:3}}</td>
-              <!--  <td>{{details.totQty}}</td>   
-                <td>{{details.totPcs}}</td> -->
+           <!--   <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.rcvQty | number:3}}</td> 
+             <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.rcvQty | number:3}}</td>
+             <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.rcvQty | number:3}}</td>
+             <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.rcvQty | number:3}}</td>
+              <td ng-if = "details._id.sort1 != undefined " ng-style="myObj">{{details.rcvPcs| number:3}}</td>
+              <td ng-if = "details._id.sort1 == undefined " ng-style="myObj">{{details.rcvPcs| number:3}}</td> -->
+             
+              <td>{{details.rcvQty | number:3}}</td>
+                  <td>{{details.rcvPcs | number:3}}</td>
                  <td>{{details.issQty | number:3}}</td>
                   <td>{{details.issPcs | number:3}}</td>
                    <td>{{details.ciQty | number:3}}</td>
@@ -232,7 +221,7 @@
           
      </tbody>
     </table>
- 	
+  
  </div>
  <!-- <div>
   <a href='mainpage.html'><button class="col-md-2 col-md-offset-5" > close</button></a>

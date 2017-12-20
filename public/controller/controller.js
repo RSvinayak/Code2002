@@ -832,7 +832,7 @@ function accountAndPurityCall(index,itemName) {
 }//accountAndPurityCall
 
 $scope.getDetails=function(rvalue,voucherNo,date){
-   alert(rvalue+"aaaa"+voucherNo+"vou"+date);
+  // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
   $scope.voucherNo=voucherNo;
       window.sessionStorage.setItem("vin",$scope.voucherNo);
       // alert($scope.voucherNo+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
@@ -3621,9 +3621,9 @@ $scope.save=function(){
     $scope.inoviceNumberGeneration= function(){
           //  alert("inove generation in pay button ");
           var customerDetails = $scope.transaction+","+$scope.partyname;
-<<<<<<< HEAD
+//<<<<<<< HEAD
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-=======
+//=======
             if($scope.transaction == "Issue Voucher"){
             alert("issue voucher no");
           $http.get('/getprefix'+$scope.transaction).success(function(response){
@@ -3668,7 +3668,7 @@ $scope.save=function(){
 
           else{
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
->>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
+//>>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
                                 console.log(saleinvoice_id )
                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
@@ -3796,43 +3796,43 @@ var tpcs = null;
         var defer1=$q.defer();
           // console.log($scope.user[0].itemName);
           
-        for(var i=0;i<=$scope.user.length-1;i++) {  
+        for(let i=0;i<=$scope.user.length-1;i++) {  
                // alert("in for loop groupItem")
-            $scope.comboPack=function(){ 
-                               // alert("comboPack call "+$scope.user[i].itemname);
-                               alert("combo comboPack "+$scope.user[i].comboItem)
-                            if($scope.user[i].comboItem == "yes") { 
-                                      // if($scope.user[i].comboItem == "yes"){
-                                       console.log("combo "+$scope.user[i].comboItem)
-                                       // $http.get('/getComboBarcode'+$scope.user[i].barcodeNumber).success(function(response){
-                                       //    console.log(response[0].gwt);
-                                       //    console.log(response[0].gpcs);
-                                       //    $scope.user[i].gwt = response[0].gwt -$scope.user[i].gwt;
-                                       //    $scope.user[i].gpcs = response[0].gpcs - $scope.user[i].gpcs;
-                                       //    console.log($scope.user[i].gwt);
-                                       //    console.log($scope.user[i].gpcs);
-                                      
-                                       //                $http.put('/getComboBarcodeUpdate',$scope.user[i]).success(function(response) { 
-                                                      
-                                       //                         console.log(response)
-                                       //                        // alert("updated values in comboItem")
-                                                              
-                                       //                 })  // /getComboBarcodeUpdate                              
-                                       //  })///getComboBarcode
-                                 
-                                  //   }//$scope.user[i].comboItem 
-                              
-                                   // defer1.resolve("combo1");
-                            } //$scope.user[i].comboItem
-                              // else{
-                              //       defer1.reject("no combo item ");
-                              //     }
-                             defer1.resolve("combo1");
-                                 return defer1.promise;
+          $scope.comboPack=function(){ 
+                 // alert("comboPack call "+$scope.user[i].itemname);
+                // alert("combo "+$scope.user[i].comboItem)
+              if($scope.user[i].comboItem == "yes") { 
+                        // if($scope.user[i].comboItem == "yes"){
+               
+                         $http.get('/getComboBarcode'+$scope.user[i].barcodeNumber).success(function(response){
+                            console.log(response[0].gwt);
+                            console.log(response[0].gpcs);
+                            $scope.user[i].gwt = response[0].gwt -$scope.user[i].gwt;
+                            $scope.user[i].gpcs = response[0].gpcs - $scope.user[i].gpcs;
+                            console.log($scope.user[i].gwt);
+                            console.log($scope.user[i].gpcs);
+                        
+                                        $http.put('/getComboBarcodeUpdate',$scope.user[i]).success(function(response) { 
+                                        
+                                                 console.log(response)
+                                                // alert("updated values in comboItem")
+                                                
+                                         })  // /getComboBarcodeUpdate                              
+                          })///getComboBarcode
+                   
+                    //   }//$scope.user[i].comboItem 
+                
+                      defer1.resolve("combo1");
+              } //$scope.user[i].comboItem
+                else{
+                      defer1.reject("no combo item ");
+                    }
+           
+                   return defer1.promise;
           }// $scope.comboPa
 
           $scope.rios=function(){
-              console.log("entered into split yes");
+             
                 if($scope.user[i].split == "yes"){
                     
 
@@ -3962,8 +3962,7 @@ var tpcs = null;
           
                            }
                 
-                     console.log(data);
-                     updateBatch($scope.user[i].barcode,"completed") 
+                     console.log(data)
                      console.log('$scope.user[i].comboItem ') 
                      $http.post('/confirmtransaction/'+data).success(function(response) { 
         
@@ -3988,17 +3987,13 @@ var tpcs = null;
 
      
 
-       // $scope.comboPack()
-       // .then(
-          
-      //      $scope.rios()
-      //      //alert(" combo promsises")
-      // //  )
-      //    .then(
-       
-      //      $scope.nextSplit()
-      //         //alert(" split reetet")
-      //   )
+        $scope.comboPack()
+        .then(
+           $scope.rios()
+        )
+         .then(
+           $scope.nextSplit()
+        )
       
         
         // .then(function(){
@@ -4033,7 +4028,7 @@ var tpcs = null;
                            $scope.adjqty = subtol
                            diff = total - subtol
                            console.log( diff)
-                           diff = diff.toFixed($scope.rupeesDecimalPoints)
+                           diff = diff.toFixed(fixdec)
                            // $scope.saleinv[0].netamt = 0
                            var data2 = pushid[i]+","+diff;
 
@@ -4101,7 +4096,7 @@ var tpcs = null;
 //function close
 }
 
-$scope.confirm = function(){
+$scope.confirmOrder = function(){
      
                
                 
@@ -4148,7 +4143,6 @@ $scope.confirm = function(){
         })
         .then(function (){
           $scope.afterConfirm();
-          //alert(" $scope.afterConfirm ")
            //just for time being fixed not identifed root cause
                  $scope.saleinv[0].taxableval = "Tax";
                  $scope.saleinv[0].tax="Discount";
@@ -4156,128 +4150,108 @@ $scope.confirm = function(){
                  $scope.saleinv[0].netamt =  "Invoice Value";
         })
  }
+
+
+
+//     $scope.gwtCal=function(gwt,$index)
+//     {
+//         //alert("gwtcal called");
+//         //alert($index+gwt);
+//        var gwt=gwt;
+//         //$scope.gwt.splice($index,0,gwt);
+//         //alert($scope.gwt[$index]);
+//        $scope.netwtarr[$index]=gwt;
+//        //alert($scope.netwtarr[$index]);
+//        $scope.chararr[$index]=gwt;
+//        $scope.taxablearr[$index]=gwt;
+//        var taxcal=$scope.taxablearr[$index]/100;
+//     //alert(taxcal);
+//        $scope.taxarr[$index]=taxcal;
+//     //alert($scope.taxarr[$index]);
+//        var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
+//     //alert(totalcal);
+//        $scope.totvalarr[$index]=totalcal;
+//         //alert($scope.taxablearr[$index]);
+//        console.log($scope.netwtarr[$index]);
+//         //alert("gwt calculation function");
+//         //alert("taxable value is")
+//         //alert($scope.taxablearr[$index]);
+//        $scope.getTotTaxVal();
+//        $scope.getTotTaxAmt();
+//        $scope.getFinalVal();
+//     }
+
+
+
+// $scope.stwtCal=function(stwt,$index,gwt)
+// {
+//     //alert("HI");
+//     var stwt=stwt;
+//     var gwt=gwt;
+//     //$scope.stwt.splice($index,0,stwt);
+//     //alert($scope.stwt[$index])
+//     //var gwt=gwt;
+//     //alert(stwt);
+//     var ntwtcal=gwt-stwt;
+//     //alert(ntwtcal);
+//     $scope.netwtarr[$index]=ntwtcal;
+//     //alert($scope.netwtarr[$index]);
+// }
+
+// $scope.wasCal=function(was,$index)
+//     {
+//         //alert("wascal called");
+//         var was=was;
+//         //alert(was);
+//         var charcal=parseFloat(was)+parseFloat($scope.netwtarr[$index])
+//         //alert(charcal);
+//         $scope.chararr.splice($index,0,charcal)
+//         $http.get('/itemrate').success(function(response){
+//         $scope.irate=response;
+
+//         var rate=$scope.irate[0].rate;
+//         //alert(rate);
+//         //alert($scope.chararr[$index]);
+//         var taxablecal=$scope.chararr[$index]*rate;
+//         //alert(taxablecal);
+//         $scope.taxablearr[$index]=taxablecal;
+//         var taxcal=$scope.taxablearr[$index]/100;
+//         $scope.taxarr[$index]=taxcal;
+//         var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
     
+//         $scope.totvalarr[$index]=totalcal;
+//         $scope.getTotTaxVal();
+//         $scope.getTotTaxAmt();
+//         $scope.getFinalVal();
+// })
+// }
 
-
-
-
-
-    $scope.gwtCal=function(gwt,$index)
-    {
-        //alert("gwtcal called");
-        //alert($index+gwt);
-       var gwt=gwt;
-        //$scope.gwt.splice($index,0,gwt);
-        //alert($scope.gwt[$index]);
-       $scope.netwtarr[$index]=gwt;
-       //alert($scope.netwtarr[$index]);
-       $scope.chararr[$index]=gwt;
-       $scope.taxablearr[$index]=gwt;
-       var taxcal=$scope.taxablearr[$index]/100;
-    //alert(taxcal);
-       $scope.taxarr[$index]=taxcal;
-    //alert($scope.taxarr[$index]);
-       var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-    //alert(totalcal);
-       $scope.totvalarr[$index]=totalcal;
-        //alert($scope.taxablearr[$index]);
-       console.log($scope.netwtarr[$index]);
-        //alert("gwt calculation function");
-        //alert("taxable value is")
-        //alert($scope.taxablearr[$index]);
-       $scope.getTotTaxVal();
-       $scope.getTotTaxAmt();
-       $scope.getFinalVal();
-    }
-
-
-
-$scope.stwtCal=function(stwt,$index,gwt)
-{
-    //alert("HI");
-    var stwt=stwt;
-    var gwt=gwt;
-    //$scope.stwt.splice($index,0,stwt);
-    //alert($scope.stwt[$index])
-    //var gwt=gwt;
-    //alert(stwt);
-    var ntwtcal=gwt-stwt;
-    //alert(ntwtcal);
-    $scope.netwtarr[$index]=ntwtcal;
-    //alert($scope.netwtarr[$index]);
-}
-
-$scope.wasCal=function(was,$index)
-    {
-        //alert("wascal called");
-        var was=was;
-        //alert(was);
-        var charcal=parseFloat(was)+parseFloat($scope.netwtarr[$index])
-        //alert(charcal);
-        $scope.chararr.splice($index,0,charcal)
-        $http.get('/itemrate').success(function(response){
-        $scope.irate=response;
-
-        var rate=$scope.irate[0].rate;
-        //alert(rate);
-        //alert($scope.chararr[$index]);
-        var taxablecal=$scope.chararr[$index]*rate;
-        //alert(taxablecal);
-        $scope.taxablearr[$index]=taxablecal;
-        var taxcal=$scope.taxablearr[$index]/100;
-        $scope.taxarr[$index]=taxcal;
-        var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-    
-        $scope.totvalarr[$index]=totalcal;
-        $scope.getTotTaxVal();
-        $scope.getTotTaxAmt();
-        $scope.getFinalVal();
-})
-}
-
-$scope.labCal=function(labamt,$index)
-{
-    //alert("labamt called");
-    $scope.labamt=labamt;
-    //alert(labamt);
-    var labcal=parseFloat(labamt)+parseFloat($scope.taxablearr[$index])
-    //alert(labcal);
-    $scope.taxablearr[$index]=labcal;
-    var taxcal=$scope.taxablearr[$index]/100;
-    //alert(taxcal);
-    $scope.taxarr[$index]=taxcal;
-    //alert($scope.taxarr[$index]);
-    var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-    //alert(totalcal);
-    $scope.totvalarr[$index]=totalcal;
-    $scope.getTotTaxVal();
-    $scope.getTotTaxAmt();
-    $scope.getFinalVal();
-    //alert($scope.totvalarr[$index]);
-}
-$scope.stchgCal=function(stchg,$index)
-{
-   // alert("stchg called");
-    var stcal=parseFloat(stchg)+parseFloat($scope.taxablearr[$index])
-    $scope.taxablearr[$index]=stcal;
-     var taxcal=$scope.taxablearr[$index]/100;
-    //alert(taxcal);
-    $scope.taxarr[$index]=taxcal;
-    //alert($scope.taxarr[$index]);
-    var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-    //alert(totalcal);
-    $scope.totvalarr[$index]=totalcal;
-    $scope.getTotTaxVal();
-    $scope.getTotTaxAmt();
-    $scope.getFinalVal();
-
-    //alert($scope.totvalarr[$index]);
-}
-
-// $scope.mrpCal=function(mrp,$index){
-//  //alert("mrpfunction called")
-//  $scope.taxablearr[$index]=mrp;
-//   var taxcal=$scope.taxablearr[$index]/100;
+// $scope.labCal=function(labamt,$index)
+// {
+//     //alert("labamt called");
+//     $scope.labamt=labamt;
+//     //alert(labamt);
+//     var labcal=parseFloat(labamt)+parseFloat($scope.taxablearr[$index])
+//     //alert(labcal);
+//     $scope.taxablearr[$index]=labcal;
+//     var taxcal=$scope.taxablearr[$index]/100;
+//     //alert(taxcal);
+//     $scope.taxarr[$index]=taxcal;
+//     //alert($scope.taxarr[$index]);
+//     var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
+//     //alert(totalcal);
+//     $scope.totvalarr[$index]=totalcal;
+//     $scope.getTotTaxVal();
+//     $scope.getTotTaxAmt();
+//     $scope.getFinalVal();
+//     //alert($scope.totvalarr[$index]);
+// }
+// $scope.stchgCal=function(stchg,$index)
+// {
+//    // alert("stchg called");
+//     var stcal=parseFloat(stchg)+parseFloat($scope.taxablearr[$index])
+//     $scope.taxablearr[$index]=stcal;
+//      var taxcal=$scope.taxablearr[$index]/100;
 //     //alert(taxcal);
 //     $scope.taxarr[$index]=taxcal;
 //     //alert($scope.taxarr[$index]);
@@ -4288,106 +4262,123 @@ $scope.stchgCal=function(stchg,$index)
 //     $scope.getTotTaxAmt();
 //     $scope.getFinalVal();
 
+//     //alert($scope.totvalarr[$index]);
 // }
-    $scope.select=function(){
-        var mrp=$scope.user.mrp;
-        var pcs=$scope.user.pcs;
-        $scope.total=pcs*mrp;
-    $http.post('/useritem',$scope.user).success(function(response){
-    });
+
+// // $scope.mrpCal=function(mrp,$index){
+// //  //alert("mrpfunction called")
+// //  $scope.taxablearr[$index]=mrp;
+// //   var taxcal=$scope.taxablearr[$index]/100;
+// //     //alert(taxcal);
+// //     $scope.taxarr[$index]=taxcal;
+// //     //alert($scope.taxarr[$index]);
+// //     var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
+// //     //alert(totalcal);
+// //     $scope.totvalarr[$index]=totalcal;
+// //     $scope.getTotTaxVal();
+// //     $scope.getTotTaxAmt();
+// //     $scope.getFinalVal();
+
+// // }
+//     $scope.select=function(){
+//         var mrp=$scope.user.mrp;
+//         var pcs=$scope.user.pcs;
+//         $scope.total=pcs*mrp;
+//     $http.post('/useritem',$scope.user).success(function(response){
+//     });
     
-        //alert("HIiiiiiiiiiiii");
+//         //alert("HIiiiiiiiiiiii");
          
-        //alert(taxval);
+//         //alert(taxval);
     
-         //alert($scope.taxval);
+//          //alert($scope.taxval);
 
-        //alert($scope.dis);
-        var data=$scope.user.mySelectValue;
-       // alert(data);
+//         //alert($scope.dis);
+//         var data=$scope.user.mySelectValue;
+//        // alert(data);
 
-        var data1=$scope.user.mySelectValue1;
-       // alert(data1);
-        var labamt1=parseFloat($scope.user.labamt);
-        //alert(data1);
-        $scope.gwt=$scope.user.gwt;
-        $scope.wastage=$scope.user.was;
-        $scope.pct=$scope.user.pct;
+//         var data1=$scope.user.mySelectValue1;
+//        // alert(data1);
+//         var labamt1=parseFloat($scope.user.labamt);
+//         //alert(data1);
+//         $scope.gwt=$scope.user.gwt;
+//         $scope.wastage=$scope.user.was;
+//         $scope.pct=$scope.user.pct;
 
-        if($scope.pct=="Add%")
-        {
-           // alert("HI PCT")
-            $scope.wastage=($scope.wastage*$scope.gwt)/100;
-           // alert($scope.wastage);
-            return $scope.wastage;
-        }
+//         if($scope.pct=="Add%")
+//         {
+//            // alert("HI PCT")
+//             $scope.wastage=($scope.wastage*$scope.gwt)/100;
+//            // alert($scope.wastage);
+//             return $scope.wastage;
+//         }
 
-        $scope.charunit=parseFloat($scope.gwt)+parseFloat($scope.wastage);
-       // alert("charge units is"+$scope.charunit);
-         //var stwt=$scope.user.stwt;
-        //alert(stwt);
-       // $scope.ntwt=$scope.gwt-stwt;
-        /*if($scope.ntwt==null)
-        {
-            alert($scope.gwt);
+//         $scope.charunit=parseFloat($scope.gwt)+parseFloat($scope.wastage);
+//        // alert("charge units is"+$scope.charunit);
+//          //var stwt=$scope.user.stwt;
+//         //alert(stwt);
+//        // $scope.ntwt=$scope.gwt-stwt;
+//         /*if($scope.ntwt==null)
+//         {
+//             alert($scope.gwt);
             
 
-            $scope.total=$scope.gwt*$scope.taxval;
+//             $scope.total=$scope.gwt*$scope.taxval;
             
-        }
-        else{
+//         }
+//         else{
             
         
-        }*/
-        /*else{
+//         }*/
+//         /*else{
             
-        }*/
-        //return $scope.total;
-        //alert($scope.ntwt);
-        //alert($scope.total);
+//         }*/
+//         //return $scope.total;
+//         //alert($scope.ntwt);
+//         //alert($scope.total);
         
-        //alert("hi"+$scope.total);
-        $scope.total=$scope.charunit*$scope.taxval+labamt1;
-      //  alert($scope.total);
-        $scope.tax=$scope.total/100;
-         $scope.dis=$scope.user.dis;
-        if($scope.dis==null)
-        {
-            //alert("null value");
-            $scope.subtol=$scope.total+$scope.tax;
-            return $scope.subtol;
-        }
+//         //alert("hi"+$scope.total);
+//         $scope.total=$scope.charunit*$scope.taxval+labamt1;
+//       //  alert($scope.total);
+//         $scope.tax=$scope.total/100;
+//          $scope.dis=$scope.user.dis;
+//         if($scope.dis==null)
+//         {
+//             //alert("null value");
+//             $scope.subtol=$scope.total+$scope.tax;
+//             return $scope.subtol;
+//         }
          
-        //alert($scope.wastage);
-        $scope.cca=$scope.user.cca;
-        $scope.subtol=$scope.total+$scope.tax-$scope.dis;
-        $scope.amount=$scope.user.amt;
-        if($scope.user.trans=="Amount")
-        {
-        if($scope.amount==null)
-        {
-           $scope.netwt=$scope.cca+$scope.subtol-$scope.amount; 
-           return $scope.netwt;
-        }
-        $scope.netwt=$scope.cca+$scope.subtol-$scope.amount;
-        $scope.netwt1=$scope.netwt.toFixed(2);
-    }
-    else {
-        $scope.mate=$scope.amount;
-        $scope.charunit=parseFloat($scope.gwt)+parseFloat($scope.wastage)-$scope.mate;
-        $scope.total=$scope.charunit*$scope.taxval+labamt1;
-         //  alert($scope.total);
-        $scope.tax=$scope.total/100;
-        $scope.netwt=$scope.cca+$scope.subtol;
-        $scope.netwt1=$scope.netwt.toFixed(2);
-    }
+//         //alert($scope.wastage);
+//         $scope.cca=$scope.user.cca;
+//         $scope.subtol=$scope.total+$scope.tax-$scope.dis;
+//         $scope.amount=$scope.user.amt;
+//         if($scope.user.trans=="Amount")
+//         {
+//         if($scope.amount==null)
+//         {
+//            $scope.netwt=$scope.cca+$scope.subtol-$scope.amount; 
+//            return $scope.netwt;
+//         }
+//         $scope.netwt=$scope.cca+$scope.subtol-$scope.amount;
+//         $scope.netwt1=$scope.netwt.toFixed(2);
+//     }
+//     else {
+//         $scope.mate=$scope.amount;
+//         $scope.charunit=parseFloat($scope.gwt)+parseFloat($scope.wastage)-$scope.mate;
+//         $scope.total=$scope.charunit*$scope.taxval+labamt1;
+//          //  alert($scope.total);
+//         $scope.tax=$scope.total/100;
+//         $scope.netwt=$scope.cca+$scope.subtol;
+//         $scope.netwt1=$scope.netwt.toFixed(2);
+//     }
 
    
-        //alert($scope.netwt)
-        refresh();
-        //});
+//         //alert($scope.netwt)
+//         refresh();
+//         //});
 
-     }
+//      }
         //var data3=wt;
         //var data4=pcs;
         ////alert(wt);
@@ -4408,13 +4399,13 @@ $scope.stchgCal=function(stchg,$index)
     
     //alert($scope.mySelectValue);
 
-    $scope.ShowConfirm = function () {
-                if ($window.confirm("Cash advance?")) {
-                    window.location.href="cashadv.html";
-                } else {
-                     window.location.href="index.html";
-                }
-            }
+    // $scope.ShowConfirm = function () {
+    //             if ($window.confirm("Cash advance?")) {
+    //                 window.location.href="cashadv.html";
+    //             } else {
+    //                  window.location.href="index.html";
+    //             }
+    //         }
     /*$scope.sayHi = function() {
     alert('hi!')
   }*/
@@ -4435,11 +4426,11 @@ $scope.stchgCal=function(stchg,$index)
      $scope.name= window.sessionStorage.getItem("Name");
    $scope.Rs=window.sessionStorage.getItem("RS");
     */
-    $scope.addon=function()
-    {
-        //alert("HI");
-    //alert(mySelectValue);
-    }
+    // $scope.addon=function()
+    // {
+    //     //alert("HI");
+    // //alert(mySelectValue);
+    // }
 
         $http.get('/cash').success(function(response){
         $scope.cash=response;

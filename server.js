@@ -1579,8 +1579,7 @@ app.put('/confirm/:update',function(req,res)
       });
 })
 //transaction confirmation 
-app.post('/confirmtransaction/:data',function(req,res)
-{
+app.post('/confirmtransaction/:data',function(req,res){
     var str=req.params.data;
     console.log("Order confirmation function called----------");
     console.log(str);
@@ -1597,11 +1596,11 @@ app.post('/confirmtransaction/:data',function(req,res)
     console.log(status)
      console.log("barcodeb here "+bar)
 
-     // db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status}},function(err,doc)
-     //    {
-     //    res.json(doc);
-     //   });
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status}});
+     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status}},function(err,doc)
+        {
+        res.json(doc);
+       });
+    // db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status}});
      db.transactiondetail.update({refid:  bar},{$set:{"stats":status,"soldOutDate":soldOutDate}});
 
 
@@ -1996,7 +1995,7 @@ app.put('/getComboBarcodeUpdate',function(req,res)
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName}},function(err,doc)
       
         {
-           // res.json(doc);
+           res.json(doc);
         
         });  
   
@@ -2078,7 +2077,12 @@ app.put('/saleinvoicedataconfirm/:update',function(req,res)
     console.log(partyname);
     var transaction=str_array[1];
     console.log(transaction);
-    db.saleinvoice.update({"partyname":partyname,"status":"In Progress", "Transaction" :transaction },{$set:{"status":"completed"}})
+    db.saleinvoice.update({"partyname":partyname,"status":"In Progress", "Transaction" :transaction },{$set:{"status":"completed"}},function(err,doc){
+  
+        res.json(doc);
+        //console.log("here is resulrs")
+       // console.log(doc);
+    });
     // res.json(doc);
     //     console.log(doc);
 });

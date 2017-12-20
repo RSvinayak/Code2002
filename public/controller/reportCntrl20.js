@@ -147,47 +147,63 @@ $http.get('/reportResult/'+reportdata ).success(function(response){
       var sort2Check = null;
       var sort3Check = null;
 
-
-
 var processItems = function(k){
  if( k < report1.length ) {       
                             
-        // function additionCall(sort1,sort2,sort3) {
-        //       if () {}
-        // }//additionCall
-      function  additionCall(sort1,sort2,sort3) {
-                 
-            //console.log("additionCall  ");
-            var rcvQty = 0;
-            var rcvPcs = 0;
-            var issQty = 0;
-            var issPcs = 0;
-            var ciQty = 0;
-            var ciPcs = 0;
+  //           if ($scope.sort1 == "Group") {
+  //         sort1 = report1[k].group ;
+  //         // var obj3 = {};
+  //         //  sort1push = obj3["group"] ; salesCtg
+  //     } else if($scope.sort1 == "SaleCty"){
+  //         sort1 = report1[k].salesCtg;
+  //        // alert(" sort1 "+ report1[k].salesCtg)
+  //     }else if($scope.sort1 == "Purity"){
+  //        sort1 = report1[k].purity;
 
-           // var deferred11 = $q.defer();
-            function logSetElements(value1) {
-                         // console.log("value1.sort1 "+value1._id.sort1 +"  report1[k]._id.sort1 "+ report1[k]._id.sort1);
-                   if(value1._id.sort1  == report1[k]._id.sort1 ){
-                        rcvQty += value1.rcvQty;
-                        rcvPcs += value1.rcvPcs;
-                        issQty += value1.issQty;
-                        issPcs += value1.issPcs;
-                        ciQty += value1.ciQty;
-                        ciPcs += value1.ciPcs;
-                         console.log("rcvQty "+rcvQty);
-                        //sort1Check = true;
-                   }
+  //     }else if($scope.sort1 == "Item"){
+  //        sort1 = report1[k].item;
 
-    
-             }//logSetElements
+  //     }
+  // if ($scope.sort2 == "Group") {
+  //         sort2 = report1[k].group ;
+  //         // var obj3 = {};
+  //         //  sort1push = obj3["group"] ;
+  //     } else if($scope.sort2 == "SaleCty"){
+  //         sort2 = report1[k].salesCtg;
+  //     }else if($scope.sort2 == "Purity"){
+  //        sort2 = report1[k].purity;
 
-             var resultFromIf = report1.forEach(logSetElements);
-                 
+  //     }else if($scope.sort2 == "Item"){
+  //        sort2 = report1[k].item;
 
-      }////additionCall
-      
+  //     }
+  //      if ($scope.sort3 == "Group") {
+  //         sort3 = report1[k].group ;
+  //         // var obj3 = {};
+  //         //  sort1push = obj3["group"] ;
+  //     } else if($scope.sort3 == "SaleCty"){
+  //         sort3 = report1[k].salesCtg;
+  //     }else if($scope.sort3 == "Purity"){
+  //        sort3 = report1[k].purity;
 
+  //     }else if($scope.sort3 == "Item"){
+  //        sort3 = report1[k].item;
+
+  //     }
+
+  //      if ($scope.sort4 == "Group") {
+  //         sort4 = report1[k].group ;
+  //         // var obj3 = {};
+  //         //  sort1push = obj3["group"] ;
+  //     } else if($scope.sort4 == "SaleCty"){
+  //         sort4 = report1[k].salesCtg;
+  //     }else if($scope.sort4 == "Purity"){
+  //        sort4 = report1[k].purity;
+
+  //     }else if($scope.sort4 == "Item"){
+  //        sort4 = report1[k].item;
+
+  //     }
       //validation end
          function  promiseSort1(condition) {
                  
@@ -203,9 +219,9 @@ var processItems = function(k){
               //  if( printary.indexOf(sort1) == -1) {
                   if( condition == false || condition == null   ) {
                  
-                     additionCall()
+                     
                       // var obj3 = {"_id.sort1":report1[k]._id.sort1};
-                     var obj3 = {"_id":{sort1:report1[k]._id.sort1}};
+                       var obj3 = {"_id":{sort1:report1[k]._id.sort1}};
                       // report1[k]._id.sort1
                       //  obj3["_id"] = {sort1:report1[k]._id.sort1} ;
                         
