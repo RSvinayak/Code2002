@@ -3070,6 +3070,28 @@ app.get('/getitemdata',function(req,res)
         res.json(doc);
 })
 })
+// app.post('/saveitempost/',function(req,res)
+// {
+//   var sale1 = req.params.update;
+//     //sale1 =" "+sale1;
+//       console.log(sale1)
+//       if(sale1 == "All" ){
+//         console.log("kkkkkkkkkkkkkkkkkkkkk")
+//          db.items.find(function(err,doc){
+//           //console.log("kkkkkkkkkkkkkkkkkkk")
+//           //console.log(doc.length)
+//        res.json(doc);
+// })
+
+//       }
+//       else{
+//         sale1 =" "+sale1;
+//      db.items.find({ItemType: sale1},function(err,doc)
+//     {
+//         res.json(doc);
+//     })
+//    }
+// })
 
 // for filter in item page
 app.get('/getfilter/:update',function(req,res)
@@ -3093,6 +3115,8 @@ app.get('/getfilter/:update',function(req,res)
         res.json(doc);
     })
    }
+
+   
 })
 // for delete in item page
 app.delete('/itemdelete/:udelete',function(req,res)

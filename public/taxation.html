@@ -36,7 +36,7 @@
 
         thead th {
             height: 60px;
-              width: 22.2%;
+              width: 33.2%;
 
             float: left;
 
@@ -50,7 +50,7 @@
 
         tbody td {
 
-            width: 23.2%;
+            width: 33.2%;
 
             float: left;
         }
@@ -120,7 +120,7 @@ body {
     <tr>
            <th class="pad" >Tax Name</th>
       <th class="pad">Alias name</th>
-      <th class="pad">Display Order</th>
+      <!-- <th class="pad">Display Order</th> -->
        <th>Edit/Delete</th>
     </tr>
   </thead>
@@ -128,7 +128,7 @@ body {
        <tr ng-repeat="user in res">
       <td>{{user.name}}</td>
           <td>{{user.aliasname}}</td>
-          <td>{{user.taxlevel}}</td>
+         <!--  <td>{{user.taxlevel}}</td> -->
           <td>
           <!-- <td><input type="checkbox" ng-model="user.isDelete"/></td>  -->
       <!--    <td><button class="btn btn-info" ng-click="remove(user._id)">Remove</button> -->
@@ -161,13 +161,13 @@ body {
   <input type= "text" class="form-control" ng-blur="findaliasName()" ng-model="user.aliasname" value="{{ user.aliasname }}" required>
   <br>
   <br>
-  Display Order:<span id="star"><font size="04">*</font></span>
+<!--   Display Order:<span id="star"><font size="04">*</font></span>
 <select  ng-model="user.taxlevel" value="{{ user.taxlevel }}" class="form-control">
         <option>1</option>
         <option>2</option>
         <option>3</option>
         <option>4</option>
-      </select>
+      </select> -->
 </form>
 
   </div>

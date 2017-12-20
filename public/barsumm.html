@@ -180,8 +180,8 @@ width: 8%;
          <button  id="buttonwidth" class="btn btn-primary" ng-click="editBarSumm()">Edit</button>
 
       <!--  <button>DELETE</button> -->
-        <button id="buttonwidth" class="btn btn-warning" ng-click="delete()">Delete</button>
-        <a href='mainpage.html'><button type="button" id="buttonwidth" class="btn btn-danger"  >Close</button></a>
+        <button id="buttonwidth" class="btn btn-warning" ng-click="delete()" >Delete</button>
+        <a href='mainpage.html'><button type="button" id="buttonwidth" class="btn btn-danger">Close</button></a>
       <!--  <button>CLOSE</button> -->
        <!--  <button type="button" class="btn btn-danger" ng-click="close()">CLOSE</button> -->
        </div><br>
@@ -270,13 +270,13 @@ width: 8%;
       
      <div align="center" ng-cloak>
       <!--  <button ng-click="saveBarcode()">Save New</button> -->
-        <button   id="buttonwidth" class="btn btn-success" ng-if ="test=='display'" class="btn btn-default" ng-click="saveBarcode()" >Save</button>
+        <button   id="buttonwidth" class="btn btn-success" ng-if ="test=='display'" class="btn btn-default" ng-click="saveBarcode()" ng-disabled="all">Save</button>
        
-        <button   type ="button" id="buttonwidth" class="btn btn-success" class="btn btn-default" ng-if ="test=='update1'" ng-click="saveBarcode()">Update</button>
+        <button   type ="button" id="buttonwidth" class="btn btn-success" class="btn btn-default" ng-if ="test=='update1'" ng-click="saveBarcode()" ng-disabled="all">Update</button>
          <!-- <button type="button"  id="buttonwidth" >Save</button> -->
       </form>
       <!--  <button ng-click="cancel()">Cancel</button> -->
-        <button  id="buttonwidth" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+        <button  id="buttonwidth" class="btn btn-danger" ng-click="cancel()" ng-disabled="all">Cancel</button>
        </div>
 
 

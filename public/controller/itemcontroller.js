@@ -113,12 +113,16 @@ $scope.new = function(){
        $scope.item1 ="" 
     //$scope.cancelitem()
 
-//$scope.selectrow();
+$scope.selectrow();
 }
 
 
     $scope.saveitem = function(){
-      //alert('kk')
+      //alert('kk')()
+      // if ($scope.item1.Name == "")
+      // {
+      //   alert("jj")
+      // }
 
        //$scope.test=='display'
       if($scope.item1.Name == undefined &&$scope.item1.Hsc == undefined &&$scope.item1.Desc == undefined &&
@@ -128,38 +132,38 @@ $scope.new = function(){
       }
      
    
-      else if ($scope.item1.Name == undefined ||$scope.item1.Hsc == undefined ||$scope.item1.Desc == undefined ||
-      $scope.item1.ItemType == undefined ||$scope.item1.SaleCategory == undefined || $scope.item1.InvGroupName== undefined) {
-
+    else if ($scope.item1.Name == undefined ||$scope.item1.Hsc == undefined ||$scope.item1.Desc == undefined ||
+      $scope.item1.ItemType == undefined ||$scope.item1.SaleCategory == undefined || $scope.item1.InvGroupName== undefined ||$scope.item1.Name == ""||$scope.item1.Hsc == ""||$scope.item1.Desc == "" ||
+      $scope.item1.ItemType == "" ||$scope.item1.SaleCategory == "" || $scope.item1.InvGroupName== "") {
       for(let q =0;q<1;q++){
        console.log("undefined call look this please"); 
        console.log($scope.item1.Name);
-        if($scope.item1.Name == undefined){
+        if($scope.item1.Name == undefined || $scope.item1.Name == ""){
           alert("Please enter Name");
           break;
         } 
        console.log($scope.item1.Hsc);
-       if($scope.item1.Hsc == undefined){
+       if($scope.item1.Hsc == undefined ||$scope.item1.Hsc == ""){
           alert("Please enter Hsc");
           break;
         } 
         console.log($scope.item1.Desc);
-        if($scope.item1.Desc == undefined){
+        if($scope.item1.Desc == undefined ||$scope.item1.Desc == ""){
           alert("Please enter Desc");
           break;
         } 
          console.log($scope.item1.InvGroupName);
-         if($scope.item1.InvGroupName == undefined){
+         if($scope.item1.InvGroupName == undefined || $scope.item1.InvGroupName == ""){
           alert("Please enter InvGroupName");
           break;
         } 
          console.log($scope.item1.ItemType);
-         if($scope.item1.ItemType == undefined){
+         if($scope.item1.ItemType == undefined ||$scope.item1.ItemType == ""){
           alert("Please enter ItemType");
           break;
         } 
           console.log($scope.item1.SaleCategory);
-         if($scope.item1.SaleCategory == undefined){
+         if($scope.item1.SaleCategory == undefined || $scope.item1.SaleCategory == ""){
           alert("Please enter SaleCategory");
           break;
         } 
@@ -178,35 +182,46 @@ $scope.new = function(){
   
    if(editcheck == true){
 
-
-      console.log($scope.item1)
+ // var item1filter =$scope.item.filter
+ //      $http.get('/getfilter/'+item1filter).success(function(response){
+ //         $scope.itemdetails = response 
+ //         console.log(response)
+ //     })
+      //console.log($scope.item1)
 
      $http.put('/editeditem',$scope.item1).success(function(response)
                 {
-                 // alert("edit call")
-                      itemdatafetch();
+                 //alert("edit call")
+//console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkk")
+                      //itemdatafetch();
+//$scope.filterchange();
                     $scope.cancelitem()
-                      //editcheck = false
+                      editcheck = false
 
                 })
-
+ //$scope.filterchange();
  //$scope.cancelitem()
      } 
+
      else {
 //alert('ff')
 console.log($scope.item1)
+// var item1filter =$scope.item.filter
            $http.post('/saveitempost',$scope.item1).success(function(response){
-               alert(response)
+               //alert(response)
                 itemdatafetch();
                 $scope.cancelitem()
-                 //editcheck = false
+                 editcheck = false
                 
-            
+            //alert("edit call")
                })
          }
+   console.log($scope.item1.Name);      
   //$scope.filterchange();
    //$scope.itemdatafetch();
   }
+//$scope.filterchange();
+   $scope.selectrow()
 }
 $scope.findName =function(){
   //alert("aa")
@@ -303,7 +318,7 @@ $scope.edititem = function(){
         $scope.item1.marginReport = false
      }
 
-$scope.test = 'update1'
+ $scope.test = 'update1'
    }
    
   //$scope.filterchange(); 
@@ -313,6 +328,7 @@ $scope.test = 'update1'
 $scope.deleteitem = function(){
  //alert($scope.item1.filter)
  // console.log(selectedrow._id) 
+ $scope.test = 'display'
   if(selectedrow == null ){
     alert("Please select item");
   }else{
