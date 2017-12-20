@@ -3642,8 +3642,13 @@ $scope.save=function(){
 // <<<<<<< HEAD
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 // =======
+<<<<<<< HEAD
             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
             // alert("issue voucher no");
+=======
+            if($scope.transaction == "Issue Voucher"){
+            alert("issue voucher no");
+>>>>>>> 2ab87d6a376cfb6d07453d0fb06762615a52763b
           $http.get('/getprefix'+$scope.transaction).success(function(response){
             console.log(response);
             console.log(response[0].TransactionPrefix);
@@ -5096,9 +5101,9 @@ function($scope,$http,$window){
     });
 $scope.Transaction = function( ){
     
-    //alert( $scope.transaction);
+    console.log( $scope.transaction);
      var update=$scope.transaction;
- $scope.List ="";
+     $scope.List=undefined;
      
  }
 
@@ -5108,10 +5113,11 @@ $scope.Transaction = function( ){
     if($scope.transaction == undefined){
       alert("Please Select Transaction");
     }
+   
 if($scope.transaction == "Estimate" ){
      $http.get('/listtran/'+ $scope.transaction ).success(function(response)
         { 
-            alert(response)
+            console.log(response)
             $scope.List = response;
         })
      }else{
@@ -5139,16 +5145,28 @@ var  voucherNoEdit = null;
    console.log(item.voucherNo);
    voucherNoEdit = item.voucherNo; 
    deleteitem = item;
+
 }
 
 //for edit
 $scope.listEdit = function(item){
     console.log("call from edit");
      console.log(deleteitem);
-     if(deleteitem == null){
+        if($scope.transaction == undefined){
+
+      alert("Please Select Transaction");
+    }
+       else if($scope.List == undefined){
+      alert("Please Select List");
+    }
+    else if(deleteitem == null){
       alert("Please Select any Party");
 
-     }else{
+     }
+   
+   
+    
+    else{
 
            $scope.mylink = "index1.html";
            window.sessionStorage.setItem("Str3",JSON.stringify(deleteitem));
@@ -5169,36 +5187,72 @@ $scope.listEdit = function(item){
 // }
 //for deleting the items
 $scope.listDelete = function(){
-   //alert(item);
-   if(deleteitem == null){
+  //alert($scope.List)
+    if($scope.transaction == undefined){
+
+      alert("Please Select Transaction");
+    }
+       else if($scope.List == undefined){
+      alert("Please Select List");
+    }
+    else if(deleteitem == null){
       alert("Please Select any Party");
 
-     }else{
-       // alert("Please Sele");
-         // alert($scope.List[0].voucherNo+" "+ deleteitem.voucherNo);
+     }
+   else{
+      
      
 
-       if ($scope.List[$scope.List.length-1].voucherNo == deleteitem.voucherNo) {
-       // alert("got match");
+   //     if ($scope.List[$scope.List.length-1].voucherNo == deleteitem.voucherNo) {
+   //    // alert("got match");
+   //    alert("Are You Sure You Want To Delete");
+   //       $http.delete('/listDeleteEnter/'+deleteitem.voucherNo).success(function(response)
+   //          {
+   //             //alert("Are You Sure You Want To Delete");
+   //             //  console.log(response)
+   //          });
+   //        clearListDeleted()
+   //      // $scope.remove = function(){
+        
+   // // };
+
+   //     }else{
+   //      alert("Please Delete Only last item");
+
+   //     }
+   var r = confirm("Are you sure you want to delete this ?")
+              if (r == true) {
+                 console.log("true");
+              if ($scope.List[$scope.List.length-1].voucherNo == deleteitem.voucherNo) {
+   //    // alert("got match");
+      //alert("Are You Sure You Want To Delete");
          $http.delete('/listDeleteEnter/'+deleteitem.voucherNo).success(function(response)
             {
+               //alert("Are You Sure You Want To Delete");
                //  console.log(response)
             });
-          clearListDeleted()
-        // $scope.remove = function(){
+        clearListDeleted()
+         $scope.remove = function(){
         
-   // };
-
-       }else{
-        alert("Please Delete Only last item");
+    };
 
        }
+              
+     //$scope.item1 ="" 
+             }
+              else{
+         alert("Please Delete Only last item");
+
+        }
+  
+
+                  }
                
      }
 
 
 
-}//listDelete
+//}//listDelete
 //refresh call for table
 function clearListDeleted() {
   // body...
@@ -5207,6 +5261,7 @@ function clearListDeleted() {
         angular.forEach($scope.List,function(v){
           //console.log(v)
         if(deleteitem != v){
+  //alert("Are You Sure You Want To Delete");
             console.log(v)
             newDataList.push(v);
         }
