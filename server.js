@@ -633,7 +633,15 @@ app.get('/iateapple:partyname',function(req,res){
     console.log(doc+"voucher No and dates");
   });
 });
-
+//for getting issue voucherNo
+app.get('/receiptdetails:partyname',function(req,res){
+  console.log("Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher");
+  var pname=req.params.partyname;
+  db.transactiondetail.find({"partyname":pname},function(err,doc){
+    res.json(doc);
+    console.log(doc+"Issue No and dates");
+  });
+});
 //previous
 app.post('/userdata/:updat',function(req,res){
     //console.log("igot order requestttttttttttttttttttttt");
@@ -866,6 +874,20 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);    
         })
        }else{
+        if(tran == "Issue Voucher"){
+          console.log("cccccccccccccccccccc");
+          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+                "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
+                "labval":labval,"orderStatus":"completed","StockInward":stockInward,"withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
+                "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection},function(err,doc){
+                res.json(doc);
+                 console.log("else insert when id is null look here")
+                 console.log(doc);   
+        })
+          
+        }
+       else{
          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
@@ -877,6 +899,7 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);   
         })
        }
+     }
 
 })
 
@@ -1115,6 +1138,7 @@ app.post('/transactionstock',function(req,res)
     delete(req.body.color)
      delete( req.body.irate)
      delete(req.body.accNumbers);
+       delete( req.body.stockPoint1 );
 
  db.transactiondetail.insert(req.body,function(err,doc){
      
@@ -1229,7 +1253,7 @@ app.get('/bank',function(req,res)
 app.get('/userPartyNames',function(req,res){
     var transaction = req.query.transaction;
     var party_type_id = null;
-    if (transaction == "RD Purchase" || transaction == "Purchase Return") {
+    if (transaction == "RD Purchase" || transaction == "Purchase Return"|| transaction == "Issue Voucher"||transaction == "Receipt Voucher") {
       
        party_type_id = "4";
     }else{
@@ -1494,7 +1518,17 @@ app.post('/historyupdate/:updat',function(req,res){
         console.log(doc);
     
 })
-})
+});
+
+//for getting transaction prefix
+app.get('/getPrefix:prefix',function(req,res){
+  console.log("getting transactionseries invoice");
+  var myprefix=req.params.prefix;
+  db.transactionSeriesInvoice.find({"TransactionType":myprefix},function(err,doc){
+    res.json(doc);
+    console.log(doc);
+  })
+});
 // for pdf data generation using barcode
 app.get('/getparty',function(req,res)
 {    
@@ -1739,6 +1773,14 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
         console.log(doc);
       })
 });
+//for inserting receipt voucher data
+app.post('/insertreceiptUseritDetails',function(req,res){
+   console.log(req.body.refID+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+  db.transactiondetail.insert(req.body,function(err,doc){
+    console.log("receipt voucher details inserted");
+    res.json(doc);
+  });
+})
 //for inseriting new row
 app.put('/insertNewUseritDetails',function(req,res){
   var transac=req.body.Transaction;
@@ -1753,7 +1795,6 @@ app.put('/insertNewUseritDetails',function(req,res){
          var cat=req.body;
          var bat=req.body;
          console.log(req.body.barcodeNumber+"barcodeNumber");
-
          console.log(req.body)
           var reference="Sale Return";
            req.body.RefTransaction=reference;
@@ -2122,6 +2163,16 @@ app.put('/users/:csfdata',function(req,res){
 {$set:{"csf.$.score":score,"csf.$.percentage":per,"csf.$.date":date,"csf.$.actdef":actdef}})*/
 });
 });
+//for receipt userit
+app.get('/receiptuser:ids',function(req,res){
+  console.log("receipt receipt receipt receipt receipt receipt receipt receipt");
+  var id=req.params.ids;
+  db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+    res.json(doc);
+    console.log(doc);
+  });
+});
+//for getdetails url
 app.get('/getSavedDetails',function(req,res){
  // console.log("I received a new username request for login and document from pdf");
   var partyname=req.query.partyname;

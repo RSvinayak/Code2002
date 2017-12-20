@@ -450,6 +450,7 @@ $scope.saveBatchGeneration = function(){
                   }//for
 
               }else{
+                      
                        $http.post('/transactionstock',$scope.userit[0]).success(function(response){  
                                  console.log("i got replay")
                                  console.log(response);
@@ -469,7 +470,7 @@ $scope.saveBatchGeneration = function(){
                       });
 
                       console.log( $scope.userit[0].StockPoint);
-
+                      $scope.userit[0].stockPoint1 = stockin ;
                       $http.post('/transactionstockInward',$scope.userit[0]).success(function(response){  
                              console.log("i got replay")
                              console.log(response);
