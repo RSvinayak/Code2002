@@ -168,10 +168,22 @@ $scope.batch=""
  }
 
   $scope.dateSearch=function(){
-    // for barcode search
+    $scope.tags=null;
 
+    //$scope.res =""
+    //$scope.list();
+    //refresh()
+
+    //$scope.res!="";
+
+    // if($scope.batch==null){
+    //   alert("No Matches Found")
+    // }
+    // for barcode search
+//alert("kkk")
      // alert("barCodeSearch "+$scope.barCodeSearch);
     if ($scope.barCodeSearch != null || $scope.barCodeSearch != undefined  ) {
+      //alert("jj")
         
         $http.get('/barcodeBatchFind',{params:{"Barcode":$scope.barCodeSearch}}).success(function(response){
      // $scope.ddata=response;
@@ -184,6 +196,7 @@ $scope.batch=""
       $scope.batch=response;
     })
     }else{
+
        //for date search
        console.log($scope.bit1.date2)
      console.log(Date.parse($scope.bit1.date2) )
@@ -207,8 +220,15 @@ $scope.batch=""
 
       $http.get('/dateBatchFind/'+date).success(function(response){
      // $scope.ddata=response;
-      console.log(response);
+       if (response.length == 0) {
+            alert("No Match Is Found")
+          }
+          else{
+               console.log(response);
       $scope.batch=response;
+
+          }
+   
     })
 
  
@@ -275,6 +295,7 @@ var invAccNo = null;
 //$scope.userit[0] =null;
     //save of all data for barcode generatation page
 $scope.saveBatchGeneration = function(){
+
   // alert("Generatation");
   console.log($scope.userit[0]);
 //alert("edit in save  "+edit1);
@@ -337,20 +358,22 @@ $scope.saveBatchGeneration = function(){
                 
      }
      else{
+      //refresh()
          $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response)
                 {
-                    $scope.result=response;
-                    console.log($scope.result);
+                     $scope.result=response;
+                    // console.log($scope.result);
                     $scope.updateButton = false;
-                    edit1 = null;
-                     $scope.userit.splice(0, 1);
+                     edit1 = null;
+                      $scope.userit.splice(0, 1);
                 
                     
- refresh()
+
 })
         
    alert("updated successfully"); 
-   refresh()
+    $scope.batch[colorindex].color = colorpush
+   //refresh()
      }
      }else{
              console.log(" null");
@@ -914,7 +937,7 @@ $scope.row2 = function(row,index){
   colorindex = index
    console.log(colorpush)
   //c
-  $scope.batch[index].color = "blue"
+  $scope.batch[index].color ="blue"
   $scope.idSelectedVote = row;
   //alert($scope.idSelectedVote)
   edit1 = $scope.idSelectedVote;
@@ -936,7 +959,10 @@ $scope.row2 = function(row,index){
   //  console.log($scope.batch = batch[0])
  // $scope.batch[index].color = ""
   //color()
-  refresh()
+  //$scope.list()
+  $scope.userit= $scope.userit.slice(0, 0);
+
+  //$scope.all=false;
   }
   //change color process
 // var color = function(){
@@ -958,6 +984,15 @@ $scope.edit = function(){
             var editBarcodeLength = response.length ;
             if(editBarcodeLength >0){
               alert("The barcoded item is soldout!");
+              //$scope.list()
+              //$scope.userit.splice(0, 1);
+  //             $scope.batch[index].color = "blue"
+  // $scope.idSelectedVote = row;
+  // //alert($scope.idSelectedVote)
+  // edit1 = $scope.idSelectedVote;
+  //$scope.itembarcodetolerence
+  //$scope.batch=undefined;
+   $scope.batch[colorindex].color = colorpush
             }
 
  else if(edit1.composite == 'yes'){
@@ -1062,7 +1097,9 @@ $scope.edit = function(){
 $scope.close=function(){
   alert("Are You Sure You Want To Leave This Page")
 }
+  //$scope.test=='display';
 $scope.deletebarcodegeneration = function(){
+ // $scope.test=='display';
 
     console.log("delete call");
     console.log(edit1);
@@ -1076,6 +1113,8 @@ $scope.deletebarcodegeneration = function(){
             var editBarcodeLength = response.length ;
             if(editBarcodeLength >0){
               alert("The barcoded item is soldout!");
+              //$scope.batch[colorindex].color = colorpush
+
             }else{
                     var r = confirm("Are you sure you want to delete the barcode "+edit1.barcode+" ?");
                     if (r == true) {
@@ -1084,39 +1123,46 @@ $scope.deletebarcodegeneration = function(){
                           // .success(function(response)
                           //  {          
                           // });
-                        $scope.list() 
+                        //$scope.list() 
                         edit1 = null;
-                        $scope.userit= $scope.userit.slice(0, 0);
+                        //$scope.userit= $scope.userit.slice(0, 0);
 
                     }
                // else{
                //     console.log("false");
-
+$scope.batch[colorindex].color = colorpush
                //    }
             }//else if(editBarcodeLength >0
         })//$http
-     
+     //$scope.batch[colorindex].color = colorpush
      }else{
              alert("Please select Batch");
           }
-          
+   //$scope.batch[colorindex].color = colorpush       
 }//deleteclose
 // for cancel in barcode generation
 $scope.cancelbarcodegeneration = function(){
+
+//alert("ff");
+    if($scope.userit[0] == undefined){
+      alert("Please Select Necessary Details");
+      //break;
+    }
      console.log("cancel call");
-    
-   $scope.list() 
+    $scope.batch[colorindex].color = colorpush
+   //$scope.list() 
     $scope.updateButton = false;
      edit1 = null;
-  // $scope.userit[0] = null;
+  //$scope.userit[0] = null;
   $scope.userit= $scope.userit.slice(0, 0);
   // editrow3 = null;
 }
 
 var num = 0;
 $scope.userit = [];
-
+ $scope.test = 'display';
 $scope.generateBarcode = function( ){
+<<<<<<< HEAD
          // alert(tagno);
          console.log( tagdetails);
           var count = 0
@@ -1139,6 +1185,41 @@ $scope.generateBarcode = function( ){
                 break;
               }
           }//for
+=======
+   $scope.test = 'display';
+ // alert(tagno);
+ console.log( tagdetails);
+
+  // for last barcode details
+
+  //       var desc=response[0].desc;
+  //       var size=response[0].size;
+  //       var gwt=response[0].gwt;
+  //       var ntwt=response[0].ntwt;
+
+  var count = 0
+  for(i=1;i<=100;i++)
+  {
+      // var barno = Math.floor(Math.random() * 100000000) + 1;
+      //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
+       var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
+      
+      //alert("the barcode is "+barno)
+      console.log("the value of i "+i)
+  $http.get('/barcode',{params:{"barcode":barno}}).success(function(response)
+        { 
+            console.log(response.length)
+            count = response.length
+            console.log(count)
+
+        })
+
+        if(count == 0){
+          //alert(count)
+          break;
+          }
+    }
+>>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
      
    
           var data = icount 
@@ -1319,7 +1400,7 @@ console.log("function is clicked in list ");
  $http.get('/listdata'+list3).success(function(response)
     { 
        // alert("in side list function");
-       $scope.tags = response;
+      $scope.tags = response;
        console.log(response);
 
     })
@@ -1353,6 +1434,7 @@ var icomposite = null;
 
 
  $scope.row1 = function(tag){
+  $scope.all = false
   console.log(tag)
    tagdetails = tag
    // console.log("this is row id"+id);
@@ -1387,13 +1469,15 @@ var icomposite = null;
    window.sessionStorage.setItem("stockin", tag.stockfrom);
    window.sessionStorage.setItem("stockout", tag.stockto);
    
-   $http.get('/batchrecords/'+list3).success(function(response)
-         {
-           console.log(response);
-          $scope.batch = response;
+   // $http.get('/batchrecords/'+list3).success(function(response)
+   //       {
+   //         console.log(response);
+   //        $scope.batch = response;
           
          
-        })
+   //      })
+   $scope.batch[colorindex].color = colorpush
+   //refresh()
  }
 
 
@@ -1408,6 +1492,7 @@ var icomposite = null;
    //for list search
    
    var summarylist = function(){
+    //alert("ll")
    $http.get('/list',$scope.bitem).success(function(response)
     { 
      // alert("summarylist call call")
