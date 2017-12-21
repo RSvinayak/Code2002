@@ -832,11 +832,11 @@ function accountAndPurityCall(index,itemName) {
 }//accountAndPurityCall
 
 $scope.getDetails=function(rvalue,voucherNo,date){
-<<<<<<< HEAD
+// <<<<<<< HEAD
   // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
-=======
+// =======
    // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
->>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
+// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
   $scope.voucherNo=voucherNo;
       window.sessionStorage.setItem("vin",$scope.voucherNo);
       // alert($scope.voucherNo+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
@@ -3450,7 +3450,7 @@ $scope.save=function(){
 
           if (0 == $scope.userit.length) {
                        // do stuff
-                       alert("Please Enter values");
+                       alert("Please Select Mandatory Fields");
                        return;
                    }
                  
@@ -3643,22 +3643,22 @@ $scope.save=function(){
     $scope.inoviceNumberGeneration= function(){
           //  alert("inove generation in pay button ");
           var customerDetails = $scope.transaction+","+$scope.partyname;
-<<<<<<< HEAD
+// <<<<<<< HEAD
 //<<<<<<< HEAD
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 //=======
-=======
+// =======
 // <<<<<<< HEAD
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 // =======
-<<<<<<< HEAD
+// <<<<<<< HEAD
             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
             // alert("issue voucher no");
-=======
->>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
-            if($scope.transaction == "Issue Voucher"){
-            alert("issue voucher no");
->>>>>>> 2ab87d6a376cfb6d07453d0fb06762615a52763b
+// =======
+// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
+            // if($scope.transaction == "Issue Voucher"){
+            // alert("issue voucher no");
+// >>>>>>> 2ab87d6a376cfb6d07453d0fb06762615a52763b
           $http.get('/getprefix'+$scope.transaction).success(function(response){
             console.log(response);
             console.log(response[0].TransactionPrefix);
@@ -3701,11 +3701,11 @@ $scope.save=function(){
 
           else{
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-<<<<<<< HEAD
+// <<<<<<< HEAD
 //>>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
-=======
+// =======
 // >>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
->>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
+// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
                                 console.log(saleinvoice_id )
                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
@@ -5113,30 +5113,65 @@ $scope.Transaction = function( ){
  }
 
  $scope.list = function( ){
+  //alert("hhjj")
     console.log("got call");
     console.log($scope.transaction);
     if($scope.transaction == undefined){
       alert("Please Select Transaction");
     }
    
-if($scope.transaction == "Estimate" ){
+else if($scope.transaction == "Estimate" ){
+  alert("jjjjjj")
      $http.get('/listtran/'+ $scope.transaction ).success(function(response)
         { 
             console.log(response)
-            $scope.List = response;
+           // $scope.List = response;
+           alert("h")
+              if(response.length == 0){
+        alert(" No matches are found");
+        $scope.List = "";
+
+      }else{
+
+             $scope.List = response;
+      alert("hh")
+}
+
+
+
+
+
         })
-     }else{
+     }
+     else{
+      //alert('kkkkkk')
         var update = $scope.transaction;
         console.log(update)
      $http.get('/historyfet/'+update).success(function(response)
             { 
-            console.log(response)
-             $scope.List = response;
-             console.log(response[0]);
-             console.log(response[0].netamt)
+              //alert('ll')
+            // console.log(response)
+            //  $scope.List = response;
+            //  console.log(response[0]);
+            //  console.log(response[0].netamt)
 
-             $scope.selected=[];
+            //  $scope.selected=[];
             //$scope.user = response;
+                       if(response.length == 0){
+        alert(" No matches are found");
+        $scope.List = "";
+
+      }else{
+
+             $scope.List = response;
+              $scope.selected=[];
+     // alert("hh")
+}
+
+
+
+
+
             })
         }
 }
