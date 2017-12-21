@@ -194,27 +194,57 @@
       <tr   ng-repeat ="details in reportonedate1 " >
             
            <!-- <td >{{details._id.sort1}}{{trail(details._id.sort1)}}</td> -->
-           <td >{{details._id.sort1}}</td>
-          
-        <td >{{details._id.sort2}}</td>
+           <td  ng-style="myObj1">{{details._id.sort1}}</td>
+          <!--  <td ng-if = "details._id.sort1 != undefined ">{{details._id.sort1}}</td> -->
+
+          <!--  <td ng-if = "details._id.sort1 == 'Diamond'">{{}}</td>
+           <td ng-if = "details._id.sort1 == 'undefined'">{{123}}</td>
+           <td ng-if = "details._id.sort1 == 'null'">{{1234}}</td>
+            <td ng-if = "trail()">{{120}}</td> -->
+     <!--    ng-if = "transaction != 'Urd Purchase'" ng-style="myObj" -->
+        <td  ng-style="myObj2" >{{details._id.sort2}}</td>
          
-        <td  >{{details._id.sort3}}</td>
+        <td   ng-style="myObj3">{{details._id.sort3}}</td>
        
-        <td >{{details._id.sort4}}</td>
+        <td  ng-style="myObj4">{{details._id.sort4}}</td>
            
-           <!--   <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.rcvQty | number:3}}</td> 
+             <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.rcvQty | number:3}}</td> 
              <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.rcvQty | number:3}}</td>
              <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.rcvQty | number:3}}</td>
              <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.rcvQty | number:3}}</td>
-              <td ng-if = "details._id.sort1 != undefined " ng-style="myObj">{{details.rcvPcs| number:3}}</td>
-              <td ng-if = "details._id.sort1 == undefined " ng-style="myObj">{{details.rcvPcs| number:3}}</td> -->
+
              
-              <td>{{details.rcvQty | number:3}}</td>
-                  <td>{{details.rcvPcs | number:3}}</td>
-                 <td>{{details.issQty | number:3}}</td>
-                  <td>{{details.issPcs | number:3}}</td>
-                   <td>{{details.ciQty | number:3}}</td>
-                   <td>{{details.ciPcs | number:3}}</td>
+              <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.rcvPcs| number:3}}</td>
+              <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.rcvPcs | number:3}}</td>
+             <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.rcvPcs | number:3}}</td>
+             <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.rcvPcs | number:3}}</td>
+              <!--  <td>{{details.totQty}}</td>   
+                <td>{{details.totPcs}}</td> -->
+               
+              <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.issQty| number:3}}</td>
+              <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.issQty | number:3}}</td>
+             <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.issQty | number:3}}</td>
+             <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.issQty | number:3}}</td>
+
+
+              <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.issPcs| number:3}}</td>
+              <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.issPcs | number:3}}</td>
+             <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.issPcs | number:3}}</td>
+             <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.issPcs | number:3}}</td>
+
+
+             <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.ciQty| number:3}}</td>
+              <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.ciQty | number:3}}</td>
+             <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.ciQty | number:3}}</td>
+             <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.ciQty | number:3}}</td>
+
+
+                 <td ng-if = "details._id.sort1 != undefined " ng-style="myObj1">{{details.ciPcs| number:3}}</td>
+              <td ng-if = "details._id.sort2 != undefined " ng-style="myObj2">{{details.ciPcs | number:3}}</td>
+             <td ng-if = "details._id.sort3 != undefined " ng-style="myObj3">{{details.ciPcs | number:3}}</td>
+             <td ng-if = "details._id.sort4 != undefined " ng-style="myObj4">{{details.ciPcs | number:3}}</td>
+
+                  
                    
 
          </tr>

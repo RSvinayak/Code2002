@@ -22,7 +22,7 @@ hotkeys.bindTo($scope).add({
   });
  $scope.test = 'display'
  //$scope.test=='update1'
-var fixdec=2;
+var fixdec= 0;
 $scope.irate=[];
 //disable of buttons
 $scope.disablebutton = true;
@@ -83,6 +83,8 @@ $http.get('/configuration').success(function(response){
         lower =  response[0].LowerLimit
       $scope.itembarcodetolerence =response[0].itembarcodetolerence
       fixdec  = response[0].DecimalPoints;
+      $scope.rupeesDecimalPoints = response[0].rupeesDecimalPoints ;
+      
       //alert(itembarcodetolerence)
        // console.log(response.UpperLimit)
          console.log(lower)
@@ -108,7 +110,7 @@ $http.get('/Treasure').success(function(response){
 
   //for delete problem
   // $scope.bitem = {}
-  // $scope.bitem.count2 = 2;
+  // $scope.bitem.count2 = $scope.rupeesDecimalPoints;
  $http.get('/deletequery').success(function(response){
        // $scope.labcal=response;
          //$scope.res = response;
@@ -901,7 +903,7 @@ $scope.row2 = function(row,index){
    
    $scope.batch[colorindex].color = colorpush
    }
-  console.log("u clicked on row 2");
+  console.log("u clicked on row $scope.rupeesDecimalPoints");
   console.log(row.barcode)
   console.log(row.color)
   if(row.color == undefined){
@@ -1115,126 +1117,114 @@ var num = 0;
 $scope.userit = [];
 
 $scope.generateBarcode = function( ){
- // alert(tagno);
- console.log( tagdetails);
+         // alert(tagno);
+         console.log( tagdetails);
+          var count = 0
+        for(i=1;i<=100;i++){
+             // var barno = Math.floor(Math.random() * 100000000) + 1;
+             //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
+             var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
+            
+             //alert("the barcode is "+barno)
+             console.log("the value of i "+i)
+              $http.get('/barcode',{params:{"barcode":barno}}).success(function(response) { 
+                        console.log(response.length)
+                        count = response.length
+                        console.log(count)
 
-  // for last barcode details
+              })
 
-  //       var desc=response[0].desc;
-  //       var size=response[0].size;
-  //       var gwt=response[0].gwt;
-  //       var ntwt=response[0].ntwt;
-
-  var count = 0
-  for(i=1;i<=100;i++)
-  {
-      // var barno = Math.floor(Math.random() * 100000000) + 1;
-      //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
-       var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
-      
-      //alert("the barcode is "+barno)
-      console.log("the value of i "+i)
-  $http.get('/barcode',{params:{"barcode":barno}}).success(function(response)
-        { 
-            console.log(response.length)
-            count = response.length
-            console.log(count)
-
-        })
-
-        if(count == 0){
-          //alert(count)
-          break;
-          }
-    }
+              if(count == 0){
+                //alert(count)
+                break;
+              }
+          }//for
      
    
-  var data = icount 
-$http.get('/lastrec/'+data).success(function(response){
-    console.log(response)
-    //$scope.userit=response;
-    console.log($scope.userit)
-      // $scope.userit=response;
-      // $scope.userit[0]=barno
-      
-    if(response.length == 0){
-      //alert("entered into if loop response.length response.length == 0 lastrec")
-      console.log("null")
-      $scope.userit.splice(0,1,({
-    'barcode':barno,
-    // 8/5'iname': item1,
-      'itemName': item1,
-    'date':new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString(),
-                     // how transfered to final table
-   'Batch': ibatch, //no need here
-    'Qty' : iqty,
-    'tags' : itags,
-    'wt' : iwt,
-    'stats': istatus,
+          var data = icount 
+          $http.get('/lastrec/'+data).success(function(response){
+              console.log(response)
+              //$scope.userit=response;
+              console.log($scope.userit)
+                // $scope.userit=response;
+                // $scope.userit[0]=barno
+                
+              if(response.length == 0){
+                      //alert("entered into if loop response.length response.length == 0 lastrec")
+                      console.log("null")
+                     $scope.userit.splice(0,1,({
+                          'barcode':barno,
+                          // 8/5'iname': item1,
+                            'itemName': item1,
+                          'date':new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString(),
+                                           // how transfered to final table
+                         'Batch': ibatch, //no need here
+                          'Qty' : iqty,
+                          'tags' : itags,
+                          'wt' : iwt,
+                          'stats': istatus,
 
-   'count':icount,
-    'composite':icomposite, // not necessary
-   'split': isplit, 
-   'uom':"Gms",// not necessary
-    // for getting last barcode details
-  //29/5  'desc':desc,
-  //29/5   'size':size,
-  //29/5   'gwt':gwt,
-   // 'count':
-  // 'nname':$scope.tag.name
-  })) 
+                         'count':icount,
+                          'composite':icomposite, // not necessary
+                         'split': isplit, 
+                         'uom':"Gms",// not necessary
+                    
+                     })) //
 
- if(tagdetails.composite == 'yes'){
-  for(let m = 1; m<=3;m++){
-    $scope.userit.splice(m,1,({
-   
-    })) 
-   }
- }
+                     if(tagdetails.composite == 'yes'){
+                      for(let m = 1; m<=3;m++){
+                        $scope.userit.splice(m,1,({
+                       
+                        })) 
+                       }
+                     }
 
-     $scope.itemSelect(item1,0);   
-      console.log($scope.userit[0])
-    } else{
+                     $scope.itemSelect(item1,0);   
+                      console.log($scope.userit[0])
+              } else{
 
-      //alert("entered into else loop else response.length >= 0")
-      $scope.userit=response;
-      $scope.userit[0].barcode=barno
-      // $scope.userit[0].barcode=barno
-     //$scope.userit[0].iname= item1,
-     $scope.userit[0].gwt = null;
-     //alert(  $scope.userit[0].gwt)
-     $scope.userit[0].itemName=item1;
-   $scope.userit[0].date= new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString(),
-                    // how transfered to final table
-  $scope.userit[0].Batch = ibatch, //no need here
-  $scope.userit[0].Qty = iqty,
-  $scope.userit[0].tags = itags,
-   $scope.userit[0].wt = iwt,
-  $scope.userit[0].stats = istatus,
+                        //alert("entered into else loop else response.length >= 0")
+                              $scope.userit=response;
+                              $scope.userit[0].barcode=barno
+                              if (response[0].mrp != undefined) {
+                                 // alert(response[0].mrp)
+                                 $scope.disableMrp =true;
 
-  $scope.userit[0].count = icount,
-   $scope.userit[0].composite = icomposite, // not necessary
-   $scope.userit[0].split = isplit,
-     console.log("in else loop")
-       console.log(barno)
-       console.log(" $scope.userit[0].date "+ $scope.userit[0].date)
-       $scope.itemSelect(item1,0);
-      // $scope.item = []
-      //  $scope.item.barcode = barno
-      //   console.log( $scope.item.barcode)
-    }
+                              }  
+                              // $scope.userit[0].barcode=barno
+                             //$scope.userit[0].iname= item1,
+                             $scope.userit[0].gwt = null;
+                             //alert(  $scope.userit[0].gwt)
+                             $scope.userit[0].itemName=item1;
+                           $scope.userit[0].date= new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString(),
+                                            // how transfered to final table
+                          $scope.userit[0].Batch = ibatch, //no need here
+                          $scope.userit[0].Qty = iqty,
+                          $scope.userit[0].tags = itags,
+                           $scope.userit[0].wt = iwt,
+                          $scope.userit[0].stats = istatus,
 
-   
-   
-   })
- // $(window).load(function() {
- //      init();
- //   });
- //  console.log("in allocate"+$scope.tag); 
- // $scope.itemSelect(item1,0); 
+                          $scope.userit[0].count = icount,
+                           $scope.userit[0].composite = icomposite, // not necessary
+                           $scope.userit[0].split = isplit,
+                             console.log("in else loop")
+                               console.log(barno)
+                               console.log(" $scope.userit[0].date "+ $scope.userit[0].date)
+                               $scope.itemSelect(item1,0);
+                      
+                      }//else
+
+             
+             
+          })//lastrec
+             // $(window).load(function() {
+             //      init();
+             //   });
+             //  console.log("in allocate"+$scope.tag); 
+             // $scope.itemSelect(item1,0); 
   
   
-}
+ }//generateBarcode
 var comboItemCheck = null;
 $scope.itemSelect = function(itemname,in1) {
      // alert("itemSelect itemSelect "+in1+itemname)
@@ -1765,7 +1755,7 @@ $scope.purityCal=function(val,purity){
                 // $scope.userit[$index].ntwt=(parseFloat($scope.userit[$index].gwt)-parseFloat($scope.userit[$index].stwt)).toFixed(fixdec);
                 //$scope.userit[$index].chgunt=($scope.userit[$index].ntwt);
                    
-                //$scope.userit[$index].taxval=($scope.userit[$index].chgunt*$scope.userit[$index].rate).toFixed(2);
+                //$scope.userit[$index].taxval=($scope.userit[$index].chgunt*$scope.userit[$index].rate).toFixed($scope.rupeesDecimalPoints);
   
                 $scope.userit[0].stwt =parseFloat($scope.userit[$index].ntwt );
                 //total netwt
@@ -1799,7 +1789,7 @@ $scope.purityCal=function(val,purity){
                     
                          }
                     $scope.userit[$index].chgunt=($scope.userit[$index].ntwt);
-                    $scope.userit[$index].taxval=($scope.userit[$index].chgunt*$scope.userit[$index].rate).toFixed(2);
+                    $scope.userit[$index].taxval=($scope.userit[$index].chgunt*$scope.userit[$index].rate).toFixed($scope.rupeesDecimalPoints);
                      //alert($scope.userit[$index].taxval)
                     if( $scope.userit[$index].pctcal!= undefined){
                           $scope.newwas($index,$scope.userit[$index].pctcal)
@@ -1883,7 +1873,7 @@ $scope.newstwt=function($index)
    // $scope.userit[$index].chgunt=($scope.userit[$index].ntwt).toFixed(fixdec);
         
     $scope.userit[$index].taxval1 = parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate);
-    $scope.userit[$index].taxval = parseFloat($scope.userit[$index].taxval1).toFixed(2);
+    $scope.userit[$index].taxval = parseFloat($scope.userit[$index].taxval1).toFixed($scope.rupeesDecimalPoints);
                    if( $scope.userit[$index].pctcal!= undefined){
                           $scope.newwas($index,$scope.userit[$index].pctcal)
                       } 
@@ -1939,7 +1929,7 @@ $scope.newwas=function($index,pctcal)
         $scope.userit[$index].chgunt=(parseFloat($scope.userit[$index].ntwt)+parseFloat(wastage)-$scope.totmat).toFixed(fixdec);
         //alert($scope.userit[$index].chgunt);
          
-          $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+          $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
           // taxValCall($scope.userit[$index].chgunt,$index)
            //reuseMethods($index)
            reuseMethodsForLabStone($index)
@@ -1951,7 +1941,7 @@ $scope.newwas=function($index,pctcal)
         var wastage=$scope.userit[$index].wastage;
         $scope.userit[$index].chgunt=(parseFloat($scope.userit[$index].ntwt)+parseFloat(wastage)-$scope.totmat).toFixed(fixdec);
         // taxValCall($scope.userit[$index].chgunt,$index)
-          $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+          $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
           reuseMethodsForLabStone($index)
           taxValCal($index)
     }
@@ -1961,7 +1951,7 @@ $scope.newwas=function($index,pctcal)
         //alert($scope.userit[$index].wastage);
        $scope.userit[$index].chgunt=(parseFloat($scope.userit[$index].ntwt)-parseFloat(wastage)-$scope.totmat).toFixed(fixdec);
         //taxValCall($scope.userit[$index].chgunt,$index)
-          $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+          $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
           taxValCal($index)
     }
     else if(pctcal=="Sub Units")
@@ -1969,7 +1959,7 @@ $scope.newwas=function($index,pctcal)
        var wastage=$scope.userit[$index].wastage;
        $scope.userit[$index].chgunt=(parseFloat($scope.userit[$index].ntwt)-parseFloat(wastage)-$scope.totmat).toFixed(fixdec);
        // taxValCall($scope.userit[$index].chgunt,$index)
-        $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+        $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
         taxValCal($index)
     }
     
@@ -1979,39 +1969,25 @@ $scope.newwas=function($index,pctcal)
 
 //mrp calculations
 $scope.mrpCal = function(index,mrp){
-  $scope.disableMrp =true;
-  $scope.userit[index].gwt ="";
-  $scope.userit[index].purity ="";
-  $scope.userit[index].stwt ="";
-  $scope.userit[index].uom ="";
-  $scope.userit[index].ntwt ="";
-  $scope.userit[index].pctcal ="";
-  $scope.userit[index].wastage ="";
-  $scope.userit[index].matadj ="";
-  $scope.userit[index].chgunt ="";
-  $scope.userit[index].labcal ="";
-  $scope.userit[index].labamt ="";
-  $scope.userit[index].labval ="";
-  $scope.userit[index].stonecal ="";
-  $scope.userit[index].stchg ="";
-  $scope.userit[index].stval="";
-  $scope.userit[index].rate = "";
-
-  
-  console.log($scope.userit[index].gpcs*mrp)
- console.log( $scope.userit[index].gpcs);
- console.log( $scope.userit[index].mrp);
-if ($scope.userit[index].gpcs == undefined) {
-  // alert("$scope.userit[index].gpcs "+$scope.userit[index].gpcs);
-   alert("Please Select GrossPcs ");
-   $scope.userit[index].mrp = "";
- }else{
-    $scope.userit[index].taxval=($scope.userit[index].gpcs*mrp).toFixed(2);
-   
- }
-  
-
+      $scope.disableMrp =true;
+      console.log($scope.userit[index].gpcs*mrp)
+     console.log( $scope.userit[index].gpcs);
+     console.log( $scope.userit[index].mrp);
+      if ($scope.userit[index].gpcs == undefined) {
+        // alert("$scope.userit[index].gpcs "+$scope.userit[index].gpcs);
+         alert("Please Enter GrossPcs ");
+         $scope.userit[index].mrp = "";
+       }else{
+               $scope.userit[index].taxval=($scope.userit[index].gpcs*mrp).toFixed($scope.rupeesDecimalPoints);
+         
+            }
 }
+$scope.calMrpValue = function(index,mrp){ 
+     alert(" my caall ") 
+     if ($scope.disableMrp == true) {
+          $scope.userit[index].taxval=($scope.userit[index].gpcs*$scope.userit[index].mrp).toFixed($scope.rupeesDecimalPoints);
+     }  
+}//$scope.calMrpValue
 //composite final addition
 var  taxval2 = 0;
 var stwt2 = 0;
@@ -2051,7 +2027,7 @@ var taxValCal = function(index){
                              $scope.userit[0].chgunt=($scope.userit[0].ntwt);
                     
 
-                            $scope.userit[0].taxval=($scope.userit[0].chgunt*$scope.userit[0].rate).toFixed(2);
+                            $scope.userit[0].taxval=($scope.userit[0].chgunt*$scope.userit[0].rate).toFixed($scope.rupeesDecimalPoints);
                             //
 
                             if( $scope.userit[0].pctcal!= undefined){
@@ -2130,14 +2106,14 @@ $scope.uomConversion=function($index,uom){
       //$scope.userit[$index].ntwt = 
       $scope.userit[$index].ntwt =  $scope.userit[$index].gwt*0.2 ;
       $scope.userit[$index].chgunt = $scope.userit[$index].ntwt ;
-      $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+      $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
       reuseMethods($index)             
     }else{
 
        $scope.userit[$index].ntwt =  (($scope.userit[$index].gwt - $scope.userit[$index].stwt) *0.2).toFixed(fixdec);
          $scope.userit[$index].chgunt =  $scope.userit[$index].ntwt;
        $scope.userit[$index].chgunt = parseFloat(  $scope.userit[$index].chgunt).toFixed(fixdec) ;
-       $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+       $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
          reuseMethods($index)   
     }
      
@@ -2146,13 +2122,13 @@ $scope.uomConversion=function($index,uom){
       //$scope.userit[$index].ntwt = 
       $scope.userit[$index].ntwt =  $scope.userit[$index].gwt ;
       $scope.userit[$index].chgunt = $scope.userit[$index].ntwt ;
-      $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+      $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
        reuseMethods($index)   
     }else{
 
        $scope.userit[$index].ntwt =  ($scope.userit[$index].gwt - $scope.userit[$index].stwt)  ;
        $scope.userit[$index].chgunt = $scope.userit[$index].ntwt ;
-       $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed(2);
+       $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
         reuseMethods($index)   
     }
 
@@ -2223,10 +2199,10 @@ $scope.uomConversion=function($index,uom){
         var addlab=(($scope.userit[$index].chgunt*$scope.userit[$index].rate));
         if($scope.userit[$index].labamt != null){
         var labval1=(addlab*$scope.userit[$index].labamt)/100;
-        $scope.userit[$index].labval= labval1.toFixed(fixdec);
+        $scope.userit[$index].labval= labval1.toFixed($scope.rupeesDecimalPoints);
             }
         $scope.userit[$index].taxval1=addlab+parseFloat($scope.userit[$index].labval)+parseFloat($scope.userit[$index].stval);
-        $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed(2);
+        $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed($scope.rupeesDecimalPoints);
       //   $scope.userit[$index].labval=$scope.userit[$index].labamt;   
          
       // //  addlab =  addlab +parseFloat($scope.userit[$index].stval)
@@ -2244,10 +2220,10 @@ $scope.uomConversion=function($index,uom){
         
         if($scope.userit[$index].labamt != null){
         var addlab1=$scope.userit[$index].chgunt*$scope.userit[$index].labamt;        
-            $scope.userit[$index].labval=(parseFloat(addlab1)).toFixed(fixdec)
+            $scope.userit[$index].labval=(parseFloat(addlab1)).toFixed($scope.rupeesDecimalPoints)
          }
         $scope.userit[$index].taxval1=addlab+parseFloat($scope.userit[$index].labval)+parseFloat($scope.userit[$index].stval);
-        $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed(2);
+        $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed($scope.rupeesDecimalPoints);
 
         taxValCal($index)
         // $scope.userit[$index].taxval1=parseFloat($scope.userit[$index].taxval)+$scope.userit[$index].labval
@@ -2260,10 +2236,10 @@ $scope.uomConversion=function($index,uom){
         console.log($scope.userit[$index].stval)
         console.log($scope.userit[$index].labval)
         if($scope.userit[$index].labamt != null){
-        $scope.userit[$index].labval=($scope.userit[$index].labamt).toFixed(fixdec);
+        $scope.userit[$index].labval=($scope.userit[$index].labamt).toFixed($scope.rupeesDecimalPoints);
         }
         $scope.userit[$index].taxval1=($scope.userit[$index].chgunt*$scope.userit[$index].rate)+parseFloat($scope.userit[$index].labval)+parseFloat($scope.userit[$index].stval);
-        $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed(2);
+        $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed($scope.rupeesDecimalPoints);
         taxValCal($index)
 
     }
@@ -2328,7 +2304,7 @@ var stval0 = 0;
        
        if($scope.userit[$index].stchg != null){
         var stval1=(addstone*$scope.userit[$index].stchg)/100;
-        $scope.userit[$index].stval= stval1.toFixed(fixdec);
+        $scope.userit[$index].stval= stval1.toFixed($scope.rupeesDecimalPoints);
         stval0 = stval1.toFixed(fixdec);
         console.log(" stval0 "+ stval0)
        // alert("$scope.userit[$index].stval "+$scope.userit[$index].stval);
@@ -2336,7 +2312,7 @@ var stval0 = 0;
             }
          
              $scope.userit[$index].taxval1=addstone+parseFloat($scope.userit[$index].stval)+parseFloat($scope.userit[$index].labval);
-             $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed(2);
+             $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed($scope.rupeesDecimalPoints);
               //alert("else labour")
             console.log("in stval stval")
              taxValCal($index)
@@ -2349,13 +2325,13 @@ var stval0 = 0;
         
         if($scope.userit[$index].stchg != null){
         var addstone1=$scope.userit[$index].chgunt*$scope.userit[$index].stchg;        
-            $scope.userit[$index].stval=(parseFloat(addstone1)).toFixed(fixdec);
+            $scope.userit[$index].stval=(parseFloat(addstone1)).toFixed($scope.rupeesDecimalPoints);
                 stval0 = (parseFloat(addstone1)).toFixed(fixdec);
                taxValCal($index)
 
          }
         $scope.userit[$index].taxval1=addstone+parseFloat($scope.userit[$index].stval)+parseFloat($scope.userit[$index].labval);
-             $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed(2);
+             $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed($scope.rupeesDecimalPoints);
               //alert("else labour")
             console.log("in stval stval")
              taxValCal($index)
@@ -2366,12 +2342,12 @@ var stval0 = 0;
         console.log($scope.userit[$index].labval)
         
         if($scope.userit[$index].stchg != null){
-        $scope.userit[$index].stval=($scope.userit[$index].stchg).toFixed(fixdec);
+        $scope.userit[$index].stval=($scope.userit[$index].stchg).toFixed($scope.rupeesDecimalPoints);
               stval0 = ($scope.userit[$index].stchg).toFixed(fixdec);
              
 
            $scope.userit[$index].taxval1=($scope.userit[$index].chgunt*$scope.userit[$index].rate)+parseFloat($scope.userit[$index].labval)+parseFloat($scope.userit[$index].stval);
-           $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed(2);
+           $scope.userit[$index].taxval=$scope.userit[$index].taxval1.toFixed($scope.rupeesDecimalPoints);
              taxValCal($index)
          
         }
@@ -2385,29 +2361,29 @@ var stval0 = 0;
 }]);
 
 //for item controller
-myApp.controller('ItemCntrl',['$scope','$http','$window',
-function($scope,$http,$window){
-  //alert("well come to ItemCntrl")
+// myApp.controller('ItemCntrl',['$scope','$http','$window',
+// function($scope,$http,$window){
+//   //alert("well come to ItemCntrl")
 
-  $http.get('/getinventorygroupmaster').success(function(response){
-       console.log(response);
-       $scope.inventorygroupmaster1 = response
+//   $http.get('/getinventorygroupmaster').success(function(response){
+//        console.log(response);
+//        $scope.inventorygroupmaster1 = response
         
-    })
+//     })
 
-  $http.get('/getitemtype').success(function(response){
-        console.log(response);
-          $scope.itemtype1 = response
-    })
+//   $http.get('/getitemtype').success(function(response){
+//         console.log(response);
+//           $scope.itemtype1 = response
+//     })
 
-  $http.get('/getsalescategorymaster').success(function(response){
-        console.log(response);
-        $scope.salescategorymaster1 = response
-    })
+//   $http.get('/getsalescategorymaster').success(function(response){
+//         console.log(response);
+//         $scope.salescategorymaster1 = response
+//     })
 
-  $http.get('/gettaxrate').success(function(response){
-        console.log(response);
-         $scope.taxrate1 = response
-    })
+//   $http.get('/gettaxrate').success(function(response){
+//         console.log(response);
+//          $scope.taxrate1 = response
+//     })
 
-}]);
+// }]);

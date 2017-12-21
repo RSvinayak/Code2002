@@ -5501,7 +5501,7 @@ app.use(express.static(__dirname + '/subscriber_images'));
 require('./app/routes')(app); // pass our application into our routes
 //require('./app/rout')(app);
 // start app ===============================================
-app.listen(4000); 
+app.listen(8000); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 4000");
+console.log("server running on port 8000");
 exports = module.exports = app;
