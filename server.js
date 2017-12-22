@@ -1531,10 +1531,8 @@ app.get('/getPrefix:prefix',function(req,res){
   })
 });
 // for pdf data generation using barcode
-app.get('/getparty',function(req,res)
-{    
-   // console.log("iam pdf ppppppppppppppppppppppppppppppppaaaaaaaa");
-    // var partyname=req.query.name;
+app.get('/getparty',function(req,res){    
+   
 var id =req.query.id;
      //  console.log(partyname);
      // var trans=req.query.Transaction;
@@ -1543,7 +1541,26 @@ var id =req.query.id;
       db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
         
         res.json(doc);
-        console.log(doc);
+       // console.log(doc);
+        // if (doc[0].compositeRef != undefined) {
+           
+        //       function incrementCall(c) {
+        //             // body...
+        //             console.log(" doc[0].compositeRef doc[0].compositeRef "+doc[0].compositeRef)
+            
+        //          if (c <=3) {
+                  
+        //             db.transactiondetail.findOne({"compositeRef":Number(doc[0].compositeRef),"compositenum":Number(c)},function(err,doc1){
+        //                // console.log(doc1[0]);
+        //                 console.log(doc1);
+        //                 incrementCall(c+1)
+        //                // res.json(doc);
+        //             })              
+        //         }
+             
+        //    }// incrementCall(c)
+        //    incrementCall(1)
+        //  }
     });
 })
 app.get('/urdDetails',function(req,res)
@@ -5291,6 +5308,20 @@ sort_order[ "group" ] = 1;
 //     })
  
 // })
+
+// printCompositeItems in pdf
+app.get('/printCompositeItems',function(req,res){
+    var compositeRef = req.query.compositeRef;
+    var compositenum = req.query.compositenum;
+   
+    console.log("i received a get request from user");
+   
+    db.transactiondetail.findOne({"compositeRef":Number(req.query.compositeRef),"compositenum":Number(req.query.compositenum)},function(err,doc1){
+       // console.log(doc1.compositenum);
+        res.json(doc1);
+    })
+})
+
 app.get('/getGroupWisePreview',function(req,res){
 
   console.log(" getGroupWisePreview   req.query.fromdate "+ req.query.fromdate)
@@ -5501,7 +5532,13 @@ app.use(express.static(__dirname + '/subscriber_images'));
 require('./app/routes')(app); // pass our application into our routes
 //require('./app/rout')(app);
 // start app ===============================================
+<<<<<<< HEAD
 app.listen(400); 
 //console.log('Listening on port ' + port);       // shoutout to the user
 console.log("server running on port 400");
+=======
+app.listen(8000); 
+//console.log('Listening on port ' + port);       // shoutout to the user
+console.log("server running on port 8000");
+>>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 exports = module.exports = app;

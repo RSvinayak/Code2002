@@ -46,11 +46,20 @@ export-table
       /*.table >thead >tr >th { border: 1px solid #2980B9; }*/
       #theadsize  {
   font-size: 80%;
+      background-color: white;
     }
      #right2{
     text-align: right;
     
         }
+        .mark{
+              font-weight:normal;
+
+          }
+          .mark1{
+                  font-weight:bold;
+
+          }
     </style>
     </head>
     <body ng-controller="PdfCntrl" class="container"> 
@@ -91,7 +100,7 @@ City:{{city}}</p>
     <div style="overflow-x:auto;">
   <table  class="table no-border" id="to-pdf" ng-cloak> 
     <thead id="theadsize">
-      <tr><font color="white">
+      <tr>
       <th >Sl No</th>
       <th>Particulars</th>
       <th>Hsc</th>
@@ -113,13 +122,19 @@ City:{{city}}</p>
         <th ng-if="trans =='Regular Sale' && printLabour=='yes'" >Labour</th>
         <th ng-if="trans == 'Issue Voucher'|| trans =='Receipt Voucher'">Labour Val</th>
         <th ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'" >Total</th>  
-     </font>
+     
 
       </tr>
     </thead>
     <tbody>
-      <tr id="theadsize" ng-repeat="item in userdisplay">
-      <td>{{$index+1}}</td>
+      <tr id="theadsize" ng-repeat="item in userdisplay" ng-class="styleFunction(item.compositeRef,item.Number)" >
+     <!--  <td ng-if="item.compositeRef == undefined " >
+       {{$index+1}}
+      {{item.Number}}
+      </td> -->
+      <td  > {{item.Number}}</td>
+    <!--   <td ng-if="item.Number == undefined " > {{item.compositeRef}}</td> -->
+      <!--  <td>{{item.Number}}</td> -->
        <td>{{item.itemName}}</td>
 
         <td>{{item.Hsc}}</td>
@@ -151,7 +166,7 @@ City:{{city}}</p>
 <div class="col-sm-4">
 <table class="table no-border">
     <thead>
-      <tr ng-if = "sca != 0 || smca != 0 || orad != 0 || ormd != 0||urd_adj != 0 "><font color="white">
+      <tr ng-if = "sca != 0 || smca != 0 || orad != 0 || ormd != 0||urd_adj != 0 ">
       <th>Particulars</th>
         <th >Adjusted</th>
         <th>Balance</th>
@@ -202,7 +217,7 @@ City:{{city}}</p>
 <div class="col-sm-4">
 <table class="table no-border">   
     <thead>
-      <tr ng-if = "v1 != 0||v2 != 0||charge1 != 0||charge2 != 0||labour != 0 ||labourValue !=0 "><font color="white">
+      <tr ng-if = "v1 != 0||v2 != 0||charge1 != 0||charge2 != 0||labour != 0 ||labourValue !=0 ">
       <th>Particulars</th>
         <th >Value</th>
         <th>Amount</th>
@@ -321,8 +336,13 @@ City:{{city}}</p>
 </div>
 
 </div>
+<<<<<<< HEAD
 <br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans !='Sale Return'&&trans !='Purchase Return'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}</h4>
 <h4 ng-if="trans =='Urd Purchase'" ng-cloak><font color="black">Invoice Value In Words:{{wor}}</h4>
+=======
+<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'" ng-cloak>AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
+<h4 ng-if="trans =='Urd Purchase'" ng-cloak>Invoice Value In Words:{{wor}}{{"only"}}</h4>
+>>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 <br>
 
 
@@ -334,7 +354,7 @@ City:{{city}}</p>
 <table class="table table-bordered" >
     <thead>
       <!-- <tr><font color="white"> -->
-      <tr><font color="white">
+      <tr>
       <th>Receipt Details</th>
         <th >OB</th>
         <th>Dr/cr</th>
@@ -364,7 +384,7 @@ City:{{city}}</p>
 <div class="col-sm-4">
 <table class="table table-bordered">
     <thead>
-      <tr><font color="white">
+      <tr>
       <th>Refund Details</th>
       <th></th>  
       </tr>

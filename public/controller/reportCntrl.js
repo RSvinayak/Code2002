@@ -19,6 +19,24 @@ $scope.bit2 = {
     }; 
 
 var fixdec =2;
+ $scope.myObj1 = {
+        "color" : "red",
+        //"background-color" : "coral",
+        //"font-size" : "20px",
+        //"padding" : "50px"
+    }
+  $scope.myObj2 = {
+        "color" : "green",
+        
+    }
+  $scope.myObj3 = {
+        "color" : "blue",
+        
+    }
+  $scope.myObj4 = {
+        "color" : "black",
+        
+    }
 //radiobutton()
 $scope.radiobutton1 = function(){
   console.log("entered into radiobutton1");
@@ -166,9 +184,23 @@ var processItems = function(k){
             var ciPcs = 0;
 
            // var deferred11 = $q.defer();
-            function logSetElements(value1) {
+
+            function logSetElements(value1,idx) {
                          // console.log("value1.sort1 "+value1._id.sort1 +"  report1[k]._id.sort1 "+ report1[k]._id.sort1);
-                   if(value1._id.sort1  == report1[k]._id.sort1 ){
+               if (sort1 != undefined && sort2 != undefined && sort3 != undefined ) {
+                    if(value1._id.sort1  == sort1 && value1._id.sort2  == sort2 && value1._id.sort3  == sort3){
+                        rcvQty += value1.rcvQty;
+                        rcvPcs += value1.rcvPcs;
+                        issQty += value1.issQty;
+                        issPcs += value1.issPcs;
+                        ciQty += value1.ciQty;
+                        ciPcs += value1.ciPcs;
+                         console.log("rcvQty "+rcvQty);
+                        //sort1Check = true;
+                   }
+               }
+              else  if (sort1 != undefined && sort2 != undefined ) {
+                   if(value1._id.sort1  == sort1 && value1._id.sort2  == sort2){
                         rcvQty += value1.rcvQty;
                         rcvPcs += value1.rcvPcs;
                         issQty += value1.issQty;
@@ -179,10 +211,36 @@ var processItems = function(k){
                         //sort1Check = true;
                    }
 
+                }
+                    else if (sort1 != undefined  ) {
+                   if(value1._id.sort1  == sort1 ){
+                        rcvQty += value1.rcvQty;
+                        rcvPcs += value1.rcvPcs;
+                        issQty += value1.issQty;
+                        issPcs += value1.issPcs;
+                        ciQty += value1.ciQty;
+                        ciPcs += value1.ciPcs;
+                         console.log("rcvQty "+rcvQty);
+                        //sort1Check = true;
+                   }
+
+                   }
     
              }//logSetElements
 
              var resultFromIf = report1.forEach(logSetElements);
+               var obj = {
+      rcvQty :rcvQty,
+             rcvPcs :rcvPcs,
+            issQty : issQty,
+             issPcs :issPcs ,
+            ciQty :ciQty,
+             ciPcs :ciPcs,
+
+  };
+  // console.log(obj)
+  // Return it
+  return obj;
                  
 
       }////additionCall
@@ -203,9 +261,11 @@ var processItems = function(k){
               //  if( printary.indexOf(sort1) == -1) {
                   if( condition == false || condition == null   ) {
                  
-                     additionCall()
+                    // additionCall();
+                     var replayCall = additionCall(report1[k]._id.sort1);
+                     console.log(replayCall)
                       // var obj3 = {"_id.sort1":report1[k]._id.sort1};
-                     var obj3 = {"_id":{sort1:report1[k]._id.sort1}};
+                     var obj3 = {"_id":{sort1:report1[k]._id.sort1},rcvQty:replayCall.rcvQty,rcvPcs:replayCall.rcvPcs,issQty:replayCall.issQty,issPcs:replayCall.issPcs,ciQty:replayCall.ciQty,ciPcs :replayCall.ciPcs };
                       // report1[k]._id.sort1
                       //  obj3["_id"] = {sort1:report1[k]._id.sort1} ;
                         
@@ -254,7 +314,12 @@ var processItems = function(k){
               });
                if( condition == false || condition == null   ) {
                  // var obj3 = {"_id.sort1":report1[k]._id.sort1,"_id.sort2":report1[k]._id.sort2};
-                 var obj3 = {"_id":{sort2:report1[k]._id.sort2}};     
+                 //var obj3 = {"_id":{sort2:report1[k]._id.sort2}};
+                  var replayCall = additionCall(report1[k]._id.sort1,report1[k]._id.sort2);
+                     console.log(replayCall)
+                      // var obj3 = {"_id.sort1":report1[k]._id.sort1};
+                     var obj3 = {"_id":{sort2:report1[k]._id.sort2},rcvQty:replayCall.rcvQty,rcvPcs:replayCall.rcvPcs,issQty:replayCall.issQty,issPcs:replayCall.issPcs,ciQty:replayCall.ciQty,ciPcs :replayCall.ciPcs };
+                         
               //alert(sort2)
                                  // alert("entered to remove duplicates ")
       //                          var obj3 = {};
@@ -299,8 +364,13 @@ var processItems = function(k){
               });
                 if( condition == false || condition == null   ) {
                 // var obj3 = {"_id.sort1":report1[k]._id.sort1,"_id.sort2":report1[k]._id.sort2,"_id.sort3":report1[k]._id.sort3};
-                 var obj3 = {"_id":{sort3:report1[k]._id.sort3}};  
+                // var obj3 = {"_id":{sort3:report1[k]._id.sort3}};  
               //alert(sort2)
+              var replayCall = additionCall(report1[k]._id.sort1,report1[k]._id.sort2,report1[k]._id.sort3);
+                    // console.log(replayCall)
+                      // var obj3 = {"_id.sort1":report1[k]._id.sort1};
+                     var obj3 = {"_id":{sort3:report1[k]._id.sort3},rcvQty:replayCall.rcvQty,rcvPcs:replayCall.rcvPcs,issQty:replayCall.issQty,issPcs:replayCall.issPcs,ciQty:replayCall.ciQty,ciPcs :replayCall.ciPcs };
+                       
                                  // alert("entered to remove duplicates ")
       //                          var obj3 = {};
       //                            if ($scope.sort2 == "Group") {
@@ -409,37 +479,32 @@ var processItems = function(k){
                  
                          // alert("entered to remove duplicates ")
                           // var obj3 = {};
-                           var obj3 = {"_id":{sort4:report1[k]._id.sort4}};  
-            
-                           // obj3["purity"] = report1[k].purity;
-      //                      if ($scope.sort3 == "Group") {
-      //                               obj3["group"]   = sort3;
-        
-      // } else if($scope.sort3 == "SaleCty"){
-      //     //sort1 = report1[k].salesCtg;
-      //     obj3["salesCtg"]  = sort3;
-      // }else if($scope.sort3 == "Purity"){
-      //    //sort1 = report1[k].purity;
-      //   obj3["purity"]  = sort3;
-
-      // }
-      //                       printary.push(sort3);
+                         //  var obj3 = {"_id":{sort4:report1[k]._id.sort4},};  
+                          var obj3 = {"_id":{sort4:report1[k]._id.sort4},
+                                        rcvQty:report1[k].rcvQty,
+                                        rcvPcs:report1[k].rcvPcs,
+                                        issQty:report1[k].issQty,
+                                        issPcs:report1[k].issPcs,
+                                        ciQty:report1[k].ciQty,
+                                        ciPcs :report1[k].ciPcs 
+                                     };
+                  
                              printfinalary.push(obj3)
-                             var obj = {};
-                                   obj["item"] = report1[k].item;
-                                   obj["opQty"] = report1[k].itemopQty;
-                                   obj["opPcs"] = report1[k].itemopPcs;
-                                   obj["rcvQty"] = report1[k].rcvQty;
-                                   obj["rcvPcs"] = report1[k].rcvPcs;
-                                   obj["totQty"] = report1[k].totQty;
-                                   obj["totPcs"] = report1[k].totPcs;
-                                   obj["issQty"] = report1[k].issQty ;
-                                   obj["issPcs"] = report1[k].issPcs;
-                                   obj["ciQty"] = report1[k].ciQty;
-                                   obj["ciPcs"] = report1[k].ciPcs;
-                                  //  obj["salesCtg"] = report1[k].salesCtg;
+                             // var obj = {};
+                             //      // obj["item"] = report1[k].item;
+                             //      // obj["opQty"] = report1[k].itemopQty;
+                             //       //obj["opPcs"] = report1[k].itemopPcs;
+                             //       obj["rcvQty"] = report1[k].rcvQty;
+                             //       obj["rcvPcs"] = report1[k].rcvPcs;
+                             //      // obj["totQty"] = report1[k].totQty;
+                             //      // obj["totPcs"] = report1[k].totPcs;
+                             //       obj["issQty"] = report1[k].issQty ;
+                             //       obj["issPcs"] = report1[k].issPcs;
+                             //       obj["ciQty"] = report1[k].ciQty;
+                             //       obj["ciPcs"] = report1[k].ciPcs;
+                             //      //  obj["salesCtg"] = report1[k].salesCtg;
                     
-                                   printfinalary.push(obj)
+                             //       printfinalary.push(obj)
                           // console.log(printary)
                            //console.log(printfinalary)
                            $scope.reportonedate1 =printfinalary;

@@ -258,9 +258,9 @@ width: 8%;
        </div>
        <button type="button" id="buttonwidth" class="btn" ng-click=print() ng-disabled="disablebutton" ng-cloak>Print</button>
        <button type="button" id="buttonwidth" class="btn btn-primary" ng-click=edit() ng-cloak>Edit</button>
-       <button type="button" id="buttonwidth" class="btn btn-warning" ng-click=deletebarcodegeneration() ng-cloak>Delete</button>
+       <button type="button" id="buttonwidth" class="btn btn-warning" ng-if = " updateButton != true" ng-click=deletebarcodegeneration() ng-cloak>Delete</button>
         <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a>
-       <button  type="button" id="buttonwidth" class="btn btn-info" ng-click="generateBarcode()"  ng-cloak>Allocate</button>
+       <button  type="button" id="buttonwidth" class="btn btn-info" ng-click="generateBarcode()"  ng-disabled="all" ng-if = " updateButton != true"  ng-cloak>Allocate</button>
        <button type="button" ng-if = " updateButton != true" id="buttonwidth" class="btn btn-success" ng-click="saveBatchGeneration()"  ng-cloak>Save</button>
 
        <button type="button" ng-if = " updateButton == true" id="buttonwidth" class="btn btn-success" ng-click="saveBatchGeneration()" ng-cloak>Update</button>
@@ -303,27 +303,15 @@ width: 8%;
     </thead>
     <tbody>
       <tr ng-repeat="item in userit">
-       <!-- <td>
-        <select  class="selectpicker" ng-model="item.name">
-        <option ng-repeat="itemname in items" value="{{itemname.name}}">{{tag}}</option>
-        </select>
-       </td> --> 
+       
        <td>
         <select   ng-model="item.itemName" ng-change="itemSelect(item.itemName,$index)" ng-disabled="$index == 0">
         <option ng-repeat="itemname in items" >{{itemname.Name}}</option >
         </select>
          
-           <!-- <select type="text" class="form-control" ng-model="item.itemName" value="{{item.itemName}}" ng-change="itemSelect1(item.itemName)" ><option >{{item.itemName}}</option></select> -->
+          
        </td>
- <!-- <select ng-model="item.iname" class="selectpicker" ng-change="purityCal($index,purity)">
-       <option ng-repeat="pure in irate" value="{{item.iname}}"></option>
-       </select>
-       </td> -->
-       <!--  <select type="text" class="selectpicker" ng-model="item.iname" >
-       <option >Diamond</option>
-        <option >platinum</option>
-        <option >Diamond six</option>
-        </select></td> -->
+ 
        <td>
         <input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" ng-model="item.barcode" id="usr" readonly>
        </td>
@@ -341,69 +329,73 @@ width: 8%;
        </select>
        </td>  -->
       
-       <td> <select ng-model="item.purity" class="selectpicker" ng-change="purityCal($index,item.purity)" ng-disabled="disableMrp">
+       <td> <select ng-model="item.purity" class="selectpicker" ng-change="purityCal($index,item.purity)" >
        <option ng-repeat="pure in item.irate" >{{pure.ValueNotation}}</option>
        </select>
        </td>
 
        <!-- <td><input type="text" class="form-control" id="usr" size="40" ng-model="item.purity" value="{{item.purity}}"></td> -->
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.gwt"  ng-change="newgwt($index)" ng-disabled="disableMrp"></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.gwt"  ng-change="newgwt($index)" ng-blur="calMrpValue($index)" ></td>
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.gpcs" ng-change="gpcsDecimals($index)" placeholder="0" ></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.gpcs" ng-change="gpcsDecimals($index)"  placeholder="0" ></td>
        <!-- ng-if = "disableMrp == true" -->
        
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control"  id="usr"  ng-model="item.stwt" ng-change="newstwt($index)"  ng-disabled="disableMrp" ng-blur="stoneTolerence($index)" ></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control"  id="usr"  ng-model="item.stwt" ng-change="newstwt($index)"   ng-blur="stoneTolerence($index);calMrpValue($index)"  ></td>
 
 
-       <td><select ng-model="item.uom" class="selectpicker" ng-change= "uomConversion($index,item.uom)"  ng-disabled="disableMrp" >
+       <td><select ng-model="item.uom" class="selectpicker" ng-change= "uomConversion($index,item.uom)"  ng-blur="calMrpValue($index)" >
        <option ng-repeat="uom in uom"  >{{uom.name}}</option>
        </select></td>
 
-       <td><input type="text" ng-model="item.ntwt" class="form-control" id="usr" readonly></td>
+       <td><input type="text" ng-model="item.ntwt" oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" readonly></td>
 
       <!--  <td><select ng-model="pctcal" class="selectpicker">
        <option ng-repeat="pct in pct" value="{{pct.name}}">{{pct.name}}</option>
        </select></td> -->
 
-       <td><select ng-model="item.pctcal" ng-change=newwas($index,item.pctcal) class="selectpicker"  ng-disabled="disableMrp">
+       <td><select ng-model="item.pctcal" ng-change=newwas($index,item.pctcal)  ng-blur="calMrpValue($index)" class="selectpicker">
        <option ng-repeat="pct in pct" >{{pct.name}}</option>
        </select></td>
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.wastage"  ng-change=newwas($index,item.pctcal) placeholder="0" ng-disabled="disableMrp"></td>
+       <td><input type="number" min="1"  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.wastage"  ng-change=newwas($index,item.pctcal) ng-blur="calMrpValue($index)"  placeholder="0" ></td>
 
 
 
-       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.matadj" ng-disabled="disableMrp" readonly></td>
+       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.matadj" readonly></td>
 
        <td><input type="text" class="form-control" id="usr" ng-model="item.chgunt" readonly></td>
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp" ng-change="mrpCal($index,item.mrp)" readonly ></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp" ng-change="mrpCal($index,item.mrp)"  ></td>
 
-       <td ><input type="text" class="form-control" id="usr" ng-model="item.rate"  ng-change="rateChange($index)" ng-disabled="disableMrp"></td>
+       <td ><input type="text" class="form-control" id="usr" ng-model="item.rate"  ng-change="rateChange($index)" ng-blur="calMrpValue($index)" ></td>
        <!-- <td><select ng-model="labval" class="selectpicker">
        <option ng-repeat="lab in labcal" value="{{lab.name}}">{{lab.name}}</option>
        </select></td> -->
 
-         <td><select ng-model="item.labcal"  ng-change="newlab($index,item.labcal)" class="selectpicker" ng-disabled="disableMrp" >
+         <td><select ng-model="item.labcal"  ng-change="newlab($index,item.labcal)" ng-blur="calMrpValue($index)"  class="selectpicker"  >
        <option  ng-repeat="lab in labcal" >{{lab.name}}</option>
        </select></td>
 
 
-       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.labamt"  ng-change="newlab($index,item.labcal)" placeholder="0" ng-disabled="disableMrp"></td>
+       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.labamt"  ng-change="newlab($index,item.labcal)" ng-blur="calMrpValue($index)"  placeholder="0" ></td>
 
        <td><input type="text" class="form-control"  id="usr"  ng-model="item.labval"  placeholder="0" readonly></td>
 
-       <td> <select ng-model="item.stonecal" ng-change="newstchg($index,item.stonecal)" class="selectpicker" ng-disabled="disableMrp">
+       <td> <select ng-model="item.stonecal" ng-change="newstchg($index,item.stonecal)" ng-blur="calMrpValue($index)"  class="selectpicker" >
        <option ng-repeat="lab in labcal" >{{lab.name}}</option>
        </select></td>
        
-        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.stchg"  ng-change="newstchg($index,item.stonecal)" placeholder="0" ng-disabled="disableMrp"></td>
+        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  class="form-control" id="usr" ng-model="item.stchg"  ng-change="newstchg($index,item.stonecal)" ng-blur="calMrpValue($index)"  placeholder="0" ></td>
 
         <td><input type="text" class="form-control"  id="usr"  ng-model="item.stval"  placeholder="0" readonly></td>
         
+
        <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval"  ng-change="newTaxVal($index,item.taxval)" ></td>
+      
+
+       <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval"  ng-change="newTaxVal($index,item.taxval)" readonly></td>
        <!-- <td><select  class="selectpicker">
         <option value="{{itemname.name}}">1%</option>
         </select></td> -->
@@ -417,6 +409,7 @@ width: 8%;
         <td ><input type="text" class="form-control"  id="usr" ng-model="item.tags" value="{{item.tags}}"></td>
          <td ><input type="text" class="form-control"  id="usr" ng-model="item.wt" value="{{item.wt}}"></td>
        </p> -->
+
        </tr>
     </tbody>      
   </table>
