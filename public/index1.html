@@ -112,6 +112,7 @@ th, td {
 }
 td {
   height: 50px;
+
 }
 .custom {
     width: 150px !important;
@@ -127,11 +128,15 @@ input {
     border: none;
     background: transparent;
 }
+/*#us {
+    border: none;
+    background: transparent;
+}*/
 
- /*.dropdown
+ .dropdown
  {
   width: 2em;
- }      */
+ }      
 
 #frm {
   display: inline-flex;
@@ -785,7 +790,7 @@ display: inline-block;
     </thead>
   </table></div></div> -->
    <!-- <div class="w3-row-padding w3-border"> -->
-    <div class="w3-quarter w3-container">
+   <!--  <div class="w3-quarter w3-container">
     <div class="w3-card-4 w3-margin">
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" ng-hide="!saleinv.length">
         <h4 >FINAL CALCULATION</h4>
@@ -863,10 +868,64 @@ display: inline-block;
   :
   <form>
    <input type="text" class="form-control"  id="usr"  ng-model="adjqty"  ng-value="{{adjqty}}" readonly/>
-  <!-- <input type="text" class="form-control"  id="usr"  ng-model="adj" value="{{adj}}" readonly/> -->
-</form>
-</div>
-<div id="frm3">
+  <! <input type="text" class="form-control"  id="usr"  ng-model="adj" value="{{adj}}" readonly/> -->
+
+  <div class="w3-quarter w3-container" ng-hide="!saleinv.length">
+    <div class="w3-card-2 w3-margin">
+        <header class="w3-container w3-light-grey w3-padding-8 w3-center" >
+        <h4 >FINAL CALCULATION</h4>
+        </header>
+          <table class="w3-table w3-stripped w3-bordered" >
+      
+      <!--       <thead>
+             <tr>
+         
+        <th>Transction</th>
+        <th>Amount</th>
+      </tr>
+    </thead> -->
+    <tbody ng-repeat="amt in saleinv" >
+      <tr>
+        <td  readonly> Taxable     :</td>
+        <!-- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalTaxable" readonly/> -->
+        <td><input type="text" class="form-control"  id="usr"  ng-model="amt.taxableval" ng-value="{{amt.taxableval}}" readonly/></td>
+        </tr>
+        <tr>
+        <td>Tax          :</td>
+        <td><input type="text" class="form-control" id="usr" ng-model="amt.tax" ng-value="{{amt.tax}}" readonly/ ></td>
+        </tr>
+        <tr>
+        <td>Discount     :</td>
+        <td><input  type="text" class="form-control" id="usr" ng-model="amt.dis" ng-value="{{amt.dis}}" readonly/></td>
+        </tr>
+        <tr>
+        <td>Subtotal     :</td>
+        <td><input type="text" type="text" class="form-control" id="usr" ng-model="amt.subtol" ng-value="{{amt.sutol}}" readonly/ ></td>
+        </tr>
+        <tr>
+        <td>Charges      :</td>
+        <td><input type="text" class="form-control"  id="usr"  ng-model="amt.char" ng-value="{{amt.char}}" readonly/></td>
+        </tr>
+        <tr>
+        <td>Adjustments   :</td>
+        <td><input type="text" class="form-control"  id="usr"  ng-model="adjqty"  ng-value="{{adjqty}}" readonly/></td>
+        </tr>
+        <tr>
+        <td>Invoice Value :</td>
+        <td><input type="text" class="form-control"  id="usr"  ng-model="amt.invoiceValue" ng-value="{{amt.invoiceValue}}" readonly/></td>
+        </tr>
+         <tr>
+        <td>Nett Amt      :</td>
+        <td><input type="text" class="form-control"  id="usr"  ng-model="amt.netamt" ng-value="{{amt.netamt}}" readonly/ ></td>
+        </tr>
+       
+        </tbody>
+       </table>
+        </div>
+        </div>
+<!-- </form>
+</div> -->
+<!-- <div id="frm3">
   <form>
  <input type="text" class="form-control"  id="usr1"  ng-value="finalCalInvoiceValue" readonly/>
   </form>
@@ -889,11 +948,12 @@ display: inline-block;
 
 </div>
 </div>
-</div>
+</div> --> 
   
-  <div class="col-md-2">
-  <!-- <a ng-href="{{mylink1}}" ng-if = " transaction =='Urd Purchase'"><button ng-click="save()" class="btn btn-success" id="buttonwidth" >Save</button></a> -->
-  <!-- <a ng-if = " transaction =='Urd Purchase'"><button ng-click="save()" class="btn btn-success" id="buttonwidth" >Save</button></a> -->
+  <div class="col-md-2" ng-hide="!saleinv.length">
+ <!--  //<div class> -->
+   <!--  //<div class="w3-card-2 w3-margin"> -->
+        <!-- <header class="w3-container w3-light-grey w3-padding-8 w3-center"> -->
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 
   <button  ng-if = " edituseritButton != true && transaction != 'Valuation'&&transaction != 'Issue Voucher' && transaction != 'Receipt Voucher'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>

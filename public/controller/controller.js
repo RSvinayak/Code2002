@@ -832,15 +832,15 @@ function accountAndPurityCall(index,itemName) {
 }//accountAndPurityCall
 
 $scope.getDetails=function(rvalue,voucherNo,date){
-<<<<<<< HEAD
-
-=======
 // <<<<<<< HEAD
-  // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
+
 // =======
-   // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
-// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+// // <<<<<<< HEAD
+//   // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
+// // =======
+//    // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
+// // >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
+// >>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
   $scope.voucherNo=voucherNo;
       window.sessionStorage.setItem("vin",$scope.voucherNo);
       // alert($scope.voucherNo+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
@@ -3297,7 +3297,7 @@ $scope.resu ;
                                   // $scope.userit[i]._id = response._id;
 
                                   $scope.idUpadtesCall(response._id);
-                                         
+                                          
                                     //only for valuation transaction
                                     // requestCallPrint --;
                                     // if (requestCallPrint == -1) {
@@ -3664,7 +3664,7 @@ $scope.save=function(){
     $scope.inoviceNumberGeneration= function(){
           //  alert("inove generation in pay button ");
           var customerDetails = $scope.transaction+","+$scope.partyname;
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 
@@ -3675,24 +3675,24 @@ $scope.save=function(){
             // if($scope.transaction == "Issue Voucher"){
           //  alert("issue voucher no");
 
-=======
+// =======
 // <<<<<<< HEAD
 //<<<<<<< HEAD
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 //=======
 // =======
 // <<<<<<< HEAD
-          var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// =======
-// <<<<<<< HEAD
-            if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
+//           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
+// // =======
+// // <<<<<<< HEAD
+//             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
             // alert("issue voucher no");
 // =======
 // >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
             // if($scope.transaction == "Issue Voucher"){
             // alert("issue voucher no");
 // >>>>>>> 2ab87d6a376cfb6d07453d0fb06762615a52763b
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+//>>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
           $http.get('/getprefix'+$scope.transaction).success(function(response){
             console.log(response);
             console.log(response[0].TransactionPrefix);
@@ -3735,15 +3735,15 @@ $scope.save=function(){
 
           else{
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-<<<<<<< HEAD
-
-=======
 // <<<<<<< HEAD
-//>>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
+
 // =======
-// >>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
-// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+// // <<<<<<< HEAD
+// //>>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
+// // =======
+// // >>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
+// // >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
+// >>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
                                 console.log(saleinvoice_id )
                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){

@@ -1162,7 +1162,7 @@ var num = 0;
 $scope.userit = [];
  $scope.test = 'display';
 $scope.generateBarcode = function( ){
-<<<<<<< HEAD
+// <<<<<<< HEAD
          // alert(tagno);
          console.log( tagdetails);
           var count = 0
@@ -1185,7 +1185,7 @@ $scope.generateBarcode = function( ){
                 break;
               }
           }//for
-=======
+// =======
    $scope.test = 'display';
  // alert(tagno);
  console.log( tagdetails);
@@ -1219,7 +1219,7 @@ $scope.generateBarcode = function( ){
           break;
           }
     }
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+// >>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
      
    
           var data = icount 
@@ -2068,7 +2068,7 @@ $scope.mrpCal = function(index,mrp){
             }
 }
 $scope.calMrpValue = function(index,mrp){ 
-     alert(" my caall ") 
+     //alert(" my caall ") 
      if ($scope.disableMrp == true) {
           $scope.userit[index].taxval=($scope.userit[index].gpcs*$scope.userit[index].mrp).toFixed($scope.rupeesDecimalPoints);
      }  
