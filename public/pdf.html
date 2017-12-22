@@ -46,11 +46,20 @@ export-table
       /*.table >thead >tr >th { border: 1px solid #2980B9; }*/
       #theadsize  {
   font-size: 80%;
+      background-color: white;
     }
      #right2{
     text-align: right;
     
         }
+        .mark{
+              font-weight:normal;
+
+          }
+          .mark1{
+                  font-weight:bold;
+
+          }
     </style>
     </head>
     <body ng-controller="PdfCntrl" class="container"> 
@@ -78,7 +87,8 @@ City:{{city}}</p>
  
 
 <!-- <p>Amount in words: </p> -->
- <!-- <input type="text" name="number"  onkeyup="word.innerHTML=convertNumberToWords(this.value)" /> -->
+ <!-- <input type="text" name=
+ "number"  onkeyup="word.innerHTML=convertNumberToWords(this.value)" /> -->
 </div>
 <div ng-cloak>Invoice No:{{invoice}}<br>
   <!-- <p>Invoice No:B1393<br> -->
@@ -90,44 +100,50 @@ City:{{city}}</p>
     <div style="overflow-x:auto;">
   <table  class="table no-border" id="to-pdf" ng-cloak> 
     <thead id="theadsize">
-      <tr><font color="white">
+      <tr>
       <th >Sl No</th>
       <th>Particulars</th>
       <th>Hsc</th>
       <th>Description</th>
-        <th ng-if="urdweight =='Gross Wt' || trans =='Regular Sale'">Gross Wt</th>
+        <th ng-if="urdweight =='Gross Wt' || trans =='Regular Sale'||trans =='Sale Return'||trans == 'Purchase Return'">Gross Wt</th>
         <!-- <th ng-if="trans=='Issue Voucher'|| trans=='Receipt Voucher'">Gross Wt</th> -->
-         <th  ng-if="trans =='Regular Sale'||trans=='Issue Voucher'|| trans=='Receipt Voucher'">Gross Pcs</th>
+         <th  ng-if="trans =='Regular Sale'||trans=='Issue Voucher'|| trans=='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'">Gross Pcs</th>
 
         <th  ng-if="trans =='Regular Sale'">St.Wt</th>
-        <th ng-if="urdweight =='NettWt' || trans =='Regular Sale' ">NettWt</th>
+        <th ng-if="urdweight =='NettWt' || trans =='Regular Sale'||trans =='Sale Return'||trans == 'Purchase Return'">NettWt</th>
        <th ng-if=" printWastage=='yes'">Wastage</th>
         <th ng-if="trans =='Regular Sale'">Credit Adj</th>
          <th ng-if="trans =='Regular Sale'">ChrgWt</th>
         <th ng-if="trans =='Urd Purchase' && printChgWt=='Wt'">Wt</th>
         <th ng-if="trans =='Urd Purchase' && printChgWt=='ChgWt'">ChgWt</th>
        <!--  <th ng-if="trans =='Urd Purchase' ">Wt</th> -->
-        <th ng-if="(trans =='Receipt Voucher'&&trans =='Issue Voucher')">Rate/MRP"{{trans}}</th>
+        <th ng-hide="(trans =='Receipt Voucher'||trans =='Issue Voucher')">Rate/MRP</th>
         <th ng-if="trans =='Regular Sale'">St Amt</th>
         <th ng-if="trans =='Regular Sale' && printLabour=='yes'" >Labour</th>
         <th ng-if="trans == 'Issue Voucher'|| trans =='Receipt Voucher'">Labour Val</th>
         <th ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'" >Total</th>  
-     </font>
+     
 
       </tr>
     </thead>
     <tbody>
-      <tr id="theadsize" ng-repeat="item in userdisplay">
-      <td>{{$index+1}}</td>
+      <tr id="theadsize" ng-repeat="item in userdisplay" ng-class="styleFunction(item.compositeRef,item.Number)" >
+     <!--  <td ng-if="item.compositeRef == undefined " >
+       {{$index+1}}
+      {{item.Number}}
+      </td> -->
+      <td  > {{item.Number}}</td>
+    <!--   <td ng-if="item.Number == undefined " > {{item.compositeRef}}</td> -->
+      <!--  <td>{{item.Number}}</td> -->
        <td>{{item.itemName}}</td>
 
         <td>{{item.Hsc}}</td>
         <td>{{item.desc}}</td>
 
-       <td ng-if="urdweight =='Gross Wt' || trans =='Regular Sale'||trans=='Issue Voucher'|| trans=='Receipt Voucher'">{{item.gwt}}</td>
-       <td ng-if="trans =='Regular Sale'||trans=='Issue Voucher'|| trans=='Receipt Voucher'">{{item.gpcs}}</td>
+       <td ng-if="urdweight =='Gross Wt' || trans =='Regular Sale'||trans=='Issue Voucher'|| trans=='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'">{{item.gwt}}</td>
+       <td ng-if="trans =='Regular Sale'||trans=='Issue Voucher'|| trans=='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'">{{item.gpcs}}</td>
        <td ng-if="trans =='Regular Sale'">{{item.stwt}}</td>
-       <td ng-if="urdweight =='NettWt' || trans =='Regular Sale'">{{item.ntwt}}</td>
+       <td ng-if="urdweight =='NettWt' || trans =='Regular Sale'||trans =='Sale Return'||trans == 'Purchase Return'">{{item.ntwt}}</td>
        <td ng-if=" printWastage=='yes'">{{item.wastage}}</td>
        <td ng-if="trans =='Regular Sale'">{{item.matadj}}</td>
        <td ng-if="trans =='Regular Sale'">{{item.chgunt}}</td>
@@ -137,7 +153,8 @@ City:{{city}}</p>
        <td ng-if="trans =='Regular Sale'">{{item.stval}}</td>
        <td ng-if="trans =='Regular Sale' && printLabour=='yes'" >{{item.labval}}</td>
        <td ng-if="trans == 'Issue Voucher' || trans == 'Receipt Voucher'">{{item.labval}}</td>
-       <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'">{{item.taxval}}</td> 
+       <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans!='Sale Return'&&trans !='Purchase Return'">{{item.taxval}}</td> 
+       <td ng-if="trans == 'Sale Return'||trans=='Purchase Return'">{{item.final}}</td>
    </tr>
 </tbody>
 </table>
@@ -149,7 +166,7 @@ City:{{city}}</p>
 <div class="col-sm-4">
 <table class="table no-border">
     <thead>
-      <tr ng-if = "sca != 0 || smca != 0 || orad != 0 || ormd != 0||urd_adj != 0 "><font color="white">
+      <tr ng-if = "sca != 0 || smca != 0 || orad != 0 || ormd != 0||urd_adj != 0 ">
       <th>Particulars</th>
         <th >Adjusted</th>
         <th>Balance</th>
@@ -200,7 +217,7 @@ City:{{city}}</p>
 <div class="col-sm-4">
 <table class="table no-border">   
     <thead>
-      <tr ng-if = "v1 != 0||v2 != 0||charge1 != 0||charge2 != 0||labour != 0 ||labourValue !=0 "><font color="white">
+      <tr ng-if = "v1 != 0||v2 != 0||charge1 != 0||charge2 != 0||labour != 0 ||labourValue !=0 ">
       <th>Particulars</th>
         <th >Value</th>
         <th>Amount</th>
@@ -253,7 +270,7 @@ City:{{city}}</p>
 </div>
 
 
-<div class="col-md-4" ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'">
+<div class="col-md-4" ng-hide="trans =='Issue Voucher'||trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'">
 
   <div style="border:1px solid black;">
   <table width="250px">
@@ -319,20 +336,25 @@ City:{{city}}</p>
 </div>
 
 </div>
-<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
-<h4 ng-if="trans =='Urd Purchase'" ng-cloak><font color="black">Invoice Value In Words:{{wor}}{{"only"}}</h4>
+<<<<<<< HEAD
+<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans !='Sale Return'&&trans !='Purchase Return'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}</h4>
+<h4 ng-if="trans =='Urd Purchase'" ng-cloak><font color="black">Invoice Value In Words:{{wor}}</h4>
+=======
+<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'" ng-cloak>AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
+<h4 ng-if="trans =='Urd Purchase'" ng-cloak>Invoice Value In Words:{{wor}}{{"only"}}</h4>
+>>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 <br>
 
 
 
 
-<div class="row" ng-if="trans !='Urd Purchase' && trans !='Valuation' && trans !='Issue Voucher'&& trans !='Rec" ng-cloak>
+<div class="row" ng-hide="trans =='Urd Purchase'||trans =='Valuation'|| trans =='Issue Voucher' || trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'" ng-cloak>
 
 <div class="col-sm-4">
 <table class="table table-bordered" >
     <thead>
       <!-- <tr><font color="white"> -->
-      <tr><font color="white">
+      <tr>
       <th>Receipt Details</th>
         <th >OB</th>
         <th>Dr/cr</th>
@@ -362,7 +384,7 @@ City:{{city}}</p>
 <div class="col-sm-4">
 <table class="table table-bordered">
     <thead>
-      <tr><font color="white">
+      <tr>
       <th>Refund Details</th>
       <th></th>  
       </tr>
@@ -386,8 +408,19 @@ City:{{city}}</p>
 </table>
 </div>
 </div>
+<table ng-show="trans=='Issue Voucher'|| trans=='Receipt Voucher'">
+ <tr> 
+  <td style="padding:0 500px 0 100px;">Party Signature</td>
+  
+  <td>For  {{ShopName}}</td>
+</tr>
+    </table>
 
-
+ <!-- <div ng-show="trans=='Issue Voucher'||trans=='Receipt Voucher'"> 
+  <span>Party Signature &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ShopName}}</span>
+</div> -->
+ <br> 
+<br>
 <button onclick="exportPDF();id='ww'; style.display = 'none'" class="btn btn-primary" ng-click="bill()" ng-cloak>Bill</button>
 <!-- <button onclick="exportPDF()" class="btn btn-primary" ng-click="bill()">Bill</button> -->
 

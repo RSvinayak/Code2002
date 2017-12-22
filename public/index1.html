@@ -288,8 +288,8 @@ display: inline-block;
             
 
            </div>
-           <div ng-show="transaction == 'RD Purchase'">
-           RefId: <input  type="text" ng-model="refId"  placeholder="refId" id="blockWIdth"  >
+           <div ng-show="transaction == 'RD Purchase'||transaction == 'Receipt Voucher'">
+           RefId<span  id="star"><font size="04">*</font></span>: <input  type="text" ng-model="refId" pattern="^[1-9][0-9]*$" min="1" placeholder="refId" id="blockWIdth" required >
            </div>
            
 
@@ -336,12 +336,13 @@ display: inline-block;
  
           <input type="radio"  ng-model="radio.state"  ng-change="radiobutton()" value="with in state"> With in State
           <input type="radio"  ng-model="radio.state" ng-change="radiobutton()" value="out of state">Out of State
-          <br>
-          <br>
-          <div class="col-sm-2" ng-show="transaction == 'Receipt Voucher'">
-          refID: <input type="number" ng-model="newreceiptID" id="blockWidth" placeholder="refId" required>
-           </div>
-        </div>
+          <!-- <br>
+          <br> -->
+         <!--  <div class="col-sm-2" ng-show="transaction == 'Receipt Voucher'">
+            <!-- <span color="red">*<span> -->
+          <!-- refID<span id="star"><font size="04">*</font></span>: <input type="number" ng-model="newreceiptID" id="blockWidth" placeholder="refId" required>
+           </div> -->
+        </div> 
            
         <!-- <div class="col-sm-4"> -->
         <div class="col-sm-2" >
@@ -959,8 +960,9 @@ display: inline-block;
   <button  ng-if = " edituseritButton != true && transaction != 'Valuation'&&transaction != 'Issue Voucher' && transaction != 'Receipt Voucher'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>
   <br>
   <br>
+  <!-- <br>ng-if="refId != null" -->
   <button  ng-if = " edituseritButton != true && transaction == 'Valuation'"  ng-click="save();" class="btn btn-success" id="buttonwidth" >Print</button>
-  <button class="btn btn-success" id="buttonwidth" ng-show="transaction=='Issue Voucher'||transaction=='Receipt Voucher'" ng-click="save();inoviceNumberGeneration()">Print</button>
+  <button class="btn btn-success" id="buttonwidth" ng-show="transaction=='Issue Voucher'||transaction=='Receipt Voucher'" ng-click="save()">Print</button>
   <!-- <button ng-if = " all =='Urd Purchase' ||all =='RD PURCHASE'" ng-click="save()" class="btn btn-primary custom" id="save" ng-disabled="all" >Save</button> -->
  <!-- <button ng-click="save()" class="btn btn-primary custom" id="save" >Save</button> -->
  <!--  <button  ng-if = " transaction !='Urd Purchase'" ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button> -->
