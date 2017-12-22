@@ -832,15 +832,9 @@ function accountAndPurityCall(index,itemName) {
 }//accountAndPurityCall
 
 $scope.getDetails=function(rvalue,voucherNo,date){
-<<<<<<< HEAD
 
-=======
-// <<<<<<< HEAD
-  // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
-// =======
-   // alert(rvalue+"aaaa"+voucherNo+"vou"+date);
-// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+
+
   $scope.voucherNo=voucherNo;
       window.sessionStorage.setItem("vin",$scope.voucherNo);
       // alert($scope.voucherNo+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
@@ -932,78 +926,54 @@ $scope.getDetails=function(rvalue,voucherNo,date){
          window.sessionStorage.setItem("Party",$scope.partyname);
        
 // voucherNoGet = null;
-         (async function loop() {
-    for (let i = 0; i <= arrlength-1; i++) {
-        await new Promise(resolve => setTimeout(resolve,
-       // Math.random()
-    $http.get('/itemnamedetails'+$scope.userit[i].itemName).success(function(response){
-                               
-                            
-                       $http.get('/itemdetails'+response[0].InvGroupName).success(function(response){
-                             console.log(response);
-                            console.log(response[0].PurchaseAcc);
-                             if($scope.transaction =="Urd Purchase" ||$scope.transaction == "RD Purchase"){
-                               $scope.userit[i].accNumbers = response[0].PurchaseAcc; 
+  (async function loop() {
+        for (let i = 0; i <= arrlength-1; i++) {
+                await new Promise(resolve => setTimeout(resolve,
+              
+                     $http.get('/itemnamedetails'+$scope.userit[i].itemName).success(function(response){
+                             $http.get('/itemdetails'+response[0].InvGroupName).success(function(response){
+                                   console.log(response);
+                                   console.log(response[0].PurchaseAcc);
+                                   if($scope.transaction =="Urd Purchase" ||$scope.transaction == "RD Purchase"){
+                                     $scope.userit[i].accNumbers = response[0].PurchaseAcc; 
 
-                             }else if($scope.transaction =="Regular Sale" ||$scope.transaction == "Valuation" ){
-                             
-                                $scope.userit[i].accNumbers = response[0].SalesAcc;
-                             }
-                           
-                           var itempuritydata = response[0].InvGroupID +","+lastdate;
-                       $http.get('/itemPurityDetails'+itempuritydata).success(function(response){
-                           
-                         //   console.log(index4)
-                               $scope.userit[i].irate = response
-                               
-                               console.log($scope.userit[i].irate)
-                              // alert(i,$scope.userit[i].taxSelection)
-                               //taxSelection(i,$scope.userit[i].taxSelection)
-                              //   index4++
-                               // alert("inside http "+n)
-                               // if($scope.userit[i].mrp != undefined){
-                               // // alert($scope.userit[i].mrp )
-                               //  $scope.mrpCal(i)
-                               // }else{
-                               //  $scope.disableMrp1(i)
-                               //   $scope.disableMrp[i] = false;
-                               // }
-                            })   
-            
-                        })
-                   })  
+                                   }else if($scope.transaction =="Regular Sale" ||$scope.transaction == "Valuation" ){
+                                   
+                                      $scope.userit[i].accNumbers = response[0].SalesAcc;
+                                   }
+                                 
+                                   var itempuritydata = response[0].InvGroupID +","+lastdate;
+                                   $http.get('/itemPurityDetails'+itempuritydata).success(function(response){
+                                           $scope.userit[i].irate = response
+                                           
+                                           console.log($scope.userit[i].irate)
+                                          
+                                   })   
+                          
+                              })
+                      })  
+                 ));
 
 
+                 console.log(i);
+                if($scope.transaction != null ){
+                
+                        if(arrcon.indexOf($scope.userit[i]._id) == -1) {
+                         // alert("entered to remove duplicates ")
+                           arrcon.push($scope.userit[i]._id);
+                           // alert(arrcon+"arrcon");
+                           window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
+                 
+                           console.log(arrcon)
+                          //alert(arrcon)
+                        }
+                }
 
+                    window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
+           
 
-
-
-        ));
-
-
-        console.log(i);
-        //only regular sale
-         // if($scope.transaction == "Regular Sale" ||$scope.transaction == "Urd Purchase" ){
-            if($scope.transaction != null ){
-          
-           // alert("Urd and regular sale")
-            //this for sending ids to print in invoice
-            if(arrcon.indexOf($scope.userit[i]._id) == -1) {
-             // alert("entered to remove duplicates ")
-               arrcon.push($scope.userit[i]._id);
-               // alert(arrcon+"arrcon");
-               window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
-     
-               console.log(arrcon)
-              //alert(arrcon)
-              }
-            }
-
-              window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
-     
-
-    }
-})(); //awiyt
+       }//for loop
+  })(); //awiyt
 
 })
 
@@ -3002,7 +2972,7 @@ $scope.resu ;
    var flagCall = function(){
             if(flag == 0){
               $scope.payButtonDIsplay = "true";
-              
+              arrcon =[];
              // alert(" validations are clear")
 
         console.log( $scope.partyname)
@@ -3664,7 +3634,7 @@ $scope.save=function(){
     $scope.inoviceNumberGeneration= function(){
           //  alert("inove generation in pay button ");
           var customerDetails = $scope.transaction+","+$scope.partyname;
-<<<<<<< HEAD
+
 
           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 
@@ -3675,24 +3645,8 @@ $scope.save=function(){
             // if($scope.transaction == "Issue Voucher"){
           //  alert("issue voucher no");
 
-=======
-// <<<<<<< HEAD
-//<<<<<<< HEAD
-          var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-//=======
-// =======
-// <<<<<<< HEAD
-          var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// =======
-// <<<<<<< HEAD
-            if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
-            // alert("issue voucher no");
-// =======
-// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
-            // if($scope.transaction == "Issue Voucher"){
-            // alert("issue voucher no");
-// >>>>>>> 2ab87d6a376cfb6d07453d0fb06762615a52763b
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+
+
           $http.get('/getprefix'+$scope.transaction).success(function(response){
             console.log(response);
             console.log(response[0].TransactionPrefix);
@@ -3735,15 +3689,7 @@ $scope.save=function(){
 
           else{
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-<<<<<<< HEAD
 
-=======
-// <<<<<<< HEAD
-//>>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
-// =======
-// >>>>>>> 14f1ff119ce210bbd49921b7be9534230ba341c8
-// >>>>>>> a4f0bef0af9a5183ff7475449b9b6be3c1e71a34
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
                                 console.log(saleinvoice_id )
                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
@@ -4830,123 +4776,163 @@ console.log( $scope.FromDate)
 if($scope.trans == "Urd Purchase"||$scope.trans == "Issue Voucher"||$scope.trans == "Receipt Voucher"){
     //for barcode data =
     l = 0;
-    for(let k=0;k<=user1.length-1;k++)
-    {
-       $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
-         console.log(response)
-       //  console.log(l)
-          $scope.userdisplay[l] = response[0];
-          // $scope.labourValue=response[0].labval;
-           $scope.invoice = response[0].voucherNo ;
-          console.log( $scope.userdisplay[l])
-          l++;
-           // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
-         // to disapper in pdf
-          $scope.LabourTaxCheck = "No"    
-          numberwords();
-        })
+    for(let k=0;k<=user1.length-1;k++){
+          $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
+              console.log(response)
+               //  console.log(l)
+                  $scope.userdisplay[l] = response[0];
+                  // $scope.labourValue=response[0].labval;
+                   $scope.invoice = response[0].voucherNo ;
+                  console.log( $scope.userdisplay[l])
+                  l++;
+                   // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
+                 // to disapper in pdf
+                  $scope.LabourTaxCheck = "No"    
+                  numberwords();
+          })
       
-      }
-}
+    }//for
+ }// if($scope.trans == "Urd Purchase"||$scope.trans == "Issue Voucher"||$scope.trans == "Receipt Voucher"){
+ 
+ $scope.styleFunction = function(condition,Num){
+   // console.log("styleFunction "+condition);
+    
+    // var x = index % 2;
+    if (condition != undefined && Num == undefined){
+       return "mark"; 
+    } else{
+      return "mark1";
+    }
+
+   
+  } 
 
 
 //if($scope.trans == "Regular Sale"){
   //if($scope.trans == "Regular Sale" || $scope.trans == "RD Purchase" ){
   if($scope.trans != "Urd Purchase" && $scope.trans !='Receipt Voucher' && $scope.trans !='Issue Voucher'){
   
-    //for barcode data 
-     if($scope.trans == "Regular Sale" || $scope.trans == "RD Purchase"){
+         //for barcode data 
+        if($scope.trans == "Regular Sale" || $scope.trans == "RD Purchase"){
  
-    // trdetailsInsert();
-   }
+              // trdetailsInsert();
+        }
 
-    for(let k=0;k<=user1.length-1;k++)
-    {
-   // alert(user1[k])
-  
-    $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
-         console.log(response);
-          if($scope.trans == "Valuation"){
-            //alert(response[0]._id);
-        //      var udelete=$scope.userit[i]._id+","+$scope.userit[i].barcodeNumber;
-        // console.log($scope.userit[i]._id)
-        // console.log($scope.userit[i])
-        // console.log($scope.userit[i].barcode)
-        $http.delete('/userit/'+response[0]._id);
-
-      }
-
-       //  console.log(l)
-          $scope.userdisplay[l] = response[0];
-           $scope.invoice = response[0].voucherNo ;
-           // console.log( $scope.userdisplay[l])
-          numberwords();
-          // alert( $scope.userdisplay[l].desc)
-          // alert( $scope.userdisplay[l].mrp)
-         if($scope.userdisplay[l].mrp!= null){
-          $scope.userdisplay[l].rate =$scope.userdisplay[l].mrp;
-         }
-       
-          l++;
-           // l++;
-         
-         if(response[0].withinstatesgst == undefined||response[0].withinstatesgst == 0){
-              $scope.gst = "igst"
-              $http.get('/gettaxoutofstate').success(function(response){
-                          // $scope.outofstateigst = response[0].Rate
-                          $scope.igst = response[0].Rate
-                    });
-          }else{
-                 // alert ("withinstatesgst is defined"+response[0].withinstatesgst)
-
-                $scope.gst = "cgst"
-                $http.get('/gettaxwithinstate').success(function(response){
-                            $scope.cgst = response[0].Rate
-                            $scope.sgst = response[1].Rate
-                          
-                       });
-               }
-
-               //to display  cgst or igst and calculations
-         for(let i=0;i<response.length;i++){
-            if(response[0].withinstatesgst == undefined||response[0].withinstatesgst == 0){
-                // alert("response[0].withinstatesgst == undefined")
-                  igsttotal = igsttotal + parseFloat(response[i]. outofstateigst)
-                  $scope.igsttax = igsttotal.toFixed(fixdec)
-                  taxvaltotal = taxvaltotal + parseFloat(response[i].taxval)
-                  $scope.taxvaltotal =taxvaltotal.toFixed(fixdec)
-                  $scope.subtotal1 = igsttotal + taxvaltotal
-                 // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
-                  numberwords()
-
-            }else{
-                 // alert("response[0].withinstatesgst == defined")
-                  
-                  sgsttotal = sgsttotal + parseFloat(response[i].withinstatesgst)
-                  $scope.sgsttax = sgsttotal.toFixed(fixdec)
-      
-                 cgsttotal = cgsttotal + parseFloat(response[i]. withinstatecgst)
-                 $scope.cgsttax = cgsttotal.toFixed(fixdec)
-                 taxvaltotal = taxvaltotal + parseFloat(response[i].taxval)
-                 $scope.taxvaltotal =taxvaltotal.toFixed(fixdec)
-                 $scope.subtotal1 = sgsttotal +cgsttotal + taxvaltotal
-                 //  $scope.nett = $scope.subtotal1.toFixed(fixdec)
-                 numberwords()
-
-                  //  $scope.userit[$index].withinstatecgst = parseFloat((calcu*interest1)/100).toFixed(fixdec)
-                  //   $scope.userit[$index].withinstatesgst =parseFloat((calcu*interest2)/100).toFixed(fixdec)
-                  //   $scope.userit[$index].taxamt = parseFloat($scope.userit[$index].withinstatecgst) +parseFloat($scope.userit[$index].withinstatesgst)
-                  // $scope.userit[$index].final = (parseFloat($scope.userit[$index].taxamt) + parseFloat(calcu)).toFixed(fixdec)
+         function incrementCall12(k) {
+          
+            if (k<=user1.length-1) {
+          
+            $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
+                 console.log(response);
+                 //$scope.userdisplay[l] = null;
                  
+                 $scope.userdisplay[l] = response[0];
+                  $scope.userdisplay[l].Number = k+1 ; 
+                 console.log( $scope.userdisplay[l]);
+                 $scope.invoice = response[0].voucherNo ;
+                 numberwords();
+                 l++; 
 
+                 if (response[0].compositeRef != undefined) {                         
+                        var compositeRef = response[0].compositeRef;
+                 
+                        function incrementCall(c) {
+                        
+                            if (c <=3) {
+                                 
+                                  $http.get('/printCompositeItems',{params:{"compositeRef":compositeRef,"compositenum":c}}).success(function(response,err){
+                                       // alert(response.compositenum+" "+response)
+                                      if (response != null) {
+                                         $scope.userdisplay[l] = response;
+                                         incrementCall(c+1)                                     
+                                         l++;
+                                         if (c==3) {
+                                           incrementCall12(k+1)
+                                          }
+                                      }else{
+
+                                              incrementCall(c+1)
+                                              if (c==3) {
+                                                  incrementCall12(k+1)
+                                              }
+                                           }
+                                    
+
+                                  })
+                                  
+                            }// if c 
+
+                         }// incrementCall(c)
+                         incrementCall(1)   
+          
+                  }else{
+                          incrementCall12(k+1)
+                       }
+          
+                   if($scope.trans == "Valuation"){
+                   
+                       $http.delete('/userit/'+response[0]._id);
+
+                  }
+                 
+                
+                 
+                 if(response[0].withinstatesgst == undefined||response[0].withinstatesgst == 0){
+                      $scope.gst = "igst"
+                      $http.get('/gettaxoutofstate').success(function(response){
+                                  // $scope.outofstateigst = response[0].Rate
+                                  $scope.igst = response[0].Rate
+                            });
+                  }else{
+                         // alert ("withinstatesgst is defined"+response[0].withinstatesgst)
+
+                        $scope.gst = "cgst"
+                        $http.get('/gettaxwithinstate').success(function(response){
+                                    $scope.cgst = response[0].Rate
+                                    $scope.sgst = response[1].Rate
+                                  
+                               });
+                       }
+
+                       //to display  cgst or igst and calculations
+                 for(let i=0;i<response.length;i++){
+                    if(response[0].withinstatesgst == undefined||response[0].withinstatesgst == 0){
+                        // alert("response[0].withinstatesgst == undefined")
+                          igsttotal = igsttotal + parseFloat(response[i]. outofstateigst)
+                          $scope.igsttax = igsttotal.toFixed(fixdec)
+                          taxvaltotal = taxvaltotal + parseFloat(response[i].taxval)
+                          $scope.taxvaltotal =taxvaltotal.toFixed(fixdec)
+                          $scope.subtotal1 = igsttotal + taxvaltotal
+                         // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
+                          numberwords()
+
+                    }else{
+                         // alert("response[0].withinstatesgst == defined")
+                          
+                          sgsttotal = sgsttotal + parseFloat(response[i].withinstatesgst)
+                          $scope.sgsttax = sgsttotal.toFixed(fixdec)
+              
+                         cgsttotal = cgsttotal + parseFloat(response[i]. withinstatecgst)
+                         $scope.cgsttax = cgsttotal.toFixed(fixdec)
+                         taxvaltotal = taxvaltotal + parseFloat(response[i].taxval)
+                         $scope.taxvaltotal =taxvaltotal.toFixed(fixdec)
+                         $scope.subtotal1 = sgsttotal +cgsttotal + taxvaltotal
+                         //  $scope.nett = $scope.subtotal1.toFixed(fixdec)
+                         numberwords()
+
+                         
+
+                         }
+                
+                 
                  }
-        
-         
-         }
-        
-    })
-
-  }
+                
+            })
+          }//if k<=
+        //})(k)
+        }//incremental 
+    incrementCall12(0)
+  //}//for loop
    
 } // if regular sale
 

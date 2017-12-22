@@ -336,46 +336,44 @@ $scope.saveBatchGeneration = function(){
  
 
 
-     if(edit1 != null){
+        if(edit1 != null){
       
-      console.log("not null");
-      console.log($scope.userit[0]);
-   if(edit1.composite == 'yes'){
-    for(f=0;f<=$scope.userit.length-1;f++)
-    {
+                        // console.log("not null");
+                        // console.log($scope.userit[0]);
+              if(edit1.composite == 'yes'){
+                      for(f=0;f<=$scope.userit.length-1;f++){
 
-  $http.put('/editcompos', $scope.userit[f]).success(function(response) {
-    //alert(response.length)
-        // $scope.userit = response;
-        console.log(response);
-          $scope.updateButton = false;
-                    edit1 = null;
-                     $scope.userit.splice(0, 1);
-                   // alert("updated ")
-                  //  alert("updated successfully");
-                  })
- }//for
+                          $http.put('/editcompos', $scope.userit[f]).success(function(response) {
+                      
+                               console.log(response);
+                               $scope.updateButton = false;
+                               edit1 = null;
+                               $scope.userit.splice(0, 1);
+                                     // alert("updated ")
+                                    //  alert("updated successfully");
+                          })
+                      }//for
                 
-     }
-     else{
-      //refresh()
-         $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response)
-                {
-                     $scope.result=response;
-                    // console.log($scope.result);
-                    $scope.updateButton = false;
-                     edit1 = null;
-                      $scope.userit.splice(0, 1);
-                
+              }else{
+                 
+                  
+                     $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
+                            
+                                 $scope.result=response;
+                                // console.log($scope.result);
+                                $scope.updateButton = false;
+                                 edit1 = null;
+                                  $scope.userit.splice(0, 1);
+                            
+                                
+
+                     })
                     
-
-})
-        
-   alert("updated successfully"); 
-    $scope.batch[colorindex].color = colorpush
-   //refresh()
-     }
-     }else{
+                    alert("updated successfully"); 
+                    $scope.batch[colorindex].color = colorpush
+                        //refresh()
+                 }
+     }else{ //not edit else loop
              console.log(" null");
               //  var tagno=window.sessionStorage.getItem("Tagno");
          
@@ -801,36 +799,31 @@ alert("Please Fill All Mandatory Fields")
 
  //var editsummary =true
   if(editsummary == true){
-     //$scope.test = 'display'
-     // $scope.editupdate
-    // alert("editsummary")
-      console.log(" if loop if  loop")
-     $http.delete('/deleteTagsError/'+$scope.count).success(function(response)
-            {       
-          //  alert("delete call") ;
-            $http.post('/tags',$scope.userit).success(function(response)
-    {
-      console.log(response);
-      //alert("tags update call")
-    })  
-            });
-    // $scope.editupdate._id
-      console.log(id3)
-     // alert($scope.bitem.date)
-     var data = id3 +","+$scope.count+","+ $scope.bit.date+","+$scope.bitem.ItemName+","+$scope.bitem.wt+
-     ","+$scope.bitem.pcs+","+ $scope.bitem.titems+","+ $scope.bitem.remark+","+ $scope.bitem.stockin+","+$scope.bitem.stockout +","+$scope.bitem.composite+
-     ","+ $scope.bitem.splittable
-   // alert($scope.bit.date)
+    
+         console.log(" if loop if  loop")
+         $http.delete('/deleteTagsError/'+$scope.count).success(function(response){       
+              //  alert("delete call") ;
+                $http.post('/tags',$scope.userit).success(function(response){
+                       console.log(response);
+                       //alert("tags update call")
+                })  
+         });
+          // $scope.editupdate._id
+          console.log(id3)
+         // alert($scope.bitem.date)
+         var data = id3 +","+$scope.count+","+ $scope.bit.date+","+$scope.bitem.ItemName+","+$scope.bitem.wt+
+         ","+$scope.bitem.pcs+","+ $scope.bitem.titems+","+ $scope.bitem.remark+","+ $scope.bitem.stockin+","+$scope.bitem.stockout +","+$scope.bitem.composite+
+         ","+ $scope.bitem.splittable
+         // alert($scope.bit.date)
 
- $http.put('/editsummarycountupdate/'+data).success(function(response)
-        { 
-            console.log(response)
-           alert("Data is Updated");
-           window.location.reload();
-            // edit_id = response[0]._id
-            // console.log(response[0]._id)
+         $http.put('/editsummarycountupdate/'+data).success(function(response){ 
+                    console.log(response)
+                   alert("Data is Updated");
+                   window.location.reload();
+                    // edit_id = response[0]._id
+                    // console.log(response[0]._id)
 
-        })
+         })
  
 
   }
@@ -1162,7 +1155,7 @@ var num = 0;
 $scope.userit = [];
  $scope.test = 'display';
 $scope.generateBarcode = function( ){
-<<<<<<< HEAD
+
          // alert(tagno);
          console.log( tagdetails);
           var count = 0
@@ -1185,7 +1178,7 @@ $scope.generateBarcode = function( ){
                 break;
               }
           }//for
-=======
+
    $scope.test = 'display';
  // alert(tagno);
  console.log( tagdetails);
@@ -1219,8 +1212,6 @@ $scope.generateBarcode = function( ){
           break;
           }
     }
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
-     
    
           var data = icount 
           $http.get('/lastrec/'+data).success(function(response){
@@ -1870,7 +1861,8 @@ $scope.purityCal=function(val,purity){
       
                      $scope.userit[$index].ntwt=(grossWeight-parseFloat($scope.userit[$index].stwt)).toFixed(fixdec);
                     }else{
-                           $scope.userit[$index].ntwt=(grossWeight);
+                           // alert(" not null ")
+                           $scope.userit[$index].ntwt=(grossWeight).toFixed(fixdec);
                     
                          }
                     $scope.userit[$index].chgunt=($scope.userit[$index].ntwt);
@@ -1936,21 +1928,21 @@ $scope.newstwt=function($index)
             $scope.userit[$index].ntwt=(parseFloat($scope.userit[$index].gwt)-parseFloat($scope.userit[$index].stwt)).toFixed(fixdec);
             $scope.userit[$index].chgunt=($scope.userit[$index].ntwt);
              if(tagdetails.composite == 'yes' && $index > 0){
-              $scope.uomConversion($index,$scope.userit[$index].uom)
-              //total netwt
-           var totalNetWeight = stwt1;
-           //4 because length is already 4 by default
-           for(let a = 1;a< 4;a++){
-            
-              if($scope.userit[a].gwt != undefined){
-                 if( $scope.userit[0].pctcal!= undefined){
-                          $scope.newwas(0,$scope.userit[0].pctcal)
-                      }
-                      taxValCal($index)
-                    
-              }
-              
-           }
+                        $scope.uomConversion($index,$scope.userit[$index].uom)
+                        //total netwt
+                        var totalNetWeight = stwt1;
+                        //4 because length is already 4 by default
+                       for(let a = 1;a< 4;a++){
+                        
+                          if($scope.userit[a].gwt != undefined){
+                             if( $scope.userit[0].pctcal!= undefined){
+                                      $scope.newwas(0,$scope.userit[0].pctcal)
+                                  }
+                                  taxValCal($index)
+                                
+                          }
+                          
+                       }
              }
 
     }
@@ -2068,7 +2060,7 @@ $scope.mrpCal = function(index,mrp){
             }
 }
 $scope.calMrpValue = function(index,mrp){ 
-     alert(" my caall ") 
+    // alert(" my caall ") 
      if ($scope.disableMrp == true) {
           $scope.userit[index].taxval=($scope.userit[index].gpcs*$scope.userit[index].mrp).toFixed($scope.rupeesDecimalPoints);
      }  
@@ -2145,7 +2137,7 @@ var taxValCal = function(index){
                          // alert("totaltaxVal "+totaltaxVal)
                          // alert("stval2 "+stval2)
                          $scope.userit[0].stval = (totaltaxVal);
-                         $scope.userit[0].stval = ($scope.userit[0].stval).toFixed(fixdec);
+                         $scope.userit[0].stval = ($scope.userit[0].stval).toFixed($scope.rupeesDecimalPoints);
                           console.log(" $scope.userit[0].stval "+ $scope.userit[0].stval);
                         $scope.userit[0].taxval =  (parseFloat($scope.userit[a].taxval) +parseFloat(taxval2)).toFixed(fixdec);
                            // $scope.userit[0].taxval =  parseFloat(taxval2).toFixed(fixdec);
@@ -2189,7 +2181,7 @@ $scope.uomConversion=function($index,uom){
    //alert(uom)
     if($scope.userit[$index].stwt == undefined){
       //$scope.userit[$index].ntwt = 
-      $scope.userit[$index].ntwt =  $scope.userit[$index].gwt*0.2 ;
+      $scope.userit[$index].ntwt =  ($scope.userit[$index].gwt*0.2 ).toFixed(fixdec);
       $scope.userit[$index].chgunt = $scope.userit[$index].ntwt ;
       $scope.userit[$index].taxval=(parseFloat($scope.userit[$index].chgunt)*parseFloat($scope.userit[$index].rate)).toFixed($scope.rupeesDecimalPoints);
       reuseMethods($index)             

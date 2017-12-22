@@ -349,7 +349,7 @@ width: 8%;
        <option ng-repeat="uom in uom"  >{{uom.name}}</option>
        </select></td>
 
-       <td><input type="text" ng-model="item.ntwt" class="form-control" id="usr" readonly></td>
+       <td><input type="text" ng-model="item.ntwt" oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" readonly></td>
 
       <!--  <td><select ng-model="pctcal" class="selectpicker">
        <option ng-repeat="pct in pct" value="{{pct.name}}">{{pct.name}}</option>
@@ -391,10 +391,10 @@ width: 8%;
 
         <td><input type="text" class="form-control"  id="usr"  ng-model="item.stval"  placeholder="0" readonly></td>
         
-<<<<<<< HEAD
+
        <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval"  ng-change="newTaxVal($index,item.taxval)" ></td>
       
-=======
+
        <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval"  ng-change="newTaxVal($index,item.taxval)" readonly></td>
        <!-- <td><select  class="selectpicker">
         <option value="{{itemname.name}}">1%</option>
@@ -409,7 +409,7 @@ width: 8%;
         <td ><input type="text" class="form-control"  id="usr" ng-model="item.tags" value="{{item.tags}}"></td>
          <td ><input type="text" class="form-control"  id="usr" ng-model="item.wt" value="{{item.wt}}"></td>
        </p> -->
->>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
+
        </tr>
     </tbody>      
   </table>
