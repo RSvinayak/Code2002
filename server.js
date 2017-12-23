@@ -875,7 +875,7 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);    
         })
        }else{
-        if(tran == "Issue Voucher"||tran == "Receipt Voucher"){
+        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran =="RD Purchase"){
           console.log("cccccccccccccccccccc");
           db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
@@ -1083,7 +1083,7 @@ app.get('/itemPurityDetails:inGrpId',function(req,res)
 //insert
 app.post('/transactionstoc/:updat',function(req,res)
 {
-    //console.log("iam updating here is this kkkkkkkk");
+    console.log("iam updating here is this kkkkkkkk");
    
     var str=req.params.updat;
     //console.log(str);
@@ -2209,6 +2209,7 @@ app.get('/getSavedDetails',function(req,res){
   // console.log(trans);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
      if(trans !="Sale Return"&&trans!="Purchase Return"){
+      console.log("First if 999999999999999999999999999");
   db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
        
         res.json(doc);
@@ -2217,14 +2218,16 @@ app.get('/getSavedDetails',function(req,res){
     });
 }
 else{
-  console.log("loop for returing items")
+  
   if(voucherNo!=null){
+    console.log("loop for returing items vvvvvvvvvv8888888888");
   db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
     res.json(doc);
     console.log(doc);
       });
       }
       else{
+        console.log("Not vvvvvvvvvv" );
         console.log("no no");
         res.json();//for returning empty response for making app.get to wait.
       }
@@ -2311,13 +2314,16 @@ app.get('/getPartyDetailsNumber',function(req,res){
   var username=req.query.name;
   var trans=req.query.Transaction;
   // console.log(trans);
-   
+   if (trans=="Regular Sale") {
     db.saleinvoice.find({partyname:username,Transaction:trans, status : "In Progress"},function(err,doc){
         res.json(doc);
         //console.log("here is data in progress "+ doc);
        // console.log(doc);
     });
-   //}
+   }
+   else{
+    res.json([]);
+   }
   
 });
  app.get('/getitemname',function(req,res){
@@ -4547,7 +4553,7 @@ app.post('/saleInvoiceInvoice/:data',function(req,res)
    // console.log(length);
     var voucher = str_array[1];
     
-     db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher }},function(err,doc)
+     db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher}},function(err,doc)
         {
         res.json(doc);
         //console.log(doc)
@@ -5532,13 +5538,11 @@ app.use(express.static(__dirname + '/subscriber_images'));
 require('./app/routes')(app); // pass our application into our routes
 //require('./app/rout')(app);
 // start app ===============================================
-<<<<<<< HEAD
-app.listen(400); 
+// <<<<<<< HEAD
+
+// =======
+app.listen(8080); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 400");
-=======
-app.listen(8000); 
-//console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8000");
->>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
+console.log("server running on port 8080");
+// >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 exports = module.exports = app;

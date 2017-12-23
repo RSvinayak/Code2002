@@ -112,7 +112,6 @@ th, td {
 }
 td {
   height: 50px;
-
 }
 .custom {
     width: 150px !important;
@@ -128,15 +127,11 @@ input {
     border: none;
     background: transparent;
 }
-/*#us {
-    border: none;
-    background: transparent;
-}*/
 
- .dropdown
+ /*.dropdown
  {
   width: 2em;
- }      
+ }      */
 
 #frm {
   display: inline-flex;
@@ -289,7 +284,7 @@ display: inline-block;
 
            </div>
            <div ng-show="transaction == 'RD Purchase'||transaction == 'Receipt Voucher'">
-           RefId<span  id="star"><font size="04">*</font></span>: <input  type="text" ng-model="refId" pattern="^[1-9][0-9]*$" min="1" placeholder="refId" id="blockWIdth" required >
+           RefId<span min="1" id="star"><font size="04">*</font></span>: <input  type="text" ng-model="refId"  placeholder="refId" id="blockWIdth" required >
            </div>
            
 
@@ -609,40 +604,40 @@ display: inline-block;
        </select>
        </td>
 
-       <!-- <td><input type="text" class="form-control" id="usr" value="{{item.gwt}}"  ng-model="item.gwt"  ng-blur="calMrpValue($index)"ng-change="newgwt($index)"></td> -->
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr"   ng-model="item.gwt"  ng-change="newgwt($index)" ng-blur="findWeightTolerence($index);calMrpValue($index)" ></td>
+       <!-- <td><input type="text" class="form-control" id="usr" value="{{item.gwt}}"  ng-model="item.gwt"  ng-change="newgwt($index)"></td> -->
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr"   ng-model="item.gwt"  ng-change="newgwt($index)" ng-blur="findWeightTolerence($index)" ng-disabled= "disableMrp1($index)"></td>
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.gpcs"  ng-change="gpcsDecimals($index)" ng-blur="gpcsLimit($index);calMrpValue($index)" ></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.gpcs"  ng-change="gpcsDecimals($index)" ng-blur="gpcsLimit($index)" ></td>
        
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"  id="usr"  ng-model="item.stwt" ng-change="newstwt($index)"  placeholder="0" ng-blur="stoneTolerence($index);calMrpValue($index)" ></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"  id="usr"  ng-model="item.stwt" ng-change="newstwt($index)"  placeholder="0" ng-disabled= "disableMrp1($index)" ng-blur="stoneTolerence($index)" ></td>
 
-       <td><select ng-model="item.uom" ng-change= "uomConversion($index,item.uom)" ng-blur="calMrpValue($index)" class="selectpicker" >
+       <td><select ng-model="item.uom" ng-change= "uomConversion($index,item.uom)" class="selectpicker" ng-disabled= "disableMrp1($index)">
        <option ng-repeat="uom in uom" selected>{{uom.name}}</option>
        </select></td>
 
        <!-- <td><input type="number" value="{{item.ntwt}}" ng-model="item.ntwt" class="form-control" id="usr" readonly></td> -->
        <td><input type="text"  ng-model="item.ntwt" class="form-control" id="usr" readonly></td>
 
-       <td><select ng-model="item.pctcal" ng-change=newwas($index,item.pctcal) ng-blur="calMrpValue($index)" class="selectpicker">
+       <td><select ng-model="item.pctcal" ng-change=newwas($index,item.pctcal) class="selectpicker" ng-disabled= "disableMrp1($index)">
        <option ng-repeat="pct in pct" value="{{pct.name}}">{{pct.name}}</option>
        </select></td>
        
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.wastage" ng-value="{{item.wastage}}" ng-blur="calMrpValue($index)" ng-change=newwas($index,item.pctcal) ></td>
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.wastage" ng-value="{{item.wastage}}" ng-change=newwas($index,item.pctcal) ng-disabled= "disableMrp1($index)"></td>
 
-       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.matadj" ng-value="{{item.matadj}}" readonly></td>
+       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.matadj" ng-value="{{item.matadj}}" ng-disabled= "disableMrp1($index)" readonly></td>
 
        <td><input type="text" class="form-control" id="usr" ng-model="item.chgunt" ng-value="{{item.chgunt}}"  readonly></td>
 
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp"  ng-change="mrpCal($index)" ></td>
 
-       <td ><input type="text" class="form-control" id="usr" ng-model="item.rate" ng-change="rateChange($index)" ></td>
+       <td ><input type="text" class="form-control" id="usr" ng-model="item.rate" ng-change="rateChange($index)" ng-disabled= "disableMrp1($index)"></td>
 
-       <td><select ng-model="item.labcal"  ng-change="newlab($index,item.labcal)" ng-blur="calMrpValue($index)" class="selectpicker">
+       <td><select ng-model="item.labcal"  ng-change="newlab($index,item.labcal)" class="selectpicker" ng-disabled= "disableMrp1($index)">
        <option  ng-repeat="lab in labcal" ng-value="{{lab.name}}" >{{lab.name}}</option>
        </select></td>
 
 
-       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.labamt" ng-value="{{item.labamt}}" ng-change="newlab($index,item.labcal)" ng-blur="calMrpValue($index)" placeholder="0" ></td>
+       <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.labamt" ng-value="{{item.labamt}}" ng-change="newlab($index,item.labcal)" placeholder="0" ng-disabled= "disableMrp1($index)"></td>
 
 
 
@@ -651,12 +646,11 @@ display: inline-block;
        <td ng-if = " LabourTax =='Yes'"><input type="text" class="form-control" ng-model="item.labourTaxValue" placeholder="0" readonly></td>
 
 
-       <td> <select ng-model="item.stonecal" ng-change="newstchg($index,item.stonecal)" ng-blur="calMrpValue($index)" class="selectpicker" >
+       <td> <select ng-model="item.stonecal" ng-change="newstchg($index,item.stonecal)" class="selectpicker" ng-disabled= "disableMrp1($index)">
        <option ng-repeat="lab in labcal" ng-value="{{lab.name}}">{{lab.name}}</option>
        </select></td>
        
-        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.stchg" ng-value="{{item.stchg}}" ng-change="newstchg($index,item.stonecal)"
-        ng-blur="calMrpValue($index)" placeholder="0" ></td>
+        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.stchg" ng-value="{{item.stchg}}" ng-change="newstchg($index,item.stonecal)" placeholder="0" ng-disabled= "disableMrp1($index)"></td>
 
         <td><input type="text" class="form-control"  id="usr"  ng-model="item.stval" ng-value="{{item.stval}}" placeholder="0" readonly></td>
 
@@ -664,7 +658,7 @@ display: inline-block;
        <!--  <td><select  class="selectpicker">
         <option value="{{itemname.name}}">1%</option>
         </select></td> tax -->
-       <td ng-if = "transaction != 'Urd Purchase'"> <select ng-model="item.taxSelection" ng-change="taxSelectionCall($index,item.taxSelection)" ng-blur="calMrpValue($index)" >
+       <td ng-if = "transaction != 'Urd Purchase'"> <select ng-model="item.taxSelection" ng-change="taxSelectionCall($index,item.taxSelection)" >
        <option ng-repeat="tax in withinstat" ng-value="{{tax.taxname}}">{{tax.taxname}}</option>
        </select></td>
 
@@ -791,132 +785,44 @@ display: inline-block;
     </thead>
   </table></div></div> -->
    <!-- <div class="w3-row-padding w3-border"> -->
-   <!--  <div class="w3-quarter w3-container">
-    <div class="w3-card-4 w3-margin">
-        <header class="w3-container w3-light-grey w3-padding-8 w3-center" ng-hide="!saleinv.length">
-        <h4 >FINAL CALCULATION</h4>
-        </header>
-  
-  <div  ng-repeat="amt in saleinv">
-  <div id="frm2">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalTaxable" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.taxableval" ng-value="{{amt.taxableval}}" readonly/>
-</form>
-</div>
-<div id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1" ng-value="finalCalTax" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.tax" ng-value="{{amt.tax}}" readonly/>
-</form>
-</div>
- <div id="frm4">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalDiscount" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.dis" ng-value="{{amt.dis}}" readonly/>
-</form>
-</div>
-
-<div ng-if = " LabourTax =='Yes'" id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalLabourvalue" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.labourValue" ng-value="{{amt.labourValue}}" readonly/>
-</form>
-</div>
-<div ng-if = " LabourTax =='Yes'" id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalLabourtax" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.labourtax" ng-value="{{amt.labourtax}}" readonly/>
-</form>
-</div>
-<div id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalSubtotal" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.subtol" ng-value="{{amt.sutol}}" readonly/>
-</form>
-</div>
-<div id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalCharges" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.char" ng-value="{{amt.char}}" readonly/>
-</form>
-</div>
-<div id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalAdjustments" readonly/>
-  </form>
-  :
-  <form>
-   <input type="text" class="form-control"  id="usr"  ng-model="adjqty"  ng-value="{{adjqty}}" readonly/>
-  <! <input type="text" class="form-control"  id="usr"  ng-model="adj" value="{{adj}}" readonly/> -->
-
-  <div class="w3-quarter w3-container" ng-hide="!saleinv.length">
+   <div class="w3-quarter w3-container" ng-hide="!saleinv.length">
     <div class="w3-card-2 w3-margin">
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" >
         <h4 >FINAL CALCULATION</h4>
         </header>
           <table class="w3-table w3-stripped w3-bordered" >
-      
-      <!--       <thead>
-             <tr>
-         
-        <th>Transction</th>
-        <th>Amount</th>
-      </tr>
-    </thead> -->
-    <tbody ng-repeat="amt in saleinv" >
+  <tbody ng-repeat="amt in saleinv" >
       <tr>
-        <td  readonly> Taxable     :</td>
+        <td readonly> Taxable     </td>
         <!-- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalTaxable" readonly/> -->
         <td><input type="text" class="form-control"  id="usr"  ng-model="amt.taxableval" ng-value="{{amt.taxableval}}" readonly/></td>
         </tr>
         <tr>
-        <td>Tax          :</td>
+        <td>Tax          </td>
         <td><input type="text" class="form-control" id="usr" ng-model="amt.tax" ng-value="{{amt.tax}}" readonly/ ></td>
         </tr>
         <tr>
-        <td>Discount     :</td>
+        <td>Discount     </td>
         <td><input  type="text" class="form-control" id="usr" ng-model="amt.dis" ng-value="{{amt.dis}}" readonly/></td>
         </tr>
         <tr>
-        <td>Subtotal     :</td>
+        <td>Subtotal     </td>
         <td><input type="text" type="text" class="form-control" id="usr" ng-model="amt.subtol" ng-value="{{amt.sutol}}" readonly/ ></td>
         </tr>
         <tr>
-        <td>Charges      :</td>
+        <td>Charges      </td>
         <td><input type="text" class="form-control"  id="usr"  ng-model="amt.char" ng-value="{{amt.char}}" readonly/></td>
         </tr>
         <tr>
-        <td>Adjustments   :</td>
+        <td>Adjustments   </td>
         <td><input type="text" class="form-control"  id="usr"  ng-model="adjqty"  ng-value="{{adjqty}}" readonly/></td>
         </tr>
         <tr>
-        <td>Invoice Value :</td>
+        <td>Invoice Value </td>
         <td><input type="text" class="form-control"  id="usr"  ng-model="amt.invoiceValue" ng-value="{{amt.invoiceValue}}" readonly/></td>
         </tr>
          <tr>
-        <td>Nett Amt      :</td>
+        <td>Nett Amt      </td>
         <td><input type="text" class="form-control"  id="usr"  ng-model="amt.netamt" ng-value="{{amt.netamt}}" readonly/ ></td>
         </tr>
        
@@ -924,37 +830,9 @@ display: inline-block;
        </table>
         </div>
         </div>
-<!-- </form>
-</div> -->
-<!-- <div id="frm3">
-  <form>
- <input type="text" class="form-control"  id="usr1"  ng-value="finalCalInvoiceValue" readonly/>
-  </form>
-  :
-  <form>
-  <input type="text" class="form-control"  id="usr"  ng-model="amt.invoiceValue" ng-value="{{amt.invoiceValue}}" readonly/>
-  
-</form>
-</div>
-<div id="frm3">
-  <form>
- <b><input type="text" class="form-control"  id="usr1"  ng-value="finalCalNettAmt" readonly/></b>
-  </form>
-  :
-  <form>
-  <b><input type="text" class="form-control"  id="usr"  ng-model="amt.netamt" ng-value="{{amt.netamt}}" readonly/></b>
-  
-</form>
-</div>
-
-</div>
-</div>
-</div> --> 
-  
-  <div class="col-md-2" ng-hide="!saleinv.length">
- <!--  //<div class> -->
-   <!--  //<div class="w3-card-2 w3-margin"> -->
-        <!-- <header class="w3-container w3-light-grey w3-padding-8 w3-center"> -->
+  <div class="col-md-2">
+  <!-- <a ng-href="{{mylink1}}" ng-if = " transaction =='Urd Purchase'"><button ng-click="save()" class="btn btn-success" id="buttonwidth" >Save</button></a> -->
+  <!-- <a ng-if = " transaction =='Urd Purchase'"><button ng-click="save()" class="btn btn-success" id="buttonwidth" >Save</button></a> -->
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 
   <button  ng-if = " edituseritButton != true && transaction != 'Valuation'&&transaction != 'Issue Voucher' && transaction != 'Receipt Voucher'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>
@@ -974,7 +852,7 @@ display: inline-block;
   <br>
 
            
-            <button ng-hide ="(desgination != 'Billing Person' || $scope.transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
+            <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
            <!--  <button ng-hide ="(desgination != 'Billing Person' )  " class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"   ng-disabled="reqColorPay()" >Pay</button> -->
   <br>
    <br>
