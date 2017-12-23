@@ -3220,7 +3220,7 @@ $scope.resu ;
                                          console.log($scope.userit[i]);
                                         // alert("sale return")
                                         arrcon=[];
-                                        alert(arrcon.length+"   length outside");
+                                        //alert(arrcon.length+"   length outside");
                                          for(var g=0;g<$scope.voucherid.length;g++){
                                                      if($scope.voucherid[g].id==$scope.userit[i]._id){
                                                           // alert(arrcon.length+"  length inside");
@@ -3755,7 +3755,7 @@ $scope.save=function(){
                       }
 
           else{
-            alert("else");
+            //alert("else");
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
 // <<<<<<< HEAD
 // <<<<<<< HEAD
@@ -4860,47 +4860,45 @@ console.log( $scope.FromDate)
 //     })
 
 //for urd
-if($scope.trans == "Urd Purchase"||$scope.trans == "Sale Return"||$scope.trans == "Purchase Return"||$scope.trans == "Issue Voucher"||$scope.trans == "Receipt Voucher"){
-    //for barcode data =
-    l = 0;
-// <<<<<<< HEAD
-    
-    for(let k=0;k<=user1.length-1;k++)
-    {
-       $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
-         console.log(response)
-       //  console.log(l)
-          $scope.userdisplay[l] = response[0];
-          // $scope.labourValue=response[0].labval;
-           $scope.invoice = response[0].voucherNo ;
-          console.log( $scope.userdisplay[l])
-          l++;
-           // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
-         // to disapper in pdf
-          $scope.LabourTaxCheck = "No"    
-          numberwords();
-        })
-      
-      }
-    // }
-}
+      if($scope.trans == "Urd Purchase"||$scope.trans == "Sale Return"||$scope.trans == "Purchase Return"||$scope.trans == "Issue Voucher"||$scope.trans == "Receipt Voucher"){
+          l = 0;
+          for(let k=0;k<=user1.length-1;k++){
+                   $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
+                           console.log(response)
+                         //  console.log(l)
+                            $scope.userdisplay[l] = response[0];
+                            // $scope.labourValue=response[0].labval;
+                             $scope.invoice = response[0].voucherNo ;
+                            console.log( $scope.userdisplay[l])
+                            l++;
+                             // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
+                           // to disapper in pdf
+                            $scope.LabourTaxCheck = "No"    
+                            numberwords();
+                    })
+            
+            }//for
+          // }
+      } //closer
 // =======
-    for(let k=0;k<=user1.length-1;k++){
-          $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
-              console.log(response)
-               //  console.log(l)
-                  $scope.userdisplay[l] = response[0];
-                  // $scope.labourValue=response[0].labval;
-                   $scope.invoice = response[0].voucherNo ;
-                  console.log( $scope.userdisplay[l])
-                  l++;
-                   // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
-                 // to disapper in pdf
-                  $scope.LabourTaxCheck = "No"    
-                  numberwords();
-          })
+    // for(let k=0;k<=user1.length-1;k++){
+    //       $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
+    //           console.log(response)
+    //            //  console.log(l)
+    //            alert("ertyui")
+    //               $scope.userdisplay[l] = response[0];
+    //                $scope.userdisplay[l].Number = k+1 ; 
+    //               // $scope.labourValue=response[0].labval;
+    //                $scope.invoice = response[0].voucherNo ;
+    //               console.log( $scope.userdisplay[l])
+    //               l++;
+    //                // $scope.nett = ($scope.subtotal1).toFixed(fixdec)
+    //              // to disapper in pdf
+    //               $scope.LabourTaxCheck = "No"    
+    //               numberwords();
+    //       })
       
-    }//for
+    // }//for
  // }// if($scope.trans == "Urd Purchase"||$scope.trans == "Issue Voucher"||$scope.trans == "Receipt Voucher"){
  
  $scope.styleFunction = function(condition,Num){
@@ -4931,7 +4929,7 @@ if($scope.trans == "Urd Purchase"||$scope.trans == "Sale Return"||$scope.trans =
             $http.get('/getparty',{params:{"id":user1[k]}}).success(function(response){
                  console.log(response);
                  //$scope.userdisplay[l] = null;
-                 
+                 //alert(response.length)
                  $scope.userdisplay[l] = response[0];
                   $scope.userdisplay[l].Number = k+1 ; 
                  console.log( $scope.userdisplay[l]);
