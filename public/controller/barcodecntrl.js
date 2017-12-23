@@ -1155,11 +1155,7 @@ var num = 0;
 $scope.userit = [];
  $scope.test = 'display';
 $scope.generateBarcode = function( ){
-<<<<<<< HEAD
-// <<<<<<< HEAD
-=======
 
->>>>>>> f0b5b57029ae1794dc4572d9c41807f68e5b0b57
          // alert(tagno);
          console.log( tagdetails);
           var count = 0
@@ -1182,11 +1178,7 @@ $scope.generateBarcode = function( ){
                 break;
               }
           }//for
-<<<<<<< HEAD
-// =======
-=======
 
->>>>>>> f0b5b57029ae1794dc4572d9c41807f68e5b0b57
    $scope.test = 'display';
  // alert(tagno);
  console.log( tagdetails);
@@ -1220,11 +1212,7 @@ $scope.generateBarcode = function( ){
           break;
           }
     }
-<<<<<<< HEAD
-// >>>>>>> 5e06ab29cb168db5757fe67c832afe87d83d34ee
-     
-=======
->>>>>>> f0b5b57029ae1794dc4572d9c41807f68e5b0b57
+
    
           var data = icount 
           $http.get('/lastrec/'+data).success(function(response){
@@ -2073,11 +2061,7 @@ $scope.mrpCal = function(index,mrp){
             }
 }
 $scope.calMrpValue = function(index,mrp){ 
-<<<<<<< HEAD
-     //alert(" my caall ") 
-=======
-    // alert(" my caall ") 
->>>>>>> f0b5b57029ae1794dc4572d9c41807f68e5b0b57
+
      if ($scope.disableMrp == true) {
           $scope.userit[index].taxval=($scope.userit[index].gpcs*$scope.userit[index].mrp).toFixed($scope.rupeesDecimalPoints);
      }  
