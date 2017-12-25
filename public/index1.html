@@ -699,11 +699,11 @@ display: inline-block;
   </div>
    <form class="form-inline" >
    <div class="form-group" ng-cloak>
-   <button class="btn btn-primary addnew pull-left" id="buttonwidth1"   ng-click="addNew()" ng-disabled="reqColor()" >Add New</button>
+   <button class="btn btn-primary addnew pull-left" id="buttonwidth1"   ng-click="addNew()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'" >Add New</button>
 
    <!-- <input  id="buttonwidth"  class="btn btn-danger pull-left" ng-click="removeSelectedRows()" value="Remove" ng-disabled="reqColor()"> -->
    <button ng-if = " edituseritButton == true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRowsCheck()" ng-disabled="reqColor()">Remove</button>
-   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()">Remove</button>
+   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'">Remove</button>
   
       <!-- <label >Remarks:</label> -->
      <!--  <input type="text" ng-disabled="form.$invalid || reqColor()"ng-model="item.remarks"class="form-control"  placeholder="Please enter remarks!" > -->

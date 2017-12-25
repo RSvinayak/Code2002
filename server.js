@@ -875,7 +875,7 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);    
         })
        }else{
-        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran =="RD Purchase"){
+        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"){
           console.log("cccccccccccccccccccc");
           db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
@@ -4523,6 +4523,7 @@ app.get('/getmerchantdetails',function(req,res)
 //     })
 app.post('/user12/:data',function(req,res)
 { 
+  console.log('look up things syuasasdyusadsdhyasdbdfhudbasjdbashudbhdhy');
   var str=req.params.data;
     //console.log(str);
      var str_array=str.split(",");
@@ -5541,8 +5542,8 @@ require('./app/routes')(app); // pass our application into our routes
 // <<<<<<< HEAD
 
 // =======
-app.listen(8080); 
+app.listen(8000); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8080");
+console.log("server running on port 8000");
 // >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 exports = module.exports = app;

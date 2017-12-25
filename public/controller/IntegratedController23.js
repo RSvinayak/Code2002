@@ -916,7 +916,7 @@ $scope.getDetails=function(rvalue,voucherNo,date){
        // alert("get details call");
          console.log(response);
           if($scope.transaction != 'Issue Voucher' && $scope.transaction != 'Receipt Voucher'){
-            // alert("finalcal when Issue and Receipt");
+            alert("finalcal when Issue and Receipt");
           finalCalAfterRemove(rvalue,response.length);
         }
         // 
@@ -967,7 +967,7 @@ $scope.getDetails=function(rvalue,voucherNo,date){
                            window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
                  
                            console.log(arrcon)
-                          // alert(arrcon)
+                          alert(arrcon)
                         }
                 }
 // >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
@@ -2425,8 +2425,8 @@ var removeidarrcon = function(id){
 }
 $scope.indexSelected=[];
 $scope.indexFunctionCall=function(index) {
-    $scope.j=index;
-   // alert(index+"index");
+ 
+  // alert(index)
   
            if ($scope.indexSelected.indexOf(index) == -1){
                 $scope.indexSelected.push(index);
@@ -2454,6 +2454,10 @@ $scope.removeSelectedRowsCheck = function() {
        }
 }
 $scope.removeSelectedRows = function() {
+
+
+
+
         var labval;
          console.log($scope.indexSelected.length);
                     // $scope.indexSelected = index;
@@ -2480,14 +2484,12 @@ $scope.removeSelectedRows = function() {
     console.log($scope.indexSelected);
     //alert(r);
     var lengthIndex = $scope.indexSelected.length;
-    console.log(lengthIndex);
      console.log($scope.indexSelected.length);
      var k=0;
-     for (var i=1; i<$scope.indexSelected.length;i++) {
+     for (var i=0; i<lengthIndex;i++) {
        // var j=i;
-      if($scope.usert[i]==$scope.j){
-        // alert("i"+i);
-        // console.log($scope.indexSelected.length);
+    
+        console.log($scope.indexSelected.length);
         
         if($scope.userit[i]._id==null)
         {
@@ -2504,11 +2506,11 @@ $scope.removeSelectedRows = function() {
           // alert("viany");
         indexvalue=0;
         
-        $scope.getTotTaxVal();
-        $scope.getTotTaxAmt();
-        $scope.getFinalVal();
-        $scope.getTotNetAmt();
-        // saleInvoiceCalculations();
+        // $scope.getTotTaxVal();
+        // $scope.getTotTaxAmt();
+        // $scope.getFinalVal();
+        // $scope.getTotNetAmt();
+        saleInvoiceCalculations();
 
       }
       else{
@@ -2519,7 +2521,6 @@ $scope.removeSelectedRows = function() {
             $scope.saleinv[0].tax=0;
             $scope.saleinv[0].subtol = 0;
       }
-    }
      
   }
     else
@@ -3187,18 +3188,18 @@ $scope.resu ;
                                          console.log($scope.userit[i]);
                                         // alert("sale return")
                                         arrcon=[];
-                                       // alert(arrcon.length+"   length outside");
+                                       alert(arrcon.length+"   length outside");
 
                                          for(var g=0;g<$scope.voucherid.length;g++){
                                                      if($scope.voucherid[g].id==$scope.userit[i]._id){
-                                                           // alert(arrcon.length+"  length inside");
+                                                           alert(arrcon.length+"  length inside");
 
 
                                                          updateBatch($scope.userit[i].barcode,"available");
                                                                     $http.put('/insertNewUseritDetails',$scope.userit[i]).success(function(response){
                                                                     console.log(response+"new row");
                                                                      arrcon.push(response._id)
-                                                                      // alert(arrcon.length+"  length inside");
+                                                                      alert(arrcon.length+"  length inside");
                                                                      console.log(arrcon);
                                                                       window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
                                                                      // alert(arrcon+"1");
@@ -3276,7 +3277,7 @@ $scope.resu ;
                                 $http.post('/savedata1/'+data1).success(function(response){
                          
                                  console.log(response);
-                                 // $scope.userit[i]._id = response._id;
+                                 $scope.userit[i]._id = response._id;
                                  console.log(response._id);
                                  console.log(response);
                                 
@@ -3558,7 +3559,7 @@ $scope.save=function(){
                       $scope.inoviceNumberGeneration();
                       // alert("hello");
                       // $scope.valuationPrint();
-                       setTimeout($scope.valuationPrint(), 1000);
+                            setTimeout($scope.valuationPrint(), 1000);
                     }
                     if($scope.transaction=="RD Purchase"){
                       // alert("RD");
@@ -3656,7 +3657,21 @@ $scope.save=function(){
 
             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"
               ||$scope.transaction == "Sale Return"|| $scope.transaction == "Purchase Return"){
-              // alert("issue voucher no"+arrcon);
+              alert("issue voucher no");
+// ||$scope.transaction=="RD Purchase" 
+          // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
+
+
+
+          // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
+
+
+            // if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"){
+            // alert("issue voucher no");
+
+            // if($scope.transaction == "Issue Voucher"){
+          //  alert("issue voucher no");
+
 
           $http.get('/getprefix'+$scope.transaction).success(function(response){
             console.log(response);
@@ -3675,7 +3690,6 @@ $scope.save=function(){
               console.log(response);
               $scope.invoice = response.prefix+response.typeno;
                                 console.log($scope.invoice);
-                                // alert(arrcon+"while assign");
                        console.log(arrcon+"myids myids myids myidsmyids");
                           
                            console.log(arrcon.length);
@@ -3701,7 +3715,7 @@ $scope.save=function(){
 
           else{
 // <<<<<<< HEAD
-              // alert("else zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+              alert("else zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
             //alert("else");
            // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
@@ -4810,7 +4824,7 @@ if($scope.trans == "Urd Purchase"||$scope.trans == "Sale Return"||$scope.trans =
          console.log(response)
        //  console.log(l)
           $scope.userdisplay[l] = response[0];
-            $scope.userdisplay[l].Number = k+1 ;
+           // $scope.userdisplay[l].Number = k+1 ;
            // $scope.labourValue=response[0].labval;
            $scope.invoice = response[0].voucherNo ;
           console.log( $scope.userdisplay[l])
@@ -4884,7 +4898,7 @@ if($scope.trans == "Urd Purchase"||$scope.trans == "Sale Return"||$scope.trans =
 
  if($scope.trans != "Urd Purchase" && $scope.trans!='Sale Return'&&$scope.trans!='Purchase Return'&&
   $scope.trans !='Receipt Voucher' && $scope.trans !='Issue Voucher'){
-  // alert("rd and regular");
+  alert("rd and regular");
          //for barcode data 
         if($scope.trans == "Regular Sale" || $scope.trans == "RD Purchase"){
  

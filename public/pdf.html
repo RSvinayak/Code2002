@@ -152,9 +152,9 @@ City:{{city}}</p>
        <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'" >{{item.rate}}</td>
        <td ng-if="trans =='Regular Sale'">{{item.stval}}</td>
        <td ng-if="trans =='Regular Sale' && printLabour=='yes'" >{{item.labval}}</td>
-       <td ng-if="trans == 'Issue Voucher' || trans == 'Receipt Voucher'">{{item.labval}}</td>
+       <td ng-if="trans == 'Issue Voucher' ||trans == 'Receipt Voucher'">{{item.labval}}</td>
        <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans!='Sale Return'&&trans !='Purchase Return'">{{item.taxval}}</td> 
-       <td ng-if="trans == 'Sale Return'||trans=='Purchase Return'">{{item.final}}</td>
+       <td ng-if="trans == 'Sale Return'||trans=='Purchase Return'">{{item.taxval}}</td>
    </tr>
 </tbody>
 </table>
