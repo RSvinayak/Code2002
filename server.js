@@ -633,16 +633,19 @@ app.get('/iateapple:partyname',function(req,res){
     console.log(doc+"voucher No and dates");
   });
 });
-//for getting issue voucherNo
-// app.get('/receiptdetails:partyname',function(req,res){
-//   console.log("Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher Issue Voucher");
-//   var pname=req.params.partyname;
-//   var trans="Issue Voucher";
-//   db.transactiondetail.find({"partyname":pname,"Transaction":trans},function(err,doc){
-//     res.json(doc);
-//     console.log(doc+"Issue No and dates");
-//   });
-// });
+// for getting approval out data
+app.get('/appouts:data',function(req,res){
+  console.log("approval approval approval approval approval approval");
+  var pname=req.params.data;
+  console.log(pname);
+  // var str_array=str.split(",");
+  // var pname=str_array[0];
+  var trans="Approval Out";
+  db.transactiondetail.find({"partyname":pname,"Transaction":trans},function(err,doc){
+    res.json(doc);
+    console.log(doc+"Approval Outs");
+  });
+});
 //previous
 app.post('/userdata/:updat',function(req,res){
     //console.log("igot order requestttttttttttttttttttttt");
@@ -875,7 +878,7 @@ app.post('/savedata1/:update',function(req,res){
                 // console.log(doc);    
         })
        }else{
-        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"){
+        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"||tran == "Approval Out"){
           console.log("cccccccccccccccccccc");
           db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
@@ -1842,9 +1845,9 @@ app.put('/insertNewUseritDetails',function(req,res){
 app.post('/insertUseritDetails',function(req,res)
 {
   //console.log(req.body);
-  //  console.log("entered into put request $scope.userit[i]._id!=null +++++++=====+++++");
+    console.log("entered into put request $scope.userit[i]._id!=null +++++++=====+++++");
      //  console.log(req.body.gwt);
-      //  console.log(req.body.gpcs);
+        console.log(req.body.Transaction);
       req.body.gpcs =  parseFloat(req.body.gpcs);
        req.body.gwt = parseFloat(req.body.gwt);
        req.body.ntwt = parseFloat(req.body.ntwt);
@@ -1869,6 +1872,8 @@ app.post('/insertUseritDetails',function(req,res)
       }else{
           console.log(" barcode is here look  "+req.body.barcode);
           //for updated in refid data  "barcode":req.body.barcode,
+           // if(req.body.Transaction!='Approval Out'){
+            console.log("not")
         db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
@@ -1877,6 +1882,18 @@ app.post('/insertUseritDetails',function(req,res)
            // res.json(doc);
         
         }); 
+      // }
+      // else{
+      //   console.log("approval out");
+      //   db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+      //    "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
+      //   "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
+      //     "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockPoint":req.body.stockPoint}},function(err,doc)
+      //   {
+      //      // res.json(doc);
+        
+      //   }); 
+      // }
       }
         
 
@@ -1909,7 +1926,23 @@ app.put('/changeOrderStatus:changing',function(req,res){
     console.log(doc);
   });
 });
-
+//for approval updating
+// app.put('/approvalupdate:appdata',function(req,res){
+//   console.log("approval approval approval approval approval approval approval");
+//   // console.log(req.params.appdata);
+//    var appstr=req.params.appdata;
+//    console.log(appstr);
+//   // var appstr_array=appstr.split(",");
+//   // var tran=appstr_array[0];
+//   // console.log(tran);
+//   // var pname=appstr_array[1];
+//   // console.log(pname);
+//   // db.transactiondetail.update({})
+//   var id=req.params.appdata;
+//   db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":"completed"}},function(err,doc){
+//     res.json(doc);
+//   })
+// });
 // for update of userit
 app.put('/updateUseritCall',function(req,res)
 {
@@ -1932,7 +1965,6 @@ app.put('/updateUseritCall',function(req,res)
             res.json(doc);
         
         }); 
-
      //
       if(req.body.barcode == undefined || req.body.barcode == null ||  req.body.split == "yes"){
           console.log(" barcode is null ");
@@ -2208,7 +2240,7 @@ app.get('/getSavedDetails',function(req,res){
   var voucherNo = req.query.voucherNo;
   // console.log(trans);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-     if(trans !="Sale Return"&&trans!="Purchase Return"){
+     if(trans !="Sale Return"&&trans!="Purchase Return"&&trans!="Approval Sale"){
       console.log("First if 999999999999999999999999999");
   db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
        
@@ -4554,7 +4586,7 @@ app.post('/saleInvoiceInvoice/:data',function(req,res)
    // console.log(length);
     var voucher = str_array[1];
     
-     db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher}},function(err,doc)
+     db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher,"status":"completed"}},function(err,doc)
         {
         res.json(doc);
         //console.log(doc)
@@ -5542,8 +5574,8 @@ require('./app/routes')(app); // pass our application into our routes
 // <<<<<<< HEAD
 
 // =======
-app.listen(8000); 
+app.listen(800); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8000");
+console.log("server running on port 800");
 // >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 exports = module.exports = app;

@@ -1153,7 +1153,7 @@ $scope.cancelbarcodegeneration = function(){
 
 var num = 0;
 $scope.userit = [];
- $scope.test = 'display';
+ // $scope.test = 'display';
 $scope.generateBarcode = function( ){
 
          // alert(tagno);

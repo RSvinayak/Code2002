@@ -132,7 +132,9 @@ input {
  {
   width: 2em;
  }      */
+#chk{
 
+}
 #frm {
   display: inline-flex;
 }
@@ -342,11 +344,11 @@ display: inline-block;
         <!-- <div class="col-sm-4"> -->
         <div class="col-sm-2" >
             <div id="frm1">
-              <form ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'">
+              <form ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'">
                Bill Type<span id="star"><font size="04">*</font></span>:
               </form>
               <form>
-                   <select ng-model="billtype" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'" class="selectpicker" ng-change="billType()">
+                   <select ng-model="billtype" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'" class="selectpicker" ng-change="billType()">
                    <!--  > -->
                       <option>Cash</option>
                       <option>Credit</option>
@@ -366,21 +368,21 @@ display: inline-block;
             </option>
           </tr>
            </table>
-           <!-- <table id="table1" ng-show="transaction == 'Receipt Voucher'">
-            <tr><th id="th1">Issued Vouchers</th></tr>
+           <table id="table1" ng-show="transaction == 'Approval Sale'">
+            <tr><th id="th1">Approval Out's</th></tr>
             <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v.voucherNo,v.date)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
               
                 <td  id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td>
-                 <!-- <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td> -->
-         <!--    </option>
+                 <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td>
+            </option>
           </tr>
-           </table> --> 
+           </table> 
         </div>
 </div>
 
   </div>
-  <!-- <br><br> -->
+  <!-- <br><br>
  <!--  <div class="row" > -->
        <!-- <div class="col-sm-4" class="inlinetext"> -->
      <!--   <div class="col-sm-2" id="inlinetext" > -->
@@ -562,7 +564,7 @@ display: inline-block;
         Taxamt</th>
         <th >Final Val</th>
          <th >Sales Person<span id="star"><font size="04">*</font></span></th>
-         <th ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'">Acc No<span id="star"><font size="04">*</font></span></th>
+         <th ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'">Acc No<span id="star"><font size="04">*</font></span></th>
         
     <!--   <th class = "ng-hide">Transaction</th>  -->
   <!--     <th >Transaction</th> 
@@ -575,7 +577,7 @@ display: inline-block;
       <tr ng-repeat="item in userit">
       
        <td>
-          <input type="checkbox" ng-checked="checkbox"  ng-click = "indexFunctionCall($index)"  />
+          <input type="checkbox" ng-checked="checkbox"   ng-click = "indexFunctionCall($index)"  />
        </td>
        
        
@@ -677,7 +679,7 @@ display: inline-block;
        <option ng-repeat="sales in salesperson" ng-value="{{sales.Name}}"  >{{sales.Name}}</option>
        </select></td>
 
-       <td> <select ng-model="item.AccNo" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'">
+       <td> <select ng-model="item.AccNo" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction != 'Approval Out'">
        <option ng-repeat="acc in item.accNumbers" ng-value="{{acc.AccNo}}">{{acc.AccNo}}</option>
        </select></td>
        
@@ -703,7 +705,7 @@ display: inline-block;
 
    <!-- <input  id="buttonwidth"  class="btn btn-danger pull-left" ng-click="removeSelectedRows()" value="Remove" ng-disabled="reqColor()"> -->
    <button ng-if = " edituseritButton == true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRowsCheck()" ng-disabled="reqColor()">Remove</button>
-   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'">Remove</button>
+   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'">Remove1</button>
   
       <!-- <label >Remarks:</label> -->
      <!--  <input type="text" ng-disabled="form.$invalid || reqColor()"ng-model="item.remarks"class="form-control"  placeholder="Please enter remarks!" > -->
@@ -715,7 +717,7 @@ display: inline-block;
   </form></div><br>
 
  <div class="w3-row-padding w3-border" ng-cloak>
-    <div class="w3-half w3-container">
+    <div class="w3-half w3-container" ng-hide="transaction == 'Approval Out'">
     <div class="w3-card-6 w3-margin">
         <header class="w3-container w3-light-grey w3-padding-8 w3-center">
      <!--    <h4 >DISCOUNT/CHARGES</h4> -->
@@ -852,7 +854,7 @@ display: inline-block;
   <br>
 
            
-            <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
+            <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button>
            <!--  <button ng-hide ="(desgination != 'Billing Person' )  " class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"   ng-disabled="reqColorPay()" >Pay</button> -->
   <br>
    <br>
@@ -1072,7 +1074,6 @@ $("button").on("click", function () {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type = "text/javascript" 
          src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
       <!-- <script src = "jquery.plug-in.js" type = "text/javascript"></script> -->
       <script type="text/javascript" src="controller/controller.js"></script>   
       <script type="text/javascript" src="Services/ControllerService.js"></script>  
