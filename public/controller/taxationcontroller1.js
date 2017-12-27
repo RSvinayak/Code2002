@@ -16,13 +16,13 @@ refresh();
 $scope.user = {};
 
 $scope.addnewitem = function() {
- if($scope.user.name == undefined && $scope.user.aliasname== undefined && $scope.user.taxlevel == undefined)
+ if($scope.user.name == undefined && $scope.user.aliasname== undefined )
 {
   alert("Please Fill All Mandetory Fields");
 }
 
 
- else if($scope.user.name == undefined ||$scope.user.aliasname== undefined ||$scope.user.taxlevel == undefined){
+ else if($scope.user.name == undefined ||$scope.user.aliasname== undefined ){
     //alert("");
 
     for(let k = 0;k<1;k++){
@@ -36,11 +36,11 @@ $scope.addnewitem = function() {
       alert("Please enter Alias Name");
       break;
     }
-    console.log( $scope.user.taxlevel);
-    if($scope.user.taxlevel == undefined){
-      alert("Please enter Display Order");
-      break;
-    }
+    // console.log( $scope.user.taxlevel);
+    // if($scope.user.taxlevel == undefined){
+    //   alert("Please enter Display Order");
+    //   break;
+    // }
   }//for llop
  }
 
@@ -125,13 +125,13 @@ $scope.update = function() {
   
   //alert('gg')
   $scope.test = 'display'
-   if($scope.user.name == undefined && $scope.user.aliasname== undefined && $scope.user.taxlevel == undefined)
+   if($scope.user.name == undefined && $scope.user.aliasname== undefined )
 {
   alert("Please Fill All Mandetory Fields");
 }
 
 
- else if($scope.user.name == undefined ||$scope.user.aliasname== undefined ||$scope.user.taxlevel == undefined){
+ else if($scope.user.name == undefined ||$scope.user.aliasname== undefined ){
     //alert("");
 
     for(let k = 0;k<1;k++){
@@ -145,11 +145,11 @@ $scope.update = function() {
       alert("Please enter Alias Name");
       break;
     }
-    console.log( $scope.user.taxlevel);
-    if($scope.user.taxlevel == undefined){
-      alert("Please enter Display Order");
-      break;
-    }
+    // console.log( $scope.user.taxlevel);
+    // if($scope.user.taxlevel == undefined){
+    //   alert("Please enter Display Order");
+    //   break;
+    // }
   }//for llop
  }
   else {
@@ -172,7 +172,7 @@ $scope.update = function() {
 
 $scope.deselect = function() {
   //alert('kkSS')
-   if($scope.user.name == undefined && $scope.user.aliasname== undefined && $scope.user.taxlevel == undefined)
+   if($scope.user.name == undefined && $scope.user.aliasname== undefined )
 {
   alert("Please Fill All Mandetory Fields");
 }

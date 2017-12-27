@@ -117,7 +117,7 @@ app.get('/greycolor',function(req,res)
 app.get('/bardata',function(req,res)
 {
     //console.log("i received a get request from index");
-    db.barcodesumm.find({status:"Inprogress"},function(err,doc){
+    db.barcodesumm.find({status:"Inprogress"}).sort({_id:-1},function(err,doc){
         //console.log(doc); db.barcodesumm.find({status:"completed"})
         res.json(doc);
 })
@@ -516,7 +516,7 @@ app.get('/batchrecords/:update',function(req,res)
     // var code1=str_array[1]
    //console.log("the last record is")
    //console.log(count)
-    db.batch.find({count:count,"stats" : "Inprogress"},function(err,doc)
+    db.batch.find({count:count,"stats" : "Inprogress"}).sort({_id:-1},function(err,doc)
     {
         res.json(doc);
         //console.log(doc);
@@ -989,7 +989,7 @@ app.get('/dateBatchFind/:date',function(req,res)
     //var todate=new Date(tdate)
     //console.log(todate);
    
-    db.batch.find({date: { $gt:(fdate), $lt: (tdate) }},function(err,doc){
+    db.batch.find({date: { $gt:(fdate), $lt: (tdate) }}).sort({_id:-1},function(err,doc){
      //console.log(doc);
       res.json(doc);
 
@@ -1004,7 +1004,7 @@ app.get('/dateBatchFind/:date',function(req,res)
     var Barcode=req.query.Barcode;
     
    console.log(" barcode                            "+Barcode)
-    db.batch.find({"barcode" : Number(Barcode)},function(err,doc){
+    db.batch.find({"barcode" : Number(Barcode)}).sort({_id:-1},function(err,doc){
      //console.log(doc);
       res.json(doc);
 
@@ -2122,7 +2122,7 @@ app.put('/useritupdate',function(req,res)
          "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no",
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
        "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
-       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"labcal":req.body.labcal}},function(err,doc)
+       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"labcal":req.body.labcal,"pctcal":req.body.pctcal,"stonecal":req.body.stonecal}},function(err,doc)
       
         {
             res.json(doc);
@@ -3100,7 +3100,7 @@ app.post('/saveitempost',function(req,res){
 //for get details of saved items
 app.get('/getitemdata',function(req,res)
 {
-    db.items.find(function(err,doc){
+    db.items.find({}).sort({_id:-1},function(err,doc){
         res.json(doc);
 })
 })
@@ -3258,7 +3258,7 @@ db.items.find({Name:name}, function (err, doc) {
 // taxation project starts here
 
 app.get('/getitemtaxation', function(req, res){
-   db.taxation.find(function (err, docs) {
+   db.taxation.find({}).sort({_id:-1},function (err, docs) {
     res.json(docs);
   });
 });
@@ -3309,7 +3309,7 @@ app.put('/updatetaxation/:id', function (req, res) {
 
 app.get('/gettax', function(req, res){
  console.log("i received a get request");
- db.tax.find(function (err, docs) {
+ db.tax.find({}).sort({_id:-1},function (err, docs) {
  //console.log(docs);
  res.json(docs);
 });

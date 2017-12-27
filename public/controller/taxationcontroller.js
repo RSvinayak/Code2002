@@ -99,7 +99,7 @@ $scope.addnew = function() {
    alert("Please fill all mandetory fields");
   }
   else{
-  
+  //alert($scope.pur1.length)
  for (var i=0;i<=$scope.pur1.length-1;i++){
   if($scope.tax.taxname == undefined || $scope.tax.aliasname  == undefined || $scope.pur1[i].PurchaseAC  == "" || $scope.pur1[i].SaleAc  == "" || $scope.pur1[i].Rate  == ""|| $scope.pur1[i].name  == "" ){
 
@@ -257,7 +257,9 @@ $scope.updated = function() {
 
   console.log(forupdate.length);
   console.log($scope.tax);
+  //alert(forupdate.length)
    for (let i=0;i<=forupdate.length-1;i++){
+    //alert('kk')
  if($scope.tax.taxname == undefined || $scope.tax.aliasname  == undefined || $scope.pur1[i].PurchaseAC  == "" || $scope.pur1[i].SaleAc  == "" || $scope.pur1[i].Rate  == ""|| $scope.pur1[i].name  == "" ){
 
     

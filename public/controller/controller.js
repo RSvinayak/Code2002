@@ -985,7 +985,7 @@ $scope.getDetails=function(rvalue,voucherNo,date){
  }
   //finalCalAfterRemove(rvalue,response.length);
 function finalCalAfterRemove(rvalue,length) {
-alert("i am in final");
+//alert("i am in final");
   // alert($scope.edituseritButton);
   // alert(rvalue+"rvalue");
   // alert("remove through new method");
@@ -3273,12 +3273,11 @@ $scope.resu ;
                                 ","+ $scope.userit[i].billType+","+$scope.userit[i].taxSelection+","+$scope.userit[i].refId+","+$scope.userit[i].InvGroupName +","+ $scope.userit[i].SaleCategory; 
                                  console.log(data1)
                                //  var date3 = new Date()
-                                $http.post('/savedata1/'+data1).success(function(response){
+                                 $http.post('/savedata1/'+data1).success(function(response){
                          
                                  console.log(response);
-                                 // $scope.userit[i]._id = response._id;
-                                 console.log(response._id);
-                                 console.log(response);
+                                 $scope.userit[i]._id = response._id;
+                               
                                 
                                   $scope.idUpadtesCall(response._id);
 
@@ -3332,8 +3331,8 @@ $scope.resu ;
         if($scope.transaction != 'Issue Voucher' && $scope.transaction != 'Receipt Voucher'){
              saleInoviceDataCall();
            }
-            if($scope.transaction !="Valuation"||$scope.transaction != 'Receipt Voucher'||
-              $scope.transaction != 'Issue Voucher'||$scope.transaction != 'Receipt Voucher'){
+            if($scope.transaction !="Valuation"&&$scope.transaction != 'Receipt Voucher'&&
+              $scope.transaction != 'Issue Voucher'&&$scope.transaction != 'Receipt Voucher'&&$scope.transaction != 'Sale Return'){
                 alert("Order Saved Successfully");
              }
            
@@ -3555,6 +3554,7 @@ $scope.save=function(){
                     }
                      if($scope.transaction == "Receipt Voucher"||$scope.transaction == "Sale Return"||$scope.transaction == "Purchase Return"
                       ||$scope.transaction == "Issue Voucher"){
+                      //alert("jjj")
                       $scope.inoviceNumberGeneration();
                       // alert("hello");
                       // $scope.valuationPrint();
