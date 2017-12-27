@@ -88,7 +88,7 @@
       
       <select ng-model="transaction" class="selectpicker" ng-click = "Transaction()">
 
-      <option ng-repeat="tran in transactions" value="{{tran.TransactionType}}">{{tran.TransactionType}}</option>
+      <option ng-repeat="tran in transactions" value="{{tran.TransactionType}}" ng-if="tran.TransactionType!='Valuation' && tran.TransactionType!='Sale Return'&& tran.TransactionType!='Purchase Return'&& tran.TransactionType!='Issue Voucher'&& tran.TransactionType!='Receipt Voucher'">{{tran.TransactionType}}</option>
     </select> 
   </div>
   </div>

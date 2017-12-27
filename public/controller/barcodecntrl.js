@@ -677,7 +677,7 @@ $scope.bitem = [];
     // save the compelete barcode summary button for barcode summary page
 $scope.saveBarcode = function()
 { //validation purpose
-   //$scope.test = 'display'
+   //$scope.test = 'update1'
    //alert($scope.bitem.stockout)
 
 if($scope.bitem.ItemName == "" &&$scope.bitem.stockin == "" && $scope.bitem.stockout == ""&&$scope.bitem.wt == ""&& $scope.bitem.pcs == ""&& $scope.bitem.titems == "")
@@ -1553,7 +1553,7 @@ console.log(count3)
 
  $scope.all = true
 $scope.newBarSumm = function(){
-   $scope.test = 'display'
+  // $scope.test = 'display'
   console.log("i got new call")
   $scope.all = false
    $scope.bitem.ItemName = ""
@@ -1577,12 +1577,13 @@ var editsummary = null;
   $scope.editupdate = null;
  //var editrow3._id = null;
   var id3 =null;
-//$scope.test=='update1';
+//$scope.test='update1';
 $scope.editBarSumm = function(){
+  $scope.test='update1';
     
      
      //alert("kk")
-      $scope.test = 'update1'
+      //$scope.test = 'update1'
 
         if(editrow3 == undefined){
           alert("Please select any item");
@@ -1636,9 +1637,10 @@ $scope.editBarSumm = function(){
 
       editsummary = true
       //$scope.test=='update1';
-
+//$scope.row1()
  //window.location.reload();
  //$scope.newBarSumm()
+  editrow3 = undefined;
  refresh()
 }
 //window.location.reload();
@@ -2056,7 +2058,7 @@ $scope.mrpCal = function(index,mrp){
          alert("Please Enter GrossPcs ");
          $scope.userit[index].mrp = "";
        }else{
-               $scope.userit[index].taxval=($scope.userit[index].gpcs*mrp).toFixed($scope.rupeesDecimalPoints);
+               $scope.userit[index].taxval=($scope.userit[index].gpcs*$scope.userit[index].mrp).toFixed($scope.rupeesDecimalPoints);
          
             }
 }
