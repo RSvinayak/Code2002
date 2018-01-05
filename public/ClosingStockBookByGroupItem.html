@@ -2,7 +2,7 @@
 <html ng-app="myApp">
 <head>
 
- <title>Report</title>
+ <title>ClosingStockBookByGroupItem</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -62,35 +62,22 @@
  <!-- <div class="row"> -->
   <div class="col-sm-1">
 
-<form>
-
-    <!-- Barcode
-    <br>
-  
-  <input type="radio" ng-model="radio.barcode" ng-change="radiobutton1()" value="yes" > Yes
-  <br>
-  <input type="radio" ng-model="radio.barcode" ng-change="radiobutton1()" value="no" > No
-   -->
+<form>  
    Group
  
-   <select ng-model="sort.Group" >
-        <option>1</option>
+   <select ng-model="sort.Group" ng-change = "clearCall()" ng-init="sort.Group='1'">
+        <option >1</option>
         <option>2</option>
         <option>3</option>
         <option>4</option>
       </select>
   
   </div> 
-  <div class="col-sm-2">
-  <!--  Weight
-    <br>
-
-  <input type="radio" ng-model="radio.weight" ng-change="radiobutton1()" value="gwt" > Gross
-  <br>
-  <input type="radio" ng-model="radio.weight" ng-change="radiobutton1()" value="ntwt" > Nett -->
+  <div class="col-sm-2" ng-init="sort.Group='2'">
+ 
    SaleCategory
    
-   <select ng-model="sort.SaleCty" >
+   <select ng-model="sort.SaleCty" ng-change = "clearCall()">
         <option>1</option>
         <option>2</option>
         <option>3</option>
@@ -100,14 +87,11 @@
   
   </div>
 
-  <div class="col-sm-2">
-  <!--  Report By
-    <br>
-  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="purity" > Purity <br>
-  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="itemName" > Item <br> -->
+  <div class="col-sm-2" ng-init="sort.Group='3'">
+
    Purity
   
-   <select ng-model="sort.Purity" >
+   <select ng-model="sort.Purity" ng-change = "clearCall()">
         <option>1</option>
         <option>2</option>
         <option>3</option>
@@ -116,14 +100,11 @@
 
 
   </div>
-  <div class="col-sm-2">
-  <!--  Report By
-    <br>
-  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="purity" > Purity <br>
-  <input type="radio" ng-model="radio.report" ng-change="radiobutton1()" value="itemName" > Item <br> -->
+  <div class="col-sm-1">
+ 
    Item
   
-   <select ng-model="sort.Item" >
+   <select ng-model="sort.Item" ng-change = "clearCall()" ng-init="sort.Group='4'" >
         <option>1</option>
         <option>2</option>
         <option>3</option>
@@ -133,21 +114,19 @@
 
   </div>
 
-  <div class="col-sm-2">
+  <div class="col-sm-4">
+  StockPoint
+  <select ng-model = "stockPoint" ng-change = "clearCall()">
+    <option ng-repeat="treasure in treasure"  >{{treasure.stockpointname}}</option>
+        </select>
     As On 
-    <input  type="date" id="yourDatePicker" ng-model="bit2.date1" > 
+    <input  type="date" id="yourDatePicker" ng-model="bit2.date1" ng-change = "clearCall()" > 
   </div>
-  <!-- <div class="col-sm-3">
-    Transaction Type 
-    <br>
+  
 
-  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="regular" > Regular
-  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="estimate"> Estimate
-  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="scheme" > Scheme
-  <input type="radio" ng-model="radio.transaction" ng-change="radiobutton1()" value="party"> Party
-  </div> -->
+  <div class="col-sm-2">
+ <!--   -->
 
-  <div class="col-sm-3">
     <button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button>
 <!-- 
     <button ng-click="preview1()" class="btn btn-primary" id="save" >Preview</button> -->

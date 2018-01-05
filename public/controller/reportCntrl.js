@@ -5,6 +5,13 @@ function($scope,$http,$window,$q){
 
 console.log("well come to report controller")
 
+$http.get('/Treasure').success(function(response){
+        console.log(response)
+        $scope.treasure=response;
+
+        //alert($scope.irate[0].rate);
+    })
+
 //for radio default
     $scope.radio = {
         "transaction":'regular',
@@ -75,12 +82,20 @@ $scope.radiobutton1 = function(){
 //  // console.log(log)
 // });
 //expect(log).toEqual(['name: misko', 'gender: male']);
-
+// $scope.sort={}
+// $scope.sort[0].Group = 1;
+//stockPointClear()
+$scope.clearCall = function(){
+  $scope.reportonedate1 = [];
+}
 $scope.sort1 = "Group";
 $scope.sort2 = "Sale Cty";
 $scope.sort3 = "Purity";
 $scope.sort4 = "Item";
 $scope.preview1 = function(){
+  if ($scope.stockPoint==undefined ) { 
+    alert("Please Select stockPoint") 
+  }
   if ($scope.sort.Group ==$scope.sort.SaleCty || $scope.sort.SaleCty ==$scope.sort.Purity || $scope.sort.Purity==$scope.sort.Item || $scope.sort.Item==$scope.sort.Group ) {
           alert("duplicates are not allowed")
       $scope.sort.Group=""
@@ -134,9 +149,10 @@ $scope.sort1 = key;
 });
 
  var reportdata = $scope.radio.transaction+","+$scope.radio.barcode+","+$scope.radio.weight+","+$scope.radio.report+
-                     ","+reportdate +","+$scope.sort1+","+$scope.sort2+","+$scope.sort3+","+$scope.sort4;
+                     ","+reportdate +","+$scope.sort1+","+$scope.sort2+","+$scope.sort3+","+$scope.sort4+","+$scope.stockPoint;
    
-
+  console.log(reportdata);
+//  alert($scope.stockPoint)
 $http.get('/reportResult/'+reportdata ).success(function(response){
                        // $scope.reportonedate2= response
                       // alert("enetere x")

@@ -2,13 +2,16 @@
 <html ng-app="myApp">
 <head>
 
- <title>StockDetails</title>
+ <title>Stock Verfication</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- <script src="stockdetailscntrl.js"></script> -->
  </head> 
 
  <style type="text/css">
+ #space{
+  width:15%;
+ }
  .panel.panel-default
 {
   height: 80%;
@@ -53,14 +56,14 @@
  <br>
 
   <div class="col-sm-2">
-Group: <select ng-model="item.InvGroupName" ng-change="displayBarcodedItems()">
+Group: <select ng-model="item.InvGroupName" ng-change="clearData()" ng-init="item.InvGroupName='Gold Ornaments'">
        <option ng-repeat="pure in inventorygroupmaster1" >{{pure.InvGroupName}}</option>
        </select>
   
   </div> 
   <div class="col-sm-2">
 
-   Category: <select ng-model="item.SaleCategory" ng-change="displayBarcodedItems()"  >
+   Category: <select ng-model="item.SaleCategory" ng-change="clearData()"  ng-init="item.SaleCategory=' Baby Kada'">
       <option ng-repeat="TypeName in salescategorymaster1 | orderBy : 'SaleCategoryType'" > {{TypeName.SaleCategoryType}}</option>
     </select>
     </div>
@@ -69,12 +72,13 @@ Group: <select ng-model="item.InvGroupName" ng-change="displayBarcodedItems()">
  
   
 <div class="col-sm-3">
- code:<input type="text" ng-model="item.barcode" ng-change="codedBarcodedItems()">
+ code:<input type="text" ng-model="item.barcode"  >
    </div>
   
 <div class="col-sm-4">
-  
+    <button ng-click = "displayBarcodedItems();codedBarcodedItems()" class="btn btn-primary"  >List</button>
     <button ng-click="resetCall(sortedBarcodeDataItems)" class="btn btn-primary" id="save" >Reset</button>
+
 
     </div>
 
@@ -95,18 +99,18 @@ Group: <select ng-model="item.InvGroupName" ng-change="displayBarcodedItems()">
           <tr  >
            <th><span class="text">Code</span></th>
           <th><span class="text">Item</span></th>
-      <th><span class="text">Pieces</span></th>
+      <th id="space"><span class="text">Pieces</span></th>
             <th ><span class="text">Scale Wt</span></th>
-              <th><span class="text">Value</span></th>
+              <th id="space"><span class="text">Value</span></th>
          
            </tr >
 
            <tr ng-repeat="items in displayBarcoded"> 
              <td>{{items.refid}}</td>
              <td>{{items.itemName}}</td>
-             <td>{{items.gpcs | number:3}}</td>
+             <td id="space">{{items.gpcs}}</td>
              <td>{{items.gwt | number:3}}</td>
-             <td>{{items.taxval | number:3}}</td>
+             <td id="space">{{items.taxval | number:2}}</td>
            </tr>
      </thead>
    </table>
@@ -138,7 +142,7 @@ Group: <select ng-model="item.InvGroupName" ng-change="displayBarcodedItems()">
              <td>{{items.itemName }}</td>
              <td>{{items.gpcs | number:3}}</td>
              <td>{{items.gwt | number:3}}</td>
-             <td>{{items.taxval | number:3}}</td>
+             <td>{{items.taxval | number:2}}</td>
            </tr>
      </thead>
    </table>
@@ -152,21 +156,21 @@ Group: <select ng-model="item.InvGroupName" ng-change="displayBarcodedItems()">
 ItemsListed:{{itemsListedTotal}}
   </div> 
   <div class="col-sm-2">
- ItemsFound:{{itemsFound}}
+ ItemsFound:{{itemsFound| number:0}}
   
     </div>
       <div class="col-sm-2"> 
-      FoundScaleWt:{{foundScaleWt}}
+      FoundScaleWt:{{foundScaleWt | number:3}}
   </div >
 
    <div class="col-sm-2">
-     FoundPieces: {{foundPieces}}
+     FoundPieces: {{foundPieces | number:0}}
     </div>
     <div class="col-sm-2">
-     TotalScaleWt: {{totalScaleWt}}
+     TotalScaleWt: {{totalScaleWt | number:3}}
     </div>
     <div class="col-sm-2">
-     TotalScale: {{totalScale}}
+     TotalScale: {{totalScale | number:0}}
     </div>
       
       <div class="col-sm-1">
@@ -178,6 +182,6 @@ ItemsListed:{{itemsListedTotal}}
     </body>
       
  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-<script type="text/javascript" src="controller/stockdetailscntrl.js"></script> 
+<script type="text/javascript" src="controller/stockverification.js"></script> 
 
  </html>

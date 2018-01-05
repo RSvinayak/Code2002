@@ -834,10 +834,8 @@ app.post('/savedata1/:update',function(req,res){
              var refid = str_array[43]
             var InvGroupName = str_array[44]
             var SaleCategory = str_array[45]
-            var id = str_array[46]
           //  mrp = parseFloat(mrp)
-        
-
+          console.log("mrp mrp mrp mrp mrp mrp mrp mrp mrp mrp mrp mrp "+str_array[44])
        
         if( mrp == "undefined"){
             mrp = null;
@@ -912,8 +910,7 @@ app.post('/savedata1/:update',function(req,res){
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"completed","StockInward":stockInward,"withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
                 "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
-                "stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
-                "billType":billType,"taxSelection":taxSelection,"stockPoint":stockPoint,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory},function(err,doc){
+                "stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection,"stockPoint":stockPoint},function(err,doc){
                 res.json(doc);
                  console.log("else insert when id is null look here")
                  console.log(doc);   
@@ -2109,232 +2106,43 @@ app.put('/changeOrderStatus:changing',function(req,res){
 //   })
 // });
 // for update of userit
-app.put('/updateUseritCall/:update',function(req,res){
-   //app.post('/savedata1/:update',function(req,res){
-  console.log("save data save data  save data  save data save data save data ")
- // console.log(req.body.date)
-
-//   console.log(req.body.gwt)
-// console.log(req.body.rate)
-// $scope.transaction+"1,"+$scope.userit[i].barcodeNumber+"2,"+$scope.userit[i].chgunt+"3,"+$scope.userit[i].date+"4,"+$scope.userit[i].desc+"5,"
-//                      +$scope.userit[i].final+"6,"+$scope.userit[i].gpcs+"7,"+$scope.userit[i].gwt+"8,"+$scope.userit[i].itemName+",9"+$scope.userit[i].ntwt+"10,"+$scope.partyname+"11,"
-//                      +$scope.userit[i].size+"12,"+$scope.userit[i].taxval+"13,"+$scope.userit[i].taxamt+"14,"+$scope.userit[i].stwt+"15,"+$scope.userit[i].wastage+"16,"+$scope.userit[i].stval+"17,"
-//                      +$scope.userit[i].labval+"18,"+$scope.userit[i].rate +"19,"+ $scope.userit[i]._id +"20,"+$scope.userit[i].StockFrom+"21,"+$scope.userit[i].StockTo+"22,"
-//                      +$scope.userit[i].withinstatecgst+"23,"+$scope.userit[i].withinstatesgst +"24,"+ $scope.userit[i].outofstateigst 25  
-//  ","+$scope.userit[i].purity+","+$scope.userit[i].pctcal+","+$scope.userit[i].labcal+","+$scope.userit[i].uom+","+$scope.userit[i].stonecal;
-                               
-                 
- var str=req.params.update;
-    console.log(str);
-   // console.log(req.body.date3)
-    //var str=req.params.updat;
-   // console.log(str);
-    var str_array=str.split(",");
-    var tran=str_array[0];
-    //console.log("status is"+status);
-    var code1=str_array[1]
-    var bar =parseInt(code1);
-    // console.log(code1)
-    // console.log("code"+code1)
-    // console.log("bar"+bar)
-    //console.log("code1 the code is lok here eeeeeeeeeeeeeeeeeeeeeeeeeeeee "+code1)
-
-    var chgunt=str_array[2]
-    var date=str_array[3]
-    var desc=str_array[4]
-    var final=str_array[5]
-    var gpcs=str_array[6]
-    
-    if( gpcs == "undefined"){
-           gpcs = 0
-        }else{
-          gpcs = parseFloat(gpcs)
-        }
-    var gwt=str_array[7]
-    gwt = parseFloat(gwt)
-    var iname=str_array[8]
-    var ntwt=str_array[9]
-    ntwt = parseFloat(ntwt)
-    var partyname=str_array[10]
-    var size=str_array[11]
-    var taxval1=str_array[12]
-    taxval1 = parseInt(taxval1);
-    var taxamt1=str_array[13]
-    var wt=str_array[14]
-    console.log("stwt stwt wt wtw wt"+wt);
-    if( wt == "undefined"){
-           wt =null
-        }
-        wt = parseFloat(wt)
-    var wastage=str_array[15] //
-      console.log("wastage wastage wastage wtw wt"+wastage);
-    
-    var stval=str_array[16] //
-      console.log("stval stval wastage wtw wt"+stval);
-    
-    var labval=str_array[17] //
-    var rate=str_array[18]
-  
-  // var id=str_array[19]
-  //stockPoint
-    //console.log("here is iddddddddddddddddd   "+id)
-     var stockin=str_array[20]
-   // console.log("here is idddddddddstockin"+stockin)
-      var stockout=str_array[21]
-     // console.log("here is idddddddddstockout"+stockout)
-      //var order = "Inprogress"
-       // var order =str_array[22]
-
-      
-         var withinstatecgst =str_array[22]
-         var withinstatesgst  =str_array[23]
-         var outofstateigst =str_array[24]    
-// var data1 = data+","+$scope.userit[i].stockPoint+","+$scope.userit[i].stockInward;
-          var stockPoint  =str_array[25]
-         var stockInward =str_array[26]                //       console.log(data1)
-         var Hsc  =str_array[27]
-        // console.log(" Hsc   Hsc  Hsc  Hsc  Hsc  Hsc  Hsc  Hsc "+Hsc )
-//  ","+$scope.userit[i].purity+","+$scope.userit[i].pctcal+","+$scope.userit[i].labcal+","+$scope.userit[i].uom+","+$scope.userit[i].stonecal;
+app.put('/updateUseritCall',function(req,res)
+{
    
-          var purity  =str_array[28]
-          var pctcal  =str_array[29]                     
-          var labcal  =str_array[30]
-          var uom  =str_array[31]
-          var stonecal  =str_array[32]
-          var salesPerson = str_array[33] 
-           var AccNo = str_array[34]
-           var labourTaxValue = str_array[35]
-          var labamt  =str_array[36]
-          var urdAdjustment = str_array[37]
-          var stchg = str_array[38]
-          var comboItem = str_array[39]
-           var mrp = str_array[40]
-           var billType = str_array[41]
-            var taxSelection = str_array[42]
-             var refid = str_array[43]
-            var InvGroupName = str_array[44]
-            var SaleCategory = str_array[45]
-            var id = str_array[46]
-            var barcode = str_array[47]
-          //  mrp = parseFloat(mrp)
-        
-
-       
-        if( mrp == "undefined"){
-            mrp = null;
-        }else{
-          mrp = parseFloat(mrp)
-         }
-        if(stchg == "undefined"){
-          stchg = null;
-        }
-        if( withinstatecgst == "undefined"){
-          withinstatecgst =null
-          withinstatesgst =null
-        }
-        if( outofstateigst == "undefined"){
-          outofstateigst =null
-        }
-        if( wastage == "undefined"){
-            wastage =null
-        }
-        if( stval == "undefined"){
-           stval =null
-        }
-        if( labval == "undefined"){
-          labval =null
-        }
-        if( labcal == "undefined"){
-          labcal =null
-        }
-        if( labamt == "undefined"){
-          labamt =null
-        }
-        if( desc == "undefined"){
-          desc =null
-        }
-        if( size == "undefined"){
-          size =null
-        }
-        if( labourTaxValue == "undefined"){
-          labourTaxValue =null
-        }
-
-
-  // console.log("db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert")
-  //    db.transactiondetail.insert(req.body,function(err,doc){
-  //       res.json(doc);
-  //     })
- // db.transactiondetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
-            
- //        res.json(doc);
- //    });
-  if( wt == "undefined" || wt ==  0){
-           wt =null
-        }
-        wt = parseFloat(wt)
-      
-      // if(tran == "Regular Sale"){ //"stockInward":stockInward,
-        //  db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
-        //         "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-        //         "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-        //         "outofstateigst":outofstateigst,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
-        //         "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
-        //         voucherNo:null,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint},function(err,doc){
-        //         res.json(doc);
-        //          //console.log("Regular Sale insert when id is null look here")
-        //         // console.log(doc);    
-        // })
- 
-     //  }
-   // if( id == "undefined"){
-   //         console.log(" 2 undefined mrp mrp mrp mrp mrp mrp mrp mrp mrp mrp "+id)
-       
-   //      }else{
-          
-   //      }
-    // var id = req.body._id;
-    //  req.body.ntwt = parseFloat(req.body.ntwt);
-    //    // console.log(req.body)
-    //    console.log(" id idghjkkkkkkkkkkkkkkkkkkkkkkk "+id)
+    var id = req.body._id;
+     req.body.ntwt = parseFloat(req.body.ntwt);
+       // console.log(req.body)
+       // console.log(req.body.barcode)
   
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
-     //     "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-     //     "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
-     //    "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
-     //   "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
-     //   "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
-     //  "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
-     // "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,
-     //            "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory,"stockPoint":req.body.stockPoint}},function(err,doc){
-     //        //console.log("updated the data in save when id not null")
-     //       res.json(doc);
-    //
-    "Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
-    "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-                "outofstateigst":outofstateigst,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
-                "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
-                voucherNo:null,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint}},function(err,doc){
-                res.json(doc);
-
+     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
+         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+        "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
+       "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
+       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
+      "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
+     "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,
+                "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory,"stockPoint":req.body.stockPoint}},function(err,doc){
+            //console.log("updated the data in save when id not null")
+            res.json(doc);
+        
         }); 
      //
-      // if(req.body.barcode == undefined || req.body.barcode == null ||  req.body.split == "yes"){
-      //     console.log(" barcode is null ");
-      // }else{
-      //     console.log(" barcode is here look  "+req.body.barcode);
-      //       //for updated in refid data  "barcode":req.body.barcode,
-      //   db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
-      //    "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
-      //   "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
-      //     "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockPoint":req.body.stockPoint}},function(err,doc)
-      //   {
-      //      // res.json(doc);
+      if(req.body.barcode == undefined || req.body.barcode == null ||  req.body.split == "yes"){
+          console.log(" barcode is null ");
+      }else{
+          console.log(" barcode is here look  "+req.body.barcode);
+            //for updated in refid data  "barcode":req.body.barcode,
+        db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
+        "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
+          "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockPoint":req.body.stockPoint}},function(err,doc)
+        {
+           // res.json(doc);
         
-      //   }); 
+        }); 
   
-      // }
+      }
         
 });
 //for getting sale data
@@ -5493,7 +5301,7 @@ app.get('/reportResult/:data',  function (req, res) {
                    mIteration(result1.length-1)
                        function mIteration(m) {
                         //console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
-                              if (result1.length == 0 ) {
+                              if (result1.length == 0) {
                                   addNoRepeatItems()
                               }else{// if (result1.length == 0
                                       if (m >= 0) {
@@ -5557,17 +5365,10 @@ app.get('/reportResult/:data',  function (req, res) {
            
           function zIteration1(z) {
                 if (z >= 0) {
-                //   var avoidNegative = 0 ;
-                //   if ((remainingItems.length - 1) == 1) {
-                //         avoidNegative = 0
-                //   }else{
-                //         avoidNegative = 0
-                //   }
-
                    mIteration1(remainingItems.length - 1)
                        function mIteration1(m) {
                         console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
-                              if ( remainingItems.length == 0) {
+                              if (result1.length == 0) {
                                   addNoRepeatItemsStockNo()
                               }else{// if (result1.length == 0
                                       if (m >= 0) {
@@ -5634,7 +5435,7 @@ app.get('/reportResult/:data',  function (req, res) {
                 if (z >= 0) {
                    mIteration2(remainingItems1.length - 1)
                        function mIteration2(m) {
-                             if ( remainingItems1.length == 0) {
+                             if (result1.length == 0) {
                                  // addNoRepeatItemsStockNo();
                                   console.log(" ==0  zIteration "+ z+" result1.length "+result1.length+" remainingItems1.length"+m);
                         

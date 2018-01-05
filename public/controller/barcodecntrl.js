@@ -236,7 +236,29 @@ $scope.batch=""
 }//esle if 
   }
  // tags()
+$scope.checkForCombo = function (ItemName) {
+     $scope.all1 = false ;
+   for(let j=0;j<$scope.items.length;j++){
+       
 
+                    if (ItemName == $scope.items[j].Name && $scope.items[j].comboItem == "yes" ){ 
+                      //alert($scope.items[j]) comboItem
+                      
+                       console.log($scope.items[j]);
+                       $scope.all1 = true ;
+                       // document.getElementById("check1").style.display = "none";
+                       // document.getElementById("inline").style.display = "none";
+                       // //if ($scope.items[j].comboItem == "yes") {inline
+                           //  alert("call for combo "+ItemName);
+                     //  }
+                      // alert("Hsc in  items matched"+$scope.items[j].Hsc)
+                      //$scope.userit[p].Hsc=$scope.items[j].Hsc;
+                      //console.log($scope.userit[p].Hsc)
+                    
+                      break;
+                    }//   if ($scope.userit[p].itemName == 
+  }//for j
+}
 var refresh=function(){
 $http.get('/bardata').success(function(response)
 {
@@ -337,42 +359,42 @@ $scope.saveBatchGeneration = function(){
 
 
         if(edit1 != null){
-      
+            updateBarcode();
                         // console.log("not null");
                         // console.log($scope.userit[0]);
-              if(edit1.composite == 'yes'){
-                      for(f=0;f<=$scope.userit.length-1;f++){
+              // if(edit1.composite == 'yes'){
+              //         for(f=0;f<=$scope.userit.length-1;f++){
 
-                          $http.put('/editcompos', $scope.userit[f]).success(function(response) {
+              //             $http.put('/editcompos', $scope.userit[f]).success(function(response) {
                       
-                               console.log(response);
-                               $scope.updateButton = false;
-                               edit1 = null;
-                               $scope.userit.splice(0, 1);
-                                     // alert("updated ")
-                                    //  alert("updated successfully");
-                          })
-                      }//for
+              //                  console.log(response);
+              //                  $scope.updateButton = false;
+              //                  edit1 = null;
+              //                  $scope.userit.splice(0, 1);
+              //                        // alert("updated ")
+              //                       //  alert("updated successfully");
+              //             })
+              //         }//for
                 
-              }else{
+              // }else{
                  
                   
-                     $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
+              //        $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
                             
-                                 $scope.result=response;
-                                // console.log($scope.result);
-                                $scope.updateButton = false;
-                                 edit1 = null;
-                                  $scope.userit.splice(0, 1);
+              //                    $scope.result=response;
+              //                   // console.log($scope.result);
+              //                   $scope.updateButton = false;
+              //                    edit1 = null;
+              //                     $scope.userit.splice(0, 1);
                             
                                 
 
-                     })
+              //        })
                     
-                    alert("updated successfully"); 
-                    $scope.batch[colorindex].color = colorpush
+              //       alert("updated successfully"); 
+              //       $scope.batch[colorindex].color = colorpush
                         //refresh()
-                 }
+               //  }
      }else{ //not edit else loop
              console.log(" null");
               //  var tagno=window.sessionStorage.getItem("Tagno");
@@ -443,41 +465,45 @@ $scope.saveBatchGeneration = function(){
 
               if(tagdetails.composite == 'yes' ){
                   for(let p = 0; p<4; p++){
-                    if($scope.userit[p].gwt != undefined){
-                        // alert('p '+p)
-                        //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
-                         $scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
-                        $scope.userit[p].compositenum  = p;
-                        // $scope.userit[j].barcode  = $scope.userit[0].barcode ;
-                        console.log($scope.userit[p])
-                        $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
-                              console.log("i got replay")
-                              // console.log(response);
-                              // $scope.usr = response
-                              // console.log( $scope.usr);
-                              // $scope.usr.StockPoint = "andin"
-                             
-                              // $scope.userit[0].orderstatus = "available"
-                              // $scope.usr.Transaction = "Barcoding1"
-                             
-                 
-                           
-                         });
+                              if($scope.userit[p].gwt != undefined){
+                                      // alert('p '+p)
+                                      //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
+                                       $scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
+                                       $scope.userit[p].compositenum  = p;
+                                       for(let j=0;j<$scope.items.length;j++){
+       
+         
+                                                        if ($scope.userit[p].itemName == $scope.items[j].Name){ 
+                                                          //alert($scope.items[j])
+                                                          console.log($scope.items[j])
+                                                          // alert("Hsc in  items matched"+$scope.items[j].Hsc)
+                                                          $scope.userit[p].Hsc=$scope.items[j].Hsc;
+                                                          console.log($scope.userit[p].Hsc)
+                                                        
+                                                          break;
+                                                        }//   if ($scope.userit[p].itemName == 
+                                      }//for j
+                                      // $scope.userit[j].barcode  = $scope.userit[0].barcode ;
+                                      console.log($scope.userit[p])
+                                      $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
+                                            console.log("i got replay")
+                                           
+                                       });
 
-                          console.log( $scope.userit[0].StockPoint);
+                                        console.log( $scope.userit[0].StockPoint);
 
-                          $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
-                                     console.log("i got replay")
-                                     console.log(response);
-                           
-                          })
+                                        $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
+                                                   console.log("i got replay")
+                                                   console.log(response);
+                                         
+                                        })
 
-                    }else{
-                            break;
-                         }
+                              }else{ // if($scope.userit[p].gwt != undefined)
+                                      break;
+                                   }
                   }//for
 
-              }else{
+              }else{ //if(tagdetails.composite == 'yes' ){
                       
                        $http.post('/transactionstock',$scope.userit[0]).success(function(response){  
                                  console.log("i got replay")
@@ -517,7 +543,51 @@ $scope.saveBatchGeneration = function(){
 
            })
 
-      
+colorCodeFun(icount)    
+
+
+   }// else closer !edit
+
+ }//else closer after validation
+}// function closer
+
+function updateBarcode() {
+   if(edit1.composite == 'yes'){
+                      for(f=0;f<=$scope.userit.length-1;f++){
+
+                          $http.put('/editcompos', $scope.userit[f]).success(function(response) {
+                      
+                               console.log(response);
+                               $scope.updateButton = false;
+                               edit1 = null;
+                               $scope.userit.splice(0, 1);
+                                     // alert("updated ")
+                                    //  alert("updated successfully");
+                          })
+                      }//for
+                
+              }else{
+                 
+                  
+                             $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
+                                    
+                                         $scope.result=response;
+                                        // console.log($scope.result);
+                                        $scope.updateButton = false;
+                                         edit1 = null;
+                                          $scope.userit.splice(0, 1);
+                                    
+                                        
+
+                             })
+                            
+                            alert("updated successfully"); 
+                            $scope.batch[colorindex].color = colorpush
+                     }
+}//updateBarcode
+
+function colorCodeFun(icount) {
+  
 
       $http.get('/gettags',{params:{"count":icount}}).success(function(response){  
                //  alert(list3)
@@ -602,19 +672,7 @@ $scope.saveBatchGeneration = function(){
                                     {
                                        // alert(j)
                                       var data = arrpush[j]+","+ "red";
-                                        //alert("arrpush[i] "+arrpush[j])
-
-                                       // console.log(arrpush[0]);
-                                       // console.log(arrpush[1]);
-
-                                       // console.log(arrpush[j]);
-                                       // console.log(arrpush[j]);
-
-                                       //  console.log(arrpush[i]);
-                                       // console.log(arrpush[i]);
-
-
-                                     
+                                       
                                       console.log(data)
                                        $http.put('/colorupdate/'+data).success(function(response)
                                             {
@@ -657,13 +715,7 @@ $scope.saveBatchGeneration = function(){
 
        }) //closer for gettags
 
-  
-
-
-   }// else closer !edit
-
- }//else closer after validation
-}// function closer
+ }//colorCodeFun 
 
   
 var refno = 1;
@@ -1190,28 +1242,28 @@ $scope.generateBarcode = function( ){
   //       var gwt=response[0].gwt;
   //       var ntwt=response[0].ntwt;
 
-  var count = 0
-  for(i=1;i<=100;i++)
-  {
-      // var barno = Math.floor(Math.random() * 100000000) + 1;
-      //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
-       var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
+  // var count = 0
+  // for(i=1;i<=100;i++)
+  // {
+  //     // var barno = Math.floor(Math.random() * 100000000) + 1;
+  //     //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
+  //      var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
       
-      //alert("the barcode is "+barno)
-      console.log("the value of i "+i)
-  $http.get('/barcode',{params:{"barcode":barno}}).success(function(response)
-        { 
-            console.log(response.length)
-            count = response.length
-            console.log(count)
+  //     //alert("the barcode is "+barno)
+  //     console.log("the value of i "+i)
+  // $http.get('/barcode',{params:{"barcode":barno}}).success(function(response)
+  //       { 
+  //           console.log(response.length)
+  //           count = response.length
+  //           console.log(count)
 
-        })
+  //       })
 
-        if(count == 0){
-          //alert(count)
-          break;
-          }
-    }
+  //       if(count == 0){
+  //         //alert(count)
+  //         break;
+  //         }
+  //   }
 
    
           var data = icount 
