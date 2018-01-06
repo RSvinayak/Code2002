@@ -958,7 +958,11 @@ display: inline-block;
  -->
 <!-- <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button> 
  ng-click="save();inoviceNumberGeneration()" -->
+<<<<<<< HEAD
 <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher'||transaction == 'Receipt Voucher')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save();inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
+=======
+<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
+>>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7
 
   <br>
    <br>

@@ -9,7 +9,7 @@ var db=mongojs('inventory',['user','tags','transaction','saleinvoice','mode','tr
   'items','tax','taxation','inventoryGroupAccMaster','inventorygroupvaluenotationdaily','salesPerson','loginDetails',
   'trHeaders','gIControlTables','history','ledgerActs','ledgeraccounts','mainclasses','maingroups','mcIds',
   'roundOffConfig','sgIds','subgroups','subscribers','trDetails','transactionInvoice','ugIds','updatelist','user',
-  'users','merchantDetails']);
+  'users','merchantDetails','trail']);
 
 
 var bodyParser=require('body-parser');
@@ -2003,6 +2003,8 @@ app.put('/insertNewUseritDetails',function(req,res){
                
                console.log(doc12);
                if (doc12 != 0) {
+<<<<<<< HEAD
+=======
 
                    console.log(" combo item getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate"+req.body.barcode);
     
@@ -2024,7 +2026,47 @@ app.put('/insertNewUseritDetails',function(req,res){
            })
 
  });
+>>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7
 
+app.put('/updateUseritCall',function(req,res)
+{
+   
+    var id = req.body._id;
+     req.body.ntwt = parseFloat(req.body.ntwt);
+       // console.log(req.body)
+       // console.log(req.body.barcode)
+  
+     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
+         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+        "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
+       "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
+       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
+      "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
+     "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,
+                "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory}},function(err,doc){
+            //console.log("updated the data in save when id not null")
+            res.json(doc);
+        
+        }); 
+     //
+      if(req.body.barcode == undefined || req.body.barcode == null ||  req.body.split == "yes"){
+          console.log(" barcode is null ");
+      }else{
+          console.log(" barcode is here look  "+req.body.barcode);
+            //for updated in refid data  "barcode":req.body.barcode,
+        db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
+        "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
+          "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,}},function(err,doc)
+        {
+           // res.json(doc);
+        
+        }); 
+  
+      }
+        
+});
 app.post('/insertUseritDetails',function(req,res){
   //console.log(req.body);
     console.log("entered into put request $scope.userit[i]._id!=null +++++++=====+++++");
@@ -2172,7 +2214,11 @@ app.put('/updateUseritCall',function(req,res)
         
 });
 // for update of userit
+<<<<<<< HEAD
 app.put('/updateSaveData/:update',function(req,res){
+=======
+app.put('/updateSavedData/:update',function(req,res){
+>>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7
    //app.post('/savedata1/:update',function(req,res){
   console.log("save data save data  save data  save data save data save data ")
  // console.log(req.body.date)
@@ -2225,7 +2271,7 @@ app.put('/updateSaveData/:update',function(req,res){
     var taxamt1=str_array[13]
     var wt=str_array[14]
     console.log("stwt stwt wt wtw wt"+wt);
-    if( wt == "undefined"){
+    if( wt == "undefined" ){
            wt =null
         }
         wt = parseFloat(wt)
@@ -2283,43 +2329,46 @@ app.put('/updateSaveData/:update',function(req,res){
         
 
        
-        if( mrp == "undefined"){
+        if( mrp == "undefined" || mrp == "null"){
             mrp = null;
         }else{
           mrp = parseFloat(mrp)
          }
-        if(stchg == "undefined"){
+        if(stchg == "undefined" || stchg == "null"){
           stchg = null;
         }
-        if( withinstatecgst == "undefined"){
+        if( withinstatecgst == "undefined" ||  withinstatecgst == "null"){
           withinstatecgst =null
           withinstatesgst =null
         }
-        if( outofstateigst == "undefined"){
+        if( outofstateigst == "undefined" ||  outofstateigst == "null"){
           outofstateigst =null
         }
-        if( wastage == "undefined"){
+        if( wastage == "undefined" ||  wastage == "null"){
             wastage =null
         }
-        if( stval == "undefined"){
+        if( stval == "undefined" ||  stval == "null"){
            stval =null
         }
-        if( labval == "undefined"){
+        if( labval == "undefined" ||  labval == "null"){
           labval =null
         }
-        if( labcal == "undefined"){
+        if( labcal == "undefined" ||  labcal == "null"){
           labcal =null
         }
-        if( labamt == "undefined"){
+        if( labamt == "undefined" ||  labamt == "null"){
           labamt =null
         }
-        if( desc == "undefined"){
-          desc =null
+        if( desc == "undefined" || desc == 'null'){
+          desc = null;
+          console.log(" desc  desc  desc json  "+desc)
         }
-        if( size == "undefined"){
-          size =null
+        if( size == "undefined" || size == 'null'){
+          size = null;
+           console.log(" desc  desc  desc size "+size)
+       
         }
-        if( labourTaxValue == "undefined"){
+        if( labourTaxValue == "undefined" ||  labourTaxValue == "null"){
           labourTaxValue =null
         }
 
@@ -2332,7 +2381,7 @@ app.put('/updateSaveData/:update',function(req,res){
             
  //        res.json(doc);
  //    });
-  if( wt == "undefined" || wt ==  0){
+  if( wt == "undefined" || wt ==  0 ||  wt == "null"){
            wt =null
         }
         wt = parseFloat(wt)
@@ -2640,7 +2689,8 @@ app.put('/useritupdate',function(req,res)
          "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no",
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
        "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
-       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"labcal":req.body.labcal,"pctcal":req.body.pctcal,"stonecal":req.body.stonecal}},function(err,doc)
+       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"labcal":req.body.labcal,"pctcal":req.body.pctcal,
+       "stonecal":req.body.stonecal,"purity":req.body.purity}},function(err,doc)
       
         {
             res.json(doc);
@@ -4284,6 +4334,27 @@ app.get('/getinventorygroupvaluenotationlast',function(req,res)
         res.json(doc);
 })
 })
+
+app.get('/groupAndCategoryBarcode',function(req,res){
+    console.log("groupAndCategoryBarcode");
+    
+      // db.transactiondetail.find(
+      //            {refid:Number(req.query.barcode)}
+      //    ,function (err,doc) {
+          
+      //      // body...
+      //    })
+      db.transactiondetail.find({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},function (err,doc) {
+          //console.log(doc.length);
+          console.log(" barcoded "+doc.length);
+          res.json(doc);
+         // res.json(doc);
+          //upDateCall()
+          })//db.transactiondetail.find
+     //}
+   // var itemgroupid=req.params.inGrpId;
+});
+
 app.get('/stockDetaildisplayBarcodedItems',function(req,res){
     console.log("stockDetaildisplayBarcodedItems");
     // var a=req.query.count;

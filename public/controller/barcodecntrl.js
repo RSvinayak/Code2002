@@ -770,7 +770,7 @@ alert("Please Fill All Mandatory Fields")
     return;
   }
   if($scope.bitem.wt == undefined||$scope.bitem.wt == ""){
-    alert("Please select Total Wt")
+    alert("Please select Total weight")
     return;
   }
   if($scope.bitem.pcs == undefined ||$scope.bitem.pcs == ""){
@@ -1480,7 +1480,8 @@ var icomposite = null;
  $scope.row1 = function(tag){
   $scope.all = false
   console.log(tag)
-   tagdetails = tag
+   tagdetails = tag;
+   edit1 = null;
    // console.log("this is row id"+id);
   console.log("u clicked on row 1");
   $scope.idSelectedVote = tag;
@@ -1571,6 +1572,7 @@ var icomposite = null;
  summarylist()
 // for cancel button
 $scope.cancel = function(){
+  editsummary=false
   if($scope.bitem.ItemName == "" &&$scope.bitem.stockin == "" && $scope.bitem.stockout == ""&&$scope.bitem.wt == ""&& $scope.bitem.pcs == ""&& $scope.bitem.titems == "")
   {
 alert("Please Fill All Mandatory Fields")
