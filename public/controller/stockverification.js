@@ -29,8 +29,11 @@ $scope.displayBarcodedItems = function () {
       //  console.log(response);
         
         $http.get('/stockResetTrue', {params:{"InvGroupName":$scope.item.InvGroupName,"SaleCategory":$scope.item.SaleCategory,}}).success(function(result){
-        	$scope.sortedBarcodeDataItems = result;
+        	  $scope.sortedBarcodeDataItems = result;
         	 	$scope.itemsFound = result.length;
+            if (result.length == 0 && response.length == 0) {
+              alert(" No matches are found ");
+           }
 
         	 	$scope.foundScaleWt = null;
         	 	$scope.foundPieces = null;
@@ -41,6 +44,9 @@ $scope.displayBarcodedItems = function () {
         })
        
         $scope.displayBarcoded = response;
+
+        //alert(" response "+response.length);
+       
         $scope.item.barcode ="";
        // sortedBarCode = [];
         totalCall()
@@ -68,10 +74,14 @@ var totalCall = function () {
     // }
 
 }
+//var lengthCheckValidation = 0;
 $scope.codedBarcodedItems = function () {
 
   var barcodenum = $scope.item.barcode;
   var len = barcodenum.toString().length;
+  // if (len<8) {
+  //   alert(" Please enter valid barcode ")
+  // }
   //console.log(barcodenum.toString().length);
   if (len == 8 ){
   	//{params:{}}).success(function(response){
@@ -79,10 +89,18 @@ $scope.codedBarcodedItems = function () {
   	//alert("codedBarcodedItems");
       $http.get('/stockCodedBarcodedItems', {params:{"barcode":$scope.item.barcode,"InvGroupName":$scope.item.InvGroupName,"SaleCategory":$scope.item.SaleCategory,}}).success(function(response){  
       		console.log(response.length);
-          console.log(response)
+          console.log(response);
+         
+          // if (response.length == lengthCheckValidation) {
+          //   alert(" No match");
+          // }else{
+          //    lengthCheckValidation = response.length;
+          //    lengthCheckValidation+1;
+          // }
 
          	//console.log($scope.displayBarcoded.length);
          	$scope.sortedBarcodeDataItems = response;
+           
          	$scope.itemsFound = response.length;
 
 	            $scope.foundScaleWt = null;
@@ -124,6 +142,10 @@ $scope.resetCall = function (sortedBarcodeDataItems) {
 
 	// body...
 }
- 
+
+$scope.clearData = function () {
+ $scope.displayBarcoded = '';
+  $scope.sortedBarcodeDataItems = '';
+} 
  
 }]);

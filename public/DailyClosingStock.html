@@ -2,7 +2,7 @@
 <html ng-app="myApp">
 <head>
 
- <title>StockDetails</title>
+ <title>DailyClosingStock</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- <script src="stockcntrl.js"></script> -->
@@ -72,20 +72,20 @@ For:<input type="date" ng-model="bit1.date2">
            <tr ng-repeat="items in displayReport track by $index"> 
              <td>{{items.SaleCategory}}</td>
              <td>{{items.opgwt | number:3}}</td>
-             <td>{{items.opcount | number:3}}</td>
-             <td>{{items.opgpcs| number:3}}</td>
+             <td>{{items.opcount | number:0}}</td>
+             <td>{{items.opgpcs| number:0}}</td>
              
               <td>{{items.ingwt | number:3}}</td>
-             <td>{{items.incount| number:3}}</td>
-             <td>{{items.ingpcs | number:3}}</td>
+             <td>{{items.incount| number:0}}</td>
+             <td>{{items.ingpcs | number:0}}</td>
             
              <td>{{items.outgwt | number:3}}</td>
-             <td>{{items.outcount | number:3}}</td>
-             <td>{{items.outgpcs | number:3}}</td>
+             <td>{{items.outcount | number:0}}</td>
+             <td>{{items.outgpcs | number:0}}</td>
              
              <td>{{items.cbgwt | number:3}}</td>
-             <td>{{items.cbcount | number:3}}</td>
-             <td>{{items.cbgpcs | number:3}}</td>
+             <td>{{items.cbcount | number:0}}</td>
+             <td>{{items.cbgpcs | number:0}}</td>
              
              
            </tr>
@@ -107,6 +107,6 @@ For:<input type="date" ng-model="bit1.date2">
 </body>
       
  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-<script type="text/javascript" src="controller/stockcntrl.js"></script> 
+<script type="text/javascript" src="controller/dailyStockClosing.js"></script> 
 
  </html>

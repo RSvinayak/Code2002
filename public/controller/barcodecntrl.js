@@ -337,42 +337,42 @@ $scope.saveBatchGeneration = function(){
 
 
         if(edit1 != null){
-      
+            updateBarcode();
                         // console.log("not null");
                         // console.log($scope.userit[0]);
-              if(edit1.composite == 'yes'){
-                      for(f=0;f<=$scope.userit.length-1;f++){
+              // if(edit1.composite == 'yes'){
+              //         for(f=0;f<=$scope.userit.length-1;f++){
 
-                          $http.put('/editcompos', $scope.userit[f]).success(function(response) {
+              //             $http.put('/editcompos', $scope.userit[f]).success(function(response) {
                       
-                               console.log(response);
-                               $scope.updateButton = false;
-                               edit1 = null;
-                               $scope.userit.splice(0, 1);
-                                     // alert("updated ")
-                                    //  alert("updated successfully");
-                          })
-                      }//for
+              //                  console.log(response);
+              //                  $scope.updateButton = false;
+              //                  edit1 = null;
+              //                  $scope.userit.splice(0, 1);
+              //                        // alert("updated ")
+              //                       //  alert("updated successfully");
+              //             })
+              //         }//for
                 
-              }else{
+              // }else{
                  
                   
-                     $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
+              //        $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
                             
-                                 $scope.result=response;
-                                // console.log($scope.result);
-                                $scope.updateButton = false;
-                                 edit1 = null;
-                                  $scope.userit.splice(0, 1);
+              //                    $scope.result=response;
+              //                   // console.log($scope.result);
+              //                   $scope.updateButton = false;
+              //                    edit1 = null;
+              //                     $scope.userit.splice(0, 1);
                             
                                 
 
-                     })
+              //        })
                     
-                    alert("updated successfully"); 
-                    $scope.batch[colorindex].color = colorpush
+              //       alert("updated successfully"); 
+              //       $scope.batch[colorindex].color = colorpush
                         //refresh()
-                 }
+               //  }
      }else{ //not edit else loop
              console.log(" null");
               //  var tagno=window.sessionStorage.getItem("Tagno");
@@ -452,16 +452,7 @@ $scope.saveBatchGeneration = function(){
                         console.log($scope.userit[p])
                         $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
                               console.log("i got replay")
-                              // console.log(response);
-                              // $scope.usr = response
-                              // console.log( $scope.usr);
-                              // $scope.usr.StockPoint = "andin"
                              
-                              // $scope.userit[0].orderstatus = "available"
-                              // $scope.usr.Transaction = "Barcoding1"
-                             
-                 
-                           
                          });
 
                           console.log( $scope.userit[0].StockPoint);
@@ -517,7 +508,51 @@ $scope.saveBatchGeneration = function(){
 
            })
 
-      
+colorCodeFun(icount)    
+
+
+   }// else closer !edit
+
+ }//else closer after validation
+}// function closer
+
+function updateBarcode() {
+   if(edit1.composite == 'yes'){
+                      for(f=0;f<=$scope.userit.length-1;f++){
+
+                          $http.put('/editcompos', $scope.userit[f]).success(function(response) {
+                      
+                               console.log(response);
+                               $scope.updateButton = false;
+                               edit1 = null;
+                               $scope.userit.splice(0, 1);
+                                     // alert("updated ")
+                                    //  alert("updated successfully");
+                          })
+                      }//for
+                
+              }else{
+                 
+                  
+                             $http.put('/updateBarcodeDataGeneration',$scope.userit[0]).success(function(response){
+                                    
+                                         $scope.result=response;
+                                        // console.log($scope.result);
+                                        $scope.updateButton = false;
+                                         edit1 = null;
+                                          $scope.userit.splice(0, 1);
+                                    
+                                        
+
+                             })
+                            
+                            alert("updated successfully"); 
+                            $scope.batch[colorindex].color = colorpush
+                     }
+}//updateBarcode
+
+function colorCodeFun(icount) {
+  
 
       $http.get('/gettags',{params:{"count":icount}}).success(function(response){  
                //  alert(list3)
@@ -602,19 +637,7 @@ $scope.saveBatchGeneration = function(){
                                     {
                                        // alert(j)
                                       var data = arrpush[j]+","+ "red";
-                                        //alert("arrpush[i] "+arrpush[j])
-
-                                       // console.log(arrpush[0]);
-                                       // console.log(arrpush[1]);
-
-                                       // console.log(arrpush[j]);
-                                       // console.log(arrpush[j]);
-
-                                       //  console.log(arrpush[i]);
-                                       // console.log(arrpush[i]);
-
-
-                                     
+                                       
                                       console.log(data)
                                        $http.put('/colorupdate/'+data).success(function(response)
                                             {
@@ -657,13 +680,7 @@ $scope.saveBatchGeneration = function(){
 
        }) //closer for gettags
 
-  
-
-
-   }// else closer !edit
-
- }//else closer after validation
-}// function closer
+ }//colorCodeFun 
 
   
 var refno = 1;
