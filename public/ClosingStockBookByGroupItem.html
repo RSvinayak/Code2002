@@ -65,11 +65,7 @@
 <form>  
    Group
  
-<<<<<<< HEAD:public/ClosingStockBookByGroupItem.html
-   <select ng-model="sort.Group" >
-=======
    <select ng-model="sort.Group" ng-change = "clearCall()" ng-init="sort.Group='1'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/ClosingStockBookByGroupItem.html
         <option >1</option>
         <option>2</option>
         <option>3</option>
@@ -77,11 +73,7 @@
       </select>
   
   </div> 
-<<<<<<< HEAD:public/ClosingStockBookByGroupItem.html
-  <div class="col-sm-2">
-=======
-  <div class="col-sm-2" ng-init="sort.Group='2'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/ClosingStockBookByGroupItem.html
+  <div class="col-sm-2" ng-init="sort.SaleCty='2'">
  
    SaleCategory
    
@@ -95,11 +87,7 @@
   
   </div>
 
-<<<<<<< HEAD:public/ClosingStockBookByGroupItem.html
-  <div class="col-sm-2">
-=======
-  <div class="col-sm-2" ng-init="sort.Group='3'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/ClosingStockBookByGroupItem.html
+  <div class="col-sm-2" ng-init="sort.Purity='3'">
 
    Purity
   
@@ -116,7 +104,7 @@
  
    Item
   
-   <select ng-model="sort.Item" ng-change = "clearCall()" ng-init="sort.Group='4'" >
+   <select ng-model="sort.Item" ng-change = "clearCall()" ng-init="sort.Item='4'" >
         <option>1</option>
         <option>2</option>
         <option>3</option>
@@ -128,11 +116,7 @@
 
   <div class="col-sm-4">
   StockPoint
-<<<<<<< HEAD:public/ClosingStockBookByGroupItem.html
-  <select ng-model = "stockPoint">
-=======
   <select ng-model = "stockPoint" ng-change = "clearCall()">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/ClosingStockBookByGroupItem.html
     <option ng-repeat="treasure in treasure"  >{{treasure.stockpointname}}</option>
         </select>
     As On 

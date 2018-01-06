@@ -465,31 +465,6 @@ $scope.saveBatchGeneration = function(){
 
               if(tagdetails.composite == 'yes' ){
                   for(let p = 0; p<4; p++){
-<<<<<<< HEAD
-                    if($scope.userit[p].gwt != undefined){
-                        // alert('p '+p)
-                        //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
-                         $scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
-                        $scope.userit[p].compositenum  = p;
-                        // $scope.userit[j].barcode  = $scope.userit[0].barcode ;
-                        console.log($scope.userit[p])
-                        $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
-                              console.log("i got replay")
-                             
-                         });
-
-                          console.log( $scope.userit[0].StockPoint);
-
-                          $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
-                                     console.log("i got replay")
-                                     console.log(response);
-                           
-                          })
-
-                    }else{
-                            break;
-                         }
-=======
                               if($scope.userit[p].gwt != undefined){
                                       // alert('p '+p)
                                       //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
@@ -526,7 +501,6 @@ $scope.saveBatchGeneration = function(){
                               }else{ // if($scope.userit[p].gwt != undefined)
                                       break;
                                    }
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
                   }//for
 
               }else{ //if(tagdetails.composite == 'yes' ){

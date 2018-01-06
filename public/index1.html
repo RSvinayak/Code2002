@@ -344,11 +344,11 @@ display: inline-block;
         <!-- <div class="col-sm-4"> -->
         <div class="col-sm-2" >
             <div id="frm1">
-<<<<<<< HEAD
+
               <form ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'&&transaction !='Approval Return'&& partyname != null">
-=======
-              <form ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'&&transaction !='Approval Return'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+
+              <!-- <form ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'&&transaction !='Approval Return'"> -->
+
                Bill Type<span id="star"><font size="04">*</font></span>:
               </form>
               <form>
@@ -362,11 +362,11 @@ display: inline-block;
                  font-style: italic;    color: red;">{{usernamedetails}}</p>
             </div>
           <!-- </div> -->
-<<<<<<< HEAD
+
              <table id="table1"  ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'&& partyname !=null" >
-=======
-             <table id="table1"  ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'" >
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+
+             <!-- <table id="table1"  ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'" > -->
+
             <tr ><th id="th1">TransactionHistory:</th></tr>
          <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v._id.voucherNo)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
@@ -383,11 +383,9 @@ display: inline-block;
             <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v._id.voucherNo)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
               
-<<<<<<< HEAD
                 <td  id="td1" height="1" >{{v._id.voucherNo}}</td>
-=======
-                <td  id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+               <!--  <td  id="td1" height="1" >{{v.date | date:'dd/MM/yyyy'}},{{v.voucherNo}}</td> -->
+
                  <!-- <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td> -->
             </option>
           </tr>
@@ -577,11 +575,11 @@ display: inline-block;
         <th  ng-if = " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase') " >
         Taxamt</th>
         <th >Final Val</th>
-<<<<<<< HEAD
-         <th ng-if="transaction != 'Valuation'">Stock Pt</th>
-=======
+
+         <!-- <th ng-if="transaction != 'Valuation'">Stock Pt</th> -->
+
          <th ng-if="transaction != 'Valuation'">Stock Pt<span id="star"><font size="04">*</font></span></th>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+
          <th >Sales Person<span id="star"><font size="04">*</font></span></th>
          <th ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'&&transaction !='Approval Return'">Acc No<span id="star"><font size="04">*</font></span></th>
         
@@ -603,22 +601,21 @@ display: inline-block;
        
        <td>
         <!-- <select  class="selectpicker" ng-model="item.itemName" ng-change="itemSelect(item.itemName);callback(item.itemName,$index)"> -->
-<<<<<<< HEAD
+
         <select  class="selectpicker" ng-model="item.itemName" ng-change="itemSelect(item.itemName,$index)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'">
-=======
-        <select  class="selectpicker" ng-model="item.itemName" ng-change="itemSelect(item.itemName,$index)" ng-disabled="transaction=='Sale Return'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+
+        <!-- <select  class="selectpicker" ng-model="item.itemName" ng-change="itemSelect(item.itemName,$index)" ng-disabled="transaction=='Sale Return'"> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
         <option ng-repeat="itemname in items" >{{itemname.Name}}</option>
         </select>
         
        </td>
              
        <td>
-<<<<<<< HEAD
+
         <input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"   ng-model="item.barcodeNumber" ng-change = "barcodeScan($index)" ng-disabled=" transaction == 'RD Purchase' ||transaction == 'Urd Purchase' " ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'">
-=======
-        <input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"   ng-model="item.barcodeNumber" ng-change = "barcodeScan($index)" ng-disabled=" transaction == 'RD Purchase' ||transaction == 'Urd Purchase' " ng-disabled="transaction=='Sale Return'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+
+       <!--  <input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"   ng-model="item.barcodeNumber" ng-change = "barcodeScan($index)" ng-disabled=" transaction == 'RD Purchase' ||transaction == 'Urd Purchase' " ng-disabled="transaction=='Sale Return'"> -->
        </td>
        <td>
        <input type="text" class="form-control" id="usr"   ng-model="item.desc"  maxlength="40" ></td>
@@ -628,17 +625,17 @@ display: inline-block;
        <option ng-repeat="pure in  " value="{{pure.ValueNotation}}">{{pure.ValueNotation}}</option>
        </select>
        </td> -->
-<<<<<<< HEAD
+
       <td> <select ng-model="item.purity" class="selectpicker" ng-change="purityCal($index,item.purity)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'">
-=======
-      <td> <select ng-model="item.purity" class="selectpicker" ng-change="purityCal($index,item.purity)" ng-disabled="transaction=='Sale Return'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+
+     <!--  <td> <select ng-model="item.purity" class="selectpicker" ng-change="purityCal($index,item.purity)" ng-disabled="transaction=='Sale Return'"> -->
+
        <option ng-repeat="pure in item.irate" >{{pure.ValueNotation}}</option>
        </select>
        </td>
 
        <!-- <td><input type="text" class="form-control" id="usr" value="{{item.gwt}}"  ng-model="item.gwt"  ng-change="newgwt($index)"></td> -->
-<<<<<<< HEAD
+
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr"   ng-model="item.gwt"  ng-change="newgwt($index)" ng-blur="findWeightTolerence($index)" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"  ></td>
 
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.gpcs"  ng-change="gpcsDecimals($index)" ng-blur="gpcsLimit($index)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
@@ -646,30 +643,30 @@ display: inline-block;
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"  id="usr"  ng-model="item.stwt" ng-change="newstwt($index)"  placeholder="0" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" ng-blur="stoneTolerence($index)" ></td>
 
        <td><select ng-model="item.uom" ng-change= "uomConversion($index,item.uom)" class="selectpicker" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'">
-=======
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr"   ng-model="item.gwt"  ng-change="newgwt($index)" ng-blur="findWeightTolerence($index)" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'"  ></td>
+
+       <!-- <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr"   ng-model="item.gwt"  ng-change="newgwt($index)" ng-blur="findWeightTolerence($index)" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'"  ></td>
 
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.gpcs"  ng-change="gpcsDecimals($index)" ng-blur="gpcsLimit($index)" ng-disabled="transaction=='Sale Return'"></td>
        
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control"  id="usr"  ng-model="item.stwt" ng-change="newstwt($index)"  placeholder="0" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'" ng-blur="stoneTolerence($index)" ></td>
 
-       <td><select ng-model="item.uom" ng-change= "uomConversion($index,item.uom)" class="selectpicker" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+       <td><select ng-model="item.uom" ng-change= "uomConversion($index,item.uom)" class="selectpicker" ng-disabled= "disableMrp1($index)||transaction=='Sale Return'"> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
        <option ng-repeat="uom in uom" selected>{{uom.name}}</option>
        </select></td>
 
        <!-- <td><input type="number" value="{{item.ntwt}}" ng-model="item.ntwt" class="form-control" id="usr" readonly></td> -->
-<<<<<<< HEAD
-       <td><input type="text"  ng-model="item.ntwt" class="form-control" id="usr" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
-=======
-       <td><input type="text"  ng-model="item.ntwt" class="form-control" id="usr" ng-disabled="transaction=='Sale Return'"></td>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+<!-- <<<<<<< HEAD
+ -->       <td><input type="text"  ng-model="item.ntwt" class="form-control" id="usr" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
+<!-- ======= -->
+       <!-- <td><input type="text"  ng-model="item.ntwt" class="form-control" id="usr" ng-disabled="transaction=='Sale Return'"></td> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
 
        <td><select ng-model="item.pctcal" ng-change=newwas($index,item.pctcal) class="selectpicker" ng-disabled= "disableMrp1($index)">
        <option ng-repeat="pct in pct" value="{{pct.name}}">{{pct.name}}</option>
        </select></td>
        
-<<<<<<< HEAD
+<!-- <<<<<<< HEAD -->
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.wastage" ng-value="{{item.wastage}}" ng-change=newwas($index,item.pctcal) ng-disabled= "disableMrp1($index)||transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
 
        <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.matadj" ng-value="{{item.matadj}}" ng-disabled= "disableMrp1($index)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
@@ -677,15 +674,15 @@ display: inline-block;
        <td><input type="text" class="form-control" id="usr" ng-model="item.chgunt" ng-value="{{item.chgunt}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
 
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp"  ng-change="mrpCal($index)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" ></td>
-=======
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.wastage" ng-value="{{item.wastage}}" ng-change=newwas($index,item.pctcal) ng-disabled= "disableMrp1($index)||transaction=='Sale Return'"></td>
+<!-- ======= -->
+       <!-- <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.wastage" ng-value="{{item.wastage}}" ng-change=newwas($index,item.pctcal) ng-disabled= "disableMrp1($index)||transaction=='Sale Return'"></td>
 
        <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.matadj" ng-value="{{item.matadj}}" ng-disabled= "disableMrp1($index)" ng-disabled="transaction=='Sale Return'"></td>
 
        <td><input type="text" class="form-control" id="usr" ng-model="item.chgunt" ng-value="{{item.chgunt}}" ng-disabled="transaction=='Sale Return'"></td>
 
-       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp"  ng-change="mrpCal($index)" ng-disabled="transaction=='Sale Return'" ></td>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+       <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp"  ng-change="mrpCal($index)" ng-disabled="transaction=='Sale Return'" ></td> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
 
        <td ><input type="text" class="form-control" id="usr" ng-model="item.rate" ng-change="rateChange($index)" ng-disabled= "disableMrp1($index)" ng-disabled="transaction=='Sale Return'"></td>
 
@@ -698,15 +695,15 @@ display: inline-block;
 
 
 
-<<<<<<< HEAD
+<!-- <<<<<<< HEAD -->
        <td><input type="text" class="form-control"  id="usr"  ng-model="item.labval" ng-value="{{item.labval}}" placeholder="0" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
 
        <td ng-if = " LabourTax =='Yes'"><input type="text" class="form-control" ng-model="item.labourTaxValue" placeholder="0" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
-=======
-       <td><input type="text" class="form-control"  id="usr"  ng-model="item.labval" ng-value="{{item.labval}}" placeholder="0" ng-disabled="transaction=='Sale Return'"></td>
+<!-- ======= -->
+       <!-- <td><input type="text" class="form-control"  id="usr"  ng-model="item.labval" ng-value="{{item.labval}}" placeholder="0" ng-disabled="transaction=='Sale Return'"></td>
 
-       <td ng-if = " LabourTax =='Yes'"><input type="text" class="form-control" ng-model="item.labourTaxValue" placeholder="0" ng-disabled="transaction=='Sale Return'"></td>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+       <td ng-if = " LabourTax =='Yes'"><input type="text" class="form-control" ng-model="item.labourTaxValue" placeholder="0" ng-disabled="transaction=='Sale Return'"></td> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
 
 
        <td> <select ng-model="item.stonecal" ng-change="newstchg($index,item.stonecal)" class="selectpicker" ng-disabled= "disableMrp1($index)">
@@ -717,31 +714,31 @@ display: inline-block;
 
         <td><input type="text" class="form-control"  id="usr"  ng-model="item.stval" ng-value="{{item.stval}}" placeholder="0" readonly></td>
 
-<<<<<<< HEAD
-       <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval" ng-value="{{item.taxval}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
-=======
-       <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval" ng-value="{{item.taxval}}" ng-disabled="transaction=='Sale Return'"></td>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+<!-- <<<<<<< HEAD -->
+       <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval" ng-value="{{item.taxval}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly></td>
+<!-- ======= -->
+      <!--  <td><input type="text" class="form-control"  id="usr" ng-model="item.taxval" ng-value="{{item.taxval}}" ng-disabled="transaction=='Sale Return'"></td> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
        <!--  <td><select  class="selectpicker">
         <option value="{{itemname.name}}">1%</option>
         </select></td> tax -->
-       <td ng-if = "transaction != 'Urd Purchase'"> <select ng-model="item.taxSelection" ng-change="taxSelectionCall($index,item.taxSelection)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'">
+       <td ng-if = "transaction != 'Urd Purchase'"> <select ng-model="item.taxSelection" ng-change="taxSelectionCall($index,item.taxSelection)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly >
        <option ng-repeat="tax in withinstat" ng-value="{{tax.taxname}}">{{tax.taxname}}</option>
        </select></td>
 
-<<<<<<< HEAD
-<td  ng-if = " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase') "><input type="text"   class="form-control"   ng-model="item.withinstatecgst"  ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
+<!-- <<<<<<< HEAD -->
+<td  ng-if = " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase') "><input type="text"   class="form-control"   ng-model="item.withinstatecgst"  ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly></td>
 
-         <td ng-if =" (radiowithinstate =='withinstate' && transaction != 'Urd Purchase')"><input type="text" class="form-control"   ng-model="item.withinstatesgst" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
+         <td ng-if =" (radiowithinstate =='withinstate' && transaction != 'Urd Purchase')"><input type="text" class="form-control"   ng-model="item.withinstatesgst" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"readonly></td>
 
-          <td  ng-if =  " (radiowithinstate !='withinstate' && transaction != 'Urd Purchase')  "><input type="text" class="form-control"  id="usr"  ng-model="item.outofstateigst" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
+          <td  ng-if =  " (radiowithinstate !='withinstate' && transaction != 'Urd Purchase')  "><input type="text" class="form-control"  id="usr"  ng-model="item.outofstateigst" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly></td>
 
 
-       <td ng-if =  " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase')  "><input type="text" class="form-control"  id="usr"   ng-model="item.taxamt" ng-value="{{item.taxamt}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
+       <td ng-if =  " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase')  "><input type="text" class="form-control"  id="usr"   ng-model="item.taxamt" ng-value="{{item.taxamt}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly></td>
 
-       <td ><input type="text" class="form-control"  id="usr" ng-model="item.final" ng-value="{{item.final}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'"></td>
-=======
-<td  ng-if = " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase') "><input type="text"   class="form-control"   ng-model="item.withinstatecgst"  ng-disabled="transaction=='Sale Return'"></td>
+       <td ><input type="text" class="form-control"  id="usr" ng-model="item.final" ng-value="{{item.final}}" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly></td>
+<!-- ======= -->
+<!-- <td  ng-if = " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase') "><input type="text"   class="form-control"   ng-model="item.withinstatecgst"  ng-disabled="transaction=='Sale Return'"></td>
 
          <td ng-if =" (radiowithinstate =='withinstate' && transaction != 'Urd Purchase')"><input type="text" class="form-control"   ng-model="item.withinstatesgst" ng-disabled="transaction=='Sale Return'"></td>
 
@@ -750,8 +747,8 @@ display: inline-block;
 
        <td ng-if =  " (radiowithinstate =='withinstate' && transaction != 'Urd Purchase')  "><input type="text" class="form-control"  id="usr"   ng-model="item.taxamt" ng-value="{{item.taxamt}}" ng-disabled="transaction=='Sale Return'"></td>
 
-       <td ><input type="text" class="form-control"  id="usr" ng-model="item.final" ng-value="{{item.final}}" ng-disabled="transaction=='Sale Return'"></td>
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+       <td ><input type="text" class="form-control"  id="usr" ng-model="item.final" ng-value="{{item.final}}" ng-disabled="transaction=='Sale Return'"></td> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
          <td>
        <select ng-if="transaction != 'Valuation'"  ng-model="item.stockPoint" ng-click=stockPtCall($index,item.barcodeNumber) ng-disabled="$index==limit">
         <option  ng-repeat="stocks in stock "  >{{stocks.stockpointname}}</option>
@@ -786,8 +783,8 @@ display: inline-block;
    <button class="btn btn-primary addnew pull-left" id="buttonwidth1" ng-if = " edituseritButton != true"   ng-click="addNew()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" >Add New</button>
 
    <!-- <input  id="buttonwidth"  class="btn btn-danger pull-left" ng-click="removeSelectedRows()" value="Remove" ng-disabled="reqColor()"> -->
-   <button ng-if = " edituseritButton == true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRowsCheck()" ng-disabled="reqColor()">Remove</button>
-   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'">Remove</button>
+   <button ng-if = " edituseritButton == true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRowsCheck()" ng-disabled="reqColor()" >Remove</button>
+   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Issue Voucher' ||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Sale'||transaction=='Approval Return'">Remove</button>
   
       <!-- <label >Remarks:</label> -->
      <!--  <input type="text" ng-disabled="form.$invalid || reqColor()"ng-model="item.remarks"class="form-control"  placeholder="Please enter remarks!" > -->
@@ -808,11 +805,11 @@ display: inline-block;
 <!-- 
  <div class="w3-row-padding w3-border"> -->
   <div class="col-sm-6" ng-show ="(transaction == 'Urd Purchase'|| transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'|| transaction == 'Valuation'|| transaction == 'RD Purchase')"></div>
-<<<<<<< HEAD
+<!-- <<<<<<< HEAD -->
     <div class="w3-half w3-container" ng-hide ="(transaction == 'Urd Purchase' || transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher' || transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction == 'Approval Out'||transaction=='Approval Return'||transaction=='Approval Sale')">
-=======
-    <div class="w3-half w3-container" ng-hide ="(transaction == 'Urd Purchase' || transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher' || transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction == 'Approval Out')">
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
+<!-- ======= -->
+    <!-- <div class="w3-half w3-container" ng-hide ="(transaction == 'Urd Purchase' || transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher' || transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction == 'Approval Out')"> -->
+<!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
 <!-- >>>>>>> 61946425920cfde23eb0ef81e1ccb2a84ae6baa2 -->
     <!-- <div class="w3-card-6 w3-margin"> -->
         <header class="w3-container w3-light-grey w3-padding-8 w3-center">
@@ -961,7 +958,7 @@ display: inline-block;
  -->
 <!-- <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" id="buttonwidth"  ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Pay</button> 
  ng-click="save();inoviceNumberGeneration()" -->
-<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save();inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
+<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher'||transaction == 'Receipt Voucher')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save();inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
 
   <br>
    <br>
