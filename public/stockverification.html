@@ -9,6 +9,9 @@
  </head> 
 
  <style type="text/css">
+ #space{
+  width:15%;
+ }
  .panel.panel-default
 {
   height: 80%;
@@ -53,14 +56,22 @@
  <br>
 
   <div class="col-sm-2">
+<<<<<<< HEAD:public/stockverification.html
 Group: <select ng-model="item.InvGroupName" ng-change="clearData()" >
+=======
+Group: <select ng-model="item.InvGroupName" ng-change="clearData()" ng-init="item.InvGroupName='Gold Ornaments'">
+>>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/stockverification.html
        <option ng-repeat="pure in inventorygroupmaster1" >{{pure.InvGroupName}}</option>
        </select>
   
   </div> 
   <div class="col-sm-2">
 
+<<<<<<< HEAD:public/stockverification.html
    Category: <select ng-model="item.SaleCategory" ng-change="clearData()"  >
+=======
+   Category: <select ng-model="item.SaleCategory" ng-change="clearData()"  ng-init="item.SaleCategory=' Baby Kada'">
+>>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/stockverification.html
       <option ng-repeat="TypeName in salescategorymaster1 | orderBy : 'SaleCategoryType'" > {{TypeName.SaleCategoryType}}</option>
     </select>
     </div>
@@ -96,18 +107,22 @@ Group: <select ng-model="item.InvGroupName" ng-change="clearData()" >
           <tr  >
            <th><span class="text">Code</span></th>
           <th><span class="text">Item</span></th>
-      <th><span class="text">Pieces</span></th>
+      <th id="space"><span class="text">Pieces</span></th>
             <th ><span class="text">Scale Wt</span></th>
-              <th><span class="text">Value</span></th>
+              <th id="space"><span class="text">Value</span></th>
          
            </tr >
 
            <tr ng-repeat="items in displayBarcoded"> 
              <td>{{items.refid}}</td>
              <td>{{items.itemName}}</td>
-             <td>{{items.gpcs | number:3}}</td>
+             <td id="space">{{items.gpcs}}</td>
              <td>{{items.gwt | number:3}}</td>
+<<<<<<< HEAD:public/stockverification.html
              <td>{{items.taxval | number:2}}</td>
+=======
+             <td id="space">{{items.taxval | number:2}}</td>
+>>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5:public/stockverification.html
            </tr>
      </thead>
    </table>

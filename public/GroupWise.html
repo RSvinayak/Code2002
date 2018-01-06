@@ -16,6 +16,39 @@
   border-style: solid;
   border-color: black;
 }
+
+ thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+
+        thead th {
+            height: 50px;
+              width: 12%;
+
+            float: left;
+
+            text-align: left;
+        }
+
+        tbody {
+            height: 410px;
+            overflow-y: auto;
+        }
+
+        tbody td {
+
+            width: 12%;
+
+            float: left;
+          /*  text-align: center;*/
+
+        }
     
 
   </style>
@@ -25,8 +58,8 @@
  <br>
 <!--  <div class="row"> -->
  <div class="col-sm-2">
-<input type="radio"  ng-model="color.Wt" value="GrossWt" >GrossWt
-<input type="radio"  ng-model="color.Wt" value="NettWt" >NettWt
+<input type="radio"  ng-model="color.Wt" ng-change="wtCall()" value="GrossWt" >GrossWt
+<input type="radio"  ng-model="color.Wt" ng-change="wtCall()"  value="NettWt" >NettWt
   
   </div> 
   <div class="col-sm-4">
@@ -53,13 +86,13 @@ To:<input type="date" ng-model="bit2.date2">
 <!--   <div class="container"> -->
   <table class ='table' >
     <thead>
-          <tr  class="panel panel-default">
-           <th>Trans.Type</th>
-           <th ng-repeat="header in header">{{header.InvGroupName}}</th>
+          <tr >
+           <th>Transaction Type</th>
+           <th ng-repeat="header in header" id="padding1">{{header.InvGroupName}}</th>
            </tr>
       </thead>      
-  <!--      <tbody ng-repeat="(key,value) in header1">  -->
-       <tbody > 
+  <!--      <tbody ng-repeat="(key,value) in header1">style="padding-left: 2%;"  -->
+       <tbody     > 
           
            <tr   ng-repeat="value in header1 track by $index "> 
                <td>

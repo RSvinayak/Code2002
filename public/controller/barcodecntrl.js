@@ -236,7 +236,29 @@ $scope.batch=""
 }//esle if 
   }
  // tags()
+$scope.checkForCombo = function (ItemName) {
+     $scope.all1 = false ;
+   for(let j=0;j<$scope.items.length;j++){
+       
 
+                    if (ItemName == $scope.items[j].Name && $scope.items[j].comboItem == "yes" ){ 
+                      //alert($scope.items[j]) comboItem
+                      
+                       console.log($scope.items[j]);
+                       $scope.all1 = true ;
+                       // document.getElementById("check1").style.display = "none";
+                       // document.getElementById("inline").style.display = "none";
+                       // //if ($scope.items[j].comboItem == "yes") {inline
+                           //  alert("call for combo "+ItemName);
+                     //  }
+                      // alert("Hsc in  items matched"+$scope.items[j].Hsc)
+                      //$scope.userit[p].Hsc=$scope.items[j].Hsc;
+                      //console.log($scope.userit[p].Hsc)
+                    
+                      break;
+                    }//   if ($scope.userit[p].itemName == 
+  }//for j
+}
 var refresh=function(){
 $http.get('/bardata').success(function(response)
 {
@@ -443,6 +465,7 @@ $scope.saveBatchGeneration = function(){
 
               if(tagdetails.composite == 'yes' ){
                   for(let p = 0; p<4; p++){
+<<<<<<< HEAD
                     if($scope.userit[p].gwt != undefined){
                         // alert('p '+p)
                         //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
@@ -466,9 +489,47 @@ $scope.saveBatchGeneration = function(){
                     }else{
                             break;
                          }
+=======
+                              if($scope.userit[p].gwt != undefined){
+                                      // alert('p '+p)
+                                      //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
+                                       $scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
+                                       $scope.userit[p].compositenum  = p;
+                                       for(let j=0;j<$scope.items.length;j++){
+       
+         
+                                                        if ($scope.userit[p].itemName == $scope.items[j].Name){ 
+                                                          //alert($scope.items[j])
+                                                          console.log($scope.items[j])
+                                                          // alert("Hsc in  items matched"+$scope.items[j].Hsc)
+                                                          $scope.userit[p].Hsc=$scope.items[j].Hsc;
+                                                          console.log($scope.userit[p].Hsc)
+                                                        
+                                                          break;
+                                                        }//   if ($scope.userit[p].itemName == 
+                                      }//for j
+                                      // $scope.userit[j].barcode  = $scope.userit[0].barcode ;
+                                      console.log($scope.userit[p])
+                                      $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
+                                            console.log("i got replay")
+                                           
+                                       });
+
+                                        console.log( $scope.userit[0].StockPoint);
+
+                                        $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
+                                                   console.log("i got replay")
+                                                   console.log(response);
+                                         
+                                        })
+
+                              }else{ // if($scope.userit[p].gwt != undefined)
+                                      break;
+                                   }
+>>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
                   }//for
 
-              }else{
+              }else{ //if(tagdetails.composite == 'yes' ){
                       
                        $http.post('/transactionstock',$scope.userit[0]).success(function(response){  
                                  console.log("i got replay")
@@ -1207,28 +1268,28 @@ $scope.generateBarcode = function( ){
   //       var gwt=response[0].gwt;
   //       var ntwt=response[0].ntwt;
 
-  var count = 0
-  for(i=1;i<=100;i++)
-  {
-      // var barno = Math.floor(Math.random() * 100000000) + 1;
-      //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
-       var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
+  // var count = 0
+  // for(i=1;i<=100;i++)
+  // {
+  //     // var barno = Math.floor(Math.random() * 100000000) + 1;
+  //     //    // barno = "99203078" Math.floor(Math.random() * ((y-x)+1) + x);
+  //      var barno = Math.floor(Math.random() *  ((99999999-10000000)+1) + 10000000);
       
-      //alert("the barcode is "+barno)
-      console.log("the value of i "+i)
-  $http.get('/barcode',{params:{"barcode":barno}}).success(function(response)
-        { 
-            console.log(response.length)
-            count = response.length
-            console.log(count)
+  //     //alert("the barcode is "+barno)
+  //     console.log("the value of i "+i)
+  // $http.get('/barcode',{params:{"barcode":barno}}).success(function(response)
+  //       { 
+  //           console.log(response.length)
+  //           count = response.length
+  //           console.log(count)
 
-        })
+  //       })
 
-        if(count == 0){
-          //alert(count)
-          break;
-          }
-    }
+  //       if(count == 0){
+  //         //alert(count)
+  //         break;
+  //         }
+  //   }
 
    
           var data = icount 

@@ -123,7 +123,10 @@ $scope.codedBarcodedItems = function () {
 }
 $scope.resetCall = function (sortedBarcodeDataItems) {
 	//alert(sortedBarcodeDataItems.length);
-	
+	if($scope.item.barcode=undefined)
+  {
+    alert("Please Press List Button")
+  }
 	for (var i = sortedBarcodeDataItems.length - 1; i >= 0; i--) {
 		//alert(sortedBarcodeDataItems[i]._id);
 		//console.log(sortedBarcodeDataItems[i]._id)

@@ -232,7 +232,7 @@ width: 8%;
 <input name="myName" ng-model="myName" required>
 <span ng-show="myForm.myName.$touched && myForm.myName.$invalid">The name is required.</span> -->
 
-      <label class="w3-round-xxlarge">Item Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><select  class="selectpicker" ng-model="bitem.ItemName" class="w3-round-xxlarge" ng-disabled="all" required >
+      <label class="w3-round-xxlarge">Item Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><select  class="selectpicker" ng-model="bitem.ItemName" ng-change="checkForCombo(bitem.ItemName)" class="w3-round-xxlarge" ng-disabled="all" required >
         
          <option ng-repeat="itemname in items" value="{{itemname.Name}}"  >{{itemname.Name}}</option>
         </select></label><br><br>
@@ -253,9 +253,9 @@ width: 8%;
 
        <!--  </form> -->
 
-       <div id="check">
-       <input type="checkbox" ng-model="bitem.composite" ng-disabled="all">Is Composite
-       <input type="checkbox" ng-model="bitem.splittable" id="inline" ng-disabled="all">Is Splittable 
+       <div id="check" >
+       <input type="checkbox" ng-model="bitem.composite" ng-disabled="all || all1" id="check1" >Is Composite
+       <input type="checkbox" ng-model="bitem.splittable"  id="inline"  ng-disabled="all || all1">Is Splittable 
        
        </div><br>
        <label >Total weight <span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  ng-model="bitem.wt"   ng-disabled="all" step="0.01" required ></label><br><br>

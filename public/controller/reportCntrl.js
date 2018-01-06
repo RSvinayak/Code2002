@@ -84,11 +84,21 @@ $scope.radiobutton1 = function(){
 //expect(log).toEqual(['name: misko', 'gender: male']);
 // $scope.sort={}
 // $scope.sort[0].Group = 1;
+<<<<<<< HEAD
+=======
+//stockPointClear()
+$scope.clearCall = function(){
+  $scope.reportonedate1 = [];
+}
+>>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
 $scope.sort1 = "Group";
 $scope.sort2 = "Sale Cty";
 $scope.sort3 = "Purity";
 $scope.sort4 = "Item";
 $scope.preview1 = function(){
+  if ($scope.stockPoint==undefined ) { 
+    alert("Please Select stockPoint") 
+  }
   if ($scope.sort.Group ==$scope.sort.SaleCty || $scope.sort.SaleCty ==$scope.sort.Purity || $scope.sort.Purity==$scope.sort.Item || $scope.sort.Item==$scope.sort.Group ) {
           alert("duplicates are not allowed")
       $scope.sort.Group=""
