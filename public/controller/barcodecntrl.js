@@ -465,31 +465,6 @@ $scope.saveBatchGeneration = function(){
 
               if(tagdetails.composite == 'yes' ){
                   for(let p = 0; p<4; p++){
-<<<<<<< HEAD
-                    if($scope.userit[p].gwt != undefined){
-                        // alert('p '+p)
-                        //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
-                         $scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
-                        $scope.userit[p].compositenum  = p;
-                        // $scope.userit[j].barcode  = $scope.userit[0].barcode ;
-                        console.log($scope.userit[p])
-                        $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
-                              console.log("i got replay")
-                             
-                         });
-
-                          console.log( $scope.userit[0].StockPoint);
-
-                          $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
-                                     console.log("i got replay")
-                                     console.log(response);
-                           
-                          })
-
-                    }else{
-                            break;
-                         }
-=======
                               if($scope.userit[p].gwt != undefined){
                                       // alert('p '+p)
                                       //$scope.userit[p].compositeRef =  $scope.userit[0].barcode ;
@@ -526,7 +501,6 @@ $scope.saveBatchGeneration = function(){
                               }else{ // if($scope.userit[p].gwt != undefined)
                                       break;
                                    }
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
                   }//for
 
               }else{ //if(tagdetails.composite == 'yes' ){
@@ -796,7 +770,7 @@ alert("Please Fill All Mandatory Fields")
     return;
   }
   if($scope.bitem.wt == undefined||$scope.bitem.wt == ""){
-    alert("Please select Total Wt")
+    alert("Please select Total weight")
     return;
   }
   if($scope.bitem.pcs == undefined ||$scope.bitem.pcs == ""){
@@ -1506,7 +1480,8 @@ var icomposite = null;
  $scope.row1 = function(tag){
   $scope.all = false
   console.log(tag)
-   tagdetails = tag
+   tagdetails = tag;
+   edit1 = null;
    // console.log("this is row id"+id);
   console.log("u clicked on row 1");
   $scope.idSelectedVote = tag;
@@ -1597,6 +1572,7 @@ var icomposite = null;
  summarylist()
 // for cancel button
 $scope.cancel = function(){
+  editsummary=false
   if($scope.bitem.ItemName == "" &&$scope.bitem.stockin == "" && $scope.bitem.stockout == ""&&$scope.bitem.wt == ""&& $scope.bitem.pcs == ""&& $scope.bitem.titems == "")
   {
 alert("Please Fill All Mandatory Fields")

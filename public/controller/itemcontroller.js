@@ -341,9 +341,11 @@ $scope.deleteitem = function(){
                          //$scope.item1 ="" 
                     });
               
-     $scope.item1 ="" 
+     $scope.item1 =""
+       editcheck=false 
              }else{
                $scope.item1 ="" 
+               editcheck=false
                     //$scope.cancelitem()
    //                   $scope.item1.Name ="" 
    // $scope.item1.Hsc ="" 

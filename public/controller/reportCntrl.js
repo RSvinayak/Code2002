@@ -84,13 +84,10 @@ $scope.radiobutton1 = function(){
 //expect(log).toEqual(['name: misko', 'gender: male']);
 // $scope.sort={}
 // $scope.sort[0].Group = 1;
-<<<<<<< HEAD
-=======
 //stockPointClear()
 $scope.clearCall = function(){
   $scope.reportonedate1 = [];
 }
->>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
 $scope.sort1 = "Group";
 $scope.sort2 = "Sale Cty";
 $scope.sort3 = "Purity";

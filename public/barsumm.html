@@ -180,7 +180,7 @@ width: 8%;
          <button  id="buttonwidth" class="btn btn-primary" ng-click="editBarSumm()">Edit</button>
 
       <!--  <button>DELETE</button> -->
-        <button id="buttonwidth" class="btn btn-warning" ng-click="delete()" >Delete</button>
+        <button id="buttonwidth" class="btn btn-warning" ng-click="delete()" ng-if="test == 'display'" >Delete</button>
         <a href='mainpage.html'><button type="button" id="buttonwidth" class="btn btn-danger">Close</button></a>
       <!--  <button>CLOSE</button> -->
        <!--  <button type="button" class="btn btn-danger" ng-click="close()">CLOSE</button> -->
@@ -258,11 +258,11 @@ width: 8%;
        <input type="checkbox" ng-model="bitem.splittable"  id="inline"  ng-disabled="all || all1">Is Splittable 
        
        </div><br>
-       <label >Total weight <span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  ng-model="bitem.wt"   ng-disabled="all" step="0.01" required ></label><br><br>
+       <label >Total weight <span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  ng-model="bitem.wt"   ng-disabled="all" step="0.01"  ></label><br><br>
 
-       <label>Total Pcs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  name="" ng-model="bitem.pcs" ng-disabled="all" required ></label><br><br>
+       <label>Total Pcs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  name="" ng-model="bitem.pcs" ng-disabled="all"  ></label><br><br>
        
-       <label>Total Tags &nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  name="" ng-model="bitem.titems"  ng-disabled="all"  required></label><br><br>
+       <label>Total Tags &nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');"  name="" ng-model="bitem.titems"  ng-disabled="all"  ></label><br><br>
 
       <!--  <label>Total Pcs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="star"><font size="04">*</font></span><input type="number"   ng-disabled="all" required ></label><br><br> -->
 
@@ -270,9 +270,9 @@ width: 8%;
       
      <div align="center" ng-cloak>
       <!--  <button ng-click="saveBarcode()">Save New</button> -->
-        <button   id="buttonwidth" class="btn btn-success" ng-if ="test=='display'" class="btn btn-default" ng-click="saveBarcode()" ng-disabled="all">Save</button>
+        <button   id="buttonwidth" class="btn btn-success"  class="btn btn-default" ng-click="saveBarcode()" ng-disabled="all">Save</button>
        
-        <button   type ="button" id="buttonwidth" class="btn btn-success"  ng-if ="test=='update1'" ng-click="saveBarcode()" ng-disabled="all">Update</button>
+        <!-- <button   type ="button" id="buttonwidth" class="btn btn-success"  ng-if ="test=='update1'" ng-click="saveBarcode()" ng-disabled="all">Update</button> -->
 
          <!-- <button type="button"  id="buttonwidth" >Save</button> -->
       </form>

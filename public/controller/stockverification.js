@@ -19,7 +19,34 @@ function($scope,$http,$window,$q){
         console.log(response);
         $scope.salescategorymaster1 = response
  });
+ // $scope.item = [];
+//for group and category
+$scope.groupAndCategory = function (barcode) {
+  
+  $http.get('/groupAndCategoryBarcode', {params:{"barcode":barcode}}).success(function(response){
+     // alert(barcode);
+      if (response.length != 0) {
+      console.log(response[0].InvGroupName);
+      console.log(response[0].SaleCategory);
+      
+      $scope.item.SaleCategory = response[0].SaleCategory;
+      $scope.item.InvGroupName = response[0].InvGroupName;
+      $scope.displayBarcodedItems();
+      $scope.codedBarcodedItems();
+    }else{
+      $scope.displayBarcodedItems();
+      $scope.codedBarcodedItems();
+     //}
+      //
+    }
+    if ((barcode != undefined ) && response.length == 0 ) {
+      alert(" Barcode is Invalid "+barcode);
+      //$scope.item.barcode ="";
+    }
+  })
+    
 
+}//groupAndCategory;
 //display call
 $scope.displayBarcodedItems = function () {
 	//alert("diss");
@@ -47,7 +74,7 @@ $scope.displayBarcodedItems = function () {
 
         //alert(" response "+response.length);
        
-        $scope.item.barcode ="";
+        $scope.item.barcode = undefined;
        // sortedBarCode = [];
         totalCall()
  	});
