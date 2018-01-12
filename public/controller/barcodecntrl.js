@@ -53,8 +53,7 @@ var batch=function()
    // alert($scope.userit[0].tags)
          $http.get('/batchdata',{params:{"count":$scope.userit[0].count,"tags":$scope.userit[0].tags}}).success(function(response){  
      
-  // $http.get('/batchdata/'+$scope.userit[0].count).success(function(response)
-  // {
+  
     console.log("i got batch get request")
     $scope.batch=response;
 
@@ -954,6 +953,7 @@ if($scope.bitem.stockin == $scope.bitem.stockout){
 
 // for batch edit selection
 var edit1 = null;
+var edit1Index = null;
 // $scope.f1 = function(valuecount){
 //    console.log("f1")
 //    console.log(valuecount) 
@@ -961,15 +961,19 @@ var edit1 = null;
 var colorpush = null;
 var colorindex = null;
 $scope.row2 = function(row,index){
+  $scope.all=true
 //console.log(colorpush.color)
    // console.log("this is row id"+id);
    console.log(row)
    //alert(row)
    console.log(index)
-   if(colorpush != null){
-     console.log("colorpush.color")
+   if(colorpush != null && $scope.batch[colorindex] != undefined){
+     console.log("colorpush.color");
+     // alert(" $scope.batch[colorindex]  "+$scope.batch[colorindex])
+     // alert("colorpush "+colorpush+" $scope.batch[colorindex].color "+$scope.batch[colorindex].color)
+     // // $scope.batch[colorindex].color = '';
    
-   $scope.batch[colorindex].color = colorpush
+     $scope.batch[colorindex].color = colorpush;
    }
   console.log("u clicked on row $scope.rupeesDecimalPoints");
   console.log(row.barcode)
@@ -980,12 +984,13 @@ $scope.row2 = function(row,index){
   console.log(index)
   colorpush = row.color
   colorindex = index
-   console.log(colorpush)
-  //c
-  $scope.batch[index].color ="blue"
+   console.log(colorpush);
+  
+ $scope.batch[index].color ="blue";
   $scope.idSelectedVote = row;
   //alert($scope.idSelectedVote)
   edit1 = $scope.idSelectedVote;
+  edit1Index = index;
  // alert(edit1)
   // console.log($scope.valuecount)
   // $scope.f1() 
@@ -1143,7 +1148,7 @@ $scope.close=function(){
   alert("Are You Sure You Want To Leave This Page")
 }
   //$scope.test=='display';
-$scope.deletebarcodegeneration = function(){
+$scope.deletebarcodegeneration = function(index){
  // $scope.test=='display';
 
     console.log("delete call");
@@ -1165,21 +1170,21 @@ $scope.deletebarcodegeneration = function(){
                     if (r == true) {
                         console.log("true");
                         $http.delete('/deletebarcode/'+edit1.barcode);
-                          // .success(function(response)
-                          //  {          
-                          // });
-                        //$scope.list() 
+                        console.log($scope.batch.length) 
+                         console.log($scope.batch.splice(edit1Index,1)) 
+                           console.log($scope.batch.length) ; 
                         edit1 = null;
                         //$scope.userit= $scope.userit.slice(0, 0);
 
                     }
                // else{
                //     console.log("false");
-$scope.batch[colorindex].color = colorpush
+// $scope.batch[colorindex].color = "white";
+$scope.batch[colorindex].color = colorpush;
                //    }
             }//else if(editBarcodeLength >0
         })//$http
-     //$scope.batch[colorindex].color = colorpush
+     
      }else{
              alert("Please select Batch");
           }
@@ -1521,7 +1526,11 @@ var icomposite = null;
           
          
    //      })
+   //$scope.batch[colorindex].color = colorpush;
+    $scope.updateButton=false;
    $scope.batch[colorindex].color = colorpush
+ 
+  $scope.userit= $scope.userit.slice(0, 0);
    //refresh()
  }
 

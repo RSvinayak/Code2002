@@ -926,7 +926,7 @@ app.post('/savedata1/:update',function(req,res){
         })
  
        }else{
-        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"||tran == "Approval Out" || tran == "Sale Return"||tran == "Purchase Return"){
+        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"||tran == "Approval Out" || tran == "Sale Return"||tran == "Purchase Return" || tran == "Approval Return"){
           console.log("cccccccccccccccccccc");
           db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
@@ -2003,8 +2003,7 @@ app.put('/insertNewUseritDetails',function(req,res){
                
                console.log(doc12);
                if (doc12 != 0) {
-<<<<<<< HEAD
-=======
+
 
                    console.log(" combo item getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate"+req.body.barcode);
     
@@ -2026,7 +2025,7 @@ app.put('/insertNewUseritDetails',function(req,res){
            })
 
  });
->>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7
+
 
 app.put('/updateUseritCall',function(req,res)
 {
@@ -2153,6 +2152,10 @@ app.put('/changeOrderStatus:changing',function(req,res){
     res.json(doc);
     console.log(doc);
   });
+  db.batch.update({"barcode":Number(barcode)},{$set:{"orderStatus":"available"}},function(err,doc){
+    //res.json(doc);
+    // console.log(doc);
+  });
 
   
 });
@@ -2214,11 +2217,9 @@ app.put('/updateUseritCall',function(req,res)
         
 });
 // for update of userit
-<<<<<<< HEAD
+
 app.put('/updateSaveData/:update',function(req,res){
-=======
-app.put('/updateSavedData/:update',function(req,res){
->>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7
+
    //app.post('/savedata1/:update',function(req,res){
   console.log("save data save data  save data  save data save data save data ")
  // console.log(req.body.date)
@@ -2884,7 +2885,7 @@ app.get('/getPartyDetailsNumber',function(req,res){
   var trans=req.query.Transaction;
   // console.log(trans);
    if (trans=="Regular Sale") {
-    db.saleinvoice.find({partyname:username,Transaction:trans, status : "In Progress"},function(err,doc){
+    db.saleinvoice.find({partyname:username,Transaction:trans, status : "In Progress"}).sort({_id:-1}).limit(1,function(err,doc){
         res.json(doc);
         //console.log("here is data in progress "+ doc);
        // console.log(doc);
@@ -6229,8 +6230,8 @@ require('./app/routes')(app); // pass our application into our routes
 // <<<<<<< HEAD
 
 // =======
-app.listen(9000); 
+app.listen(8888); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 9000");
+console.log("server running on port 8888");
 // >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 exports = module.exports = app;

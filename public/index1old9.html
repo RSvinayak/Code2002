@@ -285,8 +285,8 @@ display: inline-block;
             
 
            </div>
-           <div ng-show="transaction == 'RD Purchase'" >
-           RefId<span  id="star"><font size="04">*</font></span>: <input  type="text" ng-model="refId"  placeholder="refId" id="blockWIdth" min="1" name=""   required >
+           <div ng-show="transaction == 'RD Purchase'||transaction == 'Receipt Voucher'" >
+           RefId<span  id="star"><font size="04">*</font></span>: <input  type="text" ng-model="refId"  placeholder="refId" id="blockWIdth" min="1" name=""  oninput="this.value=this.value.replace(/[^0-9]/g,'');" required >
            </div>
            
 
@@ -596,7 +596,7 @@ display: inline-block;
       <tr ng-repeat="item in userit">
       
        <td>
-          <input type="checkbox" ng-checked="checkbox"   ng-click = "indexFunctionCall($index);removeChecked($index)" ng-disabled="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Return'" />
+          <input type="checkbox" ng-checked="checkbox"   ng-click = "indexFunctionCall($index)" ng-disabled="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Return'" />
        </td>
        
        
@@ -787,7 +787,7 @@ display: inline-block;
 
    <!-- <input  id="buttonwidth"  class="btn btn-danger pull-left" ng-click="removeSelectedRows()" value="Remove" ng-disabled="reqColor()"> -->
    <button ng-if = " edituseritButton == true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRowsCheck()" ng-disabled="reqColor()" >Remove</button>
-   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelected()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Issue Voucher' ||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Sale'||transaction=='Approval Return'">Remove1</button>
+   <button ng-if = " edituseritButton != true"  class="btn btn-danger pull-left" id="buttonwidth1" ng-click="removeSelectedRows()" ng-disabled="reqColor()" ng-hide="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Issue Voucher' ||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Sale'||transaction=='Approval Return'">Remove</button>
   
       <!-- <label >Remarks:</label> -->
      <!--  <input type="text" ng-disabled="form.$invalid || reqColor()"ng-model="item.remarks"class="form-control"  placeholder="Please enter remarks!" > -->
@@ -884,8 +884,8 @@ display: inline-block;
   </table></div></div> -->
    <!-- <div class="w3-row-padding w3-border"> -->
    <!--  <div class="col-sm-6"> -->
-   <div ng-hide ="( transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'||transaction == 'Approval Out'||transaction=='Approval Return')" > 
-<!-- ng-disabled="checkFinal()" ng-model='finalCal' disabled-->
+   <div ng-hide ="( transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'||transaction == 'Approval Out'||transaction=='Approval Return')"> 
+
   <div class="w3-quarter w3-container" ng-hide="!saleinv.length" >
     <div class="w3-card-2 w3-margin" >
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" >

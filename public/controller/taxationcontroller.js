@@ -311,13 +311,25 @@ $scope.updated = function() {
            console.log(forupdate[i]);
            console.log(forupdate[i].withinstate); 
            console.log(forupdate[i].outofstate);   
+           // $http.put('/updateedit',forupdate[i] ).success (function(response) {
+           //        console.log(response)
+           //        refresh();
+           //     });
+           // $scope.test = 'display'
+           // $scope.pur1=[]
+           // add1()
            $http.put('/updateedit',forupdate[i] ).success (function(response) {
                   console.log(response)
                   refresh();
+                  setTimeout($scope.waitCall(), 1000);
                });
-           $scope.test = 'display'
-           $scope.pur1=[]
-           add1()
+           
+           $scope.waitCall = function () {
+             
+             $scope.test = 'display'
+             $scope.pur1=[]
+             add1()
+           }
 
        }//else 
    }// for loop  closer
