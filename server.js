@@ -6251,8 +6251,14 @@ require('./app/routes')(app); // pass our application into our routes
 // <<<<<<< HEAD
 
 // =======
+<<<<<<< HEAD
 app.listen(9900); 
 //console.log('Listening on port ' + port);       // shoutout to the user
 console.log("server running on port 9900");
+=======
+app.listen(8888); 
+//console.log('Listening on port ' + port);       // shoutout to the user
+console.log("server running on port 8888");
+>>>>>>> 43c0186e4b02334c99c687234fdcdc15fc6c5773
 // >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
 exports = module.exports = app;
