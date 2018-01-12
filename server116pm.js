@@ -1209,7 +1209,7 @@ app.post('/transactionstockInward',function(req,res)
      // delete(req.body.Transaction)
       req.body.refid = req.body.compositeRef;
        delete(req.body.orderStatus)
-        req.body.stockInward = "no";
+        req.body.StockInward = "no"
         req.body.stockPoint =  req.body.stockPoint1 
         req.body.refid = req.body.barcode 
        delete( req.body.stockPoint1 )
@@ -5654,7 +5654,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                         //console.log(result);
                                           //console.log("")
                                         // console.log(result1[m]._id.purity);
-                                            if (result1[m]._id.saleCategory == result[z]._id.saleCategory &&result1[m]._id.purity == result[z]._id.purity && result1[m]._id.itemName == result[z]._id.itemName  && result1[m]._id.Group == result[z]._id.Group   ) {
+                                            if (result1[m]._id.purity == result[z]._id.purity && result1[m]._id.itemName == result[z]._id.itemName  && result1[m]._id.Group == result[z]._id.Group   ) {
                                                      var obj = {};
                                                      obj["item"] = result1[m]._id.itemName;
                                                      obj["rcvQty"] =  result[z].rccQty;
@@ -5671,12 +5671,10 @@ app.get('/reportResult/:data',  function (req, res) {
                                                      report1.push(obj);
                                                      //console.log(report1);
                                                      remainingItems = remainingItems.filter((item) => item !== result[z]);
-                                                     remainingItems1 = remainingItems1.filter((item) => item !== result1[m]);
+                                                    remainingItems1 = remainingItems1.filter((item) => item !== result1[z]);
                                                      
                                                      //console.log(remainingItems)
-                                                   console.log("remainingItems "+remainingItems.length+" remainingItems1 "+remainingItems1.length);
-                                                     // console.log(report1);
-                                                     console.log(remainingItems1)
+                                                  //  console.log("remainingItems "+remainingItems.length+" remainingItems1 "+remainingItems1.length);
                                                       // delete remainingItems[r]
                                             }    
 
@@ -5687,7 +5685,6 @@ app.get('/reportResult/:data',  function (req, res) {
                                                // console.log(m+" addNoRepeatItems "+z)
                                               
                                                 addNoRepeatItems()
-                                                //setTimeout(addNoRepeatItems(), 1000);
                                               }//if m==0 
                                                 if (m == 0) {
                                                   // console.log(" m12 == 0  ") 
@@ -5722,7 +5719,7 @@ app.get('/reportResult/:data',  function (req, res) {
 
                    mIteration1(remainingItems.length - 1)
                        function mIteration1(m) {
-                        //console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
+                        console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
                               if ( remainingItems.length == 0) {
                                   addNoRepeatItemsStockNo()
                               }else{// if (result1.length == 0
@@ -5731,7 +5728,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                         //console.log(result);
                                           //console.log("")
                                         // console.log(result1[m]._id.purity);
-                        if (remainingItems[m]._id.saleCategory == result[z]._id.saleCategory && remainingItems[m]._id.purity == result[z]._id.purity && remainingItems[m]._id.itemName == result[z]._id.itemName  && remainingItems[m]._id.Group == result[z]._id.Group   ) {
+                        if (remainingItems[m]._id.purity == result[z]._id.purity && remainingItems[m]._id.itemName == result[z]._id.itemName  && remainingItems[m]._id.Group == result[z]._id.Group   ) {
                                 var obj = {};
                                    obj["item"] = remainingItems[m]._id.itemName;
                                  
@@ -5803,7 +5800,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                           //console.log("")
                                          //console.log(result1[z]);
                                            //console.log(remainingItems1[m]._id.purity);
-                        if (remainingItems1[m]._id.saleCategory == result1[z]._id.saleCategory && remainingItems1[m]._id.purity == result1[z]._id.purity && remainingItems1[m]._id.itemName == result1[z]._id.itemName  && remainingItems1[m]._id.Group == result1[z]._id.Group   ) {
+                        if (remainingItems1[m]._id.purity == result1[z]._id.purity && remainingItems1[m]._id.itemName == result1[z]._id.itemName  && remainingItems1[m]._id.Group == result1[z]._id.Group   ) {
                                 var obj = {};
                                    obj["item"] = remainingItems1[m]._id.itemName;
                                  

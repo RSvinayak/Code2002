@@ -11,7 +11,7 @@
  <style type="text/css">
  .panel.panel-default
 {
-  height: 70%;
+  height: 80%;
   width: 100%;
   border-style: solid;
   border-color: black;
@@ -37,7 +37,8 @@
         }
 
         tbody {
-            height: 410px;
+            /*height: 410px;*/
+            height: 460px;
             overflow-y: auto;
         }
 
@@ -63,15 +64,16 @@
   
   </div> 
   <div class="col-sm-4">
-For:<input type="date" ng-model="bit2.date1">
-To:<input type="date" ng-model="bit2.date2">
+For:<input type="date" ng-model="bit2.date1" ng-change="wtCall()">
+To:<input type="date" ng-model="bit2.date2" ng-change="wtCall()">
   
   </div> 
   
  
   
 <div class="col-sm-6">
-    <button ng-click="GroupWisePreview()" class="btn btn-primary" id="save" >Preview</button>
+    <button ng-click="GroupWisePreview()"  class="btn btn-primary" id="save" >Preview</button>
+    <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a>
     <!-- <button ng-click="preview1()" class="btn btn-primary" id="save" >PDF</button>
     <button ng-click="preview1()" class="btn btn-primary" id="save" >Reset</button>
     <button ng-click="preview1()" class="btn btn-primary" id="save" >Export</button></div> -->
@@ -130,7 +132,7 @@ To:<input type="date" ng-model="bit2.date2">
 
 <!--  <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a> -->
 
-  <a href='mainpage.html'> <button class="col-md-2 col-md-offset-5" > close</button></a>
+  <!-- <a href='mainpage.html'> <button class="col-md-2 col-md-offset-5" > close</button></a> -->
 
     <!-- </div> -->
   </div>

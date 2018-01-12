@@ -369,7 +369,7 @@ width: 8%;
 
        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" class="form-control" id="usr" ng-model="item.mrp" ng-change="mrpCal($index,item.mrp)"  ></td>
 
-       <td ><input type="text" class="form-control" id="usr" ng-model="item.rate"  ng-change="rateChange($index)" ng-blur="calMrpValue($index)" ></td>
+       <td ><input type="text" class="form-control" id="usr" ng-model="item.rate"  ng-change="rateChange($index)" ng-blur="calMrpValue($index)" ng-disabled="$index == indexValueDisable" ></td>
        <!-- <td><select ng-model="labval" class="selectpicker">
        <option ng-repeat="lab in labcal" value="{{lab.name}}">{{lab.name}}</option>
        </select></td> -->

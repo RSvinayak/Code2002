@@ -1210,8 +1210,8 @@ app.post('/transactionstockInward',function(req,res)
       req.body.refid = req.body.compositeRef;
        delete(req.body.orderStatus)
         req.body.stockInward = "no";
-        req.body.stockPoint =  req.body.stockPoint1 
-        req.body.refid = req.body.barcode 
+        req.body.stockPoint =  req.body.stockPoint1 ;
+        req.body.refid = req.body.barcode ;
        delete( req.body.stockPoint1 )
        delete( req.body.orderstatus)
         delete (req.body.barcode)
@@ -1236,11 +1236,13 @@ app.post('/transactionComboItemInsert',function(req,res)
 {
         // delete(req.body.Transaction)
         delete(req.body.orderStatus)
-        req.body.StockInward = "no";
+       // req.body.StockInward = "no";
         req.body.refid = req.body.barcode ;
-        delete( req.body.orderstatus)
+        delete( req.body.orderstatus);
+        // delete( req.body.orderstatus);
         req.body.comboBarcode = req.body.barcode ;
          //req.body.barcode = ""
+         delete( req.body.stockInward)
          delete( req.body.barcode)
         delete( req.body.voucherClass)
         delete( req.body.irate)
@@ -1989,7 +1991,7 @@ app.put('/insertNewUseritDetails',function(req,res){
            req.body.orderStatus="completed";
            db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
                "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-               "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+               "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"stockInward":req.body.stockInward,"taxamt":req.body.taxamt,
               "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
              "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
              "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,"stockPoint":req.body.stockPoint},function(err,doc){
@@ -2041,7 +2043,7 @@ app.put('/updateUseritCall',function(req,res)
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
        "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
        "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
-      "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
+      "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockInward":req.body.stockInward,
      "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,"purity":req.body.purity,
                 "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory}},function(err,doc){
             //console.log("updated the data in save when id not null")
@@ -5516,6 +5518,401 @@ app.get('/trCollectionCreation',function(req,res){
 //checkcall()
 
  
+// app.get('/reportResult/:data',  function (req, res) {
+//     console.log("receiveonedate receiveonedate receiveonedatereportonedate")
+//     var  printary = [];
+//       var lengthitemNamesort = null;
+//       var printfinalary = [];
+//       var result = [];
+//       var result1 = [];
+
+//      console.log(req.params.data);
+//       var str=req.params.data;
+//    // console.log(str);
+//     var reportdata = str.split(",");
+//     var transaction =reportdata[0];
+//     var barcode =reportdata[1];
+//     var  weight =reportdata[2];
+//     var report =reportdata[3];
+//     var report1 =reportdata[3];
+//     var reportdate =reportdata[4];
+
+//     var remainingItems = [];
+
+//      var orderSort1 = reportdata[5];
+//       var orderSort2 = reportdata[6];
+//       var orderSort3 = reportdata[7];
+//       var orderSort4 = reportdata[8];
+//         var stockPoint = reportdata[9];
+//      orderSort1 = orderSort1.toLowerCase();
+//      var sortA  = "$"+orderSort1;
+//      orderSort2 = orderSort2.toLowerCase();
+//      var sortB = "$"+orderSort2;
+//      orderSort3 = orderSort3.toLowerCase();
+//      var sortC = "$"+orderSort3;
+//      orderSort4 = orderSort4.toLowerCase();
+//     var sortD  = "$"+orderSort4;
+//     if (orderSort1 == "salecty") {
+//         console.log(" orderSort2 orderSort2 orderSort2 "+orderSort2)
+//         sortA = "$salesCtg";
+//     }
+//     if (orderSort2 == "salecty") {
+//         console.log(" orderSort2 orderSort2 orderSort2 "+orderSort2)
+//         sortB = "$salesCtg";
+//     }
+//     if (orderSort3 == "salecty") {
+//         console.log(" orderSort2 orderSort2 orderSort2 "+orderSort2)
+//         sortC = "$salesCtg";
+//     }
+//     if (orderSort4 == "salecty") {
+//         console.log(" orderSort2 orderSort2 orderSort2 "+orderSort2)
+//         sortD = "$salesCtg";
+//     }
+//       console.log("  orderSort1  "+orderSort1+" orderSort2 "+orderSort2+"  orderSort3  "+orderSort3+" orderSort4 "+orderSort4)
+//        console.log("  sortA  "+sortA+" sortB "+sortB+"  sortC  "+sortC+" sortD "+sortD)
+
+//     console.log(" reportdate reportonedate reportonedate reportdate  "+reportdate)
+//  // function document() {
+//   db.transactiondetail.aggregate([
+//                  //{$match:{'refid': {$exists: true, $ne: null }, date: { $gt:(fromdate), $lt: (reportdate) }}},
+//                {$match:{ "stockPoint" : stockPoint,stockInward:"yes", date: { $gt:(fromdate), $lt: (reportdate) }}},
+               
+                 
+//                  { "$lookup": { 
+//                             "from": "items", 
+//                             "localField":   "Name", 
+//                             "foreignField":  "itemName", 
+//                             "as": "itemDetailsFetch"
+//                          }
+//         },
+//         {$unwind:"$itemDetailsFetch"},
+//         { "$project" :{ "gpcs" :1,"gwt":1,"purity":1,"itemName":1,"itemDetailsFetch.Name":1 ,"itemDetailsFetch.SaleCategory":1 ,"itemDetailsFetch.InvGroupName":1 ,
+//           cmpTo2: { $cmp: [ "$itemName", "$itemDetailsFetch.Name"] }
+//                 }},
+//         {$match:{"cmpTo2" :0 }},
+              
+              
+//                 {$group:{_id :{purity:"$purity",itemName:"$itemName",Group:"$itemDetailsFetch.InvGroupName",saleCategory:"$itemDetailsFetch.SaleCategory"} ,rccPcs:{$sum:"$gpcs"},rccQty:{$sum:"$gwt"}}},
+                                         
+//               { $sort : {  "_id.saleCategory" : 1,"_id.Group" : 1,  "_id.itemName" : 1, "_id.purity" : 1, } }  
+//                  ],function (err,result) {
+//                  // console.log(result[0]._id.purity);
+//                 remainingItems =result;
+//                  result =result;
+//                  console.log("remainingItems "+remainingItems.length);
+//                    // body...
+//                    db.transactiondetail.aggregate([
+//                     //{$match:{"Transaction": { $ne: NaN }, "barcodeNumber": { $ne: NaN }, "orderStatus":"completed" , date: { $gt:(fromdate), $lt: (reportdate) }}},
+//                       {$match:{ "stockPoint" : stockPoint,stockInward:"no", date: { $gt:(fromdate), $lt: (reportdate) }}},
+              
+                 
+//                  { "$lookup": { 
+//                             "from": "items", 
+//                             "localField":   "Name", 
+//                             "foreignField":  "itemName", 
+//                             "as": "itemDetailsFetch"
+//                          }
+//         },
+//         {$unwind:"$itemDetailsFetch"},
+//         { "$project" :{ "gpcs" :1,"gwt":1,"purity":1,"itemName":1,"itemDetailsFetch.Name":1 ,"itemDetailsFetch.SaleCategory":1 ,"itemDetailsFetch.InvGroupName":1 ,
+//           cmpTo2: { $cmp: [ "$itemName", "$itemDetailsFetch.Name"] }
+//                 }},
+//         {$match:{"cmpTo2" :0 }},
+              
+              
+//                 {$group:{_id :{purity:"$purity",itemName:"$itemName",Group:"$itemDetailsFetch.InvGroupName",saleCategory:"$itemDetailsFetch.SaleCategory"} ,issPcs:{$sum:"$gpcs"},issQty:{$sum:"$gwt"}}},
+//                 { $sort : { "_id.saleCategory" : 1,"_id.Group" : 1,  "_id.itemName" : 1, "_id.purity" : 1, } }  
+                                         
+              
+//                  ],function (err,result1) {
+//                     console.log("result "+result1.length);
+//                      console.log(result1)
+//                      result1 = result1;
+//                   if (result1.length == 0 && remainingItems.length == 0) {
+//                        console.log(m+""+z+" 00000  final send");
+//                        res.json(result1);
+//                   }
+//                   // console.log(result1.length);//issPcs
+//                   //  console.log(result.length);
+//                  // console.log(result1[0]._id.purity);
+//                  var report1 =[];
+//                   var totQty = 0;
+//                   var totPcs = 0;
+//                  var ciQty = 0;
+//                 var ciPcs = 0;
+//               // var mySet = new Set();
+//               function zIteration(z) {
+//                 if (z >= 0) {
+//                    mIteration(result1.length-1)
+//                        function mIteration(m) {
+//                         //console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
+//                               if (result1.length == 0) {
+//                                   addNoRepeatItems()
+//                               }else{// if (result1.length == 0
+//                                       if (m >= 0) {
+//                                         console.log(" mIteration "+ m+" zIteration "+ z);
+//                                         //console.log(result);
+//                                           //console.log("")
+//                                         // console.log(result1[m]._id.purity);
+//                                             if (result1[m]._id.purity == result[z]._id.purity && result1[m]._id.itemName == result[z]._id.itemName  && result1[m]._id.Group == result[z]._id.Group   ) {
+//                                                      var obj = {};
+//                                                      obj["item"] = result1[m]._id.itemName;
+//                                                      obj["rcvQty"] =  result[z].rccQty;
+//                                                      obj["rcvPcs"] = result[z].rccPcs;
+//                                                      obj["totQty"] = result[z].rccQty;
+//                                                      obj["totPcs"] = result[z].rccPcs;
+//                                                      obj["issQty"] = result1[m].issQty;
+//                                                      obj["issPcs"] = result1[m].issPcs;
+//                                                      obj["ciQty"] = (result[z].rccQty - result1[m].issQty );
+//                                                      obj["ciPcs"] = (result[z].rccPcs - result1[m].issPcs );
+//                                                      obj["group"] = result1[m]._id.Group;
+//                                                      obj["purity"] = result1[m]._id.purity;
+//                                                      obj["salesCtg"] = result1[m]._id.saleCategory;
+//                                                      report1.push(obj);
+//                                                      //console.log(report1);
+//                                                      remainingItems = remainingItems.filter((item) => item !== result[z]);
+//                                                      //console.log(remainingItems)
+//                                                     console.log("remainingItems "+remainingItems.length);
+//                                                       // delete remainingItems[r]
+//                                             }    
+
+
+
+
+
+
+
+                                             
+
+
+//                                               if (m == 0) {
+//                                                    console.log(" m12 == 0  ") 
+//                                                     z--;
+//                                                     zIteration(z);
+//                                               }//if (m == 0)
+
+//                                               if (m== 0 && z == 0) {
+//                                                 console.log(m+""+z)
+                                              
+//                                                 addNoRepeatItems()
+//                                               }//if m==0 
+//                                         m--;
+//                                         mIteration(m);
+                                        
+//                                       }// if (m >= 0)
+//                                   }//else close
+                          
+//                         }//mIteration()
+                       
+
+//                 } //if (z >= 0) {
+                
+//               }//zIteration()
+//               zIteration(result.length-1)
+//                   // for (var z = result.length - 1; z >= 0; z--) {
+                  
+//                   //       for (var m = result1.length - 1; m >= 0; m--) {
+           
+
+//                   //           if (result1[m]._id.purity == result[z]._id.purity && result1[m]._id.itemName == result[z]._id.itemName  && result1[m]._id.Group == result[z]._id.Group   ) {
+//                   //                  var obj = {};
+//                   //                  obj["item"] = result1[m]._id.itemName;
+//                   //                  obj["rcvQty"] =  result[z].rccQty;
+//                   //                  obj["rcvPcs"] = result[z].rccPcs;
+//                   //                  obj["totQty"] = result[z].rccQty;
+//                   //                  obj["totPcs"] = result[z].rccPcs;
+//                   //                  obj["issQty"] = result1[m].issQty;
+//                   //                  obj["issPcs"] = result1[m].issPcs;
+//                   //                  obj["ciQty"] = (result[z].rccQty - result1[m].issQty );
+//                   //                  obj["ciPcs"] = (result[z].rccPcs - result1[m].issPcs );
+//                   //                  obj["group"] = result1[m]._id.Group;
+//                   //                  obj["purity"] = result1[m]._id.purity;
+//                   //                  obj["salesCtg"] = result1[m]._id.saleCategory;
+//                   //                  report1.push(obj);
+//                   //                  //console.log(report1);
+//                   //                  remainingItems = remainingItems.filter((item) => item !== result[z]);
+//                   //                  //console.log(remainingItems)
+//                   //                 console.log("remainingItems "+remainingItems.length);
+//                   //                   // delete remainingItems[r]
+//                   //           }
+//                   //           if (m==0 && z == 0) {
+//                   //             console.log(m+""+z)
+                            
+//                   //             addNoRepeatItems()
+//                   //           }//if m==0 
+//                   //       }//for m
+//                   // }//for k
+//                   function addNoRepeatItems() {
+//                     console.log("addNoRepeatItems");
+//                     // console.log(remainingItems)
+
+//                       //console.log("remainingItems "+remainingItems.length);
+//                      for (var z = result.length - 1; z >= 0; z--) {
+                  
+//                         for (var m = remainingItems.length - 1; m >= 0; m--) {
+//                                        //  set.add(result[z]._id.itemName );
+
+//                             if (remainingItems[m]._id.purity == result[z]._id.purity && remainingItems[m]._id.itemName == result[z]._id.itemName  && remainingItems[m]._id.Group == result[z]._id.Group   ) {
+//                                 var obj = {};
+//                                    obj["item"] = remainingItems[m]._id.itemName;
+//                                    // obj["opQty"] = opQty;
+//                                    // obj["opPcs"] = opPcs;
+//                                  // ,rccPcs:{$sum:"$gpcs"},rccQty:{$sum:"
+//                                    obj["rcvQty"] =  remainingItems[m].rccQty;
+//                                    obj["rcvPcs"] = remainingItems[m].rccPcs;
+//                                    obj["totQty"] = remainingItems[m].rccQty;
+//                                    obj["totPcs"] = remainingItems[m].rccPcs;
+//                                    obj["issQty"] = 0;
+//                                    obj["issPcs"] = 0;
+//                                    obj["ciQty"] = remainingItems[m].rccQty; 
+//                                    obj["ciPcs"] = remainingItems[m].rccPcs;
+//                                    obj["group"] = remainingItems[m]._id.Group;
+//                                    obj["purity"] = remainingItems[m]._id.purity;
+//                                    obj["salesCtg"] = remainingItems[m]._id.saleCategory;
+//                                    report1.push(obj);
+//                                    //console.log(report1);
+                                  
+//                             }
+//                             if (m==0 && z == 0) {
+//                               console.log(m+""+z+" final send")
+//                              // res.json(report1);
+//                               db.trail.insert(report1,function(err,doc)
+//     {
+//   // res.json(doc);
+//   //var sort10 = "group";
+// //  var sort_order = {};
+
+// // sort_order[ "group" ] = 1;
+// //  // db.trail.aggregate([ { $sort : {sort10:1,item:1,purity:1,salesCtg:1}}
+// //   db.trail.find(  {sort: sort_order}
+// //  var sortA =  "$group";
+// // var sortB = "$purity";
+// // var sortC = "$item";
+// // var sortD = "$salesCtg";
+// db.trail.aggregate([
+//   //{$group:{_id :{purity:"$purity",itemName:"$itemName",Group:"$itemDetailsFetch.InvGroupName",saleCategory:"$itemDetailsFetch.SaleCategory"} ,rccPcs:{$sum:"$gpcs"},rccQty:{$sum:"$gwt"}}},
+//      {$group:{_id :{sort1:sortA,sort2:sortB,sort3:sortC,sort4:sortD} ,ciPcs:{$sum:"$ciPcs"},ciQty:{$sum:"$ciQty"}
+//      ,issPcs:{$sum:"$issPcs"},issQty:{$sum:"$issQty"} 
+//      ,rcvPcs:{$sum:"$rcvPcs"},rcvQty:{$sum:"$rcvQty"}
+//      }},
+      
+//    { $sort : {  "_id.sort1":1,"_id.sort2":1,"_id.sort3":1,"_id.sort4":1,}}
+// ],function(err,doc){
+//     res.json(doc);
+//      db.trail.remove({});
+//   })//find
+//     })
+
+//                             //   sendResponse()
+//                               //addNoRepeatItems()
+//                             }//if m==0 
+//                         }//for m
+//                   }//fork
+
+//                   }//addNoRepeatItems
+//                   function sendResponse() {
+//                     // body...
+//                      const timeoutSendResponse = setTimeout(() => {
+//                      // res.json(report1);
+//                       sendResponseInsert() 
+     
+//                     }, 100);// timeoutSendResponse
+//                   }//sendResponse
+//                  function sendResponseInsert() {  
+//                     for(var k = 0;k< report1.length;k++){
+                        
+//                           if( printary.indexOf(report1[k].group) == -1) {
+//                                  // alert("entered to remove duplicates ")
+//                                var obj3 = {};
+//                                 obj3["group"] = report1[k].group;
+                            
+                                 
+                                   
+//                                  printary.push(report1[k].group);
+//                                   printfinalary.push(obj3)
+//                                  // console.log(printary)
+//                                   //  alert(arrcon)
+//                          }
+//                           // obj["salesCtg"] = report1[k].salesCtg;
+//                      if( printary.indexOf(report1[k].salesCtg) == -1) {
+//                                  // alert("entered to remove duplicates ")
+//                                var obj3 = {};
+//                                 obj3["salesCtg"] = report1[k].salesCtg;
+                            
+                                 
+                                   
+//                                  printary.push(report1[k].salesCtg);
+//                                   printfinalary.push(obj3)
+//                                  // console.log(printary)
+//                                   //  alert(arrcon)
+//                          }
+//                          if( printary.indexOf(report1[k].purity) == -1) {
+//                          // alert("entered to remove duplicates ")
+//                            var obj3 = {};
+                           
+//                             obj3["purity"] = report1[k].purity;
+//                             printary.push(report1[k].purity);
+//                              printfinalary.push(obj3)
+//                              var obj = {};
+//                                    obj["item"] = report1[k].item;
+//                                    obj["opQty"] = report1[k].itemopQty;
+//                                    obj["opPcs"] = report1[k].itemopPcs;
+//                                    obj["rcvQty"] = report1[k].rcvQty;
+//                                    obj["rcvPcs"] = report1[k].rcvPcs;
+//                                    obj["totQty"] = report1[k].totQty;
+//                                    obj["totPcs"] = report1[k].totPcs;
+//                                    obj["issQty"] = report1[k].issQty ;
+//                                    obj["issPcs"] = report1[k].issPcs;
+//                                    obj["ciQty"] = report1[k].ciQty;
+//                                    obj["ciPcs"] = report1[k].ciPcs;
+//                                   //  obj["salesCtg"] = report1[k].salesCtg;
+                    
+//                                    printfinalary.push(obj)
+//                           // console.log(printary)
+//                            console.log(printfinalary)
+//                           // $scope.reportonedate1 =printfinalary;
+//                             console.log(" x4 = yield ");
+//                            //  alert(arrcon)
+//                          }else{
+//                                    var obj = {};
+//                                    obj["item"] = report1[k].item;
+//                                    obj["opQty"] = report1[k].opQty;
+//                                    obj["opPcs"] = report1[k].opPcs;
+//                                    obj["rcvQty"] = report1[k].rcvQty;
+//                                    obj["rcvPcs"] = report1[k].rcvPcs;
+//                                    obj["totQty"] = report1[k].totQty;
+//                                    obj["totPcs"] = report1[k].totPcs;
+//                                    obj["issQty"] = report1[k].issQty ;
+//                                    obj["issPcs"] = report1[k].issPcs;
+//                                    obj["ciQty"] = report1[k].ciQty;
+//                                    obj["ciPcs"] = report1[k].ciPcs;
+//                                   // obj["salesCtg"] = report1[k].salesCtg;
+                    
+//                                    printfinalary.push(obj)
+//                                        console.log(printfinalary)
+//                                    //  $scope.reportonedate1 =printfinalary;
+//                                      // console.log(" x4 = yield ");
+
+//                               }
+//                             if ( k == report1.length-1) { 
+//                               sendResponseCallFinal()
+//                             }//k == report1.length-1
+//                        }//for loop
+//                          function sendResponseCallFinal() {
+//                          const timeoutSendData = setTimeout(() => {
+//                             res.json(printfinalary);
+//                           // sendResponseInsert() 
+     
+//                          }, 100);
+//                        }
+//                      }//responseInsert
+
+//                  } );
+//                  });
+// //}
+//  //document()
+
+//   }) //reportResult
 app.get('/reportResult/:data',  function (req, res) {
     console.log("receiveonedate receiveonedate receiveonedatereportonedate")
     var  printary = [];
@@ -5654,7 +6051,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                         //console.log(result);
                                           //console.log("")
                                         // console.log(result1[m]._id.purity);
-                                            if (result1[m]._id.saleCategory == result[z]._id.saleCategory &&result1[m]._id.purity == result[z]._id.purity && result1[m]._id.itemName == result[z]._id.itemName  && result1[m]._id.Group == result[z]._id.Group   ) {
+                                            if (result1[m]._id.purity == result[z]._id.purity && result1[m]._id.itemName == result[z]._id.itemName  && result1[m]._id.Group == result[z]._id.Group   ) {
                                                      var obj = {};
                                                      obj["item"] = result1[m]._id.itemName;
                                                      obj["rcvQty"] =  result[z].rccQty;
@@ -5671,12 +6068,10 @@ app.get('/reportResult/:data',  function (req, res) {
                                                      report1.push(obj);
                                                      //console.log(report1);
                                                      remainingItems = remainingItems.filter((item) => item !== result[z]);
-                                                     remainingItems1 = remainingItems1.filter((item) => item !== result1[m]);
+                                                    remainingItems1 = remainingItems1.filter((item) => item !== result1[z]);
                                                      
                                                      //console.log(remainingItems)
-                                                   console.log("remainingItems "+remainingItems.length+" remainingItems1 "+remainingItems1.length);
-                                                     // console.log(report1);
-                                                     console.log(remainingItems1)
+                                                  //  console.log("remainingItems "+remainingItems.length+" remainingItems1 "+remainingItems1.length);
                                                       // delete remainingItems[r]
                                             }    
 
@@ -5687,7 +6082,6 @@ app.get('/reportResult/:data',  function (req, res) {
                                                // console.log(m+" addNoRepeatItems "+z)
                                               
                                                 addNoRepeatItems()
-                                                //setTimeout(addNoRepeatItems(), 1000);
                                               }//if m==0 
                                                 if (m == 0) {
                                                   // console.log(" m12 == 0  ") 
@@ -5722,7 +6116,7 @@ app.get('/reportResult/:data',  function (req, res) {
 
                    mIteration1(remainingItems.length - 1)
                        function mIteration1(m) {
-                        //console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
+                        console.log(" zIteration "+ z+" result1.length "+result1.length+" m12mIteration "+m);
                               if ( remainingItems.length == 0) {
                                   addNoRepeatItemsStockNo()
                               }else{// if (result1.length == 0
@@ -5731,7 +6125,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                         //console.log(result);
                                           //console.log("")
                                         // console.log(result1[m]._id.purity);
-                        if (remainingItems[m]._id.saleCategory == result[z]._id.saleCategory && remainingItems[m]._id.purity == result[z]._id.purity && remainingItems[m]._id.itemName == result[z]._id.itemName  && remainingItems[m]._id.Group == result[z]._id.Group   ) {
+                        if (remainingItems[m]._id.purity == result[z]._id.purity && remainingItems[m]._id.itemName == result[z]._id.itemName  && remainingItems[m]._id.Group == result[z]._id.Group   ) {
                                 var obj = {};
                                    obj["item"] = remainingItems[m]._id.itemName;
                                  
@@ -5803,7 +6197,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                           //console.log("")
                                          //console.log(result1[z]);
                                            //console.log(remainingItems1[m]._id.purity);
-                        if (remainingItems1[m]._id.saleCategory == result1[z]._id.saleCategory && remainingItems1[m]._id.purity == result1[z]._id.purity && remainingItems1[m]._id.itemName == result1[z]._id.itemName  && remainingItems1[m]._id.Group == result1[z]._id.Group   ) {
+                        if (remainingItems1[m]._id.purity == result1[z]._id.purity && remainingItems1[m]._id.itemName == result1[z]._id.itemName  && remainingItems1[m]._id.Group == result1[z]._id.Group   ) {
                                 var obj = {};
                                    obj["item"] = remainingItems1[m]._id.itemName;
                                  

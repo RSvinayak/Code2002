@@ -78,7 +78,7 @@ Group: <select ng-model="item.InvGroupName" ng-change="clearData()" ng-init="ite
 <div class="col-sm-4">
     <button ng-click = "groupAndCategory(item.barcode);" class="btn btn-primary"  >List</button>
     <button ng-click="resetCall(sortedBarcodeDataItems)" class="btn btn-primary" id="save" >Reset</button>
-
+    <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a>
 
     </div>
 
@@ -140,9 +140,9 @@ Group: <select ng-model="item.InvGroupName" ng-change="clearData()" ng-init="ite
            <tr ng-repeat="items in sortedBarcodeDataItems"> 
              <td>{{items.refid }}</td>
              <td>{{items.itemName }}</td>
-             <td>{{items.gpcs | number:3}}</td>
+             <td id="space">{{items.gpcs}}</td>
              <td>{{items.gwt | number:3}}</td>
-             <td>{{items.taxval | number:2}}</td>
+             <td id="space">{{items.taxval | number:2}}</td>
            </tr>
      </thead>
    </table>
@@ -173,10 +173,10 @@ ItemsListed:{{itemsListedTotal}}
      TotalScale: {{totalScale | number:0}}
     </div>
       
-      <div class="col-sm-1">
+      <!-- <div class="col-sm-1">
 
-  <a href='mainpage.html'><button class="btn btn-primary" > close</button></a>
-    </div>
+  
+    </div> -->
   <!-- </div> -->
    
     </body>

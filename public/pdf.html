@@ -90,7 +90,7 @@ City:{{city}}</p>
  <!-- <input type="text" name=
  "number"  onkeyup="word.innerHTML=convertNumberToWords(this.value)" /> -->
 </div>
-<div ng-cloak>Invoice No:{{invoice}}<br>
+<div ng-cloak ng-if="trans !='Valuation'">Invoice No:{{invoice}}<br>
   <!-- <p>Invoice No:B1393<br> -->
   Date:{{FromDate | date }}</p>
 </div>
@@ -120,7 +120,7 @@ City:{{city}}</p>
         <th ng-hide="(trans =='Receipt Voucher'||trans =='Issue Voucher')">Rate/MRP</th>
         <th ng-if="trans =='Regular Sale'">St Amt</th>
         <th ng-if="trans =='Regular Sale' && printLabour=='yes'" >Labour</th>
-        <th ng-if="trans == 'Issue Voucher'|| trans =='Receipt Voucher'">Labour Val</th>
+        <th ng-if=" trans =='Receipt Voucher'">Labour Val</th>
         <th ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'" >Total</th>  
      
 
@@ -149,10 +149,10 @@ City:{{city}}</p>
        <td ng-if="trans =='Regular Sale'">{{item.chgunt}}</td>
         <td ng-if="trans =='Urd Purchase' && printChgWt=='Wt'">{{item.chgunt}}</td>
         <td ng-if="trans =='Urd Purchase' && printChgWt=='ChgWt'">{{item.chgunt}}</td>
-       <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'" >{{item.rate}}</td>
+       <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'" > <span ng-if=" item.mrp == null ">{{item.rate}}</span>  <span ng-if=" item.mrp != null ">{{item.mrp}}</span></td>
        <td ng-if="trans =='Regular Sale'">{{item.stval}}</td>
        <td ng-if="trans =='Regular Sale' && printLabour=='yes'" >{{item.labval}}</td>
-       <td ng-if="trans == 'Issue Voucher' ||trans == 'Receipt Voucher'">{{item.labval}}</td>
+       <td ng-if="trans == 'Receipt Voucher'">{{item.labval}}</td>
        <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans!='Sale Return'&&trans !='Purchase Return'">{{item.taxval}}</td> 
        <td ng-if="trans == 'Sale Return'||trans=='Purchase Return'">{{item.taxval}}</td>
    </tr>
@@ -301,25 +301,25 @@ City:{{city}}</p>
       <th ng-if="LabourTaxCheck == 'Yes'">Labour Value:</th>
       <td  id="right2"  ng-if="LabourTaxCheck == 'Yes'">{{labourValue}}</td>
     </tr>  
-    <tr>
-      <th ng-if="LabourTaxCheck == 'Yes'">Labour Tax:</th>
+    <tr ng-if="LabourTaxCheck == 'Yes'">
+      <th >Labour Tax:</th>
       <td  id="right2">{{labourtax}}</td>
 
     </tr> 
-    <tr>
-      <th ng-if="trans =='Regular Sale'">Discount:</th>
+    <tr ng-if="trans =='Regular Sale'">
+      <th >Discount:</th>
       <td  id="right2">{{discount}}</td>
     </tr> 
     <tr>
       <th  >Subtotal:</th>
       <td  id="right2">{{subtotal}}</td>
     </tr> 
-    <tr>
-      <th ng-if="trans =='Regular Sale'">Charge Total:</th>
+    <tr ng-if="trans =='Regular Sale'">
+      <th >Charge Total:</th>
       <td  id="right2">{{charge}}</td>
     </tr> 
-    <tr>
-      <th ng-if="trans =='Regular Sale'">Credit Adjusted:</th>
+    <tr ng-if="trans =='Regular Sale'">
+      <th >Credit Adjusted:</th>
       <td  id="right2">{{adj}}</td>
     </tr> 
      <tr>
@@ -327,7 +327,7 @@ City:{{city}}</p>
       <td  id="right2"><b>{{nett}}</b></td>
      </tr> 
     <tr>
-       <th>Invoice Value:</th>
+       <th >Invoice Value:</th>
       <td  id="right2"><b>{{nett}}</b></td>
     </tr>  
 

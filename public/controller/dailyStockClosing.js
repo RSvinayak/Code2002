@@ -6,6 +6,10 @@ function($scope,$http,$window,$q){
 $scope.bit1 = {
     date2: new Date()
   };
+
+  $scope.clearCall = function () {
+    $scope.displayReport = '';
+  } 
   $scope.stockVerifyPreview = function () {
   	var fromdate  = new Date(((new Date($scope.bit1.date2).toISOString().slice(0, 23))+"-05:30")).toISOString();
        var  todate= new Date(((new Date($scope.bit1.date2).toISOString().slice(0, 23))+"-05:30")).toISOString();
