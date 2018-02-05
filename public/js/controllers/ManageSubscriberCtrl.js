@@ -331,7 +331,7 @@
         var onClickBack = function(){
              // alert("subscribe name back "+nameDetails);
             
-             window.location = "index1.html";
+             window.location = "Transaction.html";
              window.sessionStorage.setItem("name",nameDetails);
         }
            var onClickClose = function(){

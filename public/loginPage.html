@@ -9,25 +9,48 @@
 			button#widthButton {
     			width: 180px;
 				}
+				/*input{
+					background-color: #C54B4F;
+				}*/
 		</style>
  	</head>
-	<body ng-controller= "loginCntrl">
-	<div class="bg">
+	<body ng-controller= "loginCntrl" background="jewcha.jpg" >
+		<h1>JMP Application</h1>
+	<div class="bg" >
+		<!-- <img src="jewcha.jpg"> -->
 		<form class="form">
 			<input type="text" placeholder="username" ng-model="username" ng-change="loginCall()"><br><br>
-			<input type="password" placeholder="password" ng-model="password" ng-change="loginCall()"><br><br>
+		<input type="password" placeholder="password" ng-model="password" ng-change="loginCall()" ng-keydown=" charan($event);" ><br><br>
+
 			<!-- <div class="buttoncss"> -->
 			<p ng-if="failure ==true" style="color:red; ">Please check username and password</p>
 			<div>
-			<a  ng-href="{{myloginlink}}" "><button type="button" class="btn btn-success btn-lg" ng-click = "loginValidateCall()" id="widthButton" >Login</button></a>
+			<a  ng-href="{{myloginlink}}"><button type="button" class="btn btn-success btn-lg" ng-click = "loginValidateCall()" id="widthButton" >Login</button></a>
 			<!-- <a  ng-href="{{myloginlink}}"></a> -->
-			<button type="button"  class="btn btn-danger btn-lg" ng-click="cancelCall()" id="widthButton">Cancel</button>
+			<button type="button"  class="btn btn-warning btn-lg" ng-click="cancelCall()" id="widthButton">Cancel</button>
 			</div>
 			<!-- </div> -->
 		</form>
 	</div>
 		
 	</body>
+	<!-- <script type="text/javascript">
+		function charan(event) {
+			console.log(event)
+		
+		
+		if (event.keyCode==13 && validation == 1 ) {
+			alert("jj")
+		window.sessionStorage.setItem("username",name);
+				 window.sessionStorage.setItem("desgination",desgination);
+				$scope.myloginlink = "Transaction.html";	
+		} 
+		else {
+			alert("else")
+			$scope.failure = true;
+		}
+	}
+	</script> -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	<script type="text/javascript" src="controller/logincontroller.js"></script> 
 </html>

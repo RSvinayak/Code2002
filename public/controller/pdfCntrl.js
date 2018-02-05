@@ -2,6 +2,7 @@ var myApp=angular.module('myApp',[]);
 myApp.controller('PdfCntrl',['$scope','$http','$window',
 function($scope,$http,$window){
    // alert("pdf controller called");
+    $scope.usernamedetails = window.sessionStorage.getItem("username")
    var sgsttotal = 0 ;
    var cgsttotal = 0 ;
    var igsttotal = 0;

@@ -2,7 +2,7 @@ var myApp=angular.module('myApp',[]);
 
 myApp.controller('reportCntrl',['$scope','$http','$window','$q',
 function($scope,$http,$window,$q){
-
+ $scope.usernamedetails = window.sessionStorage.getItem("username")
 console.log("well come to report controller")
 
 $http.get('/Treasure').success(function(response){
@@ -44,6 +44,8 @@ var fixdec =2;
         "color" : "black",
         
     }
+
+//for pdf pri
 //radiobutton()
 $scope.radiobutton1 = function(){
   console.log("entered into radiobutton1");
@@ -96,7 +98,7 @@ $scope.preview1 = function(){
   if ($scope.stockPoint==undefined ) { 
     alert("Please Select stockPoint") 
   }
-  if ($scope.sort.Group ==$scope.sort.SaleCty || $scope.sort.SaleCty ==$scope.sort.Purity || $scope.sort.Purity==$scope.sort.Item || $scope.sort.Item==$scope.sort.Group ) {
+  else if ($scope.sort.Group ==$scope.sort.SaleCty || $scope.sort.SaleCty ==$scope.sort.Purity || $scope.sort.Purity==$scope.sort.Item || $scope.sort.Item==$scope.sort.Group ) {
           alert("duplicates are not allowed")
       $scope.sort.Group=""
       $scope.sort.SaleCty=""

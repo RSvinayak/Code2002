@@ -2,7 +2,7 @@
 
 myApp.controller('stockDetailsCntrl',['$scope','$http','$window','$q',
 function($scope,$http,$window,$q){
-
+ $scope.usernamedetails = window.sessionStorage.getItem("username")
 //for default values
 //for sorted data barcoded found
 //var sortedBarCode = [];

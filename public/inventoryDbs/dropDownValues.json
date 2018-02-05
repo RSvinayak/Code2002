@@ -1,0 +1,1214 @@
+{
+    "dropDown":[
+        {
+            "dropDownName": "pct",
+            
+             "maingroup": [
+                                    {
+                                        "name" : "AddPercent",
+                                        "type" : "Sale"
+                                    },
+                                    {
+                                        "name" : "Add Units",
+                                        "type" : "Sale"
+                                    },
+                                    {
+                                        "name" : "SubPercent",
+                                        "type" : "Purchase"
+                                    },
+                                    {
+                                        "name" : "Sub Units",
+                                        "type" : "Purchase"
+                                    }
+                         ]
+         },
+         {
+            "dropDownName": "itemtype",
+            
+             "maingroup": [
+                                    {
+                                         "ItemTypeId" : "1",
+                                         "TypeName" : "Raw Material"
+                                    },
+                                    {
+                                        "ItemTypeId" : "2",
+                                         "TypeName" : "Manufactured"
+                                    },
+                                    {
+                                       "ItemTypeId" : "3",
+                                       "TypeName" : "Traded"
+                                    },
+                                    {
+                                           "ItemTypeId" : "4",
+                                           "TypeName" : "Reusable"
+                                    },
+                                    {
+                                           "ItemTypeId" : "5",
+                                           "TypeName" : "All "
+                                    }
+                         ]
+         },
+
+         {
+            "dropDownName": "bank",
+            
+             "maingroup": [
+                                    {
+                                          "name" : "SBI"
+                                              },
+                                    {
+                                          "name" : "CANARA"
+                                            },
+                                    {
+                                         "name" : "YES BANK"
+                                      
+                                    },
+                                    {
+                                            "name" : "HDBC"
+                                    }
+                                    ,
+                                    {
+                                             "name" : "HSBC"
+                                    }
+                         ]
+         },
+
+         {
+            "dropDownName": "mode",
+            
+             "maingroup": [
+                                    {
+                                          "name" : "Cash"
+                                              },
+                                    {
+                                          "name" : "Credit"
+                                            }
+                                    
+                         ]
+         },
+         {
+            "dropDownName": "labcal",
+            
+             "maingroup": [
+                                    {
+                                          "name" : "Percent"
+                                              },
+                                              {
+                                          "name" : "PerUnit"
+                                              },
+                                    {
+                                          "name" : "Amount"
+                                            }
+                                    
+                         ]
+         },
+
+         {
+            "dropDownName": "uom",
+            
+             "maingroup": [
+                                    {
+                                          "name" : "Carats"
+                                              },
+                                    {
+                                           "name" : "Gms"
+                                            }
+                                    
+                         ]
+         },
+         {
+            "dropDownName": "staff",
+            
+             "maingroup": [
+                                    {
+                                            "name" : "Person1",
+                                            "password" : "7",
+                                            "desgination" : "Billing Person"
+                                              },
+                                    {
+                                           "name" : "Person2",
+                                            "password" : "2",
+                                            "desgination" : "Sales Person"
+                                            },
+                                            {
+                                           "name" : "Person3",
+                                            "password" : "1",
+                                            "desgination" : "Sales Person"
+                                            },
+                                            {
+                                           "name" : "Person4",
+                                            "password" : "3",
+                                            "desgination" : "Sales Person"
+                                            }
+                                    
+                         ]
+         },
+         {
+            "dropDownName": "salescategorymaster",
+            
+             "maingroup": [
+                                 
+                                    {
+                                          "SaleCategoryNo" : "1",
+                                            "SaleCategoryType" : "Mangalsutra",
+                                            "SortedOrderNo" : "1"
+                                              },
+                                            {
+                                            "SaleCategoryNo" : "3",
+                                            "SaleCategoryType" : "Top",
+                                            "SortedOrderNo" : "3"
+                                             },
+                                            {
+                                                 "SaleCategoryNo" : "4",
+                                                "SaleCategoryType" : "Ring",
+                                                "SortedOrderNo" : "4"
+                                           }
+                                    
+                         ]
+         },
+         {
+            "dropDownName": "stockpointmaster",
+            
+             "maingroup": [
+                              {
+                                     "stockpointid" : "1",
+                                    "stockpointname" : "Treasure1"
+                              },
+                              {
+                                     "stockpointid" : "2",
+                                    "stockpointname" : "Treasure2"
+                              },
+                              {
+                                     "stockpointid" : "3",
+                                    "stockpointname" : "Treasure3"
+                              },
+                              {
+                                     "stockpointid" : "4",
+                                    "stockpointname" : "Treasure4"
+                              }        
+                         ]
+         },
+         {
+            "dropDownName": "transactionSeriesInvoice",
+            
+             "maingroup": [
+                              {
+                                    "TransactionSeriesId" : "1",
+                                    "TransactionClass" : "Sale",
+                                    "TransactionType" : "Regular Sale",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "RS",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                              },
+                                {
+                                     "TransactionSeriesId" : "2",
+                                    "TransactionClass" : "Purchase",
+                                    "TransactionType" : "Urd Purchase",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "URD",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                },
+                                  {
+                                  "TransactionSeriesId" : "3",
+                                    "TransactionClass" : "Purchase",
+                                    "TransactionType" : "RD Purchase",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "RD",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                },
+                                  {
+                                      "TransactionSeriesId" : "4",
+                                    "TransactionClass" : "",
+                                    "TransactionType" : "Valuation",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "Vu",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                                            },
+                                 {
+                                    "TransactionSeriesId" : "5",
+                                    "TransactionClass" : "Return",
+                                    "TransactionType" : "Sale Return",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "SR",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                 "TransactionSeriesId" : "6",
+                                "TransactionClass" : "Return",
+                                "TransactionType" : "Purchase Return",
+                                "POSID" : "1",
+                                "TransactionPrefix" : "PR",
+                                "StartingTransactionClassNo" : 1,
+                                "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                 "TransactionSeriesId" : "7",
+                                "TransactionClass" : "Journal",
+                                "TransactionType" : "Issue Voucher",
+                                "POSID" : "1",
+                                "TransactionPrefix" : "IV",
+                                "StartingTransactionClassNo" : 1,
+                                "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                  "TransactionSeriesId" : "8",
+                                    "TransactionClass" : "Journal",
+                                    "TransactionType" : "Receipt Voucher",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "RV",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                  "TransactionSeriesId" : "9",
+                                "TransactionClass" : "Journal",
+                                "TransactionType" : "Approval Out",
+                                "POSID" : "1",
+                                "TransactionPrefix" : "AO",
+                                "StartingTransactionClassNo" : 1,
+                                "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                    "TransactionSeriesId" : "10",
+                                    "TransactionClass" : "Journal",
+                                    "TransactionType" : "Approval Sale",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "AS",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                },
+                                 {
+                                "TransactionSeriesId" : "11",
+                                "TransactionClass" : "Journal",
+                                "TransactionType" : "Approval Return",
+                                "POSID" : "1",
+                                "TransactionPrefix" : "AR",
+                                "StartingTransactionClassNo" : 1,
+                                "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                 "TransactionSeriesId" : "12",
+                                "TransactionClass" : "Receipts",
+                                "TransactionType" : "Receipts",
+                                "POSID" : "1",
+                                "TransactionPrefix" : "RE",
+                                "StartingTransactionClassNo" : 1,
+                                "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                   "TransactionSeriesId" : "13",
+                                    "TransactionClass" : "Payment",
+                                    "TransactionType" : "Payment",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "PA",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                }
+
+
+
+                                    
+                         ]
+         },
+         {
+            "dropDownName": "inventorygroupvaluenotation",
+            
+             "maingroup": [
+                                   
+                                {
+                                  
+                                    "NotationID" : "1",
+                                    "InvGroupID" : "01",
+                                    "ValueNotation" : "819",
+                                    "ConversionPercentage" : "816",
+                                    "Rate" : 3000.00
+                                },
+
+
+                                {
+
+                                    "NotationID" : "2",
+                                    "InvGroupID" : "01",
+                                    "ValueNotation" : "895",
+                                    "ConversionPercentage" : "818",
+                                    "Rate" : 3500.00
+                                },
+
+
+                                {
+                                   
+                                    "NotationID" : "3",
+                                    "InvGroupID" : "01",
+                                    "ValueNotation" : "800",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 4000.00
+                                },
+
+                                {
+
+                                    "NotationID" : "4",
+                                    "InvGroupID" : "02",
+                                    "ValueNotation" : "916",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 2800.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "5",
+                                    "InvGroupID" : "02",
+                                    "ValueNotation" : "945",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 3500.00
+                                },
+
+                                {
+                                  
+                                    "NotationID" : "6",
+                                    "InvGroupID" : "02",
+                                    "ValueNotation" : "999",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 4000.00
+                                },
+
+
+                                {
+                                   
+                                    "NotationID" : "7",
+                                    "InvGroupID" : "03",
+                                    "ValueNotation" : "919",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 2700.00
+                                },
+
+                                {
+                                    
+                                    "NotationID" : "8",
+                                    "InvGroupID" : "03",
+                                    "ValueNotation" : "929",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 3800.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "9",
+                                    "InvGroupID" : "03",
+                                    "ValueNotation" : "939",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 4900.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "10",
+                                    "InvGroupID" : "04",
+                                    "ValueNotation" : "916",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 2000.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "11",
+                                    "InvGroupID" : "04",
+                                    "ValueNotation" : "945",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 3000.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "12",
+                                    "InvGroupID" : "04",
+                                    "ValueNotation" : "999",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 4000.00
+                                },
+
+
+                                {
+                                  
+                                    "NotationID" : "13",
+                                    "InvGroupID" : "05",
+                                    "ValueNotation" : "919",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 1000.00
+                                },
+
+
+                                {
+                                  
+                                    "NotationID" : "14",
+                                    "InvGroupID" : "05",
+                                    "ValueNotation" : "949",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 2000.00
+                                },
+
+                                {
+                                    
+                                    "NotationID" : "15",
+                                    "InvGroupID" : "05",
+                                    "ValueNotation" : "1000",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 3000.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "16",
+                                    "InvGroupID" : "06",
+                                    "ValueNotation" : "200",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 300.00
+                                },
+
+                                {
+                                  
+                                    "NotationID" : "17",
+                                    "InvGroupID" : "06",
+                                    "ValueNotation" : "300",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 400.0
+                                },
+
+
+                                {
+                                   
+                                    "NotationID" : "18",
+                                    "InvGroupID" : "06",
+                                    "ValueNotation" : "400",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 500.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "19",
+                                    "InvGroupID" : "07",
+                                    "ValueNotation" : "600",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 350.00
+                                },
+
+                                {
+                                   
+                                    "NotationID" : "20",
+                                    "InvGroupID" : "07",
+                                    "ValueNotation" : "700",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 450.00
+                                },
+
+
+                                {
+                                    
+                                    "NotationID" : "21",
+                                    "InvGroupID" : "07",
+                                    "ValueNotation" : "800",
+                                    "ConversionPercentage" : "820",
+                                    "Rate" : 560.00
+                                }
+                                                                    
+                         ]
+         },
+         {
+            "dropDownName": "inventorygroupmaster",
+            
+             "maingroup": [
+                                   {
+  
+                                        "InvGroupID" : "01",
+                                        "InvGroupName" : "Diamond",
+                                        "Alias" : "pure Diamond",
+                                        "sortOrder" : 7,
+                                        "PurchaseAcc" : [ 
+                                            {
+                                                "AccNo" : "DA Purchase",
+                                                "AccId" : "L032"
+                                            }
+                                        ],
+                                        "SalesAcc" : [ 
+                                            {
+                                                "AccNo" : "DA Sales",
+                                                "AccId" : "L031"
+                                            }
+                                        ]
+                                    },
+
+                                    {
+                                        
+                                        "InvGroupID" : "02",
+                                        "InvGroupName" : "Gold Bullion",
+                                        "Alias" : "pure gold",
+                                        "sortOrder" : 2,
+                                        "PurchaseAcc" : [ 
+                                            {
+                                                "AccNo" : "GB Purchase",
+                                                "AccId" : "L029"
+                                            }
+                                        ],
+                                        "SalesAcc" : [ 
+                                            {
+                                                "AccNo" : "GB Sales",
+                                                "AccId" : "L004"
+                                            }
+                                        ]
+                                    },
+
+                                    {
+                                      
+                                        "InvGroupID" : "03",
+                                        "InvGroupName" : "Gold Ornaments",
+                                        "Alias" : "Ornaments",
+                                        "sortOrder" : 3,
+                                        "PurchaseAcc" : [ 
+                                            {
+                                                "AccNo" : "GO Purchase",
+                                                "AccId" : "L017"
+                                            }
+                                        ],
+                                        "SalesAcc" : [ 
+                                            {
+                                                "AccNo" : "GO Sales",
+                                                "AccId" : "L003"
+                                            }
+                                        ]
+                                    },
+
+                                  
+
+                                   
+                                    {
+                                       
+                                        "InvGroupID" : "06",
+                                        "InvGroupName" : "Sliver Articles",
+                                        "Alias" : " silver",
+                                        "sortOrder" : 6,
+                                        "PurchaseAcc" : [ 
+                                            {
+                                                "AccNo" : "SA Purchase",
+                                                "AccId" : "L028"
+                                            }
+                                        ],
+                                        "SalesAcc" : [ 
+                                            {
+                                                "AccNo" : "SA Sales",
+                                                "AccId" : "L009"
+                                            }
+                                        ]
+                                    },
+
+                                    {
+                                        
+                                        "InvGroupID" : "07",
+                                        "InvGroupName" : "Sliver Bullion",
+                                        "Alias" : "silver Bullion",
+                                        "sortOrder" : 1,
+                                        "PurchaseAcc" : [ 
+                                            {
+                                                "AccNo" : "SB Purchase",
+                                                "AccId" : "L030"
+                                            }
+                                        ],
+                                        "SalesAcc" : [ 
+                                            {
+                                                "AccNo" : "SB Sales",
+                                                "AccId" : "L010"
+                                            }
+                                        ]
+                                    }
+                                    
+                         ]
+         },
+         {
+            "dropDownName": "inventorygroupvaluenotationdaily",
+            
+             "maingroup": [
+                                {
+                                        
+                                        "NotationID" : "1",
+                                        "InvGroupID" : "01",
+                                        "ValueNotation" : "819",
+                                        "ConversionPercentage" : "816",
+                                        "Rate" : "3001",
+                                        "InvGroupName" : "Diamond",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                      
+                                        "NotationID" : "2",
+                                        "InvGroupID" : "01",
+                                        "ValueNotation" : "895",
+                                        "ConversionPercentage" : "818",
+                                        "Rate" : "3502",
+                                        "InvGroupName" : "Diamond",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                        
+                                        "NotationID" : "3",
+                                        "InvGroupID" : "01",
+                                        "ValueNotation" : "800",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "4000",
+                                        "InvGroupName" : "Diamond",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+                                    {
+                                       
+                                        "NotationID" : "4",
+                                        "InvGroupID" : "02",
+                                        "ValueNotation" : "916",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "2800",
+                                        "InvGroupName" : "Gold Bullion",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+                                    {
+                                       
+                                        "NotationID" : "8",
+                                        "InvGroupID" : "03",
+                                        "ValueNotation" : "929",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "3800",
+                                        "InvGroupName" : "Gold Ornaments",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                        
+                                        "NotationID" : "5",
+                                        "InvGroupID" : "02",
+                                        "ValueNotation" : "945",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "3500",
+                                        "InvGroupName" : "Gold Bullion",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+                                    {
+                                     
+                                        "NotationID" : "7",
+                                        "InvGroupID" : "03",
+                                        "ValueNotation" : "919",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "2700",
+                                        "InvGroupName" : "Gold Ornaments",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                       
+                                        "NotationID" : "6",
+                                        "InvGroupID" : "02",
+                                        "ValueNotation" : "999",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "4000",
+                                        "InvGroupName" : "Gold Bullion",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+                                    {
+                                       
+                                        "NotationID" : "9",
+                                        "InvGroupID" : "03",
+                                        "ValueNotation" : "939",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "4900",
+                                        "InvGroupName" : "Gold Ornaments",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                       
+                                        "NotationID" : "10",
+                                        "InvGroupID" : "04",
+                                        "ValueNotation" : "916",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "2000",
+                                        "InvGroupName" : "Old Gold",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                       
+                                        "NotationID" : "11",
+                                        "InvGroupID" : "04",
+                                        "ValueNotation" : "945",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "3000",
+                                        "InvGroupName" : "Old Gold",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                        
+                                        "NotationID" : "13",
+                                        "InvGroupID" : "05",
+                                        "ValueNotation" : "919",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "1000",
+                                        "InvGroupName" : "Old Sliver",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                      
+                                        "NotationID" : "12",
+                                        "InvGroupID" : "04",
+                                        "ValueNotation" : "999",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "4000",
+                                        "InvGroupName" : "Old Gold",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                        
+                                        "NotationID" : "14",
+                                        "InvGroupID" : "05",
+                                        "ValueNotation" : "949",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "2000",
+                                        "InvGroupName" : "Old Sliver",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                       
+                                        "NotationID" : "15",
+                                        "InvGroupID" : "05",
+                                        "ValueNotation" : "1000",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "3000",
+                                        "InvGroupName" : "Old Sliver",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                        "NotationID" : "16",
+                                        "InvGroupID" : "06",
+                                        "ValueNotation" : "200",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "300",
+                                        "InvGroupName" : "Sliver Articles",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                       
+                                        "NotationID" : "17",
+                                        "InvGroupID" : "06",
+                                        "ValueNotation" : "300",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "400",
+                                        "InvGroupName" : "Sliver Articles",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+                                    {
+                                       
+                                        "NotationID" : "18",
+                                        "InvGroupID" : "06",
+                                        "ValueNotation" : "400",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "500",
+                                        "InvGroupName" : "Sliver Articles",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                      
+                                        "NotationID" : "19",
+                                        "InvGroupID" : "07",
+                                        "ValueNotation" : "600",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "350",
+                                        "InvGroupName" : "Sliver Bullion",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                        
+                                        "NotationID" : "20",
+                                        "InvGroupID" : "07",
+                                        "ValueNotation" : "700",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "450",
+                                        "InvGroupName" : "Sliver Bullion",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    },
+
+
+                                    {
+                                       
+                                        "NotationID" : "21",
+                                        "InvGroupID" : "07",
+                                        "ValueNotation" : "800",
+                                        "ConversionPercentage" : "820",
+                                        "Rate" : "560",
+                                        "InvGroupName" : "Sliver Bullion",
+                                        "date" : "2017-07-31T20:03:07.706Z"
+                                    }
+                                                                        
+                         ]
+         },
+         {
+            "dropDownName": "ledgeraccounts",
+            
+             "maingroup": [
+                                 
+{
+ 
+    "accountIds" : "L001",
+    "accountName" : "Shrinath",
+    "sortOrder" : 1,
+    "grpId" : "SG1",
+    "alias" : "SG",
+    "remark" : "Customer"
+},
+
+
+{
+    
+    "accountIds" : "L002",
+    "accountName" : "Nagaraj",
+    "sortOrder" : 1,
+    "grpId" : "SG1",
+    "alias" : "MCN",
+    "remark" : "Customer"
+},
+
+{
+  
+    "accountIds" : "L003",
+    "accountName" : "GO Sales",
+    "sortOrder" : 1,
+    "grpId" : "MG9",
+    "alias" : "",
+    "remark" : "Gold ornaments sale"
+},
+
+
+{
+   
+    "accountIds" : "L004",
+    "accountName" : "GB Sales",
+    "sortOrder" : 2,
+    "grpId" : "MG9",
+    "alias" : "",
+    "remark" : "Gold bullion sale"
+},
+
+
+{
+  
+    "accountIds" : "L005",
+    "accountName" : "CGST collected",
+    "sortOrder" : 1,
+    "grpId" : "MG6",
+    "alias" : "",
+    "remark" : "Tax to be paid to Govt"
+},
+
+{
+   
+    "accountIds" : "L006",
+    "accountName" : "Other charges collected",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Income"
+},
+
+
+{
+    
+    "accountIds" : "L007",
+    "accountName" : "Discount Given",
+    "sortOrder" : 1,
+    "grpId" : "MG13",
+    "alias" : "",
+    "remark" : "Expense"
+},
+
+
+{
+    
+    "accountIds" : "L008",
+    "accountName" : "Round off sales",
+    "sortOrder" : 1,
+    "grpId" : "MG11",
+    "alias" : "",
+    "remark" : "+ve means income"
+},
+
+{
+    
+    "accountIds" : "L009",
+    "accountName" : "SA sales",
+    "sortOrder" : 3,
+    "grpId" : "MG9",
+    "alias" : "",
+    "remark" : "Sales silver articles"
+},
+
+{
+    
+    "accountIds" : "L010",
+    "accountName" : "SB Sales",
+    "sortOrder" : 4,
+    "grpId" : "MG9",
+    "alias" : "",
+    "remark" : "Sales silver bullion"
+},
+
+
+{
+  
+    "accountIds" : "L011",
+    "accountName" : "Cash on hand",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash in office"
+},
+
+
+{
+    
+    "accountIds" : "L012",
+    "accountName" : "Kotal Mahendra Current A/c",
+    "sortOrder" : 2,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Bank balance is compnay cash position"
+},
+
+
+{
+    "accountIds" : "L013",
+    "accountName" : "Kiran Jewellers",
+    "sortOrder" : 1,
+    "grpId" : "SG6",
+    "alias" : "",
+    "remark" : "Supplier"
+},
+
+{
+  
+    "accountIds" : "L014",
+    "accountName" : "CGST charges collected",
+    "sortOrder" : 2,
+    "grpId" : "MG6",
+    "alias" : "",
+    "remark" : "Tax to be paid to Govt"
+},
+
+
+{
+    
+    "accountIds" : "L015",
+    "accountName" : "Other charges paid",
+    "sortOrder" : 1,
+    "grpId" : "MG14",
+    "alias" : "",
+    "remark" : "Indirecr expenses"
+},
+
+
+{
+   
+    "accountIds" : "L016",
+    "accountName" : "Discount received",
+    "sortOrder" : 1,
+    "grpId" : "MG11",
+    "alias" : "",
+    "remark" : "Indirecr income"
+},
+
+
+{
+   
+    "accountIds" : "L017",
+    "accountName" : "GO Purchase",
+    "sortOrder" : 1,
+    "grpId" : "MG12",
+    "alias" : "",
+    "remark" : "Gold ornaments purchase"
+},
+
+
+{
+  
+    "accountIds" : "L019",
+    "accountName" : "Jyothi Chandulal Chawan'",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Supplier"
+},
+
+
+{
+   
+    "accountIds" : "L020",
+    "accountName" : "SGST charges collected",
+    "sortOrder" : 2,
+    "grpId" : "MG6",
+    "alias" : "",
+    "remark" : "Tax to be paid to Govt"
+},
+
+
+{
+
+    "accountIds" : "L021",
+    "accountName" : "IGST collected",
+    "sortOrder" : 3,
+    "grpId" : "MG6",
+    "alias" : "",
+    "remark" : "Tax to be paid to Govt during interstate sale"
+},
+
+
+{
+    
+    "accountIds" : "L022",
+    "accountName" : "IGST charges paid",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Tax paid to Govt during  interstate purchase (available as input credit)"
+},
+
+
+{
+    
+    "accountIds" : "L023",
+    "accountName" : "CGST paid",
+    "sortOrder" : 2,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Tax paid to Govt during purchase (available as input credit)"
+},
+
+
+{
+   
+    "accountIds" : "L024",
+    "accountName" : "SGST Paid",
+    "sortOrder" : 3,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Tax paid to Govt during purchase (available as input credit)"
+},
+
+{
+
+    "accountIds" : "L025",
+    "accountName" : "UGST charges collected",
+    "sortOrder" : 4,
+    "grpId" : "MG6",
+    "alias" : "",
+    "remark" : "Tax collected to be paid to Govt. when sold to union territory"
+},
+
+
+{
+    "accountIds" : "L026",
+    "accountName" : "UGST charges paid",
+    "sortOrder" : 4,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Tax paid to Govt. when sold to union territory"
+},
+{
+   
+    "accountIds" : "L028",
+    "accountName" : "SA Purchase",
+    "sortOrder" : 1,
+    "grpId" : "MG12",
+    "alias" : "",
+    "remark" : "Silver Article purchase"
+},
+{
+   
+    "accountIds" : "L029",
+    "accountName" : "GB Purchase",
+    "sortOrder" : 1,
+    "grpId" : "MG12",
+    "alias" : "",
+    "remark" : "Gold bullion purchase"
+},
+{
+   
+    "accountIds" : "L030",
+    "accountName" : "SB Purchase",
+    "sortOrder" : 1,
+    "grpId" : "MG12",
+    "alias" : "",
+    "remark" : "Silver bullion purchase"
+},
+{
+    
+    "accountIds" : "L031",
+    "accountName" : "DA Sales",
+    "sortOrder" : 4,
+    "grpId" : "MG9",
+    "alias" : "",
+    "remark" : "Diamond bullion"
+},
+{
+   
+    "accountIds" : "L031",
+    "accountName" : "DA Purchase",
+    "sortOrder" : 1,
+    "grpId" : "MG12",
+    "alias" : "",
+    "remark" : "Diamond purchase"
+}
+
+    
+                          ]
+         }
+
+                
+       
+       
+        
+        
+    ]
+}

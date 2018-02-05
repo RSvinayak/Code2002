@@ -2,6 +2,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http',function($scope, $http,$route,$window) {
     console.log("Hello World from controller");
  //all global variables declared here
+  $scope.usernamedetails = window.sessionStorage.getItem("username")
  $scope.test = 'display'
  var duplicat = [];
  var  forupdate = null;
@@ -88,7 +89,25 @@ var refresh = function() {
 };
 
 refresh();
-
+//for assigning ledger account
+$scope.ledgerAccontInt = function(account,index,type) {
+  //alert(" account "+account+" index "+index+" type "+type);
+   $http.get('/getLedgerAccont',{params:{"accountName":account}}).success(function(response) {
+        
+         if (type== 'PurchaseAC') {
+             //alert(" account "+account+" index "+index);
+               $scope.pur1[index].purchaseId = response.accountIds;
+               forupdate[index].purchaseId = response.accountIds;
+             
+               console.log( $scope.pur1[index].purchaseId);
+         }else{
+              $scope.pur1[index].salesId = response.accountIds;
+               forupdate[index].salesId = response.accountIds;
+             
+         }
+         
+   })
+}//ledgerAccontInt
 // saving of data
 $scope.addnew = function() {
  // console.log($scope.tax.taxname);

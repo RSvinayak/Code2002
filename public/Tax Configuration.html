@@ -1,0 +1,766 @@
+F<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>Taxation</title>
+</head>
+
+ <!-- <script src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script> -->
+   <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+    <!-- for -is -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+
+<link href="tax.css" rel="stylesheet">
+<style>
+.center {
+    margin:auto;
+    width: 20%;
+    
+    
+}
+   .selectpic {
+   /* margin:auto;*/
+    width: 230%;
+    
+    
+}
+      ul.dark_menu {
+list-style: none;
+padding: 5px 1px;
+font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+font-weight: 200;
+font-size: 16px;
+letter-spacing: 0.01em;
+font-smooth: always;
+color: #000000;
+line-height: 15px;
+margin: auto;
+/*width: 1018px;*/
+position: relative;
+background: #2B5797;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu:after {
+content: "";
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;}
+ul.dark_menu li {
+float: left;
+position: relative;
+margin: 1px;}
+/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a, ul.dark_menu li a:link {
+color: #fafafa;
+text-decoration: none;
+display: block;
+padding: 8px 26px;
+-webkit-transition: all 0.2s ease;
+-moz-transition: all 0.2s ease;
+-o-transition: all 0.2s ease;
+-ms-transition: all 0.2s ease;
+transition: all 0.2s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a:hover {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a.selected {
+border-right: 1px solid #ddd;
+text-transform: uppercase;
+margin-left: 10px;
+}
+ul.dark_menu li a.selected, ul.dark_menu li a:active {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;}
+ul.dark_menu li ul {
+display: none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul:before {
+content: " ";
+position: absolute;
+display: block;
+z-index: 1500;
+left: 0;
+top: -10px;
+height: 10px;
+width: 100%;}
+ul.dark_menu li ul {-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;top:55px;}
+ul.dark_menu li:hover ul {
+position: absolute;
+display: block;
+z-index: 1000;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+left: 0;border-radius: 0px 0px 5px 5px;
+top: 37px;
+padding: 5px 0;
+list-style: none;
+background: #fff;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul li {
+float: none;
+margin:0px;}
+ul.dark_menu li ul li:first-child {
+margin:0px;
+border-top: 0 none;}
+ul.dark_menu li ul li:last-child {
+border-bottom: 0 none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu [data-role="dropdown"] > a::before {
+position: absolute;
+content: "^";
+display: block;
+font-size: 15px;
+left: 100%;
+margin-left: -20px;
+top: 10px;
+-webkit-transform: rotate(180deg);
+-moz-transform: rotate(180deg);
+-ms-transform: rotate(180deg);
+-o-transform: rotate(180deg);
+transform: rotate(180deg);
+}
+ul.dark_menu li ul li a, ul.dark_menu li ul li a:link {
+color: #222;
+display: block;
+background: transparent none;
+padding: 10px 25px 10px 25px;
+white-space: nowrap;}
+ul.dark_menu li ul li a:hover {
+background:#2D89EF;-moz-transition: all 0.1s ease-in-out;color:#fff;
+-webkit-transition: all 0.1s ease-in-out;
+}/* Blog johanes djogzs.blogspot.com */
+.menujohanes{position:relative;}
+#search input[type="text"]:hover {width:848px;}
+#search input[type="text"] {
+background: #fff url("http://3.bp.blogspot.com/-uYZni0pIn-E/T-xY2vVu_-I/AAAAAAAACUY/ZMfR3_BvRFE/s1600/SEARCH_32x32-32.png")no-repeat center left;
+font-size: 13px;
+color: #222;
+width: 0px;
+padding: 10px 0px 11px 35px;
+z-index: 9;
+border: 1px solid #fff;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+margin-bottom: -1px;
+position: absolute;
+top: 0px;
+right:27px;}
+/*#main4, #main5, #main6 {
+width: 303px;
+list-style-type: none;
+float: left;
+margin: 10px;}
+.main3 {width:305px;
+list-style-type: none;
+padding-top: 10px;
+float: left;}
+::-webkit-scrollbar {
+height:12px;
+background: #474747;}
+::-webkit-scrollbar-thumb {
+background-color: #000;
+}*/
+ li#sub ul {
+    display:none;
+  position: absolute; left: 100%; top:0;
+}
+li#sub:hover ul{
+display: block;
+}
+#table-wrapper {
+  position:relative;
+}
+#tscroll {
+  height:90%;
+  overflow:auto;  
+  margin-top:5%;
+}
+
+/*thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+
+        }*/
+        /*tr {
+          width: 100%;
+        }*/
+
+        /*thead th {
+            height: 60px;
+              width: 33%;
+
+            float: left;
+
+            
+        }*/
+
+     /*   tbody {
+            height: 270px;
+            overflow-y: auto;
+        }
+
+        tbody td {
+
+            width: 33%;
+
+            float: left;
+        }*/
+
+/*.table {
+    /
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+}*/
+#tax > thead, tbody {
+  
+    text-align: left;
+    padding: 0px;
+  }
+  #tax > tbody {
+  height: 80%;
+}
+#buttonwidth{
+  width:80px;
+}
+#widthadjust{
+  width: 10%;
+}
+li#name1 {
+    right: -400px;
+    font-size: 27px;
+    font-style: italic;
+} 
+#his{
+ margin-left:1150px;
+  margin-top:-90px;
+  color:blue;
+  position:fixed;
+}
+#star{
+
+     color:red;
+}
+
+.panel.panel-default {
+  height: 60%;
+  background-color: thistle;
+  border-style: solid;
+  border-color: black;
+}
+.table.table-condensed {
+    /*background-color: yellow;*/
+    /*border: 1px solid ;*/
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+}
+#tax > thead, tbody {
+   
+    text-align: left;
+    padding: 0px;
+  }
+  #tax > tbody {
+  height: 80%;
+ 
+}
+
+  /* #tax > tbody {
+  height: 300px;
+ 
+}*/
+/*#tax .left{text-align: right;
+padding-left: 15px;}*/
+#tax2 {
+  height: 30%;
+}
+/*#tax3 {
+  height: 30%;
+}*/
+.footer-nav {
+  background-color: silver;
+   margin-top: -12px;
+}
+body {
+  background-color: #EEEEEE;
+}
+#tax3 {
+  height: 24%;
+}
+
+#number{
+width:10%;
+}
+/*fixing header of down table for not moving the header*/
+
+       
+ #margin{
+margin-top: -12px;
+}
+       #tax5 > tbody {
+  height: 135px;
+ /* margin-bottom: 5px;*/
+}
+/*.panel-heading {
+  margin-top: -27px;
+  
+}*/
+.panel-heading {
+    margin-left: -26px;
+    margin-right: -28px;
+    margin-top: -27px;
+    
+}
+#thwidth{
+ 
+  width: 18%;
+}
+#thwidth1{
+
+  width: 7%;
+}
+#buttonwidth{
+  width:10%;
+}
+#tax5 > thead {
+  padding-left: 0;
+  width: 94%;
+}
+</style>
+
+
+<body style="background-color:FFE4B5;" ng-controller="AppCtrl">
+  <div class='menujohanes'>
+        <ul class='dark_menu'>
+          
+<li >
+            <a>
+              Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+            </a>
+            <ul>
+              <li>
+                <a href="Transaction.html">
+                  New
+                </a>
+              </li>
+               <li>
+                <a href="list.html">
+                  List
+                </a>
+              </li>
+                <li>
+                <a href="Phistory.html">
+                  Party History
+                </a>
+              </li>
+            </ul>
+          
+          </li>
+
+       <li >
+
+            <a href='#'>
+              Inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+                 <li id='sub'>
+                    <a href='#'>
+                    Barcoding
+                    </a>
+                     <ul>
+                         <li>
+            <a href='Barcode Summary.html'>
+              Barcode Summary
+                             </a></li><li>
+            <a href='Barcode Generation.html'>
+              Barcode Generation
+                             </a></li>
+                             <li>
+            <a href='stockverification.html'>
+              Stock Verification
+                             </a></li>
+                     </ul>
+                         
+                </li>
+
+               <li>
+                <a href="item.html">
+                  Item
+                </a>
+              </li>
+             
+             
+            </ul>
+          </li>
+          
+          
+          <li >
+            <a href='#'>
+              Report &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="ClosingStockBookByGroupItem.html">
+                
+                  Closing Stock Book By Group Item
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="DailyClosingStock.html">
+                  
+                  Daily Closing Stock
+                </a>
+              </li>
+              <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li>
+             
+              
+            </ul>
+          </li>
+          <li >
+            <a href="Tax Configuration.html">
+              Tax configuration
+            </a>
+            <!-- <ul>
+                
+
+               <li>
+                <a href="indextaxation.html">
+                  Tax Structure
+                </a>
+              </li>
+              <li>
+                <a href="taxation.html">
+                  Tax Name
+                </a>
+              </li> -->
+             
+              
+            <!-- </ul> -->
+          </li>
+            
+        
+          </li>
+          <li  id="name1">
+            <a>
+             {{usernamedetails}}
+               
+            </a>
+          
+          </li>
+          <li id="name1">
+            <a href="loginPage.html" >
+              Sign Out
+               
+            </a>
+          
+          </li>
+          
+        </ul>
+
+        <!-- <form action='/search' id='search' method='get'>
+          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
+        </form> -->
+        
+      </div>
+     <!--  <div ng-cloak>
+        
+      </div> -->
+   <!-- <div class="btn-group btn-group-justified">
+   <a href="index.html" ><button type="button" class="btn btn-primary">Main</button></a>
+  <a href="list.html" > <button type="button" class="btn btn-primary">List</button></a>
+  
+</div> --> 
+ <div  class="center" ng-cloak>
+  <h3 >Tax Configuration</h3>
+    <!-- <a href="index1.html" class="btn btn-primary active">Main</a>
+    <a href="list.html" class="btn btn-primary">List</a> -->
+   
+  </div> <br>
+  <div class="container" ng-controller="AppCtrl">
+<!-- <h1>Tax Configuration</h1> -->
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="Tax Configuration.html">Tax Configuration</a></li>
+      <li><a href="taxation.html">Tax Names</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!--  Content Area-->
+  <div class="row content" >
+    <div class="col-md-5 col-sm-6" background-color: #00ff00;>
+        <!-- <div class="panel panel-default" id="fristpanel"> -->
+         <div class="panel panel-default">
+         <div style="overflow-y: auto;" >
+         <div class="table-responsive" >
+      <table class="table table-condensed" id="tax" >
+  <thead>
+    <tr>
+      <th>Tax Structure</th>
+      <th>Alias</th>
+      <th >Tax Effective Date</th>
+      <th>Edit/Delete</th>
+    </tr>
+  </thead>
+  <tbody >
+   <tr ng-repeat="tax in res "
+     >
+       <td >{{tax.taxname}}</td>
+      <td >{{tax.aliasname}}</td>
+      <td>{{tax.displaydate | date}}</td>
+      
+   <td>
+    <!-- i added div -->
+        <button class="material-icons" ng-click="editit(tax)">mode_edit</button>
+        <button class="material-icons" ng-click="remove(tax)">close</button></td>
+        
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<center>
+
+  <!-- <button type="button" class="btn btn-default" ng-click="disable()">NEW</button> -->
+ <!--  <button type="button" class="btn btn-default" ng-click="updated()">update</button> -->
+  
+</center>
+    </div>
+   
+    <div class="col-md-7 col-sm-6">
+      <div class="container-fluid">
+  
+  <form class="form-inline">
+    <div class="form-group" name="myForm">
+      <label for="focusedInput">Tax Structure<span id="star"><font size="04">*</font></span></label>
+      <input class="form-control" id="focusedInput" ng-blur="findTaxName()" ng-model="tax.taxname" ng-disabled="button1" required>
+    </div>
+    <div class="form-group">
+      <label for="focused input">Alias<span id="star"><font size="04">*</font></span></label>
+      <input class="form-control" id="disabledInput" ng-blur="findTaxAlias()" ng-model="tax.aliasname" ng-disabled="button1" required >
+    </div>
+  <br><br>
+    <div class="form-group has-success has-feedback">
+      <label for="Date">Tax Effective date<span id="star"><font size="04">*</font></span></label>
+      <input type="date" name="date" class="form-control" ng-model="bit.date" id="inputSucces"  ng-disabled="button1" required >
+     </div><br>
+     
+     <div>
+    
+  <input type="radio"  ng-model="color.state" value="out of state">out of state<br>
+  <input type="radio"  ng-model="color.state"  value="with in state"> with in state<br>
+     <!-- <div>color = {{color.state}}</div><br/> -->
+     <!-- <input type="radio"  ng-model="tax.state" value="out of state">out of state<br>
+  <input type="radio"  ng-model="tax.state"  value="with in state" checked> with in state<br>
+     <div>color = {{tax.state}}</div><br/> -->
+ <!-- <input type="radio" ng-model="color.name" value="green"> -->
+     </div>
+    
+    </div>
+  </form>
+   <!-- <div class="panel panel-default" id="tax2"> -->
+   <!-- table for Tax Name, PurchaseAC -->
+   <div class="panel panel-default" id="tax2">
+        <div class="panel-body fixed-panel">
+        <div class="panel-heading">
+         <div class="table-responsive">
+   
+      <table class="table" id="tax5" >
+  <thead>
+    <tr>
+    <!-- here is my require ment  eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee   -->
+      <th style="width: 16%;"><span id="star"><font size="01">*</font></span>Tax Name</th>
+      <th style="width: 24%; padding-left: 4%;"><span id="star"><font size="01">*</font></span>PurchaseAC</th>
+      <th style="width: 20%;padding-left: 6%;"><span id="star"><font size="01">*</font></span>Sale Ac</th>
+      <!-- <th id="thwidth1">Slab?</th> -->
+      <th style="width: 22%;padding-left: 4%;"><span id="star"><font size="01">*</font></span>Rate%</th>
+     <!--  <th style="width: 16%;padding-left: 0%;"><span id="star"><font size="01">*</font></span>CessOn</th> -->
+       <th style="width: 10%;"></th>
+    </tr>
+  </thead>
+  <tbody>
+  
+   <!--  <tr> -->
+   <tr ng-repeat=" pur1 in pur1" >
+
+      <td style="width: 16%;" ><select  class="form-control"   ng-model="pur1.name" >
+        <option  ng-repeat="user in taxnamedetails">
+        {{user.name}}</option>
+        
+      </select></td>
+      
+      
+     <!--  <td style="width: 24%;"><select class="form-control" ng-model="pur1.PurchaseAC"  > 
+              <option ng-repeat = "pur in purchase">
+        {{pur._id}}</option>
+
+      </select></td>   -->
+
+      <td style="width: 20%;"><select class="form-control" ng-model="pur1.PurchaseAC" ng-change="ledgerAccontInt(pur1.PurchaseAC,$index,'PurchaseAC')" >
+      <!--   <option ng-repeat= "salesAC in salesAC">{{salesAC._id}}</option> -->
+        <option ng-repeat = "pur in purchase">
+        {{pur.accountName}}</option>
+      </select></td>
+    <td style="width: 20%;"><select class="form-control" ng-model="pur1.SaleAc" ng-change="ledgerAccontInt(pur1.SaleAc,$index,'SaleAc')" >
+        <option ng-repeat = "pur in purchase">
+        {{pur.accountName}}</option>
+       <!--  <option ng-repeat = "purchase in purchase">
+        {{purchase._id}}</option> -->
+        
+      </select></td>
+
+      <!--  <td id="thwidth1"> <input type="checkbox" value="" ng-model="checked" ng-click="num()" ng-disabled="true"></td> -->
+      
+<!-- <td> <select class="form-control" ng-model="pur.Rate">
+        <option ng-repeat= "pur in taxp">{{pur.Rate}}</option>
+        
+      </select></td> -->
+     <!-- <td id="thwidth"> <input type="text" class="form-control" ng-model="pur.Rate"></td> -->
+         <td style="width: 14%;"> <input type="text" class="form-control" ng-model="pur1.Rate"></td>
+      </td>
+<!-- <td style="width: 16%;"><select class="form-control" ng-model="pur1.CessOn" ng-disabled="true">
+<option ng-repeat= "pur in taxp" >{{pur.CessOn}}</option>
+        
+      </select></td> -->
+
+     
+
+      <td style="width: 10%;"> <button class="material-icons"  ng-click="addrow1()" ng-disabled="button1">library_add</button> </td>
+
+      
+      </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+<center>
+ 
+  <button type="button" id="buttonwidth" class="btn btn-info" ng-click="disable()">New</button>
+       <button type="button" id="buttonwidth" class="btn btn-success" ng-if ="test=='display'"  class="btn btn-default" ng-click="addnew()" ng-disabled="button1">Save</button>
+       <button type="button" id="buttonwidth" class="btn btn-success" ng-if ="test=='update1'" class="btn btn-default" ng-click="updated()">Update</button>
+       
+       <button type="button" id="buttonwidth" class="btn btn-warning" ng-click="canceldata()" ng-disabled="button1">Cancel</button>
+      <!--  <a href='mainpage.html'><button type="button" class="btn btn-danger"   >Close</button></a> -->
+  <!-- <a href='mainpage.html'><button type="button" class="btn btn-danger"  >Close</button></a> -->
+ 
+</center>
+
+<!-- table 3 SI.NO, From,Rate(%age) -->
+ <!-- <div class="row content">
+    <div class="col-md-10 col-sm-6" background-color: #00ff00;>
+        <div class="panel panel-default" id="tax3">
+        <div class="panel-body fixed-panel">
+        <div class="panel-heading">
+         <div class="table-responsive">
+      <table class="table" id="tax5">
+  <thead>
+    <tr>
+      <th>SL.NO</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Rate%</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+   
+       
+     
+    <div  >
+    <tr ng-repeat=" pur in add"   >
+    <td>{{pur.SLNO}}
+     </td> 
+      <td> <div class="form-group" name="myForm">
+            
+             <input type="text" class="form-control" ng-disabled="!checked"  ng-model="pur.From">
+            </div>
+           </div></td>
+      <td> <div class="form-group" name="myForm">
+            
+             <input type="text" class="form-control"  ng-disabled="!checked"  ng-model="pur.To">
+            </div>
+           </div></td>
+      <td> <div class="form-group" name="myForm">
+            
+             <input type="text" class="form-control"   ng-disabled="!checked" ng-model="pur.Rate1" >
+            </div>
+           </div></td>
+      <td> <button class="material-icons"   ng-disabled="!checked" ng-click="addrow()" >library_add</button> </td>
+    </tr>
+    </div>
+     <!-- adding of rows  wwwwwwwwwwwwwww -->
+     <!-- <tr ng-click="addrow()"> </tr> -->
+<!-- 
+  </tbody>
+</table>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>  -->
+
+</div>
+</div>
+ <!-- <div class="bottom-footer">
+                        <div class="col-md-12"> 
+                            <ul class="footer-nav">
+                                <center>
+                                  <button type="button" class="btn btn-default">Close</button>
+                                </center>
+                            </ul>
+                        </div>
+                    </div>  -->
+
+<!-- <div class="bottom-footer">
+                        <div class="col-md-12"> 
+                            <ul class="footer-nav">
+                                <center>
+                                  <button type="button" class="btn btn-default">Close</button>
+                                 <a href='mainpage.html'><button type="button" class="btn btn-danger"  >Close</button></a>
+                                </center>
+                            </ul>
+                        </div>
+                    </div>      -->               
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/taxationcontroller.js"></script>
+<!-- <script type="text/javascript" src="controller/taxationcontroller1.js"></script> -->
+</html>

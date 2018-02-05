@@ -2,14 +2,14 @@
 var express=require('express');
 var app=express();
 var mongojs=require('mongojs');
-var mongoose       = require('mongoose');
-var db=mongojs('inventory',['user','tags','transaction','saleinvoice','mode','transactiondetail','batch','bank',
+var mongoose  = require('mongoose');
+var db=mongojs('inventory202',['user','tags','transaction','saleinvoice','mode','transactiondetail','batch','bank',
   'transactionSeriesInvoice','itemrate','item','menu','order','useritem','purity','uom','pct','labcal','useradj',
   'barcodesumm','stockpointmaster','configurations','inventorygroupmaster','salescategorymaster','itemtype','taxrate',
-  'items','tax','taxation','inventoryGroupAccMaster','inventorygroupvaluenotationdaily','salesPerson','loginDetails',
+  'items','tax','taxation','inventorygroupvaluenotationdaily','salesPerson','loginDetails',
   'trHeaders','gIControlTables','history','ledgerActs','ledgeraccounts','mainclasses','maingroups','mcIds',
   'roundOffConfig','sgIds','subgroups','subscribers','trDetails','transactionInvoice','ugIds','updatelist','user',
-  'users','merchantDetails','trail']);
+  'users','merchantDetails','trail','staff']);
 
 
 var bodyParser=require('body-parser');
@@ -56,7 +56,7 @@ app.get('/countdata',function(req,res)
   //       console.log(doc)
   //    }))
   })
-console.log("data is today update")
+//console.log("data is today update")
 //for tags count
 app.get('/gettags',function(req,res)
 {
@@ -139,48 +139,159 @@ app.get('/bardata',function(req,res)
 
 // prn file generation
 
-// app.post('/prn',function(req,res)
-// {
-//   //console.log("prn function prn function")
-//   var ItemName =req.body.itemName;
-//   if(ItemName == "Big Chain"){
-//     var path = 'sample/prntext.txt';
-//     var path1 = 'sample/prnfile.prn';
-//   } else if(ItemName == "Bangales"){
-//     var path = 'sample/prnbangalestext.txt';
-//     var path1 = 'sample/prnbangalesfile.prn';
-//   }else if(ItemName == "Gold Ring"){
-//     var path = 'sample/prngoldringtext.txt';
-//     var path1 = 'sample/prngoldringfile.prn';
-//   }
-  
-
-//   var http = require('http');
-//   fs = require('fs')
-//   fs.readFile(path, 'utf8', function (err,data) {
-//       if (err) {
-//          return console.log(err);
-//       }
-//     var ItemName =req.body.itemName;
-//     var barcode = req.body.barcode;
-//     var result = data.replace(/Item NameOrCategory/g, ItemName);
-//     var result1 =result.replace(/12345678/g, barcode);
+app.post('/prn',function(req,res){
+  console.log("prn function prn function")
+  var ItemName =req.body.itemName;
+  console.log(" req.body.SaleCategory req.body.SaleCategory "+req.body.SaleCategory); 
+   // var path = 'sample/prntext.txt';
+   // var path1 = 'sample/prnfile.prn';
+   // var a = 'prntext.txt';
+   // var b = 'prnfile.prn';
+   // db.salescategorymaster.find({"SaleCategoryType" : req.body.SaleCategory},function(err,doc){
+     var str = req.body.SaleCategory;
+     str = str.trim();
+    console.log(str.trim());
+    db.salescategorymaster.find({"SaleCategoryType" :str},function(err,doc){
     
-//       fs.writeFile(path1, result1, 'utf8', function (err) {
-//            if (err) return console.log(err);
+        console.log(" req.body.SaleCategory "+req.body.SaleCategory); //db.barcodesumm.find({status:"completed"})
+        res.json(doc);
+        console.log("doc.PrnFileName "+doc[0].PrnFileName)
+        console.log("doc.PrnTemplate "+doc[0].PrnTemplateName)
+    //})
+   // var a = 'BC_BangalesTemplate.txt';
+   // var b = 'BC_Bangales.prn';
+   //var a = doc[0].PrnTemplateName;
+   //var b = doc[0].PrnFileName;
+   var a = doc[0].PrnFileName;
+   //var b = doc[0].PrnFileName;
 
-//      //this for batch file and print command
-//               require('child_process').exec(__dirname + "/batchfile.bat", function (err, stdout, stderr) {
+   var path = 'Data/PrnFiles/Templates/'+a;
+    //var path = 'Data/PrnFiles/BC_BangalesTemplate.txt';
+   //var path1 = 'Data/PrnFiles/Files/'+b;
+    var path1 = 'Data/PrnFiles/prnfile.prn';
+  // if(ItemName == "Big Chain"){
+  //   var path = 'sample/prntext.txt';
+  //   var path1 = 'sample/prnfile.prn';
+  // } else if(ItemName == "Bangales"){
+  //   var path = 'sample/prnbangalestext.txt';
+  //   var path1 = 'sample/prnbangalesfile.prn';
+  // }else if(ItemName == "Gold Ring"){
+  //   var path = 'sample/prngoldringtext.txt';
+  //   var path1 = 'sample/prngoldringfile.prn';
+  // }
   
-//                    if (err) {
-//                      return console.log(err);
-//                     }
 
-//                   //  console.log(stdout);
-//              });
-//       });
-//   });
-// });
+  var http = require('http');
+  fs = require('fs')
+  fs.readFile(path, 'utf8', function (err,data) {
+      if (err) {
+         return console.log(err);
+      }
+    // var ItemName =req.body.itemName;
+    // var barcode = req.body.barcode;
+    // var result = data.replace(/Item NameOrCategory/g, ItemName);
+    // var result1 =result.replace(/12345678/g, barcode);
+    //  console.log(req.body.chgunt);
+  console.log(req.body.barcode);
+  //console.log(req.body.iname);
+  var ItemName =req.body.itemName;
+  var barcode = req.body.barcode;
+  var Charge1Total =req.body.taxval1;
+  var GrossQty =req.body.gwt;
+  var ChargableUnits =req.body.chgunt;
+  if (req.body.desc == undefined) {
+      //console.log(" iam undfhdf desc "+req.body.desc);
+      req.body.desc = '';
+  };
+  if (req.body.size == undefined) {
+      //console.log(" iam undfhdf desc "+req.body.desc);
+      req.body.size = '';
+  };
+  if (req.body.stwt == undefined) {
+      req.body.stwt = '';
+  };
+  if (req.body.pctcal == undefined) {
+      req.body.pctcal = '';
+  };
+  if (req.body.wastage == undefined) {
+      req.body.wastage = '';
+  };
+  if (req.body.matadj == undefined) {
+      req.body.matadj = '';
+  };
+  if (req.body.mrp == undefined) {
+      req.body.mrp = '';
+  };
+  if (req.body.rate == undefined) {
+      req.body.rate = '';
+  };
+  if (req.body.labcal == undefined) {
+      req.body.labcal = '';
+  };
+  if (req.body.labamt == undefined) {
+      req.body.labamt = '';
+  };
+  if (req.body.labval == undefined) {
+      req.body.labval = '';
+  };
+  if (req.body.stonecal == undefined) {
+      req.body.stonecal = '';
+  };
+  if (req.body.stchg == undefined) {
+      req.body.stchg = '';
+  };
+  if (req.body.stval == undefined) {
+      req.body.stval = '';
+  };
+
+    var result = data.replace(/StockBookDetail.itemName/g, req.body.itemName);
+    var result1 =result.replace(/StockBookDetail.barcode/g, req.body.barcode);
+    var result2 =result1.replace(/StockBookDetail.barcode/g, req.body.barcode);
+    var result3 =result2.replace(/StockBookDetail.desc/g, req.body.desc);
+    var result4 =result3.replace(/StockBookDetail.size/g, req.body.size);
+    var result5 =result4.replace(/StockBookDetail.purity/g, req.body.purity);
+    var result6 =result5.replace(/StockBookDetail.gwt/g, req.body.gwt);
+    var result7 =result6.replace(/StockBookDetail.gpcs/g, req.body.gpcs);
+    var result8 =result7.replace(/StockBookDetail.stwt/g, req.body.stwt);
+    var result9 =result8.replace(/StockBookDetail.uom/g, req.body.uom);
+    var result10 =result9.replace(/StockBookDetail.ntwt/g, req.body.ntwt);
+    var result11 =result10.replace(/StockBookDetail.pctcal/g, req.body.pctcal);
+    var result12 =result11.replace(/StockBookDetail.wastage/g, req.body.wastage);
+    var result13 =result12.replace(/StockBookDetail.matadj/g, req.body.matadj);
+    var result14 =result13.replace(/StockBookDetail.chgunt/g, req.body.chgunt);
+    var result15 =result14.replace(/StockBookDetail.mrp/g, req.body.mrp);
+    var result16 =result15.replace(/StockBookDetail.rate/g, req.body.rate);
+    var result17 =result16.replace(/StockBookDetail.labcal/g, req.body.labcal);
+    var result18 =result17.replace(/StockBookDetail.labamt/g, req.body.labamt);
+    var result19 =result18.replace(/StockBookDetail.labval/g, req.body.labval);
+    var result20 =result19.replace(/StockBookDetail.stonecal/g, req.body.stonecal);
+    var result21 =result20.replace(/StockBookDetail.stchg/g, req.body.stchg);
+    var result22 =result21.replace(/StockBookDetail.stval/g, req.body.stval);
+    var result23 =result22.replace(/StockBookDetail.taxval/g, req.body.taxval);  
+
+
+      fs.writeFile(path1, result23, 'utf8', function (err) {
+           if (err) return console.log(err);
+
+     //this for batch file and print command
+             // require('child_process').exec(__dirname + "/batchfile.bat", function (err, stdout, stderr) {
+              require('child_process').exec(__dirname + "/batchfile.bat", function (err, stdout, stderr) {
+                    
+                   if (err) {
+                     return console.log(err);
+                    }
+                    console.log(" print calls here ")
+                    setTimeout(deleteFileCall, 2000);
+                    function deleteFileCall(){
+                      fs.unlink('Data/PrnFiles/prnfile.prn');
+                 
+                    }
+                  //  console.log(stdout);
+             });//require
+      });
+  });
+});//db salec
+});
 // app.post('/print',function(req,res)
 // {
 // var http = require('http');
@@ -200,27 +311,27 @@ app.get('/bardata',function(req,res)
 //    console.log(Printer.list());
    
 
-//  // console.log(data);
+//  console.log(data);
   
-//   //console.log(req.body.chgunt);
-//   //console.log(req.body.barcode);
-//   //console.log(req.body.iname);
-//   // var ItemName =req.body.iname;
-//   // var barcode = req.body.barcode;
-//   // var Charge1Total =req.body.taxval1;
-//   // var GrossQty =req.body.gwt;
-//   // var ChargableUnits =req.body.chgunt;
+//   console.log(req.body.chgunt);
+//   console.log(req.body.barcode);
+//   console.log(req.body.iname);
+//   var ItemName =req.body.iname;
+//   var barcode = req.body.barcode;
+//   var Charge1Total =req.body.taxval1;
+//   var GrossQty =req.body.gwt;
+//   var ChargableUnits =req.body.chgunt;
 
-//   //  var result = data.replace(/batch.ItemName/g, ItemName);
-//   //  var result1 =result.replace(/batch.Barcode/g, barcode);
-//   //  var result2 = result1.replace(/StockBookDetail.Charge1Total/g, Charge1Total);
-//   //  var result3 = result2.replace(/StockBookDetail.GrossQty/g, GrossQty );
-//   //  var result4 = result3.replace(/StockBookDetail.ChargeableUnits/g, ChargableUnits);
-//   //   var result5 =result4.replace(/StockBookDetail.Barcode/g, barcode);
+//    var result = data.replace(/batch.ItemName/g, ItemName);
+//    var result1 =result.replace(/batch.Barcode/g, barcode);
+//    var result2 = result1.replace(/StockBookDetail.Charge1Total/g, Charge1Total);
+//    var result3 = result2.replace(/StockBookDetail.GrossQty/g, GrossQty );
+//    var result4 = result3.replace(/StockBookDetail.ChargeableUnits/g, ChargableUnits);
+//     var result5 =result4.replace(/StockBookDetail.Barcode/g, barcode);
     
-//   // fs.writeFile('sample/sample.prn', result5, 'utf8', function (err) {
-//   //    if (err) return console.log(err);
-//   // });
+//   fs.writeFile('sample/sample.prn', result5, 'utf8', function (err) {
+//      if (err) return console.log(err);
+//   });
 // });
 // });
 //getting tax value in index page
@@ -242,14 +353,26 @@ app.get('/itemrate',function(req,res)
 })
 })
 // configuration details
+
 app.get('/configuration',function(req,res)
 {
     //console.log("i received a get request from index");
     db.configurations.find(function(err,doc){
         //console.log(doc);
+       // inVoiceSeriesConfig = doc[0].inVoiceSeries;
         res.json(doc);
 })
 })
+var inVoiceSeriesConfig = null;
+function configurationCall() {
+  db.configurations.find(function(err,doc){
+        
+        inVoiceSeriesConfig = doc[0].inVoiceSeries;
+        console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
+        
+})
+}//configurationCall
+
 
 //roundOffConfiguration
 app.get('/roundOffConfiguration',function(req,res)
@@ -370,14 +493,14 @@ app.get('/getbar:barcodenum',function(req,res)
 })
 })
 
-app.get('/codeDetails:barcodenum',function(req,res)
-{
+app.get('/codeDetails:barcodenum',function(req,res){
     console.log("i received a get request from count");
     var barcoded = req.params.barcodenum;
-   barcoded=parseInt(barcoded);
+    barcoded=parseInt(barcoded);
   
    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
-     db.transactiondetail.find({"barcode": barcoded, "orderStatus" : "completed","Transaction" : "Regular Sale"},function(err,doc){     
+   //  db.transactiondetail.find({"barcode": barcoded, "orderStatus" : "completed","Transaction" : "Regular Sale"},function(err,doc){     
+      db.batch.find({"barcode": barcoded, "orderStatus" : "completed"},function(err,doc){     
       
         res.json(doc);
 })
@@ -471,7 +594,7 @@ app.get('/getInvAccNo:invGroupName',function(req,res){
     var invGroupName = req.params.invGroupName;
     console.log(invGroupName)
    
-    db.inventoryGroupAccMaster.find({"InvGroupName": invGroupName},function(err,doc){     
+    db.inventorygroupmaster.find({"InvGroupName": invGroupName},function(err,doc){     
         console.log(doc);
         res.json(doc);
 })
@@ -543,6 +666,11 @@ app.get('/batchrecords/:update',function(req,res)
 //         console.log(doc);
 //     });
 // });
+
+ db.tag2.insert({a:104, Date: new Date("2018-01-01")},function(err,doc)
+    {
+   console.log(" inserted call trial ")
+    })
 app.post('/tags',function(req,res)
 {
     console.log("tags insert call");
@@ -562,6 +690,26 @@ app.put('/tagsupdate',function(req,res)
     })
 
 })
+//date fetch
+app.get('/getdate:data',function(req,res)
+{
+  // var strdata=req.params.data;
+  console.log("nnnnnnnnnnnnnnnnnnmnnnnnnnnnnnnnnnnnnnnnnn");
+  // var strdata_array=strdata;
+  var tran=req.params.data;
+  console.log(tran+"tran type tran type tran type tran type tran type tran type");
+  // var pname=strdata_array[1];
+  db.transactiondetail.find({"Transaction":tran}).sort({_id:-1}).limit(1,function(err,doc){
+        res.json(doc);
+        console.log(doc);
+  })
+  // db.transactiondetail.aggregate( { $sort: { Transaction: 1, date: 1 } }
+  //       { "$group": {"Transaction":tran,"partyname":pname,"date": { "$max": "$date" }}},function(err,doc){
+  //   res.json(doc);
+  //   console.log(doc);
+  // })
+  // db.transactiondetail.aggregate({"Transaction":tran,"partyname":pname,"date":{$lt:date}}).sort({_id:-1}).limit(1)
+  });
 // for last record in barcode generation
 app.get('/lastrec/:update',function(req,res)
 { 
@@ -826,7 +974,7 @@ app.post('/savedata1/:update',function(req,res){
        // var order =str_array[22]
 
       
-         var withinstatecgst =str_array[22]
+         var withinstatecgst =(str_array[22])
          var withinstatesgst  =str_array[23]
          var outofstateigst =str_array[24]    
 // var data1 = data+","+$scope.userit[i].stockPoint+","+$scope.userit[i].stockInward;
@@ -868,8 +1016,8 @@ app.post('/savedata1/:update',function(req,res){
           stchg = null;
         }
         if( withinstatecgst == "undefined"){
-          withinstatecgst =null
-          withinstatesgst =null
+          withinstatecgst =null;
+          withinstatesgst =null;
         }
         if( outofstateigst == "undefined"){
           outofstateigst =null
@@ -916,22 +1064,23 @@ app.post('/savedata1/:update',function(req,res){
        if(tran == "Regular Sale"){ //"stockInward":stockInward,
          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-                "outofstateigst":outofstateigst,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":Number(withinstatecgst),"withinstatesgst":Number(withinstatesgst),
+                "outofstateigst":Number(outofstateigst),"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
                 "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
                 "billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint},function(err,doc){
                 res.json(doc);
-                 //console.log("Regular Sale insert when id is null look here")
+                 console.log("Regular Sale insert when id is null look here cgst "+Number(withinstatecgst))
                 // console.log(doc);    
         })
  
        }else{
-        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"||tran == "Approval Out" || tran == "Sale Return"||tran == "Purchase Return" || tran == "Approval Return"){
+        if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"||tran == "Approval Out" || tran == "Sale Return"||tran == "Purchase Return" ||
+         tran == "Approval Return"||tran == 'Opening Stock'){
           console.log("cccccccccccccccccccc");
           db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-                "labval":labval,"orderStatus":"completed","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-                "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "labval":labval,"orderStatus":"completed","withinstatecgst":Number(withinstatecgst),"withinstatesgst":Number(withinstatesgst),
+                "outofstateigst":Number(outofstateigst),"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
                 "stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection,"stockPoint":stockPoint,
 // =======
                 // "billType":billType,"taxSelection":taxSelection,"stockPoint":stockPoint,"stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,},function(err,doc){
@@ -946,8 +1095,8 @@ app.post('/savedata1/:update',function(req,res){
        else{
          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-                "outofstateigst":outofstateigst,"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":Number(withinstatecgst),"withinstatesgst":Number(withinstatesgst),
+                "outofstateigst":Number(outofstateigst),"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
                 "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,
                 'comboItem':comboItem,'mrp':mrp,"RefId":refid,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint},function(err,doc){
                 res.json(doc);
@@ -963,6 +1112,21 @@ app.post('/savedata1/:update',function(req,res){
 app.post('/batchdata1',function(req,res){
    
      delete( req.body.irate);
+      delete( req.body.stockPoint1 )
+       
+        
+       delete( req.body.voucherClass)
+       
+       delete(req.body.accNumbers);
+        delete( req.body.voucherClassId) 
+        delete( req.body.transactionTypeId )
+         delete( req.body.invGroupName )
+         delete( req.body.invGroupAccNo )
+        delete( req.body.voucherDate)
+         delete( req.body.voucherTime )
+         delete( req.body.stockPoint )
+        delete( req.body.Transaction)
+         delete( req.body.stockInward )
      req.body.orderStatus = "available";
      // req.body.date = req.body.barcode 
 
@@ -1185,10 +1349,10 @@ app.get('/transactionsto/:updat',function(req,res)
 // })
 // })
 //app.post('/transactionstock/:update',function(req,res)
-app.post('/transactionstock',function(req,res)
-{
+app.post('/transactionstock',function(req,res){
     delete(req.body.Batch)
     delete(req.body.stats)
+     delete(req.body.Qty)
     delete(req.body.tags)
     delete(req.body.wt)
     delete(req.body.color)
@@ -1199,18 +1363,23 @@ app.post('/transactionstock',function(req,res)
  db.transactiondetail.insert(req.body,function(err,doc){
      
         res.json(doc);
-     //   console.log(doc);
+      // console.log("post success transactionstock barcode ");
     
 })
 })
 // for transaction details for barcoding parallel in and out
-app.post('/transactionstockInward',function(req,res)
-{
+app.post('/transactionstockInward',function(req,res){
      // delete(req.body.Transaction)
+     delete(req.body.Batch)
+    delete(req.body.stats)
+    delete(req.body.tags)
+    delete(req.body.wt)
+    delete(req.body.color)
+    delete(req.body.Qty)
       req.body.refid = req.body.compositeRef;
-       delete(req.body.orderStatus)
+       //delete(req.body.orderStatus)
         req.body.stockInward = "no";
-        req.body.stockPoint =  req.body.stockPoint1 
+        req.body.stockPoint =  req.body.stockPoint1;
         req.body.refid = req.body.barcode 
        delete( req.body.stockPoint1 )
        delete( req.body.orderstatus)
@@ -1224,11 +1393,14 @@ app.post('/transactionstockInward',function(req,res)
                delete( req.body.invGroupAccNo )
               delete( req.body.voucherDate)
                delete( req.body.voucherTime )
+            req.body.orderStatus = 'available';
             req.body.ntwt  = parseFloat(req.body.ntwt)
             req.body.gwt  = parseFloat(req.body.gwt)
             req.body.gpcs  = parseFloat(req.body.gpcs)
       db.transactiondetail.insert(req.body,function(err,doc){
-       res.json(doc);    
+       res.json(doc);   
+       //console.log("post success transactionstockInward refid ");
+     
 })
 })
 
@@ -1236,9 +1408,12 @@ app.post('/transactionComboItemInsert',function(req,res)
 {
         // delete(req.body.Transaction)
         delete(req.body.orderStatus)
-        req.body.StockInward = "no";
+       // req.body.StockInward = "no";
         req.body.refid = req.body.barcode ;
-        delete( req.body.orderstatus)
+        delete( req.body.orderstatus);
+         delete( req.body.stockInward);
+
+
         req.body.comboBarcode = req.body.barcode ;
          //req.body.barcode = ""
          delete( req.body.barcode)
@@ -1251,6 +1426,14 @@ app.post('/transactionComboItemInsert',function(req,res)
         delete( req.body.invGroupAccNo )
         delete( req.body.voucherDate)
         delete( req.body.voucherTime )
+        delete(req.body.Batch)
+        delete(req.body.stats)
+        delete(req.body.tags)
+        delete(req.body.wt)
+        delete(req.body.color)
+        delete(req.body.Qty)
+        delete(req.body.stockPoint)
+        delete(req.body.stockPoint1)
         req.body.ntwt  = parseFloat(req.body.ntwt)
         req.body.gwt  = parseFloat(req.body.gwt)
         req.body.gpcs  = parseFloat(req.body.gpcs)
@@ -1327,7 +1510,10 @@ app.get('/userPartyNames',function(req,res){
 app.get('/getSalesPerson',function(req,res)
 {
     console.log("i received a get request from user");
-    db.salesPerson.find(function(err,doc){
+    // db.salesPerson.find(function(err,doc){
+    //     //console.log(doc);
+    //     res.json(doc);
+    db.staff.find(function(err,doc){
         //console.log(doc);
         res.json(doc);
 })
@@ -1587,7 +1773,7 @@ app.post('/historyupdate/:updat',function(req,res){
 // });
 //function inVoiceCall() {
 app.get('/getPrefix',function(req,res){  
-  console.log("  inVoiceCall inVoiceCallinVoiceCall ");
+  
   
   //var Transaction = "Regular Sale";
   //var Transaction = "Valuation";
@@ -1735,6 +1921,30 @@ var id =req.query.id;
         console.log(doc);
     });
 })
+//partynames
+app.get('/getTranDetails',function(req,res){
+  console.log("sssssssssssssssssssssssssssssssssssss");
+  db.subscribers.find({},function(err,doc){
+    res.json(doc);
+  });
+})
+//alltarnsactions
+  app.get('/AllTransaction/:pdata',function(req,res){
+    console.log("vvvvvvvvvvvvvvvvvvvvvv");
+    var pstr=req.params.pdata;
+    var pstr_array=pstr.split(",");
+    var partyname=pstr_array[0];
+    var date1=pstr_array[1];
+    var date2=pstr_array[2];
+      console.log(partyname+" "+date1+" "+date2);
+      // db.transactiondetail.find({"partyname":partyname,"created_on": {"$gt": date1, "$lt": date2}},function(err,doc){
+        db.transactiondetail.find({date:{$gt:date1, $lt:date2},"partyname":partyname},function(err,doc){
+          console.log("dddddddddddddd");
+            res.json(doc);
+            console.log(doc);
+      })
+  })
+//confirm
 app.put('/confirm/:update',function(req,res)
 {
     console.log("iam updating here is this confirm button");
@@ -1958,8 +2168,8 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
 app.post('/insertreceiptUseritDetails',function(req,res){
    console.log(req.body+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
   db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
-         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
+         "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
        "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
        "salesPerson":req.body.salesPerson,"RefId":req.body.refID,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,
@@ -1988,9 +2198,9 @@ app.put('/insertNewUseritDetails',function(req,res){
            // req.body.Transaction="Sale Return";
            req.body.orderStatus="completed";
            db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
-               "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-               "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
-              "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
+               "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
+         "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"stockInward":req.body.stockInward,"taxamt":req.body.taxamt,
+              "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"InvGroupName":req.body.InvGroupName,"SaleCategory":req.body.SaleCategory,"purity":req.body.purity,
              "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
              "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,"stockPoint":req.body.stockPoint},function(err,doc){
                     console.log("updated the data in save during sale return "+doc.length)
@@ -2036,14 +2246,15 @@ app.put('/updateUseritCall',function(req,res)
        // console.log(req.body.barcode)
   
      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
-         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
+         "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
        "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
        "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
       "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
-     "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,"purity":req.body.purity,
-                "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory}},function(err,doc){
+     "withinstatecgst":Number(req.body.withinstatecgst),
+         "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"purity":req.body.purity,
+               "InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory}},function(err,doc){
             //console.log("updated the data in save when id not null")
             res.json(doc);
         
@@ -2186,14 +2397,14 @@ app.put('/updateUseritCall',function(req,res)
        // console.log(req.body.barcode)
   
      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
-         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
+         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
+         "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
        "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
        "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
       "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
-     "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,
-                "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory}},function(err,doc){
+    "withinstatecgst":Number(req.body.withinstatecgst),
+         "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory}},function(err,doc){
             //console.log("updated the data in save when id not null")
             res.json(doc);
         
@@ -2326,6 +2537,194 @@ app.put('/updateSaveData/:update',function(req,res){
             var SaleCategory = str_array[45]
             var id = str_array[46]
             var barcode = str_array[47]
+             var orderStatus = str_array[48]
+          //  mrp = parseFloat(mrp)
+//        console.log(" with in state "+withinstatecgst)
+
+       
+        if( mrp == "undefined" || mrp == "null"){
+            mrp = null;
+        }else{
+          mrp = parseFloat(mrp)
+         }
+        if(stchg == "undefined" || stchg == "null"){
+          stchg = null;
+        }
+        if( withinstatecgst == "undefined" ||  withinstatecgst == "null"){
+          withinstatecgst =null
+          withinstatesgst =null
+        }
+        if( outofstateigst == "undefined" ||  outofstateigst == "null"){
+          outofstateigst =null
+        }
+        if( wastage == "undefined" ||  wastage == "null"){
+            wastage =null
+        }
+        if( stval == "undefined" ||  stval == "null"){
+           stval =null
+        }
+        if( labval == "undefined" ||  labval == "null"){
+          labval =null
+        }
+        if( labcal == "undefined" ||  labcal == "null"){
+          labcal =null
+        }
+        if( labamt == "undefined" ||  labamt == "null"){
+          labamt =null
+        }
+        if( desc == "undefined" || desc == 'null'){
+          desc = null;
+          console.log(" desc  desc  desc json  "+desc)
+        }
+        if( size == "undefined" || size == 'null'){
+          size = null;
+           console.log(" desc  desc  desc size "+size)
+       
+        }
+        if( labourTaxValue == "undefined" ||  labourTaxValue == "null"){
+          labourTaxValue =null
+        }
+
+
+  // console.log("db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert")
+  //    db.transactiondetail.insert(req.body,function(err,doc){
+  //       res.json(doc);
+  //     })
+ // db.transactiondetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
+            
+ //        res.json(doc);
+ //    });
+  if( wt == "undefined" || wt ==  0 ||  wt == "null"){
+           wt =null
+        }
+        wt = parseFloat(wt)
+      
+   
+     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
+     
+    "Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+    "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
+                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":Number(withinstatecgst),
+         "withinstatesgst":Number(withinstatesgst),"outofstateigst":Number(outofstateigst),"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
+                voucherNo:null,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint}},function(err,doc){
+                res.json(doc);
+
+        }); 
+     
+        
+});
+
+
+app.put('/editSavedData/:update',function(req,res){
+
+   //app.post('/savedata1/:update',function(req,res){
+  console.log("save data save data  save data  save data save data save data ")
+ // console.log(req.body.date)
+
+//   console.log(req.body.gwt)
+// console.log(req.body.rate)
+// $scope.transaction+"1,"+$scope.userit[i].barcodeNumber+"2,"+$scope.userit[i].chgunt+"3,"+$scope.userit[i].date+"4,"+$scope.userit[i].desc+"5,"
+//                      +$scope.userit[i].final+"6,"+$scope.userit[i].gpcs+"7,"+$scope.userit[i].gwt+"8,"+$scope.userit[i].itemName+",9"+$scope.userit[i].ntwt+"10,"+$scope.partyname+"11,"
+//                      +$scope.userit[i].size+"12,"+$scope.userit[i].taxval+"13,"+$scope.userit[i].taxamt+"14,"+$scope.userit[i].stwt+"15,"+$scope.userit[i].wastage+"16,"+$scope.userit[i].stval+"17,"
+//                      +$scope.userit[i].labval+"18,"+$scope.userit[i].rate +"19,"+ $scope.userit[i]._id +"20,"+$scope.userit[i].StockFrom+"21,"+$scope.userit[i].StockTo+"22,"
+//                      +$scope.userit[i].withinstatecgst+"23,"+$scope.userit[i].withinstatesgst +"24,"+ $scope.userit[i].outofstateigst 25  
+//  ","+$scope.userit[i].purity+","+$scope.userit[i].pctcal+","+$scope.userit[i].labcal+","+$scope.userit[i].uom+","+$scope.userit[i].stonecal;
+                               
+                 
+ var str=req.params.update;
+    console.log(str);
+   // console.log(req.body.date3)
+    //var str=req.params.updat;
+   // console.log(str);
+    var str_array=str.split(",");
+    var tran=str_array[0];
+    //console.log("status is"+status);
+    var code1=str_array[1]
+    var bar =parseInt(code1);
+    // console.log(code1)
+    // console.log("code"+code1)
+    // console.log("bar"+bar)
+    //console.log("code1 the code is lok here eeeeeeeeeeeeeeeeeeeeeeeeeeeee "+code1)
+
+    var chgunt=str_array[2]
+    var date=str_array[3]
+    var desc=str_array[4]
+    var final=str_array[5]
+    var gpcs=str_array[6]
+    
+    if( gpcs == "undefined"){
+           gpcs = 0
+        }else{
+          gpcs = parseFloat(gpcs)
+        }
+    var gwt=str_array[7]
+    gwt = parseFloat(gwt)
+    var iname=str_array[8]
+    var ntwt=str_array[9]
+    ntwt = parseFloat(ntwt)
+    var partyname=str_array[10]
+    var size=str_array[11]
+    var taxval1=str_array[12]
+    taxval1 = parseInt(taxval1);
+    var taxamt1=str_array[13]
+    var wt=str_array[14]
+    console.log("stwt stwt wt wtw wt"+wt);
+    if( wt == "undefined" ){
+           wt =null
+        }
+        wt = parseFloat(wt)
+    var wastage=str_array[15] //
+      console.log("wastage wastage wastage wtw wt"+wastage);
+    
+    var stval=str_array[16] //
+      console.log("stval stval wastage wtw wt"+stval);
+    
+    var labval=str_array[17] //
+    var rate=str_array[18]
+  
+  // var id=str_array[19]
+  //stockPoint
+    //console.log("here is iddddddddddddddddd   "+id)
+     var stockin=str_array[20]
+   // console.log("here is idddddddddstockin"+stockin)
+      var stockout=str_array[21]
+     // console.log("here is idddddddddstockout"+stockout)
+      //var order = "Inprogress"
+       // var order =str_array[22]
+
+      
+         var withinstatecgst =str_array[22]
+         var withinstatesgst  =str_array[23]
+         var outofstateigst =str_array[24]    
+// var data1 = data+","+$scope.userit[i].stockPoint+","+$scope.userit[i].stockInward;
+          var stockPoint  =str_array[25]
+         var stockInward =str_array[26]                //       console.log(data1)
+         var Hsc  =str_array[27]
+        // console.log(" Hsc   Hsc  Hsc  Hsc  Hsc  Hsc  Hsc  Hsc "+Hsc )
+//  ","+$scope.userit[i].purity+","+$scope.userit[i].pctcal+","+$scope.userit[i].labcal+","+$scope.userit[i].uom+","+$scope.userit[i].stonecal;
+   
+          var purity  =str_array[28]
+          var pctcal  =str_array[29]                     
+          var labcal  =str_array[30]
+          var uom  =str_array[31]
+          var stonecal  =str_array[32]
+          var salesPerson = str_array[33] 
+           var AccNo = str_array[34]
+           var labourTaxValue = str_array[35]
+          var labamt  =str_array[36]
+          var urdAdjustment = str_array[37]
+          var stchg = str_array[38]
+          var comboItem = str_array[39]
+           var mrp = str_array[40]
+           var billType = str_array[41]
+            var taxSelection = str_array[42]
+             var refid = str_array[43]
+            var InvGroupName = str_array[44]
+            var SaleCategory = str_array[45]
+            var id = str_array[46]
+            var barcode = str_array[47]
+             var orderStatus = str_array[48]
           //  mrp = parseFloat(mrp)
         
 
@@ -2386,70 +2785,30 @@ app.put('/updateSaveData/:update',function(req,res){
            wt =null
         }
         wt = parseFloat(wt)
-      
-      // if(tran == "Regular Sale"){ //"stockInward":stockInward,
-        //  db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
-        //         "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-        //         "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-        //         "outofstateigst":outofstateigst,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
-        //         "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
-        //         voucherNo:null,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint},function(err,doc){
-        //         res.json(doc);
-        //          //console.log("Regular Sale insert when id is null look here")
-        //         // console.log(doc);    
-        // })
- 
-     //  }
-   // if( id == "undefined"){
-   //         console.log(" 2 undefined mrp mrp mrp mrp mrp mrp mrp mrp mrp mrp "+id)
-       
-   //      }else{
-          
-   //      }
-    // var id = req.body._id;
-    //  req.body.ntwt = parseFloat(req.body.ntwt);
-    //    // console.log(req.body)
-    //    console.log(" id idghjkkkkkkkkkkkkkkkkkkkkkkk "+id)
-  
+    
+   
+
      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
-     //     "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-     //     "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
-     //    "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
-     //   "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
-     //   "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"taxSelection":req.body.taxSelection,
-     //  "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,
-     // "withinstatecgst":req.body.withinstatecgst,"withinstatesgst":req.body.withinstatesgst,
-     //            "outofstateigst":req.body.outofstateigst,"InvGroupName":req.body.InvGroupName ,"SaleCategory":req.body.SaleCategory,"stockPoint":req.body.stockPoint}},function(err,doc){
-     //        //console.log("updated the data in save when id not null")
-     //       res.json(doc);
-    //
+     
     "Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
     "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-                "labval":labval,"orderStatus":"Inprogress","withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,
-                "outofstateigst":outofstateigst,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
+                "labval":labval,"orderStatus":orderStatus,"withinstatecgst":Number(withinstatecgst),
+         "withinstatesgst":Number(withinstatesgst),"outofstateigst":Number(outofstateigst),"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
                 "stonecal":stonecal,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,
-                voucherNo:null,"billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint}},function(err,doc){
+               "billType":billType,"taxSelection":taxSelection,"InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"stockPoint":stockPoint}},function(err,doc){
                 res.json(doc);
-
+                console.log(" iamaa djfd "+doc)
         }); 
-     //
-      // if(req.body.barcode == undefined || req.body.barcode == null ||  req.body.split == "yes"){
-      //     console.log(" barcode is null ");
-      // }else{
-      //     console.log(" barcode is here look  "+req.body.barcode);
-      //       //for updated in refid data  "barcode":req.body.barcode,
-      //   db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
-      //    "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
-      //   "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
-      //     "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockPoint":req.body.stockPoint}},function(err,doc)
-      //   {
-      //      // res.json(doc);
-        
-      //   }); 
-  
-      // }
+if (tran == "Urd Purchase") {
+      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{
+      "urdAdjustment":final
+      }})
+    
+  }; 
+     
         
 });
+
 //for getting sale data
 app.get('/myneeded/:str1',function(req,res){
   console.log("for getting the invoice updated");
@@ -2571,25 +2930,29 @@ app.put('/getComboBarcodeUpdate',function(req,res){
 // barcode data
 app.get('/batchBarcodeNumber:barcodenum',function(req,res){
    // var tax = req.params.barcodenum;
-   console.log("batchBarcode:barcodenum ")
+   console.log("batchBarcode:barcodenum 1 ")
     // console.log("batchBarcode:barcodenum "+req.params.barcodenum)
   
    // var tax1=parseInt(tax); //64101017
    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
-     db.batch.find({"barcode": Number(req.params.barcodenum),"orderStatus" : "available"},function(err,doc){     
-    // db.batch.find({"barcode": 64101017,"orderStatus" : "available"},function(err,doc){     
-       console.log(doc)
+     db.batch.find({"barcode": Number(req.params.barcodenum)},function(err,doc){     
+     //db.batch.find({"barcode": Number(req.params.barcodenum),"orderStatus" : "available"},function(err,doc){     
+     
+       // db.batch.find({"barcode": 64101017,"orderStatus" : "available"},function(err,doc){     
+       //console.log(doc)
        console.log(doc.length)
+       //console.log("doc[0].orderStatus12 "+ doc[0].orderStatus)
        // res.json(doc);
-       if (doc.length != 0) {
-           db.transactiondetail.find({"barcode": Number(req.params.barcodenum),"Transaction" : "Barcoding"},function(err,doc){     
-                if (doc[0].comboItem == 'yes') {
+       if (doc.length != 0 && doc[0].orderStatus == "available") {
+           db.transactiondetail.find({"barcode": Number(req.params.barcodenum),"Transaction" :"Barcoding"},function(err,doc){     
+              
+                if (doc[0].comboItem == 'yes' && doc.length != 0) {
                       //console.log("combo item inside loop "+doc[0].comboItem);
                       db.transactiondetail.find({"comboBarcode":  Number(req.params.barcodenum)},function(err,doc1){     
                             //console.log("getComboBarcode");
                             //doc1[0].barcode = Number(req.params.barcodenum);
                             if(doc1[0].gwt == 0 || doc1[0].gpcs == 0 ){
-                              // $scope.userit[$index]="";
+                              // $scope.userit[$index]="";s
                               console.log(" check length is zero ");
                               res.json([]);
                             }else{
@@ -2598,17 +2961,18 @@ app.get('/batchBarcodeNumber:barcodenum',function(req,res){
                             }
                           
                       })
-                }else{
+                }else{ //combo else
                    res.json(doc);
                 }
                
-           })
+           })//trans
+
        }//if
          else{
-          console.log(doc)
-          res.json(doc);
+                //console.log(doc[0].orderStatus)
+                res.json(doc);
          }
-      });
+      });//batch
 });
 app.put('/saleinvoicedata12/:update',function(req,res)
 {
@@ -2696,25 +3060,25 @@ app.put('/saleinvoicedataconfirm/:update',function(req,res)
     // res.json(doc);
     //     console.log(doc);
 });
-app.put('/useritupdate',function(req,res)
+app.put('/editedUseritUpdate',function(req,res)
 {
-   
+    console.log(" sdfhdsfjhkjsdshfkjsdhfkjsdklfjlsdfj dsjhidhfiu sdfiuufu ")
     var id = req.body._id
-       // console.log(req.body)
+        console.log(req.body)
        // console.log(req.body.barcode)
   
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
-         "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
-         "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no",
-        "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
-       "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
-       "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"labcal":req.body.labcal,"pctcal":req.body.pctcal,
-       "stonecal":req.body.stonecal,"purity":req.body.purity}},function(err,doc)
+     // db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+     //     "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
+     //     "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no",
+     //    "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
+     //   "transactionTypeId":req.body.transactionTypeId,"voucherClass":req.body.voucherClass,"voucherClassId":req.body.voucherClassId,"voucherDate":req.body.voucherDate,"voucherTime":req.body.voucherTime,
+     //   "salesPerson":req.body.salesPerson,"AccNo":req.body.AccNo,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,'comboItem':req.body.comboItem,"billType":req.body.billType,"labcal":req.body.labcal,"pctcal":req.body.pctcal,
+     //   "stonecal":req.body.stonecal,"purity":req.body.purity}},function(err,doc)
       
-        {
-            res.json(doc);
+     //    {
+     //        res.json(doc);
         
-        });  
+     //    });  
   
 });
 
@@ -2795,31 +3159,59 @@ app.get('/getSavedDetails',function(req,res){
   var voucherNo = req.query.voucherNo;
   // console.log(trans);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-     if(trans !="Sale Return"&&trans!="Purchase Return"&&trans!="Approval Sale"
-      && trans!='Approval Return'  && trans!= "Urd Purchase"){
-      console.log("First if 999999999999999999999999999");
-  db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
+// <<<<<<< HEAD
+//      if(trans !="Sale Return"&&trans!="Purchase Return"&&trans!="Approval Sale"
+//       && trans!='Approval Return' ){
+//       console.log("First if 999999999999999999999999999");
+//   db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
        
-        res.json(doc);
-        console.log("get details sent");
-        console.log(doc);
-    });
-}
-else{
+//         res.json(doc);
+//         console.log("get details sent");
+//         console.log(doc);
+//     });
+// }
+// else{
   
-  if(voucherNo!=null){
-    console.log("loop for returing items vvvvvvvvvv8888888888");
-  db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
-    res.json(doc);
-    console.log(doc);
-      });
-      }
-      else{
-        console.log("Not vvvvvvvvvv" );
-        console.log("no no");
-        res.json();//for returning empty response for making app.get to wait.
-      }
-}
+//   if(voucherNo!=null){
+//     console.log("loop for returing items vvvvvvvvvv8888888888");
+//   db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
+//     res.json(doc);
+//     console.log(doc);
+//       });
+//       }
+//       else{
+//         console.log("Not vvvvvvvvvv" );
+//         console.log("no no");
+//         res.json();//for returning empty response for making app.get to wait.
+//       }
+// }
+// =======
+    if(trans !="Sale Return"&&trans!="Purchase Return"&&trans!="Approval Sale"
+       && trans!='Approval Return' && trans!='Urd Purchase'  ){
+          console.log("First if 999999999999999999999999999");
+          db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
+
+          res.json(doc);
+          console.log("get details sent");
+          console.log(doc);
+          });
+    }else{
+    
+
+              if(voucherNo!=null){
+                  console.log("loop for returing items vvvvvvvvvv8888888888");
+                  db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
+                  res.json(doc);
+                  console.log(doc);
+                  });
+              }else{
+              
+                      console.log("Not vvvvvvvvvv zero call" );
+                      console.log("no no");
+                      res.json([]);//for returning empty response for making app.get to wait.
+                   }
+         }//else close
+// >>>>>>> 8b85df3ecb8f882c338247563e8f1846dcd8aef6
 });
 
 app.get('/voucherNoGetDetails',function(req,res){
@@ -2884,7 +3276,7 @@ app.put('/tdetailupdatebyid:str1',function(req,res){
 });
  
 app.get('/getPartyDetailsNumber',function(req,res){
-  //console.log("I received a new username request for login and document saleinv lok here");
+  console.log("I received a new username request for login and document saleinv lok here");
   var username = req.query.partyname;
   //var trans=req.query.Transaction;
    //console.log(trans);
@@ -3168,6 +3560,15 @@ app.delete('/deletebarcode/:udelete',function(req,res)
      db.transactiondetail.remove({ "refid":barcode});
       db.transactiondetail.remove({  "compositeRef":barcode});
 })
+
+//for deleting inprogress regular saleinvoice data
+app.delete('/deleteinprogress:id',function(req,res){
+  var ids=req.params.id;
+  console.log(ids+"ids ids ds ids ids");
+  db.saleinvoice.remove({_id: mongojs.ObjectId(ids)},function(err,doc){
+
+  })
+})
 //for tax new
 app.get('/getTaxname:taxx',function(req,res)
 {
@@ -3320,14 +3721,14 @@ app.delete('/historydelete/:udelete',function(req,res)
 
 app.delete('/userit/:udelete',function(req,res)
 {
-   // console.log("i got the delete request");
+    console.log("i got the delete request");
    // var id=req.params.udelete;
     var str=req.params.udelete;
     console.log(str);
     var str_array=str.split(",");
     var id=str_array[0];
     
-     db.transactiondetail.remove({_id:mongojs.ObjectId(id)}, function(err, docs) {
+     db.transactiondetail.remove({_id:mongojs.ObjectId(id),"Transaction": { $ne: "Barcoding" }}, function(err, docs) {
       res.json("deleted");
     })
   
@@ -3362,8 +3763,7 @@ app.delete('/saleinv/:id',function(req,res)
 //   })
 //      //console.log(" tag delete after remove function");
 // })
-app.delete('/tagdeleted12/:update',function(req,res)
-{
+app.delete('/tagdeleted12/:update',function(req,res){
    console.log("i got the tagdeleted1 tagdeleted1 tagdeleted1 tagdeleted1");
    
    var id=req.params.update;
@@ -3723,7 +4123,7 @@ app.get('/getfilter/:update',function(req,res)
       console.log(sale1)
       if(sale1 == "All" ){
         console.log("kgggggk")
-         db.items.find(function(err,doc){
+         db.items.find({}).sort({_id:-1},function(err,doc){
           //console.log("kkkkkkkkkkkkkkkkkkk")
           //console.log(doc.length)
        res.json(doc);
@@ -3732,7 +4132,7 @@ app.get('/getfilter/:update',function(req,res)
       }
       else{
         sale1 =" "+sale1;
-     db.items.find({ItemType: sale1},function(err,doc)
+     db.items.find({ItemType: sale1}).sort({_id:-1},function(err,doc)
     {
         res.json(doc);
     })
@@ -3747,6 +4147,7 @@ app.delete('/itemdelete/:udelete',function(req,res)
     var id=req.params.udelete;
    
     db.items.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
+      res.json(docs)
 })
 })
 // for edit item 
@@ -3923,6 +4324,17 @@ app.delete('/opal1/:id', function (req, res) {
     console.log(doc);
   });
 });
+//ledger account integration
+app.get('/getLedgerAccont',function (req, res) {
+  console.log("this is  editititem2 editititem2 editititem2a put request");
+  //var sortOrder=req.query.sortOrder;
+ 
+
+db.ledgeraccounts.findOne({accountName:(req.query.accountName).trim()}, function (err, doc) {
+  res.json(doc);
+  console.log("the edit details r" +doc)
+});
+});
 
 app.get('/editititem2',function (req, res) {
   console.log("this is  editititem2 editititem2 editititem2a put request");
@@ -4016,7 +4428,7 @@ app.put('/updateedit', function (req, res) {
   db.tax.findAndModify({
     query: {_id: mongojs.ObjectId(id)},
     update: {$set: {taxname: req.body.taxname, aliasname: req.body.aliasname, displaydate: req.body.displaydate,Rate:req.body.Rate,
-    name:req.body.name,outofstate: req.body.outofstate,withinstate: req.body.withinstate,SaleAc: req.body.SaleAc,PurchaseAC: req.body.PurchaseAC}},
+    name:req.body.name,outofstate: req.body.outofstate,withinstate: req.body.withinstate,SaleAc: req.body.SaleAc,PurchaseAC: req.body.PurchaseAC,salesId: req.body.salesId,purchaseId: req.body.purchaseId}},
     new: true}, function (err, doc) {
 
       res.json(doc);
@@ -4027,7 +4439,7 @@ app.put('/updateedit', function (req, res) {
    
     
 console.log("jjjjjjj")
-    db.ledgeraccounts.find({sortOrder: { $exists: true }},function(err,doc){
+    db.ledgeraccounts.find({accountName: { $exists: true }},function(err,doc){
    
         res.json(doc);
 })
@@ -4139,8 +4551,8 @@ var currentyear = function(){
   
            
        }
-       console.log(fromdate)
-       console.log("current year date")
+       //console.log(fromdate)
+       //console.log("current year date")
 
 }
 currentyear();
@@ -4508,7 +4920,7 @@ app.get('/stockVerifyPreview',function(req,res){
       return new Promise(function (resolve,reject) { 
          db.transactiondetail.aggregate([
       {$match:
-          {date: { $gt:(fromdate), $lt: (reportdate)},stockInward:{  $ne: null },barcode:{ $exists: true} }
+          {date: { $gt:(fromdate), $lt: (reportdate)},stockInward:{  $ne: null },$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ] }
       },    
       {  $group:
      
@@ -4527,7 +4939,8 @@ app.get('/stockVerifyPreview',function(req,res){
       // console.log(doc1[0]);   
        db.transactiondetail.aggregate([
 {$match:
-      {date: { $gt:(fromdate), $lt: (reportdate) },stockInward:{  $ne: null },barcode:{ $exists: true} }
+      //db.inventory.find( { $and: [ { barcode: { $ne: undefined } }, { barcode: { $exists: true } } ] } )
+      {date: { $gt:(fromdate), $lt: (reportdate) },stockInward:{  $ne: null },$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ] }
 },    
       {  $group:
      
@@ -4607,7 +5020,7 @@ app.get('/stockVerifyPreview',function(req,res){
      // console.log("inwardBalanceCall");
       db.transactiondetail.aggregate([
 {$match:
-      {date:{ $gt:(samedateStart), $lt: (samedateEnd) },stockInward:"yes",barcode:{ $exists: true}},
+      {date:{ $gt:(samedateStart), $lt: (samedateEnd) },stockInward:"yes",$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ]},
 },
 
       
@@ -4633,7 +5046,7 @@ app.get('/stockVerifyPreview',function(req,res){
        return new Promise(function (resolve,reject) {
       db.transactiondetail.aggregate([
 {$match:
-      {date: {$gt:(samedateStart), $lt: (samedateEnd) },stockInward:"no",barcode:{ $exists: true}},
+      {date: {$gt:(samedateStart), $lt: (samedateEnd) },stockInward:"no",$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ]},
 },
 
       
@@ -5087,8 +5500,7 @@ app.get('/getmerchantdetails',function(req,res)
 // app.post('/user12/:user1').success(function(response){
 
 //     })
-app.post('/user12/:data',function(req,res)
-{ 
+app.post('/user12/:data',function(req,res){ 
   console.log('look up things syuasasdyusadsdhyasdbdfhudbasjdbashudbhdhy');
   var str=req.params.data;
     //console.log(str);
@@ -5105,7 +5517,7 @@ app.post('/user12/:data',function(req,res)
         //console.log(doc)
        });
     }
-     });
+});
     //new update on Approval sale
     app.put('/user13/:data',function(req,res){
       console.log('updating on approval sale');
@@ -5160,20 +5572,63 @@ app.get('/getLoginDetails',function(req,res)
    // console.log("entered into new  trans data");
     var username=req.query.username;
     var password=req.query.password;
-    db.loginDetails.find({name:username,password:password},function(err,doc){ 
+    // db.loginDetails.find({name:username,password:password},function(err,doc){ 
+     
+    //     res.json(doc);
+       
+    // });
+    db.staff.find({name:username,password:password},function(err,doc){ 
      
         res.json(doc);
        
     });
 });
+//to convert string into number
+// function convertionCall() {
+//   console.log(" conversion call ");
+//   db.transactiondetail.find().forEach( function (x) {
+//    // if (x.outofstateigst != 'null') {
+//       x.outofstateigst = parseInt(x.outofstateigst);
+//       //}
+//       x.withinstatecgst = parseInt(x.withinstatecgst);
+//       x.withinstatesgst = parseInt(x.withinstatesgst);
+//       db.transactiondetail.save(x);
+//   });
+// }
 
 
-
-app.get('/trCollectionCreation',function(req,res){ 
-
+app.get('/trCollectionCreation/:data',function(req,res){ 
+    //console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
+     configurationCall();   
    // console.log("entered into new  trans data");
     console.log("Discount Given Discount GivenDiscount getinventorygroupvaluenotation trCollectionCreation")
-    //res.json("100");
+   // res.json("100");
+   var taxDuplicateCheck = [];
+ var str=req.params.data;
+    //console.log(str);
+     var str_array=str.split(",");
+    //console.log( str_array.length);
+    var length = str_array.length;
+    //console.log(length);
+    var voucher = str_array[length - 1];
+    // for(var i =0;i<length ;i++){
+    //   console.log("str_array[i] "+str_array[i])
+    // }
+
+    //voucherId check
+    var voucherId = 0;
+    var voucherClass = null;
+    db.trHeaders.find({}).sort({_id:-1}).limit(1,function(err,data){
+        //res.json(doc);
+        console.log(data.length);
+        if (data.length == 0) {
+            voucherId = 1;
+        }else{
+               voucherId =  Number(data[0].voucherId) ; 
+               console.log(" voucher   voucher "+data[0].voucherId)
+               voucherId++;
+             }
+    })
     var salesIds=req.query.salesIds;
     var userIds = req.query.userIds;
     var trailRepeat = req.query.trail;
@@ -5196,9 +5651,12 @@ app.get('/trCollectionCreation',function(req,res){
     var suffix = null;
     var name = null;
     var amountTotal = null;
+    var amountNet = null;
      var concat = null;
      var billtype = null;
-  
+      var voucherRowNumber = 0;
+      var salesPerson = null;
+      var refId ;
     findCall(req.query.salesIds);
     
     function findCall(argument) {
@@ -5222,36 +5680,67 @@ app.get('/trCollectionCreation',function(req,res){
      vocuherNumber = res[0].voucherNo;
      suffix = res[0].voucherNo.slice(0, 2);
      name = res[0].partyname ;
-     amountTotal = res[0].invoiceValue
+     if (res[0].adj == 'null') {
+        amountTotal = res[0].invoiceValue;
+     }else{
+        amountTotal = Number(res[0].invoiceValue) + Number(res[0].adj) ;
+     }
+     
+     amountNet = res[0].netamt;
      // console.log(suffix );
      //console.log(res[0].partyname);
      concat = "To "+res[0].partyname ;
      //console.log(concat);
      
-     taxCall(res[0].tax1);
-     if (billtype == "Cash") {
-       if (voucherType == "RD Purchase") {
-           gstCall("Cash Paid", amountTotal);
-       }else{
-                gstCall("Cash on hand", amountTotal);
-            }
-       
-     }else{
-        defaultBalanceSubscriber(name);
-     }
+     //to find voucherClass
+     db.transactionSeriesInvoice.find({ "TransactionType" :voucherType },function (err,resData) {
+            voucherClass =  resData[0].TransactionClass ;
+     })
    
-     if (res[0].dis!=0) {
-       gstCall("Discount Given",res[0].dis);
-     }
-     groupDetails(vocuherNumber);
 
+     //taxCall(res[0].tax1);
+     //for not allowing urd purchase transactions
+     if (voucherType != "Urd Purchase") {
+             if (billtype == "Cash" ) {
+
+                     if (voucherType == "RD Purchase") {
+                         gstCall("Cash Paid", amountTotal);
+                     }else{
+                              gstCall("Cash on hand", amountTotal);
+                          }
+               
+             }else{
+                    defaultBalanceSubscriber(name);
+                  }
+           
+             if (res[0].dis!=0) {
+               gstCall("Discount Given",res[0].dis);
+             }
+
+             if (res[0].decimals!=0 && res[0].decimals!='' && res[0].decimals!='NaN' && res[0].decimals!= 'undefined') {
+               gstCall("Round off sales",res[0].decimals);
+             }
+             groupDetails(vocuherNumber);
+             taxCaluclations(m=0);
+      }else{ // if (voucherType != "Urd Purchase") 
+
+            defaultBalanceSubscriber(name);
+            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Cr','L035') 
+            refId = "";
+             db.transactiondetail.find({ "_id" : mongojs.ObjectId(str_array[0])},function (err,request) {
+                            //    db.transactiondetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
+                           salesPerson =  request[0].salesPerson;
+             })
+            setTimeout(trHeader, 3000);
+      }
 
    })
     }//finalCall
   trailRepeat  = "false" ; 
 }//if trail
  
-      // taxCall(res[0].tax1)
+  
+
         
            
      // call (res[0].Transaction,)
@@ -5279,26 +5768,26 @@ app.get('/trCollectionCreation',function(req,res){
                             "as": "subgroup"
                          }
             },
-            {$unwind:"$subgroup"},
-              { "$project" :{ "subscriber" :1,"subgroup.MGID":1,cmpTo1: { $cmp: [ "$subgroup.SGID", "$ledger.groupID"] }}},
-              {$match:{"cmpTo1" :0 }},
-                             { "$lookup": { 
-                            "from": "maingroups", 
-                            "localField":   "MGID", 
-                            "foreignField": "subgroup.MGID", 
-                            "as": "mggroup"
-                         }
-            },
-             {$unwind:"$mggroup"},
-              { "$project" :{ "subscriber" :1,"subgroup.MGID":1,"mggroup.MGID":1,"subgroup.SGID":1,"ledger.groupID":1,"mggroup.DefaultBalance":1 ,cmpTo2: { $cmp: [ "$subgroup.MGID", "$mggroup.MGID"] }}},
-              {$match:{"cmpTo2" :0 }},
-              { "$project" :{ "mggroup.DefaultBalance" :1}}
+            // {$unwind:"$subgroup"},
+            //   { "$project" :{ "subscriber" :1,"subgroup.MGID":1,cmpTo1: { $cmp: [ "$subgroup.SGID", "$ledger.groupID"] }}},
+            //   {$match:{"cmpTo1" :0 }},
+            //                  { "$lookup": { 
+            //                 "from": "maingroups", 
+            //                 "localField":   "MGID", 
+            //                 "foreignField": "subgroup.MGID", 
+            //                 "as": "mggroup"
+            //              }
+            // },
+             // {$unwind:"$mggroup"},
+             //  { "$project" :{ "subscriber" :1,"subgroup.MGID":1,"mggroup.MGID":1,"subgroup.SGID":1,"ledger.groupID":1,"mggroup.DefaultBalance":1 ,cmpTo2: { $cmp: [ "$subgroup.MGID", "$mggroup.MGID"] }}},
+             //  {$match:{"cmpTo2" :0 }},
+             //  { "$project" :{ "mggroup.DefaultBalance" :1}}
              
               
            ],function (err,result) {
         //console.log(result[0].mggroup.DefaultBalance);
          // body...
-         insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,result[0].mggroup.DefaultBalance);
+         insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr');
          // console.log("date         id     is   look       here insertCall ");
    // searchCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat)
   
@@ -5306,122 +5795,159 @@ app.get('/trCollectionCreation',function(req,res){
 
      }//defaultBalance
        function insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance) {
-            db.trDetails.insert({voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:vocuherNumber,
-           accountId:name,amount:amountTotal,narration:concat,transType:DefaultBalance},function (err,res) {
-           //  console.log(res)
-           // taxCall()
-          // groupDetails(vocuherNumber);
+              if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+                DefaultBalance = 'Dr';
+              }else{
+                  DefaultBalance = 'Cr';
+              }
+              voucherRowNumber++;
+            db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:currentdate,
+           accountId:name,amount:amountTotal,transType:DefaultBalance},function (err,res) {
+           
             })
        };//insertCall
 
-        function taxCall(totalTax) {
-      
-          // console.log("date         id     is   look       here  taxCall "+taxCall);
-   
-          db.transactiondetail.find({ "_id" : mongojs.ObjectId(userIdData)},function (err,request) {
-         //    db.transactiondetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
-           
-               //console.log("date         id     is   look       here  trCollectionCreation "+request[0].withinstatecgst);
-               if(request[0].withinstatecgst != 0){
-                 db.tax.find({"withinstate":"yes"},function (err, docs) {
-            //console.log(docs);db.tax.find({"withinstate":"yes"}).pretty()
-            //res.json(docs);
-           var cgstCheck = docs[0].Rate;
-           //var cgstSortOrder = "CGST collected";
-            var cgstSortOrder = docs[0].SaleAc;
-            cgstSortOrder = cgstSortOrder.trim();
-           var sgstCheck = docs[1].Rate;
-         var sgstSortOrder = docs[1].SaleAc;
-         sgstSortOrder = sgstSortOrder.trim();
-            // var sgstSortOrder = "SGST charges collected";
-           // console.log( docs[0].Rate);
-           // console.log(docs[1].Rate);
-           var ratioTotal = Number(cgstCheck) + Number(sgstCheck) ;
-          // console.log( ratioTotal +"ratioTotal");
-           // cgst sgst calculation
-           // var a = 23.456667;
-           // a = a.toFixed(2);
-           //  console.log( a);
-           var total = totalTax;
-           var cgst = ((total)*(cgstCheck/ratioTotal));
-           // console.log( cgst);
-           var sgst = (total*(sgstCheck/ratioTotal));
-            // gstCall("CGST collected",cgst);
-            // gstCall("SGST charges collected",sgst );
-            if (voucherType != "RD Purchase") {
-                 gstCall(cgstSortOrder,cgst);
-                 gstCall(sgstSortOrder,sgst );
-            }else if(voucherType == "RD Purchase"){
-                 gstCall("CGST paid",cgst);
-                 gstCall("SGST Paid",sgst);  
-            }
-             
-           
 
-        });
-            //}
+         function taxCaluclations(m) {
+         if (m<length) {
+              console.log("str_array[i] "+str_array[m]+" m "+m+" len "+length);
+              // m++;
+              // taxCaluclations(m);
+              if (m >= 0) {
+                   db.transactiondetail.find({ "_id" : mongojs.ObjectId(str_array[m])},function (err,request) {
+                            //    db.transactiondetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
+                           salesPerson =  request[0].salesPerson;
+                            //vocuherNumber = request[0].voucherNo;
+                            if (request[0].Transaction == "RD Purchase") {
+                              refId = request[0].RefId;
+                            }else{
+                              refId = "";
+                            }
+                            if(taxDuplicateCheck.indexOf(request[0].taxSelection) == -1) {
+                                taxDuplicateCheck.push(request[0].taxSelection);
+                                noRepeatedCall();
+                            }else{
+                                       m++;
+                                       taxCaluclations(m);
+                                       console.log(" nonon no  taxSelection "+request[0].taxSelection+" len ")
+                                       
+                                 }
+                            function noRepeatedCall() {
+                                  if (request[0].taxSelection != 'undefined') {
+                                       db.transactiondetail.find({ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo },function (err,data) {
+                                           console.log(" taxSelection "+request[0].taxSelection+" len "+data.length);
+                                          
+                                    db.transactiondetail.aggregate([{$match:{ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo}},
+                                            { "$lookup": {  "from": "tax",   "localField":   "taxname", "foreignField":  "taxSelection", "as": "taxCollection"}},
+                  
+                                             { "$unwind": "$taxCollection" },
+                                              { "$redact": { 
+                                                  "$cond": [
+                                                      { "$eq": [ "$taxSelection", "$taxCollection.taxname" ] }, 
+                                                      "$$KEEP", 
+                                                      "$$PRUNE"
+                                                  ]
+                                              }},
+                                             //{$group:{_id :{taxSelection:"$taxSelection","purchaseId":"$taxCollection.purchaseId","salesId":"$taxCollection.salesId"} ,
+                                             //sgst:{$sum:"$withinstatesgst"},
+                                            //   cgst:{$sum:"$withinstatecgst"},igst:{$sum:"outofstateigst"}
+                                            {$group:{_id :{taxSelection:"$taxSelection","purchaseId":"$taxCollection.purchaseId","salesId":"$taxCollection.salesId",
+      "PurchaseAC":"$taxCollection.PurchaseAC","SaleAc":"$taxCollection.SaleAc","withinstate":"$taxCollection.withinstate" } ,
+   sgst:{$sum:"$withinstatesgst"},
+                                                   cgst:{$sum:"$withinstatecgst"},igst:{$sum:"$outofstateigst"}     
+                                               }} ],function (err,data1) {
+                                                       console.log(data1);
+                                                       //console.log("  enteretrweytwqywteqweyt "+data1[0]._id.withinstate)
+                                                    if (data1[0]._id.withinstate == "yes") {
+                                                        // console.log(" start  enteretrweytwqywteqweyt ")
+                                                        // console.log(data1);
+                                                        // console.log(data1[0]._id.salesId);
+                                                        // console.log(data1[1]._id.salesId);
+                                                        // console.log(data1[0].sgst);
+                                                        //  console.log(data1[0].cgst);
 
-    }else{
-       db.tax.find({"outofstate":"yes"},function (err, docs) {
-            //console.log(docs);db.tax.find({"withinstate":"yes"}).pretty()
-            //res.json(docs);
-           // var igstCheck = docs[0].Rate;
-            
-            if (voucherType != "RD Purchase") {
-                 gstCall("IGST collected",docs[0].Rate);
-            }else if(voucherType == "RD Purchase"){
-                 gstCall("IGST collected",docs[0].Rate);
-            }
-            //console.log( docs[0].Rate)
-        });
-
-    }//ele
-  })//transactiondetail
-}//taxCall
-
-  function gstCall(gst,gstamount) {
-   // console.log("receivej receivej receivej "+receivej)
-  db.ledgeraccounts.aggregate([
-      {$match:{"sortOrder" : gst }},
-       { "$lookup": { 
-                            "from": "maingroups", 
-                            "localField":   "MGID", 
-                            "foreignField": "alias", 
-                            "as": "mggroup"
-                         }
-            },
-             {$unwind:"$mggroup"},
-              { "$project" :{ "sortOrder" :1, "accountName" :1,"mggroup.MGID":1,"mggroup.MGID":1,"MGID":1,"mggroup.DefaultBalance":1,cmpTo: { $cmp: [ "$alias", "$mggroup.MGID"] }}},
-              {$match:{"cmpTo" :0 }},
-
-             
-              
-           ],function (err,response) {
-            //console.log(response[0].mggroup.DefaultBalance);
-            // console.log(response[0].accountName);
-            // console.log(response[0].sortOrder);
-           var  narration = "To "+response[0].sortOrder ;
-           // var  narration = "To " ;
-         
-         // gstInsertCall()
-         gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,narration,response[0].mggroup.DefaultBalance,response[0].accountName) 
+                                                        // console.log(data1[0]._id.purchaseId);
+                                                        // console.log(data1[1]._id.purchaseId);
+                                                        if (voucherType != "RD Purchase") {
+                                                           // gstCall(data1[0]._id.salesId,data1[0].sgst);
+                                                           // gstCall(data1[1]._id.salesId,data1[1].cgst );
+                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].sgst,concat,'Cr',data1[0]._id.salesId) 
        
-             // body...
-           })
-}//gstcall
+                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[1].cgst,concat,'Cr',data1[1]._id.salesId) 
+       
+                                                        }else if(voucherType == "RD Purchase"){
+                                                           // gstCall(data1[0]._id.purchaseId,data1[0].sgst);
+                                                           // gstCall(data1[1]._id.purchaseId,data1[1].cgst);
+                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].sgst,concat,'Dr',data1[0]._id.purchaseId) 
+       
+                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[1].cgst,concat,'Dr',data1[1]._id.purchaseId) 
+         
+                                                        }
+                                                    } else if(data1[0]._id.outofstate == "yes"){
+                                          
+                                                                if (voucherType != "RD Purchase") {
+                                                                       gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].igst,concat,'Cr',data1[0]._id.salesId) 
+       
+                                                                     //gstCall(data1[0]._id.salesId,data1[0].igst );
+                                                                }else if(voucherType == "RD Purchase"){
+                                                                       gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].igst,concat,'Dr',data1[0]._id.purchaseId) 
+       
+                                                                    // gstCall(data1[0]._id.purchaseId,data1[0].igst);
+                                                                }
+                                            
+                                                    }
 
-//(argument) {
-  // body...
+                                                        m++;
+                                                          taxCaluclations(m);
+                                               })//aggregate
+
+
+
+                                       })//find
+                                      
+                                 };//taxSelection undefined
+                            }//noRepeatedCall
+                            
+                          
+                  })//transactiondetail
+
+              }// if (m == 0)
+         }//  if (m<length)
+
+    }//taxCaluclations
+    
+      
+  function gstCall(gst,gstamount) {
+      console.log(" gst "+gst)
+       db.ledgeraccounts.find({"accountName" : gst },function (err,response) {
+           //gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,narration,response[0].mggroup.DefaultBalance,response[0].accountName) 
+           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,concat,'Cr',response[0].accountIds) 
+         
+       }) 
+ 
+  }//gstCall
+  
+      
  function gstInsertCall  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
-            db.trDetails.insert({voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:vocuherNumber,
-           accountId:accountName,amount:amountTotal,narration:concat,transType:DefaultBalance},function (err,res) {
-           //  console.log(res)
+           
+            if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+                DefaultBalance = 'Cr';
+            }else{
+                DefaultBalance = 'Dr';
+            }
+   
+              voucherRowNumber++;
+             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:currentdate,
+                 accountId:accountName,amount:amountTotal,transType:DefaultBalance},function (err,res) {
            
             })
 }//gstInsertCall
  function groupDetails(argument) {
    // body...
-    if(voucherType.toUpperCase().match(/SALE/g)  == "SALE"){
+   console.log(" hjjjjjjjjjjjjjjjj hyyujjjjjjjjjj "+argument)
+    // $scope.TransactionPurchase = [{"TransactionType":"Regular Sale"},{"TransactionType":"Purchase Return"}, {"}, {"}, {"TransactionType":"Approval Sale"}]
+   if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+   // if(voucherType.toUpperCase().match(/SALE/g)  == "SALE"){
     //alert("Sale ")
     db.transactiondetail.aggregate([
       {$match:{"voucherNo" :argument  }},
@@ -5446,14 +5972,19 @@ app.get('/trCollectionCreation',function(req,res){
              for (var j = res.length - 1; j >= 0; j--) {
                  gstCall(res[j]._id.name,res[j].score)
                  if ( j == 0) {
-                // console.log("trHeader j"+j);
-                  trHeader()
+                //console.log("trHeader j"+j);
+                 // trHeader()
+                  setTimeout(trHeader, 3000);
                  }
              }
              
            
             })
-    }else if(voucherType.toUpperCase().match(/PURCHASE/g) == "PURCHASE"){
+   // $scope.TransactionSales = [{"TransactionType":"Urd Purchase"},{"TransactionType":"RD Purchase"},{"TransactionType":"Sale Return"},{"TransactionType":"Receipt Voucher"},{"TransactionType":"Approval Return"}]//TransactionType == "Valuation"
+   
+    }else if(voucherType == 'Urd Purchase' || voucherType == "RD Purchase" ||voucherType == "Sale Return" ||voucherType == "Receipt Voucher"){
+     //}else if(voucherType.toUpperCase().match(/PURCHASE/g) == "PURCHASE"){
+     
           db.transactiondetail.aggregate([
       {$match:{"voucherNo" :argument  }},
          { "$lookup": { 
@@ -5478,7 +6009,8 @@ app.get('/trCollectionCreation',function(req,res){
                  gstCall(res[j]._id.name,res[j].score)
                  if ( j == 0) {
                    console.log("trHeader j"+j);
-                  trHeader()
+                  //trHeader()
+                  setTimeout(trHeader, 3000);
                  }
              }
              
@@ -5492,23 +6024,162 @@ app.get('/trCollectionCreation',function(req,res){
 
 
  function trHeader() {
-   console.log("trHeader call")
-   const timeoutObj = setTimeout(() => {
-     
-      db.trDetails.find({vocuherNumber:vocuherNumber},(function(err,doc){
-        res.json(doc);
-           console.log("voucherType voucherType voucherType voucherType voucherType "+voucherType)
-           console.log(doc);
-          db.trHeaders.insert({voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:vocuherNumber,
-                amount:amountTotal,numberOfDetails:doc.length},function (err,res) {
-                
+   console.log("trHeader call1")
+     //db.trDetails.find({vocuherId:vocuherId},function(err,doc){
+       // res.json(doc);
+           console.log("voucherType voucherType voucherType voucherType voucherType "+salesPerson)
+          // console.log(doc);
+          db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+                amount:amountTotal,numberOfDetails:voucherRowNumber,userId:salesPerson},function (err,res) {
+               
+                if (voucherType != 'Urd Purchase') {
+                      voucherId =  voucherId+1;
+                      voucherRowNumber = 0;
+
+                     if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+                          //DefaultBalance = 'Dr';
+                          insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Dr');
+                          //gstCall("Cash on hand", amountTotal);
+                          receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Cr','L011')
+                     
+                     }else{
+                          DefaultBalance = 'Cr';
+                          insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance);
+                         // gstCall("Cash on hand", amountTotal);
+                          receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr','L013')
+                     }
+             }//urd purchase  
+
           })
-        
-      }))
-    }, 3000);
- }
-// clearTimeout();
-//}
+      
+   
+ }//trHeader
+
+function receiptAndPaymentCallTrDetails  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
+           
+              voucherRowNumber++;
+             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:currentdate,
+                 accountId:accountName,amount:amountTotal,transType:DefaultBalance},function (err,res) {
+                  
+               if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+                    inVoiceCall('Receipts',inVoiceSeriesConfig) 
+               }else{
+                    inVoiceCall('Payment',inVoiceSeriesConfig) 
+              }
+                  
+            })
+}//receiptAndPaymentCallTrDetails 
+function inVoiceCall(Transaction,voucherSeriesType) {
+   console.log("  inVoiceCall inVoiceCallinVoiceCall check ");
+   
+  var Transaction = Transaction;
+  
+  var voucherSeriesType =  voucherSeriesType;
+  var classType = null;
+  db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
+    
+   // console.log(doc);
+    classType = doc[0].TransactionClass;
+  })
+  db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+        //
+    console.log(" record transactionInvoice "+doc.length);
+      if (doc.length == 0) {
+          console.log(" insert call ");
+          insertNewTransactionInvoice();
+      }else{
+              console.log(" update  call ");
+              insertUpdateTransactionInvoice();
+           }
+  })//transactionInvoice
+  function insertNewTransactionInvoice() {
+     // console.log(" insertNewTransactionInvoice call ");
+      db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
+    
+            // console.log(doc);
+            if (voucherSeriesType == "StartingTransactionClassNo" ) {
+                    var voucherSeries =  doc[0].StartingTransactionClassNo ;
+                    db.transactionInvoice.find({"TransactionClass":classType},function(err,doc1){
+                        if (doc1.length == 0) {
+                         // var TransactionNoCheck = 
+                          voucherSeries =  doc[0].StartingTransactionClassNo ;
+                
+                        }else{
+                          voucherSeries = Number(doc1[0].TransactionNo) +1;
+                        }
+                      //console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      //console.log(" if multi  check udate call "+doc1[0].TransactionNo);
+                      db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true })
+                           
+                      db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
+                          "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
+                           //console.log(" transactionInvoice call ");
+                            console.log(doc.TransactionPrefix+doc.TransactionNo);
+                             receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
+                             //res.json(doc.TransactionPrefix+doc.TransactionNo);
+                        })
+                    })
+          
+            }else{
+                    var voucherSeries =  doc[0].StartingTransactionTypeNo ;
+                      db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
+                          "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
+                           //console.log(" transactionInvoice call ");
+                          console.log(doc.TransactionPrefix+doc.TransactionNo);
+                          // res.json(doc.TransactionPrefix+doc.TransactionNo);
+                           receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
+
+                        })
+
+                 }
+          
+      })
+  }//insertNewTransactionInvoice
+   function insertUpdateTransactionInvoice() {
+      console.log("insertUpdateTransactionInvoice");
+
+      if (voucherSeriesType == "StartingTransactionClassNo" ) {
+              
+                    //var voucherSeries =  doc[0].StartingTransactionClassNo ;
+          
+               db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true },function(err,doc){
+                    
+                    db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+                    
+                      console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      console.log(" if multi "+classType);
+                     //  res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix)
+                             
+                    })
+                     // console.log(doc.TransactionPrefix+doc.TransactionNo);
+                })
+      }else{
+              db.transactionInvoice.update({"TransactionType":Transaction},  { $inc: {"TransactionNo": 1 }},function(err,doc){
+                    
+                    db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+                    
+                      console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      console.log("else one "+classType);
+                      // res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix)
+                             
+                    })
+                     // console.log(doc.TransactionPrefix+doc.TransactionNo);
+                })
+           }
+     
+      
+   }//insertUpdateTransactionInvoice
+//});
+}//inVoiceCall
+
+ function receiptAndPaymentCallTrHeaders(vocuherNumber,voucherType,voucherClass,suffix) {
+                           
+   db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+                amount:amountNet,numberOfDetails:voucherRowNumber,userId:salesPerson},function (err,res) {
+               })
+ }//receiptAndPaymentCall
 
 
 });//trCollectionCreation
@@ -5602,7 +6273,7 @@ app.get('/reportResult/:data',  function (req, res) {
                    // body...
                    db.transactiondetail.aggregate([
                     //{$match:{"Transaction": { $ne: NaN }, "barcodeNumber": { $ne: NaN }, "orderStatus":"completed" , date: { $gt:(fromdate), $lt: (reportdate) }}},
-                      {$match:{ "stockPoint" : stockPoint,stockInward:"no", date: { $gt:(fromdate), $lt: (reportdate) }}},
+                      {$match:{ "stockPoint" : stockPoint,orderStatus: { $exists: true },stockInward:"no", date: { $gt:(fromdate), $lt: (reportdate) }}},
               
                  
                  { "$lookup": { 
@@ -5624,7 +6295,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                          
               
                  ],function (err,result1) {
-                    console.log("result "+result1.length);
+                    console.log("result12 "+result1.length);
                      console.log(result1)
                      remainingItems1 =result1;
                      result1 = result1;
@@ -5641,7 +6312,11 @@ app.get('/reportResult/:data',  function (req, res) {
                  var ciQty = 0;
                 var ciPcs = 0;
               // var mySet = new Set();
+              var checkCall0 = 0;
               function zIteration(z) {
+                if (z < 0 && checkCall0 == 0) {
+                  addNoRepeatItems()
+                }
                 if (z >= 0) {
                    mIteration(result1.length-1)
                        function mIteration(m) {
@@ -5674,9 +6349,9 @@ app.get('/reportResult/:data',  function (req, res) {
                                                      remainingItems1 = remainingItems1.filter((item) => item !== result1[m]);
                                                      
                                                      //console.log(remainingItems)
-                                                   console.log("remainingItems "+remainingItems.length+" remainingItems1 "+remainingItems1.length);
+                                                     console.log("remainingItems "+remainingItems.length+" remainingItems1 "+remainingItems1.length);
                                                      // console.log(report1);
-                                                     console.log(remainingItems1)
+                                                    // console.log(remainingItems1)
                                                       // delete remainingItems[r]
                                             }    
 
@@ -5686,7 +6361,8 @@ app.get('/reportResult/:data',  function (req, res) {
                                               if (m == 0 && z == 0) {
                                                // console.log(m+" addNoRepeatItems "+z)
                                               
-                                                addNoRepeatItems()
+                                                addNoRepeatItems();
+                                                checkCall0 = 1;
                                                 //setTimeout(addNoRepeatItems(), 1000);
                                               }//if m==0 
                                                 if (m == 0) {
@@ -5709,10 +6385,15 @@ app.get('/reportResult/:data',  function (req, res) {
               zIteration(result.length-1)
                   
    function addNoRepeatItems() {
-                    console.log(" enter into function addNoRepeatItems");
-           
+          console.log(" enter into function addNoRepeatItems");
+          var checkCall = 0;
           function zIteration1(z) {
+             if (z < 0 && checkCall == 0 ) {
+                  addNoRepeatItemsStockNo()
+                  console.log("zz<0 "+z)
+             }
                 if (z >= 0) {
+                   console.log("zz12>0 "+z)
                 //   var avoidNegative = 0 ;
                 //   if ((remainingItems.length - 1) == 1) {
                 //         avoidNegative = 0
@@ -5759,7 +6440,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                              // if (m== 0 && z == 0) {
                                                if (m == 0 && z == 0) {
                                                // console.log(m+" addNoRepeatItemsStockNo "+z)
-                                              
+                                                checkCall = 1;
                                                 addNoRepeatItemsStockNo()
                                               }//if m==0 
                                                 if (m == 0) {
@@ -5784,15 +6465,20 @@ app.get('/reportResult/:data',  function (req, res) {
     }//addNoRepeatItems
 
     function addNoRepeatItemsStockNo() {
-        console.log(" enter into function addNoRepeatItemsStockNo");
-           
+        console.log(" enter into function addNoRepeatItemsStockNo "+remainingItems1.length);
+           var checkcall1 = 0;
           function zIteration2(z) {
+               if (z < 0 && checkcall1 == 0 ) {
+                  finalCallDisplay(0,0)
+                }
                 if (z >= 0) {
+                  console.log(" z addNoRepeatItemsStockNo "+z);
+             
                    mIteration2(remainingItems1.length - 1)
                        function mIteration2(m) {
                              if ( remainingItems1.length == 0) {
                                  // addNoRepeatItemsStockNo();
-                                  console.log(" ==0  zIteration "+ z+" result1.length "+result1.length+" remainingItems1.length"+m);
+                                  //console.log(" ==0  zIteration "+ z+" result1.length "+result1.length+" remainingItems1.length"+m);
                         
                                  finalCallDisplay(m,z);
 
@@ -5835,7 +6521,8 @@ app.get('/reportResult/:data',  function (req, res) {
                                              // if (m== 0 && z == 0) {
                                               if (m == 0 && z == 0) {
                                                 console.log(m+"  finalCallDisplay "+z)
-                                              finalCallDisplay(m,z);
+                                              finalCallDisplay(m,z); 
+                                              checkcall1 = 1;
                                                // addNoRepeatItemsStockNo()
                                               }//if m==0 
 
@@ -5883,7 +6570,7 @@ app.get('/reportResult/:data',  function (req, res) {
                                                             })
 
                       
-                           // }//if m==0 
+                        //   }//if m==0 
       
     }//finalCallDisplay
                   // function sendResponse() {
@@ -6216,11 +6903,8 @@ app.get('/getGroupWisePreview',function(req,res){
 })
 // get all data/stuff of the body (POST) parameters
 
-// var port = process.env.PORT || 8090;
-// app.listen(port)
-// console.log("server running on port 8090")
-//app.listen(9000);
-//console.log("server running on port 9000");
+
+
 var db1 = require('./config/db');
 
 //var port = process.env.PORT || 9000; // set our port
@@ -6236,6 +6920,7 @@ mongoose.connect(db1.url, function(err, db) {
 
 
 
+
 app.use(bodyParser.json({limit: '20mb'})); // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(bodyParser.urlencoded({limit: '20mb', extended: true}));// parse application/x-www-form-urlencoded
@@ -6246,19 +6931,9 @@ app.use(express.static(__dirname + '/subscriber_images'));
 
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
-//require('./app/rout')(app);
-// start app ===============================================
-// <<<<<<< HEAD
+require('./public/inventoryDbs/defaultCollections')(app);
+app.listen(8080); 
+console.log("server running on port 8080");
 
-// =======
-<<<<<<< HEAD
-app.listen(9900); 
-//console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 9900");
-=======
-app.listen(8888); 
-//console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8888");
->>>>>>> 43c0186e4b02334c99c687234fdcdc15fc6c5773
-// >>>>>>> 7a63b63f279a4aae079c032f0654879af6c817a2
+
 exports = module.exports = app;

@@ -1,5 +1,5 @@
 module.exports = function (app) {
-
+	
 	var fs = require('fs');
 	var mkdirp = require('mkdirp');
 	var path = require('path');
@@ -156,7 +156,7 @@ module.exports = function (app) {
 
 	readServerConfigFile();
 	readAccountsFile();
-	//readDropDownValuesFile();
+	//readDropDownValuesFile();// commented initially
 	createStandardLedgerAccounts();
 
 	/* -------------------------------------------------------------------------

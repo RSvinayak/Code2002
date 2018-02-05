@@ -2,7 +2,7 @@
 var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http,$localStorage,$sessionStorage, $window) {
     console.log("Hello World from controller display");
-
+ $scope.usernamedetails = window.sessionStorage.getItem("username")
 var refresh = function() {
 $http.get('/getitemtaxation').success(function(response) {
  	console.log("i get the data i requested");

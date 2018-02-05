@@ -4,6 +4,7 @@ var myApp=angular.module('myApp',[]);
 myApp.controller('ItemCntrl',['$scope','$http','$window',
 function($scope,$http,$window){
   //alert("well come to ItemCntrl")
+   $scope.usernamedetails = window.sessionStorage.getItem("username")
    $scope.itemdetails = []
   var duplicat = [];
   var duplicate = [];
@@ -272,9 +273,6 @@ if($scope.item1.Name == undefined &&$scope.item1.Hsc == undefined &&$scope.item1
  // alert(item1filter)
 $scope.filterchange = function(){
   
-  //alert("hh")
-   //var item1filter =' '+$scope.item1.filter
-   //alert($scope.item1.filter)
     var item1filter =$scope.item.filter
       $http.get('/getfilter/'+item1filter).success(function(response){
          $scope.itemdetails = response 
@@ -326,41 +324,35 @@ $scope.edititem = function(){
 
 
 $scope.deleteitem = function(){
- //alert($scope.item1.filter)
- // console.log(selectedrow._id) 
- $scope.test = 'display'
+ 
+  $scope.test = 'display'
   if(selectedrow == null ){
     alert("Please select item");
   }else{
-  var r = confirm("Are you sure you want to delete this ?")
+              var r = confirm("Are you sure you want to delete this ?")
               if (r == true) {
                  console.log("true");
-               $http.delete('/itemdelete/'+selectedrow._id).success(function(response)
-                     {
-                        //refresh();
-                         //$scope.item1 ="" 
-                    });
-              
-     $scope.item1 =""
-       editcheck=false 
-             }else{
-               $scope.item1 ="" 
-               editcheck=false
-                    //$scope.cancelitem()
-   //                   $scope.item1.Name ="" 
-   // $scope.item1.Hsc ="" 
-   // $scope.item1.Desc = "" 
-      // $scope.item1.ItemType = ""
-      // $scope.item1.SaleCategory = "" 
-      //  $scope.item1.InvGroupName= ""
+                 $http.delete('/itemdelete/'+selectedrow._id).success(function(response){
+                          //refresh();
+                           //$scope.item1 ="" 
+                            $scope.filterchange();
 
-                  }
+                 });
+              
+                 $scope.item1 =""
+                 editcheck=false 
+              }else{
+                     $scope.item1 ="" 
+                     editcheck=false
+                       $scope.filterchange();
+   
+
+                   }
   
  
-   selectedrow = null;
-   }
-  $scope.filterchange();
-}
+              selectedrow = null;
+       }
+ }//$scope.deleteitem
 
 
 }]);

@@ -3,6 +3,7 @@ var myApp=angular.module('myApp',[]);
 myApp.controller('groupWiseController',['$scope','$http','$window','$q',
 function($scope,$http,$window,$q){
   //for radio default//GrossWt //NettWt
+   $scope.usernamedetails = window.sessionStorage.getItem("username")
    $scope.color = {
         Wt:'NettWt'  
       };

@@ -43,6 +43,174 @@ export-table
     }
     </script> -->
     <style type="text/css">
+          .center {
+    margin:auto;
+    width: 20%;
+    /*display: block; */
+    
+}
+/*.row{
+
+}*/
+ul.dark_menu {
+list-style: none;
+padding: 5px 1px;
+font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+font-weight: 200;
+font-size: 16px;
+letter-spacing: 0.01em;
+font-smooth: always;
+color: #000000;
+line-height: 15px;
+margin: auto;
+/*width: 1018px;*/
+position: relative;
+background: #2B5797;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu:after {
+content: "";
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;}
+ul.dark_menu li {
+float: left;
+position: relative;
+margin: 1px;}
+/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a, ul.dark_menu li a:link {
+color: #fafafa;
+text-decoration: none;
+display: block;
+padding: 8px 26px;
+-webkit-transition: all 0.2s ease;
+-moz-transition: all 0.2s ease;
+-o-transition: all 0.2s ease;
+-ms-transition: all 0.2s ease;
+transition: all 0.2s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a:hover {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a.selected {
+border-right: 1px solid #ddd;
+text-transform: uppercase;
+margin-left: 10px;
+}
+ul.dark_menu li a.selected, ul.dark_menu li a:active {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;}
+ul.dark_menu li ul {
+display: none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul:before {
+content: " ";
+position: absolute;
+display: block;
+z-index: 1500;
+left: 0;
+top: -10px;
+height: 10px;
+width: 100%;}
+ul.dark_menu li ul {-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;top:55px;}
+ul.dark_menu li:hover ul {
+position: absolute;
+display: block;
+z-index: 1000;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+left: 0;border-radius: 0px 0px 5px 5px;
+top: 37px;
+padding: 5px 0;
+list-style: none;
+background: #fff;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul li {
+float: none;
+margin:0px;}
+ul.dark_menu li ul li:first-child {
+margin:0px;
+border-top: 0 none;}
+ul.dark_menu li ul li:last-child {
+border-bottom: 0 none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu [data-role="dropdown"] > a::before {
+position: absolute;
+content: "^";
+display: block;
+font-size: 15px;
+left: 100%;
+margin-left: -20px;
+top: 10px;
+-webkit-transform: rotate(180deg);
+-moz-transform: rotate(180deg);
+-ms-transform: rotate(180deg);
+-o-transform: rotate(180deg);
+transform: rotate(180deg);
+}
+ul.dark_menu li ul li a, ul.dark_menu li ul li a:link {
+color: #222;
+display: block;
+background: transparent none;
+padding: 10px 25px 10px 25px;
+white-space: nowrap;}
+ul.dark_menu li ul li a:hover {
+background:#2D89EF;-moz-transition: all 0.1s ease-in-out;color:#fff;
+-webkit-transition: all 0.1s ease-in-out;
+}/* Blog johanes djogzs.blogspot.com */
+.menujohanes{position:relative;}
+#search input[type="text"]:hover {width:848px;}
+#search input[type="text"] {
+background: #fff url("http://3.bp.blogspot.com/-uYZni0pIn-E/T-xY2vVu_-I/AAAAAAAACUY/ZMfR3_BvRFE/s1600/SEARCH_32x32-32.png")no-repeat center left;
+font-size: 13px;
+color: #222;
+width: 0px;
+padding: 10px 0px 11px 35px;
+z-index: 9;
+border: 1px solid #fff;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+margin-bottom: -1px;
+position: absolute;
+top: 0px;
+right:27px;}
+/*#main4, #main5, #main6 {
+width: 303px;
+list-style-type: none;
+float: left;
+margin: 10px;}
+.main3 {width:305px;
+list-style-type: none;
+padding-top: 10px;
+float: left;}
+::-webkit-scrollbar {
+height:12px;
+background: #474747;}
+::-webkit-scrollbar-thumb {
+background-color: #000;
+}*/
+ li#sub ul {
+    display:none;
+  position: absolute; left: 100%; top:0;
+}
+li#sub:hover ul{
+display: block;
+}
+#table-wrapper {
+  position:relative;
+  /*display: block; */
+}
       /*.table >thead >tr >th { border: 1px solid #2980B9; }*/
       #theadsize  {
   font-size: 80%;
@@ -62,9 +230,153 @@ export-table
           }
     </style>
     </head>
-    <body ng-controller="PdfCntrl" class="container"> 
+    <body style="background-color:FFE4B5;" ng-controller="PdfCntrl" >
+    <div class='menujohanes' style=" position:sticky;top:0;z-index: 1;";
+  >
+        <ul class='dark_menu'>
+          
+<li >
+            <a>
+              Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+            </a>
+            <ul>
+              <li>
+                <a href="Transaction.html">
+                  New
+                </a>
+              </li>
+               <li>
+                <a href="list.html">
+                  List
+                </a>
+              </li>
+                <li>
+                <a href="Phistory.html">
+                  Party History
+                </a>
+              </li>
+            </ul>
+          
+          </li>
+
+       <li >
+
+            <a href='#'>
+              Inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+                 <li id='sub'>
+                    <a href='#'>
+                    Barcoding
+                    </a>
+                     <ul>
+                         <li>
+            <a href='Barcode Summary.html'>
+              Barcode Summary
+                             </a></li><li>
+            <a href='Barcode Generation.html'>
+              Barcode Generation
+                             </a></li>
+                             <li>
+            <a href='stockverification.html'>
+              Stock Verification
+                             </a></li>
+                     </ul>
+                         
+                </li>
+
+               <li>
+                <a href="item.html">
+                  Item
+                </a>
+              </li>
+             
+             
+            </ul>
+          </li>
+          
+          
+          <li >
+            <a href='#'>
+              Report &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="ClosingStockBookByGroupItem.html">
+                
+                  Closing Stock Book By Group Item
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="DailyClosingStock.html">
+                  
+                  Daily Closing Stock
+                </a>
+              </li>
+              <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li>
+             
+              
+            </ul>
+          </li>
+          <li >
+            <a href='Tax Configuration.html'>
+              Tax Configuration
+            </a>
+         <!--    <ul>
+                
+
+               <li>
+                <a href="indextaxation.html">
+                  Tax Structure
+                </a>
+              </li>
+              <li>
+                <a href="taxation.html">
+                  Tax Name
+                </a>
+              </li>
+             
+              
+            </ul> -->
+          </li>
+            
+        
+          </li>
+          <li  id="name1">
+            <a>
+             {{usernamedetails}}
+               
+            </a>
+          
+          </li>
+          <li id="name1">
+            <a href="loginPage.html" >
+              Sign Out
+               
+            </a>
+          
+          </li>
+          
+        </ul>
+
+        <!-- <form action='/search' id='search' method='get'>
+          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
+        </form> -->
+        
+      </div>
+      <div class="center" ng-cloak >
+        <h2>Summary</h2>
+      </div>
+      <div class="container"> 
     <article>
-      <div id="myDIV">
+      <div id="myDIV" >
   <header >
     <h4 ng-cloak>{{ShopName}}</h4>
     <p ng-cloak>{{Landmark }}<br>{{Street}}<br>{{Place}}<br>{{Phone}}{{Mobile}} <br>{{email}}</p>
@@ -78,7 +390,7 @@ export-table
 <h3 align="center" ng-cloak>{{trans}}</h3>
 <div class="row">
 
-<div class="col-sm-10">
+<div class="col-sm-10" ng-hide="trans=='Opening Stock'">
 <p ng-cloak>Party Name:{{partyname}} <br>
 Party License:{{partyLicense}}<br>
 Party PAN:{{partyPAN}}<br>
@@ -90,7 +402,7 @@ City:{{city}}</p>
  <!-- <input type="text" name=
  "number"  onkeyup="word.innerHTML=convertNumberToWords(this.value)" /> -->
 </div>
-<div ng-cloak ng-if="trans !='Valuation'">Invoice No:{{invoice}}<br>
+<div ng-cloak ng-if="trans !='Valuation'&&trans!='Opening Stock'">Invoice No:{{invoice}}<br>
   <!-- <p>Invoice No:B1393<br> -->
   Date:{{FromDate | date }}</p>
 </div>
@@ -154,7 +466,7 @@ City:{{city}}</p>
        <td ng-if="trans =='Regular Sale' && printLabour=='yes'" >{{item.labval}}</td>
        <td ng-if="trans == 'Receipt Voucher'">{{item.labval}}</td>
        <td ng-if="trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans!='Sale Return'&&trans !='Purchase Return'">{{item.taxval}}</td> 
-       <td ng-if="trans == 'Sale Return'||trans=='Purchase Return'">{{item.taxval}}</td>
+       <td ng-if="trans == 'Sale Return'||trans=='Purchase Return'">{{item.final}}</td>
    </tr>
 </tbody>
 </table>
@@ -271,7 +583,7 @@ City:{{city}}</p>
 
 
 <!-- <<<<<<< HEAD -->
-<div class="col-md-4" ng-hide="trans =='Issue Voucher'||trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'||trans == 'Approval Out'||trans=='Approval Return'">
+<div class="col-md-4" ng-hide="trans =='Issue Voucher'||trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'||trans == 'Approval Out'||trans=='Approval Return'||trans=='Opening Stock'">
 <!-- ======= -->
 <!-- <div class="col-md-4" ng-hide="trans =='Issue Voucher'|| trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'">
  --><!-- >>>>>>> 61946425920cfde23eb0ef81e1ccb2a84ae6baa2 -->
@@ -345,7 +657,7 @@ City:{{city}}</p>
 
 </div>
 <!-- <<<<<<< HEAD -->
-<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans !='Sale Return'&&trans !='Purchase Return'&&trans !='Approval Out'&&trans!='Approval Return'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
+<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans !='Sale Return'&&trans !='Purchase Return'&&trans !='Approval Out'&&trans!='Approval Return'&&trans!='Opening Stock'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
 <h4 ng-if="trans =='Urd Purchase'" ng-cloak><font color="black">Invoice Value In Words:{{wor}}{{"only"}}</h4>
 
 
@@ -354,7 +666,7 @@ City:{{city}}</p>
 
 <div class="row" ng-hide="trans =='Urd Purchase'||trans =='Valuation'|| trans =='Issue Voucher' || trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'||trans == 'Approval Out'||trans=='Approval Return'" ng-cloak>
 
-<div class="col-sm-4">
+<div class="col-sm-4" ng-hide="trans=='Opening Stock'">
 <table class="table table-bordered" >
     <thead>
       <!-- <tr><font color="white"> -->
@@ -385,7 +697,7 @@ City:{{city}}</p>
 </tbody>
 </table>
 </div>
-<div class="col-sm-4">
+<div class="col-sm-4" ng-hide="trans=='Opening Stock'">
 <table class="table table-bordered">
     <thead>
       <tr>

@@ -1,0 +1,561 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+<title>History</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var specialElementHandlers = {
+            '#editor': function (element,renderer) {
+                return true;
+            }
+        };
+        $('#cmd').click(function () {
+            var doc = new jsPDF( "landscape","pt","legal");
+            // doc.autoTable(columns, rows);
+            var dt = new Date();
+    var day = dt.getDate();
+    var month = dt.getMonth() + 1;
+    var year = dt.getFullYear();
+    // var hour = dt.getHours();
+    // var mins = dt.getMinutes();
+    var postfix = day + "." + month + "." + year;
+     // var data_type = 'data:GroupWise.pdf';
+            var source = $('#thrid').html();
+            var specialElementHandlers = {
+                '#bypassme': function (element, renderer) {
+                    return true;
+                }
+                
+            };
+            doc.fromHTML(source, 0, 0, {
+                              width: '100%',
+                'elementHandlers': specialElementHandlers
+              // }
+            });
+             doc.save('History-'+postfix+'.pdf');
+        });
+    });
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#btnExport").click(function(e) {
+        var dt = new Date();
+        var day = dt.getDate();
+        var month = dt.getMonth() + 1;
+        var year = dt.getFullYear();
+        // var hour = dt.getHours();
+        // var mins = dt.getMinutes();
+        var postfix = day + "." + month + "." + year;
+        var a = document.createElement('a');
+        var data_type = 'data:application/vnd.ms-excel';
+        var table_div = document.getElementById('thrid');
+        var table_html = table_div.outerHTML.replace(/ /g, '%20');
+        a.href = data_type + ', ' + table_html;
+        a.download = 'History-' + postfix + '.xls';
+        a.click();
+        e.preventDefault();
+    });
+});
+</script>
+<style>
+.center {
+    margin:auto;
+    width: 10%;
+    
+    
+}
+   .selectpic {
+   /* margin:auto;*/
+    width: 230%;
+    
+    
+}
+      ul.dark_menu {
+list-style: none;
+padding: 5px 1px;
+font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+font-weight: 200;
+font-size: 16px;
+letter-spacing: 0.01em;
+font-smooth: always;
+color: #000000;
+line-height: 15px;
+margin: auto;
+/*width: 1018px;*/
+position: relative;
+background: #2B5797;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu:after {
+content: "";
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;}
+ul.dark_menu li {
+float: left;
+position: relative;
+margin: 1px;}
+/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a, ul.dark_menu li a:link {
+color: #fafafa;
+text-decoration: none;
+display: block;
+padding: 8px 26px;
+-webkit-transition: all 0.2s ease;
+-moz-transition: all 0.2s ease;
+-o-transition: all 0.2s ease;
+-ms-transition: all 0.2s ease;
+transition: all 0.2s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a:hover {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a.selected {
+border-right: 1px solid #ddd;
+text-transform: uppercase;
+margin-left: 10px;
+}
+ul.dark_menu li a.selected, ul.dark_menu li a:active {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;}
+ul.dark_menu li ul {
+display: none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul:before {
+content: " ";
+position: absolute;
+display: block;
+z-index: 1500;
+left: 0;
+top: -10px;
+height: 10px;
+width: 100%;}
+ul.dark_menu li ul {-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;top:55px;}
+ul.dark_menu li:hover ul {
+position: absolute;
+display: block;
+z-index: 1000;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+left: 0;border-radius: 0px 0px 5px 5px;
+top: 37px;
+padding: 5px 0;
+list-style: none;
+background: #fff;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul li {
+float: none;
+margin:0px;}
+ul.dark_menu li ul li:first-child {
+margin:0px;
+border-top: 0 none;}
+ul.dark_menu li ul li:last-child {
+border-bottom: 0 none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu [data-role="dropdown"] > a::before {
+position: absolute;
+content: "^";
+display: block;
+font-size: 15px;
+left: 100%;
+margin-left: -20px;
+top: 10px;
+-webkit-transform: rotate(180deg);
+-moz-transform: rotate(180deg);
+-ms-transform: rotate(180deg);
+-o-transform: rotate(180deg);
+transform: rotate(180deg);
+}
+ul.dark_menu li ul li a, ul.dark_menu li ul li a:link {
+color: #222;
+display: block;
+background: transparent none;
+padding: 10px 25px 10px 25px;
+white-space: nowrap;}
+ul.dark_menu li ul li a:hover {
+background:#2D89EF;-moz-transition: all 0.1s ease-in-out;color:#fff;
+-webkit-transition: all 0.1s ease-in-out;
+}/* Blog johanes djogzs.blogspot.com */
+.menujohanes{position:relative;}
+#search input[type="text"]:hover {width:848px;}
+#search input[type="text"] {
+background: #fff url("http://3.bp.blogspot.com/-uYZni0pIn-E/T-xY2vVu_-I/AAAAAAAACUY/ZMfR3_BvRFE/s1600/SEARCH_32x32-32.png")no-repeat center left;
+font-size: 13px;
+color: #222;
+width: 0px;
+padding: 10px 0px 11px 35px;
+z-index: 9;
+border: 1px solid #fff;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+margin-bottom: -1px;
+position: absolute;
+top: 0px;
+right:27px;}
+/*#main4, #main5, #main6 {
+width: 303px;
+list-style-type: none;
+float: left;
+margin: 10px;}
+.main3 {width:305px;
+list-style-type: none;
+padding-top: 10px;
+float: left;}
+::-webkit-scrollbar {
+height:12px;
+background: #474747;}
+::-webkit-scrollbar-thumb {
+background-color: #000;
+}*/
+ li#sub ul {
+    display:none;
+  position: absolute; left: 100%; top:0;
+}
+li#sub:hover ul{
+display: block;
+}
+#table-wrapper {
+  position:relative;
+}
+#tscroll {
+  height:90%;
+  overflow:auto;  
+  margin-top:5%;
+}
+
+/*thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+
+        }*/
+        /*tr {
+          width: 100%;
+        }*/
+
+        /*thead th {
+            height: 60px;
+              width: 33%;
+
+            float: left;
+
+            
+        }*/
+
+     /*   tbody {
+            height: 270px;
+            overflow-y: auto;
+        }
+
+        tbody td {
+
+            width: 33%;
+
+            float: left;
+        }*/
+
+.table {
+    /
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+}
+#tax > thead, tbody {
+  
+    text-align: left;
+    padding: 0px;
+  }
+  #tax > tbody {
+  height: 80%;
+}
+#buttonwidth{
+  width:80px;
+}
+#widthadjust{
+  width: 10%;
+}
+li#name1 {
+    right: -400px;
+    font-size: 27px;
+    font-style: italic;
+} 
+#his{
+ margin-left:1150px;
+  margin-top:-90px;
+  color:blue;
+  position:fixed;
+}
+#main{
+	width:1150px;
+	height:700px;
+	margin-left:100px;
+	margin-right:100px;
+	border:1px solid black;
+}
+#second{
+	width:1100px;
+	height:650px;
+	background-color:lightgrey;
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:10px;
+}
+#thrid{
+	width:1050px;
+	height:520px;
+	background-color:white;
+	border:2px solid black;
+	margin-left:20px;
+	margin-right:20px;
+	margin-top:35px;
+	overflow-y:auto;
+}
+#title{
+	margin-left:420px;
+	margin-top:5px;
+	color:black;
+
+}
+th,td{
+	/*margin-left:10px;*/
+	padding-top:-5px;
+	padding-left: 20px;
+	padding-right: 45px;
+}
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    
+}
+/*th, td {
+    padding: 5px;
+}*/
+</style>
+</head>
+<body ng-controller='myctrl1' style="background-color: FFE4B5;">
+	<div class='menujohanes'>
+        <ul class='dark_menu'>
+          
+<li >
+            <a>
+              Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+            </a>
+            <ul>
+              <li>
+                <a href="Transaction.html">
+                  New
+                </a>
+              </li>
+               <li>
+                <a href="list.html">
+                  List
+                </a>
+              </li>
+                <li>
+                <a href="Phistory.html">
+                  Party History
+                </a>
+              </li>
+            </ul>
+          
+          </li>
+
+       <li >
+
+            <a href='#'>
+              Inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+                 <li id='sub'>
+                    <a href='#'>
+                    Barcoding
+                    </a>
+                     <ul>
+                         <li>
+            <a href='Barcode Summary.html'>
+              Barcode Summary
+                             </a></li><li>
+            <a href='Barcode Generation.html'>
+              Barcode Generation
+                             </a></li>
+                             <li>
+            <a href='stockverification.html'>
+              Stock Verification
+                             </a></li>
+                     </ul>
+                         
+                </li>
+
+               <li>
+                <a href="item.html">
+                  Item
+                </a>
+              </li>
+             
+             
+            </ul>
+          </li>
+          
+          
+          <li >
+            <a href='#'>
+              Report &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="ClosingStockBookByGroupItem.html">
+                
+                  Closing Stock Book By Group Item
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="DailyClosingStock.html">
+                  
+                  Daily Closing Stock
+                </a>
+              </li>
+              <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li>
+             
+              
+            </ul>
+          </li>
+          <li >
+            <a href='indextaxation.html'>
+              Tax Configuration
+            </a>
+           <!--  <a href='#'>
+              Taxation
+            </a>
+            <ul>
+                
+
+               <li>
+                <a href="indextaxation.html">
+                  Tax Structure
+                </a>
+              </li>
+              <li>
+                <a href="taxation.html">
+                  Tax Name
+                </a>
+              </li>
+             
+              
+            </ul> -->
+          </li>
+            
+        
+          </li>
+          <li  id="name1">
+            <a>
+             {{usernamedetails}}
+               
+            </a>
+          
+          </li>
+          <li id="name1">
+            <a href="loginPage.html" >
+              Sign Out
+               
+            </a>
+          
+          </li>
+          
+        </ul>
+
+        <!-- <form action='/search' id='search' method='get'>
+          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
+        </form> -->
+        
+      </div>
+     <!--  <div ng-cloak>
+        
+      </div> -->
+   <!-- <div class="btn-group btn-group-justified">
+   <a href="index.html" ><button type="button" class="btn btn-primary">Main</button></a>
+  <a href="list.html" > <button type="button" class="btn btn-primary">List</button></a>
+  
+</div> --> 
+
+	<div id='main'>
+		<div  id='title'><h2>Party Transaction History</h2></div>
+		
+		<div id="second" class='row-sm-1'>
+			<br>
+			<br>
+			<label style="margin-left:100px">partyname:</label>
+			<!-- <datalist id="partyname"> -->
+				<select style='margin-right:15px' ng-model="partyname" >
+					<option></option>
+					<option ng-repeat="party in partynames">
+						{{party.subscriber}}</option>
+				</select>&nbsp;&nbsp;&nbsp;&nbsp;
+			<!-- </datalist> -->
+		
+                From: <input type="date" style='margin-right:15px'ng-model="date2">&nbsp;&nbsp;&nbsp;&nbsp;
+				 To: <input type="date" ng-model="date1" style='margin-right:15px' >&nbsp;&nbsp;&nbsp;&nbsp;
+				 <button style='margin-right:15px' ng-click="getAllDetails(partyname,date2,date1)"  class="btn btn-success">Preview</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 <button style='margin-right:15px' class="btn btn-primary" id="cmd">PDF</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 <button style='margin-right:15px' id="btnExport" class="btn btn-danger">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			
+			<div id="thrid">
+			<table ng-cloak class="table table-bordered">
+				<tr >
+					<th >Date</th>
+					<th style='margin-right:10px'>Transaction</th>
+					<th style='margin-right:10px'>Prefix</th>
+					<th style='margin-right:10px'>VoucherNo</th>
+					<th style='margin-right:10px'>Suffix</th>
+					<th style='margin-right:10px'>Party</th>
+					<th style='margin-right:10px'>Value</th>
+					<th style='margin-right:10px'>Remarks</th>
+				</tr>
+				<tr ng-model="alldetails" ng-repeat="party in partydetails">
+					<td >{{party.date| date:"dd-MM-y"}}</td>
+					<td style='margin-right:10px'>{{party.Transaction}}</td>
+					<td style='margin-right:10px'>{{party.Prefix}}</td>
+					<td style='margin-right:10px'>{{party.voucherNo}}</td/>
+					<td style='margin-right:10px'>{{party.Suffix}}</td>
+					<td style='margin-right:10px'>{{party.partyname}}</td>
+					<td style='margin-right:10px'>{{party.final}}</td>
+					<td style='margin-right:10px'>{{party.Remarks}}</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+
+<script type="text/javascript" src="controller/controller.js"></script>
+</html>

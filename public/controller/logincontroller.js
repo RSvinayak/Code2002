@@ -6,7 +6,7 @@ function($scope,$http,$rootScope){
 	var name = null;
 	var desgination = null;
 	$scope.loginCall = function(){
-		
+		$scope.failure = false;
 		
 		$http.get('/getLoginDetails',{params:{"password":$scope.password,"username":$scope.username}}).success(function(response){
 			console.log(response[0].name);
@@ -30,13 +30,29 @@ function($scope,$http,$rootScope){
 		})
 		 
 	}
+	$scope.charan=function(event) {
+			//console.log(event)
+		//alert("jj")
+		
+		if (event.keyCode==13 && validation == 1 ) {
+			//alert("jj")
+		window.sessionStorage.setItem("username",name);
+				 window.sessionStorage.setItem("desgination",desgination);
+				// $scope.mylogi = "Transaction.html";
+				window.location="Transaction.html"	
+		} 
+		else if(event.keyCode==13 && validation != 1){
+			// alert("else")
+			 $scope.failure = true;
+		}
+	}
 	$scope.loginValidateCall = function(){
 		if(validation == 1){
 				
 				//console.log($rootScope.name)
 				 window.sessionStorage.setItem("username",name);
 				 window.sessionStorage.setItem("desgination",desgination);
-				$scope.myloginlink = "mainpage.html";
+				$scope.myloginlink = "Transaction.html";
 				//alert("Please check Details again")
 			}else{
 				//alert("Please check Details again")
@@ -46,8 +62,10 @@ function($scope,$http,$rootScope){
 	}
 
 	$scope.cancelCall = function(){
+		//alert($scope.password)
 		$scope.password = null;
 		$scope.username = null;
+		$scope.failure = false;
 		//alert("cancel call")
 		//$scope.myloginlink = "mainpage.html";
 	}

@@ -1,0 +1,77 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+
+    <title>HistoryPdf</title>  
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+       <!--  <body>
+    <p id="to-pdf">HTML content...</p>
+</body> -->
+<script type="text/javascript">
+function exportPDF()
+{
+  //alert(pdf function call)
+var pdf = new jsPDF('p','pt','a4');
+pdf.addHTML(document.body,function() {
+    pdf.save('web.pdf');
+});
+}
+</script>
+<title>HistoryPdf</title>
+ <style type="text/css">
+ th,td{
+  /*margin-left:10px;*/
+  padding-top:-5px;
+  padding-left: 20px;
+  padding-right: 45px;
+}
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-left:30px;
+}
+ </style>
+ </head>
+<body ng-controller="myctrl2"> 
+	<div >
+    {{name}}
+		<h3 align="center">Transaction History Page</h3>
+		<div>
+      <p style="margin-left:100px">partyname:{{partyname}}</p>
+       <p style="margin-left:100px">From:{{date1|date:"mm/dd/yyyy"}}</p>
+       <p style="margin-left:100px">To:{{date2|date:"mm/dd/yyyy"}}</p>
+    </div> 
+    <div>
+			<table>
+        <tr>
+          <th style='margin-right:10px'>Date</th>
+          <th style='margin-right:10px'>Transaction<th>
+          <th style='margin-right:10px'>Prefix</th>
+          <th style='margin-right:10px'>VoucherNo</th>
+          <th style='margin-right:10px'>Suffix</th>
+          <th style='margin-right:10px'>Party</th>
+          <th style='margin-right:10px'>Value</th>
+        </tr>
+        <tr ng-model="alldetails" ng-repeat="party in partydetailall">
+          <td >{{party.date| date:"dd-MM-y"}}</td>
+          <td style='margin-right:10px'>{{party.Transaction}}</td>
+          <td style='margin-right:10px'>{{party.Prefix}}</td>
+          <td style='margin-right:10px'>{{party.voucherNo}}</td/>
+          <td style='margin-right:10px'>{{party.Suffix}}</td>
+          <td style='margin-right:10px'>{{party.partyname}}</td>
+          <td style='margin-right:10px'>{{party.final}}</td>
+          <td style='margin-right:10px'>{{party.Remarks}}</td>
+        </tr>
+      </table>
+	</div>
+</body>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+  
+    <script type="text/javascript" src="controller/controller.js"></script>
+</html>

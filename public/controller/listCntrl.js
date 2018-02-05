@@ -2,6 +2,7 @@ var myApp=angular.module('myApp',[]);
 myApp.controller('ListCntrl',['$scope','$http','$window',
 function($scope,$http,$window){
     console.log("hi listCntrl ");
+      $scope.usernamedetails = window.sessionStorage.getItem("username")
      // for transaction details collection in inventory
          $http.get('/transactiondetails').success(function(response){
             console.log(response)
