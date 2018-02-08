@@ -1432,18 +1432,17 @@ app.post('/transactionComboItemInsert',function(req,res)
         delete(req.body.wt)
         delete(req.body.color)
         delete(req.body.Qty)
-        delete(req.body.stockPoint)
+        // delete(req.body.stockPoint)
         delete(req.body.stockPoint1)
         req.body.ntwt  = parseFloat(req.body.ntwt)
         req.body.gwt  = parseFloat(req.body.gwt)
         req.body.gpcs  = parseFloat(req.body.gpcs)
-      db.transactiondetail.insert(req.body,function(err,doc){
-       res.json(doc);    
-})
+        db.transactiondetail.insert(req.body,function(err,doc){
+             res.json(doc);    
+        })
 })
 // for transaction details collection in inventory
-app.get('/transactiondetails',function(req,res)
-{
+app.get('/transactiondetails',function(req,res){
     //console.log("i received a get request from index");
     //
   db.transactionSeriesInvoice.find(function(err,doc){
@@ -5602,7 +5601,7 @@ app.get('/trCollectionCreation/:data',function(req,res){
      configurationCall();   
    // console.log("entered into new  trans data");
     console.log("Discount Given Discount GivenDiscount getinventorygroupvaluenotation trCollectionCreation")
-   // res.json("100");
+   res.json("100");
    var taxDuplicateCheck = [];
  var str=req.params.data;
     //console.log(str);
@@ -5725,11 +5724,12 @@ app.get('/trCollectionCreation/:data',function(req,res){
       }else{ // if (voucherType != "Urd Purchase") 
 
             defaultBalanceSubscriber(name);
-            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Cr','L035') 
-            refId = "";
+             refId = "";
              db.transactiondetail.find({ "_id" : mongojs.ObjectId(str_array[0])},function (err,request) {
                             //    db.transactiondetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
                            salesPerson =  request[0].salesPerson;
+                  gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Cr','L035') 
+           
              })
             setTimeout(trHeader, 3000);
       }
@@ -6932,8 +6932,8 @@ app.use(express.static(__dirname + '/subscriber_images'));
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
 require('./public/inventoryDbs/defaultCollections')(app);
-app.listen(8080); 
-console.log("server running on port 8080");
+app.listen(8090); 
+console.log("server running on port 8090");
 
 
 exports = module.exports = app;

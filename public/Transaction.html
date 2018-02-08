@@ -1278,11 +1278,11 @@ display: inline-block;
 <!-- >>>>>>> 61946425920cfde23eb0ef81e1ccb2a84ae6baa2 -->
     <!-- <div class="w3-card-6 w3-margin"> -->
       <br>
-        <header class="w3-container w3-light-grey w3-padding-8 w3-center">
+        <header class="w3-container w3-light-grey w3-padding-8 w3-center" ng-cloak>
      <!--    <h4 >DISCOUNT/CHARGES</h4> -->
-          <h4 >INVOICE CHARGES</h4>
+          <h4 ng-cloak>INVOICE CHARGES</h4>
         </header>
-          <table class="w3-table w3-PapayaWhip " id="de" >
+          <table class="w3-table w3-PapayaWhip " id="de" ng-cloak>
     <thead >
       <tr>
         <th>Name</th>
@@ -1352,7 +1352,7 @@ display: inline-block;
 <!-- ng-disabled="checkFinal()" ng-model='finalCal' disabled-->
 
   <div class="w3-quarter w3-container" ng-hide="!saleinv.length" >
-    <div class="w3-card-2 w3-margin" >
+    <div class="w3-card-2 w3-margin" ng-cloak>
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" >
    <h4 >FINAL CALCULATION </h4>
         </header>
@@ -1398,7 +1398,7 @@ display: inline-block;
         </div>
       </div>
      <!--  </div> -->
-  <div class="col-md-2">
+  <div class="col-md-2" ng-cloak>
 
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 

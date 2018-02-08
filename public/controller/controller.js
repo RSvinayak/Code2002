@@ -6619,6 +6619,7 @@ else{
     //trcollection creation
      function trdetailsInsert() {
          $http.get('/trCollectionCreation/'+usecase,{params:{"salesIds":saleinvoice_id,"userIds":user1,"trail":"yes"}}).success(function(response){  
+         
          })       
      }
      //trdetailsInsert();

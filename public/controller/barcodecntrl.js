@@ -482,36 +482,13 @@ $scope.saveBatchGeneration = function(){
                        $http.post('/transactionstockInward',$scope.userit[0]);
                        $http.post('/batchdata1',$scope.userit[0]);
 
-                      //  .success(function(response){  
-                                  
-                      //  .success(function(response){  
-                      //             $scope.userit[0].stockPoint1 = stockin ;
-                      //             $http.post('/transactionstockInward',$scope.userit[0]).success(function(response){  
-                      //                    console.log("i got replay")
-                      //                    console.log(response);
-                                
-                                       
-                      //              })
-
-                           
-                      // });
-
-                     // console.log( $scope.userit[0].StockPoint);
-                      // $scope.userit[0].stockPoint1 = stockin ;
-                      // $http.post('/transactionstockInward',$scope.userit[0]).success(function(response){  
-                      //        console.log("i got replay")
-                      //        console.log(response);
-                      //       // alert(" transactionstockInward i got replay")
-                                 
-
-                           
-                      //  })
+                      
                        if( comboItemCheck  == "yes"){
                              $http.post('/transactionComboItemInsert',$scope.userit[0]).success(function(response) {  
-                                        console.log("i got replay")
-                                        console.log(response);
-                             
-                               })             
+                                  console.log("i got replay")
+                                  console.log(response);
+                                  
+                             })             
                        }
 
                     }
