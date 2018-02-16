@@ -5,9 +5,10 @@
     "angularjs-datepicker": "^2.1.12",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "get-mongodb-version": "^1.0.0",
     "method-override": "^2.3.10",
     "mkdirp": "^0.5.1",
-    "mongodb": "^2.2.33",
+    "mongodb": "^2.2.34",
     "mongojs": "^2.4.1",
     "mongoose": "^4.13.7"
   }

@@ -80,8 +80,11 @@
                                     {
                                           "name" : "Cash"
                                               },
+                                              {
+                                          "name" : "Cheque"
+                                              },
                                     {
-                                          "name" : "Credit"
+                                          "name" : "Card"
                                             }
                                     
                          ]
@@ -306,6 +309,15 @@
                                     "TransactionType" : "Payment",
                                     "POSID" : "1",
                                     "TransactionPrefix" : "PA",
+                                    "StartingTransactionClassNo" : 1,
+                                    "StartingTransactionTypeNo" : 1
+                                },
+                                {
+                                   "TransactionSeriesId" : "14",
+                                    "TransactionClass" : "Journal",
+                                    "TransactionType" : "Receipt",
+                                    "POSID" : "1",
+                                    "TransactionPrefix" : "RP",
                                     "StartingTransactionClassNo" : 1,
                                     "StartingTransactionTypeNo" : 1
                                 }
@@ -1203,6 +1215,22 @@
 
     
                           ]
+         },
+          {
+            "dropDownName": "cardType",
+            
+             "maingroup": [
+                                    {
+                                          "name" : "Master"
+                                              },
+                                              {
+                                          "name" : "Visa"
+                                              },
+                                    {
+                                          "name" : "Rupyee"
+                                            }
+                                    
+                         ]
          }
 
                 

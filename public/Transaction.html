@@ -274,7 +274,7 @@ display: block;
   width: 10%;
 }
 li#name1 {
-    right: -400px;
+    right: -200px;
     font-size: 27px;
     font-style: italic;
 } 
@@ -344,6 +344,11 @@ label {
     display:block;
     height:130px;
     overflow-y:scroll;
+}
+#head1{
+  position:fixed;
+  font-size:14px;
+  
 }
 #th1,#td1{
   /*width: 200px;*/
@@ -667,6 +672,39 @@ display: inline-block;
             
         
           </li>
+          <li >
+              <a href="dailyRates.html">
+              Daily Rates 
+            </a>
+            </li>
+           <li >
+            <a href='#'>
+              Accounts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="receipts.html">
+                
+                  Receipt
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="payments.html">
+                  
+                  Payment
+                </a>
+              </li>
+              <!-- <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li> -->
+             
+              
+            </ul>
+          </li>
           <li  id="name1">
             <a>
              {{usernamedetails}}
@@ -745,9 +783,9 @@ display: inline-block;
                Bill Type<span id="star"><font size="04">*</font></span>&nbsp;&nbsp;:
               </form>
               <form>
-                   <select ng-model="billtype" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'&& transaction !='Approval Return'" class="selectpic" ng-change="billType()">
+                   <select ng-model="billtype" ng-show="transaction != 'Issue Voucher'&&transaction != 'Receipt Voucher'&&transaction!='Approval Out'&& transaction !='Approval Return'" class="selectpic" ng-change="billType()" >
                    <!--  > -->
-                      <option value="">Cash</option>
+                      <option >Cash</option>
                       <option>Credit</option>
                    </select>
               </form>
@@ -816,7 +854,7 @@ display: inline-block;
            
         <!-- <div class="col-sm-4"> -->
         
-              <div id="tranhis" class="col-sm-3" >
+              <div id="tranhis" class="col-sm-3" ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'&& partyname !='null'">
              <table id="table1"  ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'&& partyname !=null" >
                <!--  <table id="table1"  ng-hide="transaction !='Sale Return'> -->
 
@@ -824,7 +862,10 @@ display: inline-block;
 
              <!-- <table id="table1"  ng-show="transaction =='Sale Return'|| transaction =='Purchase Return'" > -->
              <!-- <table id="table1" ng-hide="$scope.partyname==null&&$scope.partyname==undefined&&$scope.transaction==null"> -->
-            <tr ><th id="th1">TransactionHistory:</th></tr>
+             <thead id="head1"> 
+            <tr id="th1">TransactionHistory:</tr>
+          </thead>
+          <tbody>
          <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v._id.voucherNo)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
               
@@ -834,9 +875,12 @@ display: inline-block;
                  <!-- <td id="td1" height="1">{{c.date | date:'dd/MM/yyyy'}}</td> -->
             </option>
           </tr>
+        </tbody>
            </table>
+         </div>
+           <div id="tranhis" class="col-sm-3" ng-show="transaction == 'Approval Sale'||transaction=='Approval Return'&& partyname !=null">
            <table id="table1" ng-show="transaction == 'Approval Sale'||transaction=='Approval Return'">
-            <tr><th id="th1">Approval Out's</th></tr>
+            <tr id="th1">Approval Out's</tr>
             <tr  ng-repeat="v in datex" ng-click="row3($index);getDetails($index,v._id.voucherNo)" id="tag1" ng-class="{selected : $index === idSelectedVote}">
             <option ng-model="tDate"  required>
               
@@ -898,7 +942,7 @@ display: inline-block;
        </td> -->
 
        <td>
-          <input type="checkbox" ng-model="myChkModel" ng-change="myClick(myChkModel,item)"  />
+          <input type="checkbox" ng-model="myChkModel" ng-change="myClick(myChkModel,item)" />
        </td>
         <td style="background-color: white" ng-cloak>{{item.date | date  : "dd-MM-y" }}</td>
         <td style="background-color: white" ng-cloak>{{item.urdAdjustment}}</td>
@@ -1269,20 +1313,22 @@ display: inline-block;
   
 <!-- 
  <div class="w3-row-padding w3-border"> -->
-  <div class="col-sm-6" ng-show ="(transaction == 'Urd Purchase'|| transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'|| transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction=='Approval Sale'||transaction == 'Approval Out'||transaction=='Approval Return')" ></div>
+  <div class="col-sm-1g" ng-show ="(transaction == 'Urd Purchase'|| transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'|| transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction=='Approval Sale'||transaction == 'Approval Out'||transaction=='Approval Return')" ></div>
+  <!-- <div class="col-sm-6" ng-show ="(transaction == 'Urd Purchase'|| transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'|| transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction=='Approval Sale'||transaction == 'Approval Out'||transaction=='Approval Return')" ></div> -->
 <!-- <<<<<<< HEAD -->
-    <div class="w3-half w3-container" ng-hide ="(transaction == 'Urd Purchase' || transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher' || transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction == 'Approval Out'||transaction=='Approval Return'||transaction=='Approval Sale')">
+    <div class="w3-half w3-container" ng-hide ="(transaction == 'Sale Return'|| transaction == 'Purchase Return'||transaction=='Approval Return'||transaction=='Approval Out'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Opening Stock')">
+      <!-- <div class="w3-half w3-container" ng-hide ="(transaction == 'Urd Purchase' || transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher' || transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction == 'Approval Out'||transaction=='Approval Return'||transaction=='Approval Sale')"> -->
 <!-- ======= -->
     <!-- <div class="w3-half w3-container" ng-hide ="(transaction == 'Urd Purchase' || transaction == 'Sale Return'|| transaction == 'Purchase Return'|| transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher' || transaction == 'Valuation'|| transaction == 'RD Purchase'||transaction == 'Approval Out')"> -->
 <!-- >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5 -->
 <!-- >>>>>>> 61946425920cfde23eb0ef81e1ccb2a84ae6baa2 -->
     <!-- <div class="w3-card-6 w3-margin"> -->
       <br>
-        <header class="w3-container w3-light-grey w3-padding-8 w3-center" ng-cloak>
+        <header class="w3-container w3-light-grey w3-padding-8 w3-center">
      <!--    <h4 >DISCOUNT/CHARGES</h4> -->
-          <h4 ng-cloak>INVOICE CHARGES</h4>
+          <h4 >INVOICE CHARGES</h4>
         </header>
-          <table class="w3-table w3-PapayaWhip " id="de" ng-cloak>
+          <table class="w3-table w3-PapayaWhip " id="de" >
     <thead >
       <tr>
         <th>Name</th>
@@ -1296,7 +1342,7 @@ display: inline-block;
       <tr>
         <td>Cash Discount</td>
         <td>Amount</td>
-        <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" ng-model="discount" style="width: 80px;background-color: white" ng-change="addDis()" placeholder="0" ></td>
+        <td ><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" ng-model="discount" style="width: 80px;background-color: white" ng-change="newCharges()" placeholder="0" ></td>
        <!--  <td>.00</td> -->
        <td >{{discount1}}</td>
 
@@ -1304,9 +1350,9 @@ display: inline-block;
    <tr>
         <td>Credit Card</td>
         <td>Amount</td>
-        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" ng-model="ccamt" style="width: 80px;background-color: white" ng-change="addCca()" placeholder="0"></td>
+        <td><input type="number" min="1" name=""  oninput="this.value=this.value.replace(/[^0.0-9.0]/g,'');" ng-model="ccamt" style="width: 80px;background-color: white" ng-change="newCharges()" placeholder="0" ></td>
         <!-- <td>.00</td> -->
-        <td >{{ccamt1}}</td>
+        <td >{{ccamt}}</td>
     </tr>
    <tr>
         <td>Round Off</td>
@@ -1314,7 +1360,7 @@ display: inline-block;
         <!-- <td><input type="number" ng-model="roffamt" style="width: 80px;" ng-change="roundOff()"></td> -->
        <!--  <td >0</td> -->
        <td >{{}}</td>
-        <td >{{decimals}}</td>
+        <td >{{decimals | number : 2}}</td>
     </tr>
 
    
@@ -1348,11 +1394,11 @@ display: inline-block;
    <!-- <div class="w3-row-padding w3-border"> -->
    <!--  <div class="col-sm-6"> -->
 
-   <div ng-hide ="( transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'||transaction == 'Approval Out'||transaction=='Approval Return')" > 
+   <div  ng-hide ="( transaction == 'Issue Voucher'|| transaction == 'Receipt Voucher'||transaction == 'Approval Out'||transaction=='Approval Return')"> 
 <!-- ng-disabled="checkFinal()" ng-model='finalCal' disabled-->
 
   <div class="w3-quarter w3-container" ng-hide="!saleinv.length" >
-    <div class="w3-card-2 w3-margin" ng-cloak>
+    <div class="w3-card-2 w3-margin" >
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" >
    <h4 >FINAL CALCULATION </h4>
         </header>
@@ -1367,25 +1413,26 @@ display: inline-block;
         <td ng-hide ="(transaction == 'Urd Purchase'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Tax </td>
         <td ng-hide ="(transaction == 'Urd Purchase' )"><input type="text" class="form-control" id="usr" ng-model="amt.tax" ng-value="{{amt.tax}}" ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return'" readonly/ ></td>
         </tr>
-        <tr>
-        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Discount     </td>
-        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return')"><input  type="text" class="form-control" id="usr" ng-model="amt.dis" ng-value="{{amt.dis}}" readonly/></td>
-        </tr>
+       <!--  <tr>
+        <td ng-hide ="( transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Discount     </td>
+        <td ng-hide ="(transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return')"><input  type="text" class="form-control" id="usr" ng-model="amt.dis" ng-value="{{amt.dis}}" readonly/></td>
+        </tr> -->
         <tr>
         <td ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return'">Subtotal     </td>
         <td><input type="text" type="text" class="form-control" id="usr" ng-model="amt.subtol" ng-value="{{amt.sutol}}" ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return'" readonly/ ></td>
         </tr>
         <tr>
-        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Charges      </td>
-        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return' ||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )"><input type="text" class="form-control"  id="usr"  ng-model="amt.char" ng-value="{{amt.char}}" readonly/></td>
+        <td ng-hide ="( transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Charges      </td>
+        <td ng-hide ="( transaction == 'Purchase Return' ||transaction == 'Sale Return'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )"><input type="text" class="form-control"  id="usr"  ng-model="ccamt1" ng-value="{{ccamt1}}" readonly/></td>
         </tr>
-        <tr>
-        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Adjustments   </td>
-        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )"><input type="text" class="form-control"  id="usr"  ng-model="adjqty"  ng-value="{{adjqty}}" readonly/></td>
-        </tr>
+        
         <tr>
         <td ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return'">Invoice Value </td>
         <td><input type="text" class="form-control"  id="usr"  ng-model="amt.invoiceValue" ng-value="{{amt.invoiceValue}}" ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return'"readonly/></td>
+        </tr>
+        <tr>
+        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )">Adjustments   </td>
+        <td ng-hide ="(transaction == 'Urd Purchase'|| transaction == 'Valuation'|| transaction == 'RD Purchase'|| transaction == 'Purchase Return'||transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction == 'Approval Sale'||transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return' )" ><input type="text" class="form-control"  id="usr"  ng-model="adjqty"  ng-value="{{adjqty}}" readonly/></td>
         </tr>
          <tr>
         <td ng-hide="transaction=='Issue Voucher'||transaction=='Receipt Voucher'||transaction=='Approval Out'||transaction=='Approval Return'">Nett Amt      </td>
@@ -1397,8 +1444,9 @@ display: inline-block;
         </div>
         </div>
       </div>
+      <!-- {{minusinvoice}} -->
      <!--  </div> -->
-  <div class="col-md-2" ng-cloak>
+  <div class="col-md-2">
 
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 
@@ -1432,9 +1480,9 @@ display: inline-block;
  ng-click="save();inoviceNumberGeneration()" -->
 <!-- <<<<<<< HEAD -->
 
-<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher'||transaction == 'Receipt Voucher' ||transaction == 'RD Purchase' ||transaction == 'Valuation')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher' && transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
+<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher'||transaction == 'Receipt Voucher' ||transaction == 'RD Purchase' ||transaction == 'Valuation')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher' && transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()"  >Confirm</button>
 
-<!-- =======
+<!-- =======data-toggle="modal"  ng-href={{dataTargetCall}}
 <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
 >>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7 -->
 

@@ -1,0 +1,775 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+  <title>Receipt</title>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+<title>Receipt </title>
+<style>
+ .center {
+    margin:auto;
+    width: 10%;
+    
+    
+}
+   /*  .text {
+    position:absolute;
+  top:-100%;
+
+  height:100%;
+    
+    
+}*/
+   .selectpic {
+   /* margin:auto;*/
+    width: 230%;
+    
+    
+}
+      ul.dark_menu {
+list-style: none;
+padding: 5px 1px;
+font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+font-weight: 200;
+font-size: 16px;
+letter-spacing: 0.01em;
+font-smooth: always;
+color: #000000;
+line-height: 10px;
+margin: auto;
+
+/*position: relative;*/
+
+background: #2B5797;
+
+ 
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu:after {
+content: "";
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;
+position: sticky;}
+ul.dark_menu li {
+float: left;
+position: relative;
+/*position: sticky;*/
+margin: 1px;}
+/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a, ul.dark_menu li a:link {
+color: #fafafa;
+text-decoration: none;
+display: block;
+padding: 8px 26px;
+-webkit-transition: all 0.2s ease;
+-moz-transition: all 0.2s ease;
+-o-transition: all 0.2s ease;
+-ms-transition: all 0.2s ease;
+transition: all 0.2s ease;
+/*position: sticky;*/
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a:hover {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a.selected {
+border-right: 1px solid #ddd;
+text-transform: uppercase;
+margin-left: 10px;
+}
+ul.dark_menu li a.selected, ul.dark_menu li a:active {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;}
+ul.dark_menu li ul {
+display: none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul:before {
+content: " ";
+position: absolute;
+display: block;
+z-index: 1500;
+left: 0;
+top: -10px;
+height: 10px;
+width: 100%;}
+ul.dark_menu li ul {-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;top:55px;}
+ul.dark_menu li:hover ul {
+position: absolute;
+display: block;
+z-index: 1000;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+left: 0;border-radius: 0px 0px 5px 5px;
+top: 37px;
+padding: 5px 0;
+list-style: none;
+background: #fff;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul li {
+float: none;
+margin:0px;}
+ul.dark_menu li ul li:first-child {
+margin:0px;
+border-top: 0 none;}
+ul.dark_menu li ul li:last-child {
+border-bottom: 0 none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu [data-role="dropdown"] > a::before {
+position: absolute;
+content: "^";
+display: block;
+font-size: 15px;
+left: 100%;
+margin-left: -20px;
+top: 10px;
+-webkit-transform: rotate(180deg);
+-moz-transform: rotate(180deg);
+-ms-transform: rotate(180deg);
+-o-transform: rotate(180deg);
+transform: rotate(180deg);
+}
+ul.dark_menu li ul li a, ul.dark_menu li ul li a:link {
+color: #222;
+display: block;
+background: transparent none;
+padding: 10px 25px 10px 25px;
+white-space: nowrap;}
+ul.dark_menu li ul li a:hover {
+background:#2D89EF;-moz-transition: all 0.1s ease-in-out;color:#fff;
+-webkit-transition: all 0.1s ease-in-out;
+}/* Blog johanes djogzs.blogspot.com */
+.menujohanes{position:relative;}
+#search input[type="text"]:hover {width:848px;}
+#search input[type="text"] {
+background: #fff url("http://3.bp.blogspot.com/-uYZni0pIn-E/T-xY2vVu_-I/AAAAAAAACUY/ZMfR3_BvRFE/s1600/SEARCH_32x32-32.png")no-repeat center left;
+font-size: 13px;
+color: #222;
+width: 0px;
+padding: 10px 0px 11px 35px;
+z-index: 9;
+border: 1px solid #fff;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+margin-bottom: -1px;
+position: absolute;
+
+top: 0px;
+right:27px;}
+/*#main4, #main5, #main6 {
+width: 303px;
+list-style-type: none;
+float: left;
+margin: 10px;}
+.main3 {width:305px;
+list-style-type: none;
+padding-top: 10px;
+float: left;}
+::-webkit-scrollbar {
+height:12px;
+background: #474747;}
+::-webkit-scrollbar-thumb {
+background-color: #000;
+}*/
+ li#sub ul {
+    display:none;
+  position: absolute; left: 100%; top:0;
+}
+li#sub:hover ul{
+display: block;
+}
+#table-wrapper {
+ /* position:relative;*/
+ position: sticky;
+}
+#tscroll {
+  height:90%;
+  overflow:auto;  
+  margin-top:5%;
+
+}
+.title1{
+  text-align:center;
+  width:1200px;
+  height: 800px;
+  margin-left:85px;
+  margin-right: 25px;
+  margin-top: 25px;
+  margin-bottom: 55px;
+  /*font-size: 25px;*/
+  /*font-family: cursive;*/
+  color:white;
+  background-color: grey;
+  border:1px solid black;
+}
+.title2{
+  width:1100px;
+  height:750px;
+  margin-left: 135px;
+  margin-right: 15px;
+  margin-bottom: 25px;
+  margin-top:5px;
+  border:1px solid black;
+  background-color:FFE4B5;
+
+}
+.first1{
+  width:1000px;
+  height:180px;
+  font-size:15px;
+  margin-top:30px;
+  margin-right:25px;
+  margin-left: 40px;
+/*  border:1px solid black;*/
+  color:black;
+}
+
+#head1{
+  position:fixed;
+  font-size:14px; 
+}
+#th1,#td1{
+  /*width: 200px;*/
+
+    border-bottom:1px solid black;
+    text-align: left;
+    padding: 4px;
+}
+.selected {
+  background-color: blue;
+}
+/*#idstable{
+  margin-top:20px;
+    border-collapse: collapse;
+    border-spacing:4px;
+    width: 400px;
+    border: 1px solid black;
+    margin-left: 30px;
+   /* table-layout: fixed;*/
+    /*display:block;
+    height:120px;*/
+    /*overflow-y:scroll;*/
+/*}*/
+.col-sm-6{
+  width:230px;
+  margin-top:30px;
+  margin-left: 50px;
+  border:1px solid black;
+  height:145px;
+}
+#party{
+margin-top:30px;
+/*border:1px solid black;*/
+}
+
+#details{
+  margin-top:200px;
+  margin-left:-320px;
+}
+table.scroll {
+    /* width: 100%; */ /* Optional */
+     border-collapse: collapse; 
+    border-spacing: 0px;
+    /*tableborder:1px;*/
+    /*border: 2px solid black;*/
+    width:750px;
+  height:150px;
+  border:1px solid black;
+  margin-left:0px;
+  overflow-y:auto;
+}
+
+table.scroll tbody,
+table.scroll thead { display: block; }
+
+thead tr th { 
+    height: 30px;
+    /*line-height: 30px;*/
+     text-align: center; 
+     padding:0px;
+}
+
+#buttons{
+  margin-left:550px;
+  /*margin-right:300px;*/
+  /*margin-top:300px;*/
+  margin-bottom:600px;
+
+}
+#pending
+{ 
+  margin-left:100px;
+  margin-right:100px;
+  margin-top:45px;
+  height: 60px;
+  /*border:1px solid black;*/
+  margin-bottom:25px;
+}
+#input{
+  height: 30px;
+  width: 420px;
+}
+#input1{
+  height: 30px;
+  width:100px;
+  /*margin-left: 20px;*/
+}
+#input2{
+  margin-top:25px;
+  margin-left:100px;
+}
+
+#tag1:focus {
+    background-color: blue;
+
+}
+#hi{
+  height:100px;
+}
+#hi1{
+  overflow-y:auto;
+  /*width:100%;*/
+  /*height:80px;*/
+}
+/*#over{
+  overflow-y:auto;
+}*/
+
+ thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+
+        thead th {
+          /*  height: 50px;*/
+              width: 8%;
+              border-bottom: none;
+            float: left;
+        }
+
+        tbody {
+            /*height: 100px;*/
+            overflow-y: auto;
+           overflow-x: auto;
+           border-bottom: none;
+        }
+
+        tbody td {
+
+  /*          width: 10%;*/
+
+            float: left;
+        }
+/*        input[type="text"]
+{
+    font-size:24px;
+}*/
+
+</style>
+
+</head>
+<body ng-controller='billCntrl' style="background-color: FFE4B5;">
+  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
+        <ul class='dark_menu' >
+          
+<li  >
+            <a>
+              Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+            </a>
+            <ul>
+              <li>
+                <a href="Transaction.html">
+                  New
+                </a>
+              </li>
+               <li>
+                <a href="list.html">
+                  List
+                </a>
+              </li>
+                <li>
+                <a href="Phistory.html">
+                  Party History
+                </a>
+              </li>
+            </ul>
+          
+          </li>
+
+       <li >
+
+            <a href='#'>
+              Inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+                 <li id='sub'>
+                    <a href='#'>
+                    Barcoding
+                    </a>
+                     <ul>
+                         <li>
+            <a href='Barcode Summary.html'>
+              Barcode Summary
+                             </a></li><li>
+            <a href='Barcode Generation.html'>
+              Barcode Generation
+                             </a></li>
+                             <li>
+            <a href='stockverification.html'>
+              Stock Verification
+                             </a></li>
+                     </ul>
+                         
+                </li>
+
+               <li>
+                <a href="item.html">
+                  Item
+                </a>
+              </li>
+             
+             
+            </ul>
+          </li>
+          
+          
+          <li >
+            <a href='#'>
+              Report &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="ClosingStockBookByGroupItem.html">
+                
+                  Closing Stock Book By Group Item
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="DailyClosingStock.html">
+                  
+                  Daily Closing Stock
+                </a>
+              </li>
+              <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li>
+             
+              
+            </ul>
+          </li>
+          <li >
+            <a href="Tax Configuration.html">
+              Tax Configuration
+            </a>
+            <!-- <ul>
+                
+
+               <li>
+                <a href="indextaxation.html">
+                  Tax Structure
+                </a>
+              </li> -->
+              <!-- <li>
+                <a href="taxation.html">
+                  Tax Name
+                </a>
+              </li> -->
+             
+              
+            <!-- </ul> -->
+          </li>
+            
+        
+          </li>
+
+           <li >
+            <a href='#'>
+              Accounts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="receipts.html">
+                
+                  Receipt
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="payments.html">
+                  
+                  Payment
+                </a>
+              </li>
+              <!-- <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li> -->
+             
+              
+            </ul>
+          </li>
+          <li  id="name1">
+            <a>
+             {{usernamedetails}}
+               
+            </a>
+          
+          </li>
+          <li id="name1">
+            <a href="loginPage.html" >
+              Sign Out
+               
+            </a>
+          
+          </li>
+          
+        </ul>
+
+        <!-- <form action='/search' id='search' method='get'>
+          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
+        </form> -->
+        
+      </div> 
+  <div style="margin-top:10px;font-size:25px;text-align:center;">RECEIPT
+      <div class="title2">
+        <!-- {{name}} -->
+            <div class="first1">
+          
+                  <!-- <form class="col-sm-1"> -->
+                  <div class="row">
+                  <div class="col-sm-4" id="party">
+                  partyname:<select id="myid" ng-model="partyname"  ng-change="getVouchers(partyname)" >
+                  <option></option>
+                  <option ng-repeat="party in partynames">{{party.subscriber}}</option> 
+                    </select>
+                </div>
+                    <div class="col-md-4" id="party">
+                    <span style="font-size:15px;margin-left:-100px;margin-top:25px">Date:</span>
+                    <input type="date" style="height:25px;width:150px;font-size:15px" ng-model="billDate">
+                  </div>
+                  <div class="col-md-4" id="party">
+                    <span style="font-size:15px">Bill No:</span>
+                    <input type="text" style="height:25px;width:100px;font-size:15px;" ng-model="billNo">
+                  </div>
+                </div>
+          <br>
+    <div class="col-sm-5" style="background-color: white;border:1px solid black;margin-top:25px" ng-cloak>
+
+    <!-- <div style="overflow-y: auto" > -->
+          <table class="table" style="background-color: white">
+          <thead >
+          <tr>
+                  <th style="width: 100px;margin-left:-10px;text-align:left">VoucherNo</th>
+                  <th style="width100px;text-align: center;margin-left:50px;">Date</th>
+                  <th style="width:150px;text-align: center;margin-left:40px">Amount</th>
+                 <!--  <th style="width:130px;text-align: center">Narration</th> -->
+          </tr>
+          </thead>
+          <tbody id="hi">
+            <tr ng-repeat="data in details" ng-click="row3($index);storeVoucher($index,data._id.voucherNo,data._id.net);" id="tag1" ng-class="{selected : $index === idSelectedVote}">
+          <td style="width: 100px;text-align:center" ng-model="voucherid">{{data._id.voucherNo}}</td>
+          <td style="width: 100px;text-align:center;margin-left:20px;">{{data._id.date|date:'dd-MM-yyyy'}}</td>
+          <td style="width: 100px;text-align:center;margin-left:20px;">{{data._id.net}}</td>
+          <!-- <td style="width: 150px;text-align:center">{{narration}}</td> -->
+        </tr>
+         </tbody>
+         </table>
+         <!-- </div> -->
+  </div>
+  <div class="col-sm-6" style="background-color: white;border:1px solid black;margin-top:25px;height:155px;margin-left:10px;" >
+    <table  class="table" style="background-color: white">
+      <thead >
+      <tr>
+      <th style="width:45px;margin-left:5px;"> BillNo</th>
+        <th style="width:45px;margin-left:30px;">Mode</th>
+        <th style="width:35px;margin-left:50px;">Date</th>
+        <th style="width:35px;margin-left:50px;">Amount</th>
+        <th style="width:100px;margin-left:60px;">Narration</th>
+      </tr>
+    </thead>
+    <tbody ng-cloak >
+      <tr ng-repeat="receiptData in receiptData" ng-click="row3($index);rePrint($index,receiptData.BillNo,receiptData.Mode,receiptData.Amount.$numberDecimal);" id="tag1" ng-class="{selected : $index === idSelectedVote}">
+        <td style="width:45px;margin-left:5px;">{{receiptData.BillNo}}</td>
+        <td style="width:45px;margin-left:30px;">{{receiptData.Mode}}</td>
+        <td style="width:35px;margin-left:50px;">{{receiptData.BilledDate|date:'dd-MM-yyyy'}}</td>
+        <td style="width:35px;margin-left:50px;"> {{receiptData.Amount.$numberDecimal}}</td>
+        <td style="width:100px;margin-left:60px;">{{receiptData.Narration}}</td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+  <div>
+  <!-- <span style="font-size:20px;color:black;margin-left:200px;width:20px">Net:</span> -->
+    NetReceviable:<input type="Numbers" id="input1" ng-model="selectedAmount" placeholder="amount" style="font-size:20px;">
+  <button class="btn btn-primary-info" style="margin-left:650px;margin-top:10px" ng-click="rePrinting();;">Reprint Voucher</button>
+</div>
+</div>
+<br>
+<div class="row" id="pending" style="color:black">
+  <!-- <div class="col-md-6">
+    <span style="font-size:20px;margin-left:-100px;margin-top:25px">Date:</span>
+    <input type="date" style="height:31px;width:150px;font-size:15px">
+  </div>
+  <div class="col-md-6">
+    <span style="font-size:20px">Bill No:</span>
+    <input type="text" style="height:30px;width:100px">
+  </div> -->
+</div>
+<div class="row">
+   <!-- <p>Date: <input type="date" id="datepicker"></input></p> -->
+  <!-- <input type="date" style="font-size:15px;color:black"> -->
+   <!-- <td><input id="date" class="datepick" name="date[]" type="text" /></td> -->
+<div class="col-md-11" style="margin-left:55px;overflow-y:auto;border:1px solid black;background-color: white;height: 213px;" ng-cloak>
+
+
+  <table class="table" style="background-color: white;overflow-y:auto;height: 213px;" id="maintable" ng-cloak>
+          <thead >
+          <tr>
+              <th style="margin-left:0px;width:20px;">check</th>
+                  <th style="width:75px;margin-left:45px">Mode</th>
+                  <th style="width:60px;text-align:right;margin-left:25px">Amount</th>
+                  <th style="width:60px;text-align: right;margin-left:10px">Bank</th>
+                  <th style="width:150px;text-align:center;margin-left:25px">
+                    ChequeNo</th>
+                  <th style="width:150px;text-align:center;margin-left:15px">Date</th>
+                  <th style="width:70px;text-align: center;margin-left:30px">CardNo</th>
+                  <th style="width:70px;text-align: center;margin-left:40px">Cardtype</th>
+                  <th style="width:70px;text-align: center;margin-right:10px;margin-left:35px">ApprovalNo</th>
+                  </tr>
+                  </thead>
+          <tbody ng-cloak ng-repeat="item in rpamt" id="hi1">
+            <tr>
+            <td><input type="checkbox" style="margin-left:0px;width:20px;" ng-model="check" ng-true-value="1" ng-false-value="0" ng-click="removeChecked($index,check);indexFunctionCall($index,check)"/></td>
+<!-- ng-init="item.paymode='Cash'" -->
+            <td style="width:75px;margin-left:25px">
+             <select ng-model="item.paymode"  ng-init="item.paymode='Cash'">
+             <option ng-repeat="mode in modes" >{{mode.name}}</option> 
+            </td>
+
+            <td >
+              <input type="number" ng-model="item.amount" style="width:60px;text-align:right;margin-left:25px" ng-change="totalAmount(item.amount)" / >
+            </td>
+<!-- change="totalAmount($index)" -->
+            <td >
+              <select  class="selectpicker" ng-model="item.bank" style="width:60px;text-align: right;margin-left:10px" ng-disabled="item.paymode=='Cash'">
+            <option ng-repeat="bank in banks">{{bank.name}}</option>
+            </select>
+           </td>
+
+           <td>
+            <input type="number" ng-model="item.chequeno" style="width:150px;margin-left:0px" ng-disabled="item.paymode!='Cheque'"/>
+          </td>
+
+          <td>
+            <input type="date" ng-model="item.date" style="width:150px;text-align:center;margin-left:10px" ng-disabled="item.paymode!='Cheque'"/>
+          </td>
+
+          <td>
+            <input type="number" ng-model="item.cardnos" style="width:80px;text-align: center;margin-left:10px" ng-disabled="item.paymode=='Cash'||item.paymode=='Cheque'"/>
+          </td>
+            
+             <td>
+              <select class="selectpicker" ng-model="item.ctype" style="width:70px;text-align: left;margin-left:10px" ng-disabled="item.paymode=='Cash'||item.paymode=='Cheque'"/>
+            <option ng-repeat="card in cards" >{{card.name}}</option>
+            </select>
+          </td>
+
+          <td>
+            <input type="number" ng-model="item.appno" style="width:70px;text-align: center;margin-right:10px;margin-left:5px" ng-disabled="item.paymode=='Cash'||item.paymode=='Cheque'"/>
+          </td>
+
+        </tr>
+            
+         </tbody>
+         </table>
+</div>
+<!-- <br> -->
+<!-- <div class="col-md-2"> -->
+</div>
+<br>
+  <button class="btn btn-primary" style="width:70px;margin-left:100px;" ng-model="delete" ng-click="removeSelectedRows($index)"
+  >Delete</button>
+  
+  <button class="btn btn-danger" style="width:70px;margin-left:150px;" ng-click="clear()">Cancel</button>
+  
+  <!-- <a href = "receiptpdf.html"><button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button></a> -->
+  <button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button>
+  
+  <!-- </div> -->
+  
+<button id="add_new" class="btn btn-primary" style="margin-left:230px" ng-click="newRow()">Add New</button>
+<br>
+<br>
+
+    <div class="row" style="color:black">
+  <div class="col-sm-12" style="margin-left:10px">
+     <span style="font-size:20px;">Narration:</span>
+  <input type="text" id="input" ng-model="narrate" style="font-size:20px;"/>
+  <!-- </div>
+  <div  class="col-sm-4"> -->
+    <span style="font-size:20px;color:black;margin-left:200px;width:20px">Total:</span>
+    <input type="Numbers" id="input1" ng-model="totals"  style="font-size:20px;">
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+<script type='text/javascript'>
+// $("#add_new").click(function () { 
+// // alert("hello");
+//     $("#maintable").each(function () {
+       
+//         var tds = '<tr>';
+//         jQuery.each($('tr:last td', this), function () {
+//             tds += '<td>' + $(this).html() + '</td>';
+//         });
+//         tds += '</tr>';
+//         if ($('tbody', this).length > 0) {
+//             $('tbody', this).append(tds);
+//         } else {
+//             $(this).append(tds);
+//         }
+//     });
+// });
+</script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- <script src = "jquery.plug-in.js" type = "text/javascript"></script> -->
+      <script type="text/javascript" src="controller/receipt.js"></script>   
+      <script type="text/javascript" src="Services/ControllerService.js"></script>
+ <!-- </script> -->
+ 
+ </script>  
+</html>

@@ -1642,7 +1642,7 @@ $scope.editBarSumm = function(){
         // alert($scope.bit.date);
       $scope.bitem.ItemName = editrow3.itemname
   
-      $scope.bitem.wt = parseFloat(editrow3.totalweight);
+      $scope.bitem.wt = parseFloat(editrow3.totalweight.$numberDecimal);
       console.log($scope.bitem.wt)
       $scope.bitem.pcs = parseFloat(editrow3.totalpcs);
       $scope.bitem.titems = parseFloat(editrow3.totaltags);

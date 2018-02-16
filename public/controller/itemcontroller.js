@@ -17,7 +17,7 @@ function($scope,$http,$window){
 
  $scope.test = 'display'
   $http.get('/getinventorygroupmaster').success(function(response){
-      // console.log(response);
+       console.log(response);
        $scope.inventorygroupmaster1 = response
         
     })

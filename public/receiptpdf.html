@@ -1,0 +1,171 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+
+    <title>ReceiptPdf</title>  
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+
+    <!-- <p id="to-pdf">HTML content...</p> -->
+<!-- </body>id="thrid" -->
+ <script type="text/javascript">
+function exportPDF()
+{
+  //alert(pdf function call)
+var pdf = new jsPDF('p','pt','a4');
+pdf.addHTML(document.body,function() {
+     pdf.save('Receipt.pdf');
+});
+}
+// </script>
+<style>
+#d1{
+  margin-left:20px;
+  width:40px;
+}
+</style>
+</head>
+<body ng-controller="billpdfCntrl" >
+  <div class=row id="thrid">
+  <article>
+  <div id="myDIV" style="margin-left:150px;margin-top:35px;" >
+  <header >
+    <h4 ng-cloak>{{ShopName}}</h4>
+    <p ng-cloak>{{Landmark }}<br>{{Street}}<br>{{Place}}<br>{{Phone}}{{Mobile}} <br>{{email}}</p>
+    </p>
+  </header>
+</div>
+</article>
+<hr>
+<h3 align="center" ng-cloak>Receipt</h3>
+<div class="row">
+
+<!-- <div class="col-sm-10" >
+<p ng-cloak>Party Name:{{partyname}} <br>
+Party License:{{partyLicense}}<br>
+Party PAN:{{partyPAN}}<br>
+Party Address:{{city}}<br>
+City:{{city}}</p>
+ 
+</div> -->
+<div ng-cloak style="margin-left:1000px;margin-right:100px;color:black">Bill No:{{billnum}}
+  <br>
+  <!-- <p>Invoice No:B1393<br> -->
+  Date:{{dates | date:"dd-MM-yyyy" }}</p>
+</div>
+<hr>
+</div>
+
+<div class="col-sm-8" style="margin-left:135px;background-color: white;" ng-cloak  >
+
+
+  <table class="table" style="background-color: white;" id="maintable" ng-cloak >
+      
+                  <thead>
+                    <tr>
+                      <th id="d1">Mode</th>
+                      <th id="d1">Bank</th>
+                      <th id="d1">ChequeNo</th>
+                      <th id="d1"> Date</th>
+                      <th id="d1">CardNo</th>
+                      <th id="d1"> CardType</th>
+                      <th id="d1">ApprovalNo</th>
+                      <th id="d1">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody ng-cloak ng-repeat="item in rpamt"  >
+            <tr>  
+         <td id="d1">{{item.Mode}}</td>
+         <td id="d1">{{item.Bank}}</td>
+         <td id="d1">{{item.ChequeNo}}</td>
+         <td  id="d1">{{item.Date|date:"dd/mm/yyyy"}}</td>
+         <td id="d1">{{item.CardNo}}</td>
+         <td id="d1">{{item.CardType}}</td>
+         <td  id="d1">{{item.ApprovalNo}}</td>
+         <td id="d1">{{item.Amount.$numberDecimal}}</td>
+       </tr>
+       </tbody>
+       <tfoot>
+        <tr>
+          <td id="d1"><b>Amount</b></td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1"><b>{{finalAmount}}</b></td>
+        </tr>
+        </tfoot>
+         </table>
+
+</div>
+</div>
+<br>
+<h4 style="margin-left:135px;"ng-cloak><font color="black">Receipt Amount In Words:{{wor}}{{"only"}}</h4>
+
+<br>
+<br>
+<table>
+ <tr> 
+ <!-- <p> -->
+  <td style="padding:0 450px 0 130px;margin-left:135px;"><b>Party Signature</b></td>
+  <td style="margin-right:100px;"><b>For  {{ShopName}}</b></td>
+<!-- </p> -->
+</tr>
+</table>
+<div style="margin-top:50px;margin-left:900px;">
+<button class="btn btn-primary"  onclick="exportPDF()">Print</button>
+</div>
+
+<!-- id="cmd" -->
+
+
+</body
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <!-- <body> -->
+       <script type="text/javascript">
+    $(document).ready(function(){
+        var specialElementHandlers = {
+            '#editor': function (element,renderer) {
+                return true;
+            }
+        };
+        $('#cmd').click(function () {
+          alert("pdf");
+            var doc = new jsPDF( "landscape","pt","a4");
+            // doc.autoTable(columns, rows);
+            var dt = new Date();
+    var day = dt.getDate();
+    var month = dt.getMonth() + 1;
+    var year = dt.getFullYear();
+    // var hour = dt.getHours();
+    // var mins = dt.getMinutes();
+    var postfix = day + "." + month + "." + year;
+     // var data_type = 'data:GroupWise.pdf';
+            var source = $('#thrid').html();
+            var specialElementHandlers = {
+                '#bypassme': function (element, renderer) {
+                    return true;
+                }
+                
+            };
+            doc.fromHTML(source, 0, 0, {
+                              width: '100%',
+                'elementHandlers': specialElementHandlers
+              // }
+            });
+             doc.save('History-'+postfix+'.pdf');
+        });
+    });
+</script> 
+<script type="text/javascript" src="controller/receiptpdf.js"></script> 
+</html>

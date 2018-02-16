@@ -3,13 +3,13 @@ var express=require('express');
 var app=express();
 var mongojs=require('mongojs');
 var mongoose  = require('mongoose');
-var db=mongojs('inventory202',['user','tags','transaction','saleinvoice','mode','transactiondetail','batch','bank',
+var db=mongojs('inventory200',['user','tags','transaction','saleInvoice','mode','transactionDetail','batch','bank',
   'transactionSeriesInvoice','itemrate','item','menu','order','useritem','purity','uom','pct','labcal','useradj',
-  'barcodesumm','stockpointmaster','configurations','inventorygroupmaster','salescategorymaster','itemtype','taxrate',
-  'items','tax','taxation','inventorygroupvaluenotationdaily','salesPerson','loginDetails',
+  'barCodeSummary','stockPointMaster','configurations','inventoryGroupMaster','salesCategoryMaster','itemType','taxrate',
+  'items','tax','taxation','inventoryGroupValueNotationDaily','salesPerson','loginDetails',
   'trHeaders','gIControlTables','history','ledgerActs','ledgeraccounts','mainclasses','maingroups','mcIds',
   'roundOffConfig','sgIds','subgroups','subscribers','trDetails','transactionInvoice','ugIds','updatelist','user',
-  'users','merchantDetails','trail','staff']);
+  'users','merchantDetails','trail','staff','receipts','cardType']);
 
 
 var bodyParser=require('body-parser');
@@ -21,8 +21,7 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var bson = require('bson');
 var Promise = require('es6-promise').Promise;
-
-
+var Decimal128 = require('mongodb').Decimal128;
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.get('/getPartyName:taxx',function(req,res)
@@ -31,33 +30,21 @@ app.get('/getPartyName:taxx',function(req,res)
     var taxxx = req.params.taxx;
    var taxnamee=(taxxx);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
      db.subscribers.find({"subscriber": taxnamee},function(err,doc){     
       
         res.json(doc);
 })
 })
 
-app.get('/countdata',function(req,res)
-{
-  // console.log("countdata countdata countdata countdata")
- //db.barcodesumm.count(function(err,doc){
-    db.barcodesumm.find({}).sort({_id:-1}).limit(1,function(err,doc)
-    {
+app.get('/countdata',function(req,res){
+   db.barCodeSummary.find({}).sort({_id:-1}).limit(1,function(err,doc){
         res.json(doc);
-        //console.log(doc);
+       
     })
-  // db.barcodesumm.find({}.sort({_id:-1}).limit(1),(function(err,doc){
-  //     // console.log("the count is "+doc);
-  //     if(err){
-  //       console.log(err)
-  //     }
-  //       res.json(doc);
-  //       console.log(doc)
-  //    }))
-  })
-//console.log("data is today update")
-//for tags count
+  
+})
+
 app.get('/gettags',function(req,res)
 {
   //console.log("gettags gettags gettags gettags gettags gettags gettags gettags");
@@ -128,8 +115,8 @@ app.get('/greycolor',function(req,res)
 app.get('/bardata',function(req,res)
 {
     //console.log("i received a get request from index");
-    db.barcodesumm.find({status:"Inprogress"}).sort({_id:-1},function(err,doc){
-        //console.log(doc); db.barcodesumm.find({status:"completed"})
+    db.barCodeSummary.find({status:"Inprogress"}).sort({_id:-1},function(err,doc){
+        //console.log(doc); db.barCodeSummary.find({status:"completed"})
         res.json(doc);
 })
 
@@ -147,13 +134,13 @@ app.post('/prn',function(req,res){
    // var path1 = 'sample/prnfile.prn';
    // var a = 'prntext.txt';
    // var b = 'prnfile.prn';
-   // db.salescategorymaster.find({"SaleCategoryType" : req.body.SaleCategory},function(err,doc){
+   // db.salesCategoryMaster.find({"SaleCategoryType" : req.body.SaleCategory},function(err,doc){
      var str = req.body.SaleCategory;
      str = str.trim();
     console.log(str.trim());
-    db.salescategorymaster.find({"SaleCategoryType" :str},function(err,doc){
+    db.salesCategoryMaster.find({"SaleCategoryType" :str},function(err,doc){
     
-        console.log(" req.body.SaleCategory "+req.body.SaleCategory); //db.barcodesumm.find({status:"completed"})
+        console.log(" req.body.SaleCategory "+req.body.SaleCategory); //db.barCodeSummary.find({status:"completed"})
         res.json(doc);
         console.log("doc.PrnFileName "+doc[0].PrnFileName)
         console.log("doc.PrnTemplate "+doc[0].PrnTemplateName)
@@ -281,11 +268,11 @@ app.post('/prn',function(req,res){
                      return console.log(err);
                     }
                     console.log(" print calls here ")
-                    setTimeout(deleteFileCall, 2000);
-                    function deleteFileCall(){
-                      fs.unlink('Data/PrnFiles/prnfile.prn');
+                    //setTimeout(deleteFileCall, 2000);
+                    // function deleteFileCall(){
+                    //   fs.unlink('Data/PrnFiles/prnfile.prn');
                  
-                    }
+                    // }
                   //  console.log(stdout);
              });//require
       });
@@ -364,15 +351,20 @@ app.get('/configuration',function(req,res)
 })
 })
 var inVoiceSeriesConfig = null;
+var DecimalPoints = null;
+var rupeesDecimalPoints = null;
 function configurationCall() {
   db.configurations.find(function(err,doc){
-        
-        inVoiceSeriesConfig = doc[0].inVoiceSeries;
-        console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
-        
+        if (doc.length != 0) {
+          inVoiceSeriesConfig = doc[0].inVoiceSeries;
+          DecimalPoints = doc[0].DecimalPoints;
+          rupeesDecimalPoints = doc[0].rupeesDecimalPoints;
+           
+          console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
+        };
 })
 }//configurationCall
-
+configurationCall()
 
 //roundOffConfiguration
 app.get('/roundOffConfiguration',function(req,res)
@@ -385,7 +377,7 @@ app.get('/roundOffConfiguration',function(req,res)
 app.get('/Treasure',function(req,res)
 {
    // console.log("i received a get request from index");
-    db.stockpointmaster.find(function(err,doc){
+    db.stockPointMaster.find(function(err,doc){
         //console.log(doc);
         res.json(doc);
 })
@@ -428,9 +420,9 @@ app.get('/pct:type',function(req,res)
 app.get('/list',function(req,res)
 {
    // console.log("i received a get request from index");
-   //22/6 db.barcodesumm.find({status:"Inprogress"},function(err,doc){
+   //22/6 db.barCodeSummary.find({status:"Inprogress"},function(err,doc){
         //console.log(doc);
-         db.barcodesumm.find({status:"Inprogress"},function(err,doc){
+         db.barCodeSummary.find({status:"Inprogress"},function(err,doc){
    
         res.json(doc);
 })
@@ -454,12 +446,12 @@ app.get('/listdata:list',function(req,res)
 //    // var tax = req.params.barcodenum;
 //    console.log("batchBarcode:barcodenum ")
 //    // var tax1=parseInt(tax);
-//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//    // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
 //      db.batch.find({"barcode": Number(req.params.barcodenum),"orderStatus" : "available"},function(err,doc){     
 //       console.log(doc.length)
 //        // res.json(doc);
 //        if (doc.length != 0) {
-//            db.transactiondetail.find({"barcode": Number(req.params.barcodenum),"Transaction" : "Barcoding"},function(err,doc){     
+//            db.transactionDetail.find({"barcode": Number(req.params.barcodenum),"Transaction" : "Barcoding"},function(err,doc){     
       
 //                 res.json(doc);
 //            })
@@ -475,8 +467,8 @@ app.get('/getbar:barcodenum',function(req,res)
     var tax = req.params.barcodenum;
    var tax1=parseInt(tax);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
-     db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
+     db.transactionDetail.find({"barcode": tax1},function(err,doc){     
       
         res.json(doc);
  //         console.log("i am combo "+doc[0].barcode);
@@ -484,7 +476,7 @@ app.get('/getbar:barcodenum',function(req,res)
  //         if (doc[0].comboItem == "yes"  ) {
  //          console.log(" comno true    true   ytrrr "+ doc[0].comboItemCheck)
  //         }
-        //  db.transactiondetail.find({comboBarcode:barcode},function(err,doc)
+        //  db.transactionDetail.find({comboBarcode:barcode},function(err,doc)
       
         // {
         //     res.json(doc);
@@ -498,16 +490,16 @@ app.get('/codeDetails:barcodenum',function(req,res){
     var barcoded = req.params.barcodenum;
     barcoded=parseInt(barcoded);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
-   //  db.transactiondetail.find({"barcode": barcoded, "orderStatus" : "completed","Transaction" : "Regular Sale"},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
+   //  db.transactionDetail.find({"barcode": barcoded, "orderStatus" : "completed","Transaction" : "Regular Sale"},function(err,doc){     
       db.batch.find({"barcode": barcoded, "orderStatus" : "completed"},function(err,doc){     
       
         res.json(doc);
 })
 })
 //combo
-  // db.transactiondetail.find({"comboBarcode":21462851},function(err,doc){ 
-  //        console.log("transactiondetail")
+  // db.transactionDetail.find({"comboBarcode":21462851},function(err,doc){ 
+  //        console.log("transactionDetail")
   //       // console.log(doc[0]);
   //        //console.log(doc.gwt);
   //       console.log(doc[0].gwt);
@@ -521,8 +513,8 @@ app.get('/getComboitem:barcodenum',function(req,res)
     var tax = req.params.barcodenum;
    var tax1=parseInt(tax);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
-     db.transactiondetail.find({ "comboBarcode" : tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
+     db.transactionDetail.find({ "comboBarcode" : tax1},function(err,doc){     
       
         res.json(doc);
 })
@@ -533,7 +525,7 @@ app.get('/getComboBarcode:barcodenum',function(req,res){
     var tax = req.params.barcodenum;
    var tax1=parseInt(tax);
   
-    db.transactiondetail.find({"comboBarcode": tax1},function(err,doc){     
+    db.transactionDetail.find({"comboBarcode": tax1},function(err,doc){     
         console.log("getComboBarcode")
         res.json(doc);
       })
@@ -555,7 +547,7 @@ app.get('/newTrailComboBarcode',function(req,res){
     var gwt = req.query.gwt;
     var gpcs = req.query.gpcs;
     var user =user;
-     db.transactiondetail.find({"comboBarcode":barcodeNumber},function(err,doc){     
+     db.transactionDetail.find({"comboBarcode":barcodeNumber},function(err,doc){     
         console.log("  gpcs "+ gpcs+"  gwt "+gwt);
       //  console.log(doc[0]);
         // console.log(doc);
@@ -567,7 +559,7 @@ app.get('/newTrailComboBarcode',function(req,res){
        console.log("getComboBarcode "+doc[0].gwt+" doc[0].gwt "+" doc[0].gpcs "+doc[0].gpcs);
        // res.json(doc);
        
-        db.transactiondetail.update({comboBarcode:barcodeNumber},{$set:{
+        db.transactionDetail.update({comboBarcode:barcodeNumber},{$set:{
          "gpcs":gpcs,"gwt":gwt}},function(err,doc){
            console.log(" update call update call update call getComboBarcode");
            // res.json(doc);
@@ -581,7 +573,7 @@ app.get('/newTrailComboBarcode',function(req,res){
 //     var tax = req.params.barcodenum;
 //    var tax1=parseInt(tax);
   
-//     db.transactiondetail.find({"comboBarcode": tax1},function(err,doc){     
+//     db.transactionDetail.find({"comboBarcode": tax1},function(err,doc){     
 //         console.log("getComboBarcode");
 //         useritArrayData.gwt = doc[0].gwt -gwt;
 //         useritArrayData.gpcs = doc[0].gpcs - gpcs;
@@ -594,7 +586,7 @@ app.get('/getInvAccNo:invGroupName',function(req,res){
     var invGroupName = req.params.invGroupName;
     console.log(invGroupName)
    
-    db.inventorygroupmaster.find({"InvGroupName": invGroupName},function(err,doc){     
+    db.inventoryGroupMaster.find({"InvGroupName": invGroupName},function(err,doc){     
         console.log(doc);
         res.json(doc);
 })
@@ -661,16 +653,13 @@ app.get('/batchrecords/:update',function(req,res)
 // {
 //     console.log("the batch no is")
 //    // db.batch.find(function(err,doc)
-//     db.transactiondetail.find({partyname:partyname},function(err,doc){
+//     db.transactionDetail.find({partyname:partyname},function(err,doc){
 //         res.json(doc);
 //         console.log(doc);
 //     });
 // });
 
- db.tag2.insert({a:104, Date: new Date("2018-01-01")},function(err,doc)
-    {
-   console.log(" inserted call trial ")
-    })
+ 
 app.post('/tags',function(req,res)
 {
     console.log("tags insert call");
@@ -699,16 +688,16 @@ app.get('/getdate:data',function(req,res)
   var tran=req.params.data;
   console.log(tran+"tran type tran type tran type tran type tran type tran type");
   // var pname=strdata_array[1];
-  db.transactiondetail.find({"Transaction":tran}).sort({_id:-1}).limit(1,function(err,doc){
+  db.transactionDetail.find({"Transaction":tran}).sort({_id:-1}).limit(1,function(err,doc){
         res.json(doc);
         console.log(doc);
   })
-  // db.transactiondetail.aggregate( { $sort: { Transaction: 1, date: 1 } }
+  // db.transactionDetail.aggregate( { $sort: { Transaction: 1, date: 1 } }
   //       { "$group": {"Transaction":tran,"partyname":pname,"date": { "$max": "$date" }}},function(err,doc){
   //   res.json(doc);
   //   console.log(doc);
   // })
-  // db.transactiondetail.aggregate({"Transaction":tran,"partyname":pname,"date":{$lt:date}}).sort({_id:-1}).limit(1)
+  // db.transactionDetail.aggregate({"Transaction":tran,"partyname":pname,"date":{$lt:date}}).sort({_id:-1}).limit(1)
   });
 // for last record in barcode generation
 app.get('/lastrec/:update',function(req,res)
@@ -722,7 +711,7 @@ app.get('/lastrec/:update',function(req,res)
     // var code1=str_array[1]
    //console.log("the last record is")
    //console.log(count)
-   //db.transactiondetail.find({count:count}).sort({_id:-1}).limit(1
+   //db.transactionDetail.find({count:count}).sort({_id:-1}).limit(1
     db.batch.find({count:count,"stats" : "Inprogress"}).sort({_id:-1}).limit(1,function(err,doc)
     {
         res.json(doc);
@@ -747,7 +736,7 @@ app.get('/barcode',function(req,res)
     var barcode=req.query.barcode;
     
 
-    db.transactiondetail.find({barcode:barcode},function(err,doc){ 
+    db.transactionDetail.find({barcode:barcode},function(err,doc){ 
      // console.log(" in new history")
         res.json(doc);
        // console.log(doc);
@@ -777,7 +766,7 @@ app.get('/batchbarcode',function(req,res)
 //     // var partyname=str_array[0];
 //     // console.log(partyname);
 
-//     db.transactiondetail.find({barcode:barcode},function(err,doc){ 
+//     db.transactionDetail.find({barcode:barcode},function(err,doc){ 
 //       console.log(" in new history")
 //         res.json(doc);
 //         console.log(doc);
@@ -793,29 +782,29 @@ app.get('/iateapple:spdata',function(req,res){
   var tran=str_array[1];
   if(tran == "Purchase Return"){
 // <<<<<<< HEAD
-  // db.transactiondetail.find({"partyname":pname,"Transaction" : "RD Purchase","voucherNo":{$ne:'null'}},function(err,doc){
-    db.transactiondetail.aggregate([{$match:{"partyname":pname,"Transaction":"RD Purchase","voucherNo":{$ne:"null"}}},
+  // db.transactionDetail.find({"partyname":pname,"Transaction" : "RD Purchase","voucherNo":{$ne:'null'}},function(err,doc){
+    db.transactionDetail.aggregate([{$match:{"partyname":pname,"Transaction":"RD Purchase","voucherNo":{$ne:"null"}}},
     {$group:{_id:{voucherNo:"$voucherNo"}}}],function(err,doc){
     res.json(doc);
     console.log(doc+"voucher No and dates");
     });
     }
   else{
-    // db.transactiondetail.find({"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:'null'}},function(err,doc){
-      db.transactiondetail.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:"null"}}},
+    // db.transactionDetail.find({"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:'null'}},function(err,doc){
+      db.transactionDetail.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:"null"}}},
       {$group:{_id:{voucherNo:"$voucherNo"}}}],function(err,doc){  
           res.json(doc);
       });
 
       }
 // =======
-  // db.transactiondetail.find({"partyname":pname,"Transaction" : "RD Purchase","voucherNo":{$ne:'null'}},function(err,doc){
+  // db.transactionDetail.find({"partyname":pname,"Transaction" : "RD Purchase","voucherNo":{$ne:'null'}},function(err,doc){
   //   res.json(doc);
   //   console.log(doc+"voucher No and dates");
   // });
   // }
   // else{
-  //   db.transactiondetail.find({"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:'null'}},function(err,doc){
+  //   db.transactionDetail.find({"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:'null'}},function(err,doc){
   //     res.json(doc);
   //   });
 
@@ -831,60 +820,60 @@ app.get('/appouts:data',function(req,res){
   // var str_array=str.split(",");
   // var pname=str_array[0];
   // var trans="Approval Out";
-  // db.transactiondetail.find({"partyname":pname,"Transaction":trans},function(err,doc){
-    db.transactiondetail.aggregate([{$match:{"partyname":pname,"Transaction":trans,"voucherNo":{$ne:"null"}}},
+  // db.transactionDetail.find({"partyname":pname,"Transaction":trans},function(err,doc){
+    db.transactionDetail.aggregate([{$match:{"partyname":pname,"Transaction":trans,"voucherNo":{$ne:"null"}}},
       {$group:{_id:{voucherNo:"$voucherNo"}}}],function(err,doc){ 
     res.json(doc);
     console.log(doc+"Approval Outs");
   });
 });
 //previous
-app.post('/userdata/:updat',function(req,res){
-    //console.log("igot order requestttttttttttttttttttttt");
- var str=req.params.updat;
-    //console.log(str);
-    var str_array=str.split(",");
-    var tran=str_array[0];
-    //console.log("status is"+status);
-    var code1=str_array[1]
-    var bar =parseInt(code1);
-  //  console.log("code1"+code1)
-    var chgunt=str_array[2]
-    var date=str_array[3]
-    var desc=str_array[4]
-    var final=str_array[5]
-    var gpcs=str_array[6]
-    var gwt=str_array[7]
-    var iname=str_array[8]
-    var ntwt=str_array[9]
-    var partyname=str_array[10]
-    var size=str_array[11]
-    var taxval1=str_array[12]
-    var taxamt1=str_array[13]
-   var wt=str_array[14]
+// app.post('/userdata/:updat',function(req,res){
+//     //console.log("igot order requestttttttttttttttttttttt");
+//  var str=req.params.updat;
+//     //console.log(str);
+//     var str_array=str.split(",");
+//     var tran=str_array[0];
+//     //console.log("status is"+status);
+//     var code1=str_array[1]
+//     var bar =parseInt(code1);
+//   //  console.log("code1"+code1)
+//     var chgunt=str_array[2]
+//     var date=str_array[3]
+//     var desc=str_array[4]
+//     var final=str_array[5]
+//     var gpcs=str_array[6]
+//     var gwt=str_array[7]
+//     var iname=str_array[8]
+//     var ntwt=str_array[9]
+//     var partyname=str_array[10]
+//     var size=str_array[11]
+//     var taxval1=str_array[12]
+//     var taxamt1=str_array[13]
+//    var wt=str_array[14]
 
-    var wastage=str_array[15]
-    var stval=str_array[16]
-    var labval=str_array[17]
-    var rate=str_array[18]
-    var stock=str_array[19]
-    //console.log(partyname)
-    console.log("finished")
-    //db.useritem.insert
-     db.useritem.insert({"barcode":bar,"Transaction":tran,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
-        "name":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"StockInward":stock,"wastage":wastage,"stval":stval,"labval":labval},function(err,doc){
+//     var wastage=str_array[15]
+//     var stval=str_array[16]
+//     var labval=str_array[17]
+//     var rate=str_array[18]
+//     var stock=str_array[19]
+//     //console.log(partyname)
+//     console.log("finished")
+//     //db.useritem.insert
+//      db.useritem.insert({"barcode":bar,"Transaction":tran,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+//         "name":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"StockInward":stock,"wastage":wastage,"stval":stval,"labval":labval},function(err,doc){
      
-    //var document={name:name,city:city,no:no,email:email,street:street};
-   // db.useritem.insert(req.body,function(err,doc){
-        res.json(doc);
-      //  console.log(doc);
+//     //var document={name:name,city:city,no:no,email:email,street:street};
+//    // db.useritem.insert(req.body,function(err,doc){
+//         res.json(doc);
+//       //  console.log(doc);
     
-})
-})
+// })
+// })
 app.get('/compos:barcodenum',function(req,res) {
   var barcoded = req.params.barcodenum;
    barcoded=parseInt(barcoded);
-db.transactiondetail.find({"StockInward":{$ne: "no"},"compositeRef":barcoded},function(err,doc){
+db.transactionDetail.find({"StockInward":{$ne: "no"},"compositeRef":barcoded},function(err,doc){
 res.json(doc);
 })
 })
@@ -1048,21 +1037,13 @@ app.post('/savedata1/:update',function(req,res){
         }
 
 
-  // console.log("db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert")
-  //    db.transactiondetail.insert(req.body,function(err,doc){
-  //       res.json(doc);
-  //     })
- // db.transactiondetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
-            
- //        res.json(doc);
- //    });
   if( wt == "undefined" || wt ==  0){
            wt =null
         }
         wt = parseFloat(wt)
       
        if(tran == "Regular Sale"){ //"stockInward":stockInward,
-         db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+         db.transactionDetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"Inprogress","withinstatecgst":Number(withinstatecgst),"withinstatesgst":Number(withinstatesgst),
                 "outofstateigst":Number(outofstateigst),"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
@@ -1077,7 +1058,7 @@ app.post('/savedata1/:update',function(req,res){
         if(tran == "Issue Voucher"||tran == "Receipt Voucher"||tran == "RD Purchase"||tran == "Approval Out" || tran == "Sale Return"||tran == "Purchase Return" ||
          tran == "Approval Return"||tran == 'Opening Stock'){
           console.log("cccccccccccccccccccc");
-          db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+          db.transactionDetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"completed","withinstatecgst":Number(withinstatecgst),"withinstatesgst":Number(withinstatesgst),
                 "outofstateigst":Number(outofstateigst),"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
@@ -1093,7 +1074,7 @@ app.post('/savedata1/:update',function(req,res){
           
         }
        else{
-         db.transactiondetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+         db.transactionDetail.insert({"Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
                 "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
                 "labval":labval,"orderStatus":"Inprogress","withinstatecgst":Number(withinstatecgst),"withinstatesgst":Number(withinstatesgst),
                 "outofstateigst":Number(outofstateigst),"stockInward":stockInward,"Hsc":Hsc,"purity":purity,"uom":uom,"pctcal":pctcal,"labcal":labcal,
@@ -1151,19 +1132,30 @@ app.post('/batchdata1',function(req,res){
 //     //})
 // })
 // })
-app.post('/saleinvoicedata',function(req,res){
+app.post('/saleInvoicedata',function(req,res){
     
     //var document={name:name,city:city,no:no,email:email,street:street};
-    db.saleinvoice.insert(req.body,function(err,doc){
+    db.saleInvoice.insert(req.body,function(err,doc){
         res.json(doc);
       
 })
 })
 app.post('/bardata',function(req,res){
     console.log("date bardata "+req.body.date);
-    console.log(req.body)
+    console.log(req.body);
+    req.body[0].date = new Date(req.body[0].date);
+     console.log("before "+req.body[0].totalpcs+ typeof(req.body[0].totalpcs))
+    
+    req.body[0].totalpcs = Number(req.body[0].totalpcs);
+   req.body[0].totaltags = Number(req.body[0].totaltags)
+    //totalweight = parseFloat(req.body[0].totalweight).toFixed(DecimalPoints);
+    //req.body[0].totalweight = Decimal128.fromString( totalweight);
+     req.body[0].totalweight = parseFloat(req.body[0].totalweight).toFixed(DecimalPoints);
+     
+    console.log('req.body')
+    console.log("aftre "+req.body[0].totalpcs+ typeof(req.body[0].totalpcs)+req.body[0].totalweight+" "+DecimalPoints)
     //var document={name:name,city:city,no:no,email:email,street:street};
-    db.barcodesumm.insert(req.body,function(err,doc){
+    db.barCodeSummary.insert(req.body[0],function(err,doc){
         res.json(doc);
         console.log(doc)
 })
@@ -1247,7 +1239,7 @@ app.get('/itemsdatachange:itemName',function(req,res)
     db.items.find({Name:itemname},function(err,doc){
      //   console.log(doc);
         res.json(doc);
-     //      db.inventorygroupmaster.find({InvGroupName:itemname},function(err,doc){
+     //      db.inventoryGroupMaster.find({InvGroupName:itemname},function(err,doc){
      // //   console.log(doc);
      //    res.json(doc);
 })
@@ -1261,7 +1253,7 @@ app.get('/itemdetails:itemname',function(req,res)
 
     // console.log("Item details function called+++++++++"+itemname)
     // console.log(itemname)
-    db.inventorygroupmaster.find({InvGroupName:itemname},function(err,doc){
+    db.inventoryGroupMaster.find({InvGroupName:itemname},function(err,doc){
        //console.log(doc);
         res.json(doc);
 })
@@ -1292,8 +1284,8 @@ app.get('/itemPurityDetails:inGrpId',function(req,res)
     //  currentdate =currentdate.slice(0, 10);
     //   console.log("curreenenen "+currentdate)
   //name changed+current date
-   // db.inventorygroupvaluenotation.find({InvGroupID:itemgroupid},function(err,doc){
-      db.inventorygroupvaluenotationdaily.find({InvGroupID:itemgroupid,date:currentdate},function(err,doc){
+   // db.inventoryGroupValueNotation.find({InvGroupID:itemgroupid},function(err,doc){
+      db.inventoryGroupValueNotationDaily.find({InvGroupID:itemgroupid,date:currentdate},function(err,doc){
     //console.log("purity call")
      //   console.log(doc);
         res.json(doc);
@@ -1342,8 +1334,8 @@ app.get('/transactionsto/:updat',function(req,res)
 //     console.log(barcode);
     
 //     //var document={name:name,city:city,no:no,email:email,street:street};
-//    // db.transactiondetails.insert({barcode:"barcode",Transaction:"Barcoding",StockInward:"yes"},function(err,doc){
-//      db.transactiondetails.insert(req.body,function(err,doc){
+//    // db.transactionDetails.insert({barcode:"barcode",Transaction:"Barcoding",StockInward:"yes"},function(err,doc){
+//      db.transactionDetails.insert(req.body,function(err,doc){
         
 //         res.json(doc);
 // })
@@ -1360,7 +1352,7 @@ app.post('/transactionstock',function(req,res){
      delete(req.body.accNumbers);
        delete( req.body.stockPoint1 );
 
- db.transactiondetail.insert(req.body,function(err,doc){
+ db.transactionDetail.insert(req.body,function(err,doc){
      
         res.json(doc);
       // console.log("post success transactionstock barcode ");
@@ -1397,7 +1389,7 @@ app.post('/transactionstockInward',function(req,res){
             req.body.ntwt  = parseFloat(req.body.ntwt)
             req.body.gwt  = parseFloat(req.body.gwt)
             req.body.gpcs  = parseFloat(req.body.gpcs)
-      db.transactiondetail.insert(req.body,function(err,doc){
+      db.transactionDetail.insert(req.body,function(err,doc){
        res.json(doc);   
        //console.log("post success transactionstockInward refid ");
      
@@ -1437,12 +1429,12 @@ app.post('/transactionComboItemInsert',function(req,res)
         req.body.ntwt  = parseFloat(req.body.ntwt)
         req.body.gwt  = parseFloat(req.body.gwt)
         req.body.gpcs  = parseFloat(req.body.gpcs)
-        db.transactiondetail.insert(req.body,function(err,doc){
+        db.transactionDetail.insert(req.body,function(err,doc){
              res.json(doc);    
         })
 })
 // for transaction details collection in inventory
-app.get('/transactiondetails',function(req,res){
+app.get('/transactionDetails',function(req,res){
     //console.log("i received a get request from index");
     //
   db.transactionSeriesInvoice.find(function(err,doc){
@@ -1538,7 +1530,7 @@ app.put('/urdstatus123/:data',function(req,res)
     var str_array=str.split(",");
     var id=str_array[0];
       var orderstatus = "completed"
-  db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus}},function(err,doc)
+  db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus}},function(err,doc)
         {
         res.json(doc);
         console.log(doc)
@@ -1562,7 +1554,7 @@ app.put('/urdstatus/:data',function(req,res)
     if(urdRefund == undefined){
        console.log("urdRefund == undefined "+urdRefund );
       var orderstatus = "Inprogress"
-      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus, "urdAdjustment" :diff}},function(err,doc)
+      db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus, "urdAdjustment" :diff}},function(err,doc)
         {
         res.json(doc);
         console.log(doc)
@@ -1571,7 +1563,7 @@ app.put('/urdstatus/:data',function(req,res)
     }else{
       console.log("urdRefund == defined "+urdRefund );
     var orderstatus = "completed"
-  db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus, "urdAdjustment":diff, "urdRefund":diff }},function(err,doc)
+  db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus, "urdAdjustment":diff, "urdRefund":diff }},function(err,doc)
         {
         res.json(doc);
         console.log(doc)
@@ -1639,7 +1631,7 @@ app.put('/status/:update',function(req,res)
       });
 })
 // for transaction details
-app.post('/transactiondetail/:updat',function(req,res)
+app.post('/transactionDetail/:updat',function(req,res)
 {
     console.log("iam updating here is this kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
    
@@ -1674,7 +1666,7 @@ app.post('/transactiondetail/:updat',function(req,res)
     var stock=str_array[19]
     //console.log(partyname)
     console.log("finished")
-    db.transactiondetail.insert({"barcode":bar,"Transaction":tran,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+    db.transactionDetail.insert({"barcode":bar,"Transaction":tran,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
         "name":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"StockInward":stock,
         "wastage":wastage,"stval":stval,"labval":labval},function(err,doc){
         //res.json(doc);
@@ -1723,7 +1715,7 @@ app.post('/salereturn/:updat',function(req,res)
     var stock=str_array[19]
     //console.log(partyname)
     console.log("finished")
-     db.transactiondetail.insert({"barcode":bar,"Transaction":tran,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
+     db.transactionDetail.insert({"barcode":bar,"Transaction":tran,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
         "name":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"StockInward":stock,"wastage":wastage,"stval":stval,"labval":labval},function(err,doc){
         //res.json(doc);
         if(err)
@@ -1885,8 +1877,8 @@ var id =req.query.id;
      //  console.log(partyname);
      // var trans=req.query.Transaction;
      // console.log(trans);
-    //db.transactiondetail.find({"partyname":partyname,"Transaction":trans},function(err,doc){
-      db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+    //db.transactionDetail.find({"partyname":partyname,"Transaction":trans},function(err,doc){
+      db.transactionDetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
         
         res.json(doc);
        // console.log(doc);
@@ -1898,7 +1890,7 @@ var id =req.query.id;
             
         //          if (c <=3) {
                   
-        //             db.transactiondetail.findOne({"compositeRef":Number(doc[0].compositeRef),"compositenum":Number(c)},function(err,doc1){
+        //             db.transactionDetail.findOne({"compositeRef":Number(doc[0].compositeRef),"compositenum":Number(c)},function(err,doc1){
         //                // console.log(doc1[0]);
         //                 console.log(doc1);
         //                 incrementCall(c+1)
@@ -1911,10 +1903,287 @@ var id =req.query.id;
         //  }
     });
 })
+
+//for getting partynames in receipt
+app.get('/partynames',function(req,res){
+  db.subscribers.find(function(err,doc){
+    res.json(doc);
+})
+});
+
+app.get('/bank',function(req,res)
+{
+    console.log("i received a get request from index");
+    db.bank.find(function(err,doc){
+        //console.log(doc);
+        res.json(doc);
+})
+})
+
+app.get('/cards',function(req,res){
+  console.log("finding card types");
+  db.cardType.find(function(err,doc){
+    console.log(doc)
+    res.json(doc);
+  });
+});
+
+//receipt no
+app.get('/getprefixs',function(req,res ){
+  console.log("1111111111111111111111111111111111111111")
+  // var tran=req.params.tra;
+db.transactionSeriesInvoice.find({"TransactionType":'Receipt'},function(err,doc12){
+    console.log(" check datafrwsdtywefdqwetyfqewfty ");
+    console.log(doc12[0]);
+    console.log(doc12);
+    res.json(doc12);
+});
+});
+
+//for getting totalcount
+app.get('/gettotalcount',function(req,res){
+  db.transactionInvoice.count({"prefix":'RP'},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+});
+
+//for inserting billNo to transactionInvoice
+app.put('/insertbill:values',function(req,res){
+  var dataz=req.params.values;
+  console.log(dataz+"1111111111111111111111111111");
+  var dataz_array=dataz.split(",");
+  var pre=dataz_array[0];
+  console.log(pre+"222222222222222222222222222222");
+  var no=dataz_array[1];
+  console.log(no+"3333333333333333333333333333333333");
+  db.transactionInvoice.insert({"prefix":pre,"typeno":no},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  })
+})
+
+app.post('/AccountStatusReceipt:values',function(req,res){
+  var insertbill = req.params.values;
+  //console.log(insertbill +"1111111111111111111111111111");
+  var insertbill_array=insertbill.split(",");
+  //var voucher = insertbill_array[0];
+  db.saleInvoice.update({"voucherNo":insertbill_array[0]},{$set:{"AccountStatus":"completed"}},function(err,doc){
+    
+      res.json(doc);
+      console.log("replayyyyyyyyyyyyyyyyyyyyy "+insertbill_array[0]);
+      console.log(doc);
+      
+   });
+ 
+})
+//FOR INSERTING New field into saleinvoice
+app.put('/newAccountstatus:status',function(req,res){
+  console.log("inserting new status status status status1111111111111111");
+  var stat1=req.params.status;
+  var stat1_array=stat1.split(",");
+  var ids=stat1_array[0];
+  var accountstatus=stat1_array[1];
+  console.log(accountstatus);
+  console.log("i will be insertinbg a field"+ids+"........."+accountstatus);
+  db.saleInvoice.update({ "_id":mongojs.ObjectId(ids)},{"$set":{"AccountStatus":accountstatus}},function(err,doc){
+    console.log(doc+"3333333333333333333333333");
+    res.json(doc);
+  })
+})
+
+//for getting voucherids foer receipts
+app.get('/getvoucherids:name',function(req,res){
+  console.log("selected partyname is ");
+  var pname=req.params.name;
+  console.log("partyname is "+ pname);
+  db.saleInvoice.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
+    {$group:{_id:{voucherNo:"$voucherNo",date:"$date",net:"$netamt"}}}],function(err,doc){
+    res.json(doc);
+    console.log(doc+"voucher No and dates");
+    });
+})
+
+
+//for getting  receipts details
+app.get('/getRecepietData:voucher',function(req,res){
+  console.log("selected partyname is ");
+  // var voucher = req.params.voucher;
+  // console.log("partyname is "+ voucher);
+  db.receipts.find({"voucherNo" : req.params.voucher,"voucherStatus" : "InProgress"},function(err,doc){
+    res.json(doc);
+  })
+  // db.saleInvoice.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","voucherNo":{$ne:"null"}}},
+  //   {$group:{_id:{voucherNo:"$voucherNo",date:"$date",net:"$netamt"}}}],function(err,doc){
+  //   res.json(doc);
+  //   console.log(doc+"voucher No and dates");
+  //   });
+})
+//for inserting into receipt
+app.post('/receiptdata/:datas',function(req,res){
+  console.log("inserting into receipts+99999999999999999999");
+  var rdata1=req.params.datas;
+
+  var rdata1_array=rdata1.split(",");
+  console.log(rdata1_array)
+  var mode=rdata1_array[0];
+  var amount=rdata1_array[1];
+  var bank=rdata1_array[2];
+  var chequeno=rdata1_array[3];
+  var chequeDate = rdata1_array[4];
+  // if (chequeDate != 'undefined') {
+  //   console.log(" date n "+ chequeDate);
+  //   chequeDate = new Date(chequeDate);
+  // }else{
+  //   chequeDate = null;
+  // }
+  
+  var cardnos=rdata1_array[5];
+  var ctype=rdata1_array[6];
+  var appno=rdata1_array[7];
+  var pname=rdata1_array[8];
+  var bdate=rdata1_array[9];
+  var bill=rdata1_array[10];
+  var narrate=rdata1_array[11];
+  var totals=rdata1_array[12];
+  var voucher=rdata1_array[13];
+  var voucherStatus = rdata1_array[14];
+  var netBalance = rdata1_array[15];
+   amount = parseFloat(amount).toFixed(rupeesDecimalPoints);
+   totals = parseFloat(totals).toFixed(rupeesDecimalPoints);
+   netBalance = parseFloat(netBalance).toFixed(rupeesDecimalPoints);
+  //db.receipts.insert({"name":"gvhdfgfehyu"})
+  db.receipts.insert({"Mode":mode,"Amount":Decimal128.fromString(amount),"Bank":bank,"ChequeNo":chequeno,"Date":chequeDate,"CardNo":cardnos,"CardType":ctype,"ApprovalNo":appno,"partyname":pname,"BilledDate":new Date(bdate),
+    "BillNo":bill,"Narration":narrate,"PaidAmount":Decimal128.fromString(totals),"voucherNo":voucher,"voucherStatus":voucherStatus,'netBalance':Decimal128.fromString(netBalance)},function(err,doc){
+     console.log(" checking data here ");
+     console.log(doc);
+    res.json(doc);
+  })
+})
+// recepiet data trdetails and trheader
+app.get('/receipetCreation',function(req,res){   
+      var BillNo = req.query.BillNo;
+      var voucherNo = req.query.voucherNo;
+      console.log(" BillNo "+BillNo);
+
+      var voucherId = 0;
+      var currentdate = null;
+      var currentYear = null;
+      var voucherType = null;
+      var  vocuherNumber =null;
+      var suffix = null;
+      var name = null;
+      var amountTotal = null;
+      var amountNet = null;
+      var narration = null;
+      var billtype = null;
+      var voucherRowNumber = 0;
+      var salesPerson = null;
+      var refId ;
+      findCall(req.query.voucherNo);
+    
+      function findCall(argument) {
+                db.saleInvoice.find({ "voucherNo" :argument },function (err,res) {
+
+                console.log(res)
+                currentdate =  res[0].date ;
+                billtype =  res[0].billtype ;
+
+                currentYear = res[0].date.slice(0, 4);
+
+                voucherType = res[0].Transaction;
+
+                vocuherNumber = res[0].voucherNo;
+                suffix = res[0].voucherNo.slice(0, 2);
+                name = res[0].partyname ;
+
+                //to find voucherClass
+                db.transactionSeriesInvoice.find({ "TransactionType" :voucherType },function (err,resData) {
+                voucherClass =  resData[0].TransactionClass ;
+               // trHeaderCall (amountNet,narration)
+                voucherIdCall()
+                //trHeaderCall (amountTotal,narration);
+                })
+
+                })
+      }//finalCall
+      function voucherIdCall() {
+                db.trHeaders.find({}).sort({_id:-1}).limit(1,function(err,data){
+                  //res.json(doc);
+                  console.log(data.length);
+                  if (data.length == 0) {
+                      voucherId = 1;
+                  }else{
+                         voucherId =  Number(data[0].voucherId) ; 
+                         console.log(" voucher   voucher "+data[0].voucherId)
+                         voucherId++;
+                       }
+                    receiptsCall();   
+                })//db.trHeaders
+
+       }//voucherIdCall
+       function receiptsCall() {
+            db.receipts.find({BillNo:req.query.BillNo},function(err,documents){
+              
+                  //res.json(doc);
+                  console.log(documents);
+                  amountNet = documents[0].PaidAmount;
+                  narration = documents[0].Narration;
+                  trDetailsInsertCall(documents[0].PaidAmount,name,'Dr')
+                  //trHeaderCall (documents[0].PaidAmount,documents[0].Narration)
+                  for (var billNoIndex = documents.length - 1;billNoIndex >= 0; billNoIndex--) {
+                    //Things[i]
+
+                    trDetailsCall(documents[billNoIndex].Mode,billNoIndex,documents[billNoIndex].Amount)
+
+                  };
+            });// db.receipts
+      }//receipts
+      function trDetailsCall (Mode,index,Amount) {
+        if (Mode == "Cash") {
+           console.log(" iam cash L011 ")
+           console.log(" PaidAmount "+Amount)
+           trDetailsInsertCall(Amount,'L011','Cr',index)
+        }else if (Mode == "Card") {
+           console.log(" iam card PaidAmount");
+            trDetailsInsertCall(Amount,'Lc11','Cr',index)
+       
+
+        }else if (Mode == "Cheque"){
+            trDetailsInsertCall(Amount,'LQ11','Cr',index)
+       
+        }
+        // body...
+      }//trDetailsCall
+      
+      function trDetailsInsertCall (amount,accountId,transType,index) {
+            voucherRowNumber++;
+            var amount = parseFloat(amount).toFixed(rupeesDecimalPoints);
+            db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate: new Date(),
+                accountId:accountId,amount:Decimal128.fromString(amount),transType:transType},function (err,res) {
+           
+            })
+            if (index == 0) {
+                trHeaderCall (amountNet,narration);
+            };
+      }//trdetails
+
+    
+ ////////   
+ function trHeaderCall (amountTotal,narration) {
+         var amountTotal = parseFloat(amountTotal).toFixed(rupeesDecimalPoints);
+          
+          db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:'',
+              amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:'',narration:narration,remarks:''},function (err,res) {
+          })
+  }//trHeaderCall
+
+})
+
 app.get('/urdDetails',function(req,res)
 {   
 var id =req.query.id;
-      db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+      db.transactionDetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
         
         res.json(doc);
         console.log(doc);
@@ -1936,8 +2205,8 @@ app.get('/getTranDetails',function(req,res){
     var date1=pstr_array[1];
     var date2=pstr_array[2];
       console.log(partyname+" "+date1+" "+date2);
-      // db.transactiondetail.find({"partyname":partyname,"created_on": {"$gt": date1, "$lt": date2}},function(err,doc){
-        db.transactiondetail.find({date:{$gt:date1, $lt:date2},"partyname":partyname},function(err,doc){
+      // db.transactionDetail.find({"partyname":partyname,"created_on": {"$gt": date1, "$lt": date2}},function(err,doc){
+        db.transactionDetail.find({date:{$gt:date1, $lt:date2},"partyname":partyname},function(err,doc){
           console.log("dddddddddddddd");
             res.json(doc);
             console.log(doc);
@@ -1986,12 +2255,12 @@ app.post('/confirmtransaction/:data',function(req,res){
     console.log(status)
      console.log("barcodeb here "+bar)
 
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status,"stockInward":"no"}},function(err,doc)
+     db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status,"stockInward":"no"}},function(err,doc)
         {
         res.json(doc);
        });
-    // db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status}});
-    // db.transactiondetail.update({refid:  bar},{$set:{"stats":status,"soldOutDate":soldOutDate}});
+    // db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":status}});
+    // db.transactionDetail.update({refid:  bar},{$set:{"stats":status,"soldOutDate":soldOutDate}});
 
 
 
@@ -2008,8 +2277,8 @@ app.get('/count1/:count',function(req,res)
    // console.log("count"+count1)
 
     //console.log("finished")
-     db.barcodesumm.find({"count":count1},function(err,doc){
-        //res.json(doc);db.barcodesumm.find({"count":1})
+     db.barCodeSummary.find({"count":count1},function(err,doc){
+        //res.json(doc);db.barCodeSummary.find({"count":1})
         if(err)
         {
             console.log(err)
@@ -2024,18 +2293,18 @@ app.post('/splitreturn',function(req,res)
 {
  // console.log("iam inserting in the split table ");
    //console.log(req.body)
-     db.transactiondetail.insert(req.body,function(err,doc){
+     db.transactionDetail.insert(req.body,function(err,doc){
        // console.log("noerror")
         res.json(doc);
       });
 })
 
 // for combo new barcode
-app.post('/combotransactiondetail',function(req,res)
+app.post('/combotransactionDetail',function(req,res)
 {
  // console.log("iam inserting in the split table ");
    //console.log(req.body)
-     db.transactiondetail.insert(req.body,function(err,doc){
+     db.transactionDetail.insert(req.body,function(err,doc){
        // console.log("noerror")
         res.json(doc);
       });
@@ -2048,7 +2317,7 @@ app.get('/useritfind/:update',function(req,res)
    // console.log(str);
     var str_array=str.split(",");
     var id=str_array[0];
-     db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+     db.transactionDetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
     if(err)
         {
             console.log(err)
@@ -2067,7 +2336,7 @@ app.get('/useritInvoice/:customerDetails',function(req,res)
     var str_array=str.split(",");
     var transaction=str_array[0];
     var party=str_array[1];
-     db.transactiondetail.find({"Transaction":transaction,"partyname" : party,"orderStatus" : "Inprogress" },function(err,doc){
+     db.transactionDetail.find({"Transaction":transaction,"partyname" : party,"orderStatus" : "Inprogress" },function(err,doc){
     if(err)
         {
             console.log(err)
@@ -2086,7 +2355,7 @@ app.get('/useritInvoiceValue/:customerDetails',function(req,res)
     var str_array=str.split(",");
     var transaction=str_array[0];
     var party=str_array[1];
-     db.transactiondetail.find({"Transaction":transaction,"partyname" : party,"orderStatus" : "Inprogress","voucherNo" : { $exists: true }  },function(err,doc){
+     db.transactionDetail.find({"Transaction":transaction,"partyname" : party,"orderStatus" : "Inprogress","voucherNo" : { $exists: true }  },function(err,doc){
     if(err)
         {
             console.log(err)
@@ -2136,6 +2405,7 @@ var str=req.params.update;
 new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOString();
     var ItemName=str_array[3]
     var wt=str_array[4]
+
     var pcs=str_array[5]
     var titems=str_array[6]
     var remark=str_array[7]
@@ -2148,10 +2418,10 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
   console.log("date edit "+date)
      
 
- // db.barcodesumm.update({_id:mongojs.ObjectId(id)},
+ // db.barCodeSummary.update({_id:mongojs.ObjectId(id)},
  //  update:{$set:{itemname: req.body.itemname, stockfrom: req.body.stockfrom ,totalpcs:req.body.totalpcs,totalweight:req.body.totalweight,totaltags:req.body.totaltags}},new :true},function(err,doc){
   
-  db.barcodesumm.update({_id:mongojs.ObjectId(id)},{$set:{"itemname":ItemName,"stockfrom":stockout,"stockto":stockin,"totalpcs":pcs,"totalweight":wt,"totaltags":titems,"count":count,
+  db.barCodeSummary.update({_id:mongojs.ObjectId(id)},{$set:{"itemname":ItemName,"stockfrom":stockout,"stockto":stockin,"totalpcs":pcs,"totalweight":wt,"totaltags":titems,"count":count,
         "date":date,"composite":composite,"split":splittable,"remarks":remark}},function(err,doc){
    
       
@@ -2166,7 +2436,7 @@ new Date(((new Date(str_array[2]).toISOString().slice(0, 23))+"-05:30")).toISOSt
 //for inserting receipt voucher data
 app.post('/insertreceiptUseritDetails',function(req,res){
    console.log(req.body+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-  db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+  db.transactionDetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
          "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
@@ -2196,7 +2466,7 @@ app.put('/insertNewUseritDetails',function(req,res){
            req.body.RefTransaction=reference;
            // req.body.Transaction="Sale Return";
            req.body.orderStatus="completed";
-           db.transactiondetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+           db.transactionDetail.insert({"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
                "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
          "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"stockInward":req.body.stockInward,"taxamt":req.body.taxamt,
               "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"InvGroupName":req.body.InvGroupName,"SaleCategory":req.body.SaleCategory,"purity":req.body.purity,
@@ -2208,7 +2478,7 @@ app.put('/insertNewUseritDetails',function(req,res){
            });  
            //console.log("inserted the data in save when id not null")
           //for combo update
-           db.transactiondetail.find({  "comboBarcode" : req.body.barcode},function(err,doc12){     
+           db.transactionDetail.find({  "comboBarcode" : req.body.barcode},function(err,doc12){     
                
                console.log(doc12);
                if (doc12 != 0) {
@@ -2216,12 +2486,12 @@ app.put('/insertNewUseritDetails',function(req,res){
 
                    console.log(" combo item getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate getComboBarcodeUpdate"+req.body.barcode);
     
-                    db.transactiondetail.find({"comboBarcode": req.body.barcode},function(err,doc1){     
+                    db.transactionDetail.find({"comboBarcode": req.body.barcode},function(err,doc1){     
                         console.log("getComboBarcode");
                         var gpcs = doc1[0].gpcs + req.body.gpcs ;
                         var gwt = doc1[0].gwt + req.body.gwt ;
                          
-                            db.transactiondetail.update({comboBarcode:req.body.barcode},{$set:{
+                            db.transactionDetail.update({comboBarcode:req.body.barcode},{$set:{
                                   "gpcs":gpcs,"gwt":gwt,"itemName":req.body.itemName}},function(err,doc){
                                    //res.json(doc)
                                    db.batch.update({barcode: req.body.barcode},{$set:{orderStatus:"available"}});
@@ -2244,7 +2514,7 @@ app.put('/updateUseritCall',function(req,res)
        // console.log(req.body)
        // console.log(req.body.barcode)
   
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+     db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
          "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
@@ -2264,7 +2534,7 @@ app.put('/updateUseritCall',function(req,res)
       }else{
           console.log(" barcode is here look  "+req.body.barcode);
             //for updated in refid data  "barcode":req.body.barcode,
-        db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+        db.transactionDetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
           "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,}},function(err,doc)
@@ -2292,7 +2562,7 @@ app.post('/insertUseritDetails',function(req,res){
          delete(req.body.irate);
          delete(req.body.accNumbers);
 
-   db.transactiondetail.insert(req.body,function(err,doc){
+   db.transactionDetail.insert(req.body,function(err,doc){
    
      if(err)
         {
@@ -2310,7 +2580,7 @@ app.post('/insertUseritDetails',function(req,res){
           //for updated in refid data  "barcode":req.body.barcode,
            // if(req.body.Transaction!='Approval Out'){
             console.log("not")
-        db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+        db.transactionDetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
           "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockPoint":req.body.stockPoint}},function(err,doc)
@@ -2321,7 +2591,7 @@ app.post('/insertUseritDetails',function(req,res){
       // }
       // else{
       //   console.log("approval out");
-      //   db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+      //   db.transactionDetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
       //    "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
       //   "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
       //     "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,"stockPoint":req.body.stockPoint}},function(err,doc)
@@ -2337,7 +2607,7 @@ app.post('/insertUseritDetails',function(req,res){
    //     console.log(req.body)
    //     console.log(req.body.barcode)
   
-     // db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+     // db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
      //     "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
      //     "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.order,"StockInward":"no",
      //    "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
@@ -2358,7 +2628,7 @@ app.put('/changeOrderStatus:changing',function(req,res){
   var barcode=str_array[1];
   console.log(pid);
   var voucher="null";
-  db.transactiondetail.update({_id:mongojs.ObjectId(pid)},{$set:{"voucherNo":voucher}},function(err,doc){
+  db.transactionDetail.update({_id:mongojs.ObjectId(pid)},{$set:{"voucherNo":voucher}},function(err,doc){
     res.json(doc);
     console.log(doc);
   });
@@ -2380,9 +2650,9 @@ app.put('/changeOrderStatus:changing',function(req,res){
 //   // console.log(tran);
 //   // var pname=appstr_array[1];
 //   // console.log(pname);
-//   // db.transactiondetail.update({})
+//   // db.transactionDetail.update({})
 //   var id=req.params.appdata;
-//   db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":"completed"}},function(err,doc){
+//   db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":"completed"}},function(err,doc){
 //     res.json(doc);
 //   })
 // });
@@ -2395,7 +2665,7 @@ app.put('/updateUseritCall',function(req,res)
        // console.log(req.body)
        // console.log(req.body.barcode)
   
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+     db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":Number(req.body.withinstatecgst),
          "withinstatesgst":Number(req.body.withinstatesgst),"outofstateigst":Number(req.body.outofstateigst),"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no","taxamt":req.body.taxamt,
         "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
@@ -2414,7 +2684,7 @@ app.put('/updateUseritCall',function(req,res)
       }else{
           console.log(" barcode is here look  "+req.body.barcode);
             //for updated in refid data  "barcode":req.body.barcode,
-        db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+        db.transactionDetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
           "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,}},function(err,doc)
@@ -2585,11 +2855,11 @@ app.put('/updateSaveData/:update',function(req,res){
         }
 
 
-  // console.log("db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert")
-  //    db.transactiondetail.insert(req.body,function(err,doc){
+  // console.log("db.transactionDetail.insert db.transactionDetail.insert db.transactionDetail.insert db.transactionDetail.insert")
+  //    db.transactionDetail.insert(req.body,function(err,doc){
   //       res.json(doc);
   //     })
- // db.transactiondetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
+ // db.transactionDetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
             
  //        res.json(doc);
  //    });
@@ -2599,7 +2869,7 @@ app.put('/updateSaveData/:update',function(req,res){
         wt = parseFloat(wt)
       
    
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
+     db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
      
     "Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
     "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
@@ -2772,11 +3042,11 @@ app.put('/editSavedData/:update',function(req,res){
         }
 
 
-  // console.log("db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert db.transactiondetail.insert")
-  //    db.transactiondetail.insert(req.body,function(err,doc){
+  // console.log("db.transactionDetail.insert db.transactionDetail.insert db.transactionDetail.insert db.transactionDetail.insert")
+  //    db.transactionDetail.insert(req.body,function(err,doc){
   //       res.json(doc);
   //     })
- // db.transactiondetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
+ // db.transactionDetail.insert({"partyname":partyname,"Transaction":"train",orderStatus:"Inprogress"},function(err,doc){ 
             
  //        res.json(doc);
  //    });
@@ -2787,7 +3057,7 @@ app.put('/editSavedData/:update',function(req,res){
     
    
 
-     db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
+     db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":barcode,
      
     "Transaction":tran,"barcodeNumber":bar,"chgunt":chgunt,"date":date,"desc":desc,"final":final,"gpcs":gpcs,"gwt":gwt,
     "itemName":iname,"ntwt":ntwt,"partyname":partyname,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
@@ -2799,7 +3069,7 @@ app.put('/editSavedData/:update',function(req,res){
                 console.log(" iamaa djfd "+doc)
         }); 
 if (tran == "Urd Purchase") {
-      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{
+      db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{
       "urdAdjustment":final
       }})
     
@@ -2818,19 +3088,19 @@ app.get('/myneeded/:str1',function(req,res){
   console.log(voucherNo);
   var pname=str3_array[1];
   console.log(pname);
-  db.saleinvoice.find({"voucherNo":voucherNo,"partyname":pname},function(err,doc){
+  db.saleInvoice.find({"voucherNo":voucherNo,"partyname":pname},function(err,doc){
     res.json(doc);
     console.log(doc+"ssssssssssssssssssssssssssssssssssssssss");
   });
 });
-//for updating saleinvoice
+//for updating saleInvoice
 app.put('/salesnew/:apple',function(req,res){
    // console.log(saledata+"dddddddddddddd");
-   // console.log("updating saleinvoice after  return");
+   // console.log("updating saleInvoice after  return");
     // console.log(req.params.shivu);
   var sal=req.params.apple;
   console.log(sal);
-  console.log("updating saleinvoice after  return");
+  console.log("updating saleInvoice after  return");
   var sal_array=sal.split(",");
   var taxableval2=sal_array[0];
   console.log(taxableval2);
@@ -2849,10 +3119,10 @@ app.put('/salesnew/:apple',function(req,res){
   // var trans=sal_array[7];
   // console.log(trans);
   var pid=null;
-   db.saleinvoice.update({"partyname":pname,"voucherNo":voucher},{$set:{"taxableval":taxableval2,
+   db.saleInvoice.update({"partyname":pname,"voucherNo":voucher},{$set:{"taxableval":taxableval2,
      "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2}},function(err,doc){
       
-    //     db.saleinvoice.insert({_id:mongojs.ObjectId(pid),"taxableval":taxableval2,
+    //     db.saleInvoice.insert({_id:mongojs.ObjectId(pid),"taxableval":taxableval2,
     // "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2,"Transaction":trans}},function(err,doc){
       
 
@@ -2871,7 +3141,7 @@ app.put('/getComboBarcodeUpdate',function(req,res){
     var barcode = req.body.barcode;
       //  console.log(req.body)
         console.log(req.body.barcode);
-    db.transactiondetail.find({"comboBarcode": req.body.barcode},function(err,doc1){     
+    db.transactionDetail.find({"comboBarcode": req.body.barcode},function(err,doc1){     
         console.log("getComboBarcode");
         var gpcs = doc1[0].gpcs -req.body.gpcs ;
         var gwt = doc1[0].gwt -req.body.gwt ;
@@ -2887,7 +3157,7 @@ app.put('/getComboBarcodeUpdate',function(req,res){
          // $scope.user[i].gwt = response[0].gwt -$scope.user[i].gwt;
          // $scope.user[i].gpcs = response[0].gpcs - $scope.user[i].gpcs;
                                                                   // ,  { $inc: {"TransactionNo": 1 }}                                  
-        db.transactiondetail.update({comboBarcode:req.body.barcode},
+        db.transactionDetail.update({comboBarcode:req.body.barcode},
           {$set:{
          "gpcs":gpcs,"gwt":gwt,"ntwt":ntwt,"chgunt":chgunt,"taxval":taxval,
          //"gpcs": -req.body.gpcs,"gwt":-req.body.gwt,"ntwt":-req.body.ntwt,"chgunt":-req.body.chgunt,"taxval":-req.body.taxval,
@@ -2895,7 +3165,7 @@ app.put('/getComboBarcodeUpdate',function(req,res){
        }},function(err,doc){
            //res.json(doc);-2
            //"stwt":-req.body.stwt
-         //  db.transactiondetail.update({comboBarcode:req.body.barcode},{$set:{
+         //  db.transactionDetail.update({comboBarcode:req.body.barcode},{$set:{
          // "gpcs":gpcs,"gwt":gwt,"itemName":req.body.itemName}},function(err,doc){
             
             if (gpcs <= 0 || gwt <= 0) {
@@ -2919,7 +3189,7 @@ app.put('/getComboBarcodeUpdate',function(req,res){
 });
 // function checkCall(argument) {
 //   console.log(" 64101017 "); // { $exists: true }
-//    db.transactiondetail.find({  "comboBarcode" : 53132197},function(err,doc){     
+//    db.transactionDetail.find({  "comboBarcode" : 53132197},function(err,doc){     
        
 //        console.log(doc.length)
 //    })
@@ -2933,7 +3203,7 @@ app.get('/batchBarcodeNumber:barcodenum',function(req,res){
     // console.log("batchBarcode:barcodenum "+req.params.barcodenum)
   
    // var tax1=parseInt(tax); //64101017
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
      db.batch.find({"barcode": Number(req.params.barcodenum)},function(err,doc){     
      //db.batch.find({"barcode": Number(req.params.barcodenum),"orderStatus" : "available"},function(err,doc){     
      
@@ -2943,11 +3213,11 @@ app.get('/batchBarcodeNumber:barcodenum',function(req,res){
        //console.log("doc[0].orderStatus12 "+ doc[0].orderStatus)
        // res.json(doc);
        if (doc.length != 0 && doc[0].orderStatus == "available") {
-           db.transactiondetail.find({"barcode": Number(req.params.barcodenum),"Transaction" :"Barcoding"},function(err,doc){     
+           db.transactionDetail.find({"barcode": Number(req.params.barcodenum),"Transaction" :"Barcoding"},function(err,doc){     
               
                 if (doc[0].comboItem == 'yes' && doc.length != 0) {
                       //console.log("combo item inside loop "+doc[0].comboItem);
-                      db.transactiondetail.find({"comboBarcode":  Number(req.params.barcodenum)},function(err,doc1){     
+                      db.transactionDetail.find({"comboBarcode":  Number(req.params.barcodenum)},function(err,doc1){     
                             //console.log("getComboBarcode");
                             //doc1[0].barcode = Number(req.params.barcodenum);
                             if(doc1[0].gwt == 0 || doc1[0].gpcs == 0 ){
@@ -2973,9 +3243,9 @@ app.get('/batchBarcodeNumber:barcodenum',function(req,res){
          }
       });//batch
 });
-app.put('/saleinvoicedata12/:update',function(req,res)
+app.put('/saleInvoicedata12/:update',function(req,res)
 {
-    console.log("entered into put request for saleinvoicedata saleinvoicedata update ");
+    console.log("entered into put request for saleInvoicedata saleInvoicedata update ");
     var str=req.params.update;
     console.log(str);
     var str_array=str.split(",");
@@ -3021,13 +3291,13 @@ var dis = str_array[9];
       var transaction = str_array[14];
       //console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
       if(transaction == "RegularSale"){
-          db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
+          db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
             "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue}},function(err,doc){
               res.json(doc);
               console.log(doc);
           })
         }else{
-          db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
+          db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
             "labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue}},function(err,doc){
               res.json(doc);
               console.log(doc);
@@ -3038,9 +3308,9 @@ var dis = str_array[9];
 })
 
 //confirm
-app.put('/saleinvoicedataconfirm/:update',function(req,res)
+app.put('/saleInvoicedataconfirm/:update',function(req,res)
 {
-    console.log("saleinvoicedataconfirm call");
+    console.log("saleInvoicedataconfirm call");
     var str=req.params.update;
     console.log(str);
     var str_array=str.split(",");
@@ -3050,7 +3320,7 @@ app.put('/saleinvoicedataconfirm/:update',function(req,res)
     console.log(partyname);
     var transaction=str_array[1];
     console.log(transaction);
-    db.saleinvoice.update({"partyname":partyname,"status":"In Progress", "Transaction" :transaction },{$set:{"status":"completed"}},function(err,doc){
+    db.saleInvoice.update({"partyname":partyname,"status":"In Progress", "Transaction" :transaction },{$set:{"status":"completed"}},function(err,doc){
   
         res.json(doc);
         //console.log("here is resulrs")
@@ -3066,7 +3336,7 @@ app.put('/editedUseritUpdate',function(req,res)
         console.log(req.body)
        // console.log(req.body.barcode)
   
-     // db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+     // db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"Transaction":req.body.Transaction,"barcode":req.body.barcode,"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
      //     "gpcs":req.body.gpcs,"gwt":req.body.gwt,"itemName":req.body.itemName,"ntwt":req.body.ntwt,"rate":req.body.rate,"mrp":req.body.mrp,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,"withinstatecgst":req.body.withinstatecgst,
      //     "withinstatesgst":req.body.withinstatesgst,"outofstateigst":req.body.outofstateigst,"partyname":req.body.partyname, "orderStatus":req.body.orderStatus,"StockInward":"no",
      //    "wastage":req.body.wastage,"stval":req.body.stval,"labval":req.body.labval,"final":req.body.final,"invGroupAccNO":req.body.invGroupAccNO,"invGroupName":req.body.invGroupName,
@@ -3081,15 +3351,15 @@ app.put('/editedUseritUpdate',function(req,res)
   
 });
 
-app.get('/getsaleinvoice_id:id1',function(req,res){
- // console.log("getsaleinvoice_id getsaleinvoice_id getsaleinvoice_id ");
+app.get('/getsaleInvoice_id:id1',function(req,res){
+ // console.log("getsaleInvoice_id getsaleInvoice_id getsaleInvoice_id ");
 
   var id=req.params.id1;
   //var trans=req.query.Transaction;
   // console.log(id);
    // "_id" : ObjectId("597f10802fec641cfc8ec970"),
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-  db.saleinvoice.find({_id:mongojs.ObjectId(id)},function(err,doc){
+  db.saleInvoice.find({_id:mongojs.ObjectId(id)},function(err,doc){
   
         res.json(doc);
         //console.log("here is resulrs")
@@ -3145,7 +3415,7 @@ app.put('/users/:csfdata',function(req,res){
 // app.get('/receiptuser:ids',function(req,res){
 //   console.log("receipt receipt receipt receipt receipt receipt receipt receipt");
 //   var id=req.params.ids;
-//   db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+//   db.transactionDetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
 //     res.json(doc);
 //     console.log(doc);
 //   });
@@ -3162,7 +3432,7 @@ app.get('/getSavedDetails',function(req,res){
 //      if(trans !="Sale Return"&&trans!="Purchase Return"&&trans!="Approval Sale"
 //       && trans!='Approval Return' ){
 //       console.log("First if 999999999999999999999999999");
-//   db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
+//   db.transactionDetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
        
 //         res.json(doc);
 //         console.log("get details sent");
@@ -3173,7 +3443,7 @@ app.get('/getSavedDetails',function(req,res){
   
 //   if(voucherNo!=null){
 //     console.log("loop for returing items vvvvvvvvvv8888888888");
-//   db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
+//   db.transactionDetail.find({"voucherNo":voucherNo},function(err,doc){
 //     res.json(doc);
 //     console.log(doc);
 //       });
@@ -3188,7 +3458,7 @@ app.get('/getSavedDetails',function(req,res){
     if(trans !="Sale Return"&&trans!="Purchase Return"&&trans!="Approval Sale"
        && trans!='Approval Return' && trans!='Urd Purchase'  ){
           console.log("First if 999999999999999999999999999");
-          db.transactiondetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
+          db.transactionDetail.find({partyname:partyname,Transaction:trans,orderStatus:"Inprogress"},function(err,doc){
 
           res.json(doc);
           console.log("get details sent");
@@ -3199,7 +3469,7 @@ app.get('/getSavedDetails',function(req,res){
 
               if(voucherNo!=null){
                   console.log("loop for returing items vvvvvvvvvv8888888888");
-                  db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
+                  db.transactionDetail.find({"voucherNo":voucherNo},function(err,doc){
                   res.json(doc);
                   console.log(doc);
                   });
@@ -3219,20 +3489,20 @@ app.get('/voucherNoGetDetails',function(req,res){
   //var trans=req.query.Transaction;
  //  console.log(voucherNo);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-  db.transactiondetail.find({"voucherNo":voucherNo},function(err,doc){
+  db.transactionDetail.find({"voucherNo":voucherNo},function(err,doc){
   
         res.json(doc);
        // console.log(doc);
     });
 });
 
-app.get('/voucherNoGetDetailsSaleInvoice/:data',function(req,res){
+app.get('/voucherNoGetDetailssaleInvoice/:data',function(req,res){
   //console.log("I received request for details by id+++++++++------");
   var voucher=req.params.data;
   //var trans=req.query.Transaction;
    //console.log(voucher);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-  db.saleinvoice.find({"voucherNo":voucher},function(err,doc){
+  db.saleInvoice.find({"voucherNo":voucher},function(err,doc){
   
         res.json(doc);
        // console.log(doc);
@@ -3241,13 +3511,13 @@ app.get('/voucherNoGetDetailsSaleInvoice/:data',function(req,res){
 
 
 
-app.get('/transactiondetailbyid:id',function(req,res){
+app.get('/transactionDetailbyid:id',function(req,res){
   //console.log("I received request for details by id+++++++++------");
   var id=req.params.id;
   //var trans=req.query.Transaction;
   // console.log(id);
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-  db.transactiondetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
+  db.transactionDetail.find({_id:mongojs.ObjectId(id)},function(err,doc){
   
         res.json(doc);
        // console.log(doc);
@@ -3255,7 +3525,7 @@ app.get('/transactiondetailbyid:id',function(req,res){
 });
 
 app.put('/tdetailupdatebyid:str1',function(req,res){
-  //console.log("transactiondetailupdatebyid function called =========================================================");
+  //console.log("transactionDetailupdatebyid function called =========================================================");
   var str2=req.params.str1;
   //console.log(str2)
   var str_array = str2.split(",");
@@ -3267,7 +3537,7 @@ app.put('/tdetailupdatebyid:str1',function(req,res){
   //var trans=req.query.Transaction;
    
   // db.useritem.find({partyname:partyname,Transaction:trans},function(err,doc){
-  db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus}},function(err,doc)
+  db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"orderStatus":orderstatus}},function(err,doc)
         {
         res.json(doc);
      //  console.log(doc)
@@ -3294,7 +3564,7 @@ app.get('/getPartyDetailsNumber',function(req,res){
   var trans=req.query.Transaction;
   // console.log(trans);
    if (trans=="Regular Sale") {
-    db.saleinvoice.find({partyname:username,Transaction:trans, status : "In Progress"}).sort({_id:-1}).limit(1,function(err,doc){
+    db.saleInvoice.find({partyname:username,Transaction:trans, status : "In Progress"}).sort({_id:-1}).limit(1,function(err,doc){
         res.json(doc);
         //console.log("here is data in progress "+ doc);
        // console.log(doc);
@@ -3426,7 +3696,7 @@ app.put('/useradjup/:update',function(req,res)
     //console.log(trans);
 
   
-     db.transactiondetail.find({"partyname":partyname,"Transaction":trans,orderStatus:"Inprogress"},function(err,doc){ 
+     db.transactionDetail.find({"partyname":partyname,"Transaction":trans,orderStatus:"Inprogress"},function(err,doc){ 
             
         res.json(doc);
     });
@@ -3465,7 +3735,7 @@ app.get('/historyfetch/:update',function(req,res)
     console.log(partyname);
 
     // db.history.find({partyname:partyname},function(err,doc){ 
-     db.transactiondetail.find({partyname:partyname,orderStatus:"completed"},function(err,doc){ 
+     db.transactionDetail.find({partyname:partyname,orderStatus:"completed"},function(err,doc){ 
     
         res.json(doc);
 
@@ -3485,18 +3755,18 @@ app.get('/historyfet/:update',function(req,res)
    // var order = "completed"
     //db.history.find({"TransactionType":"URD PURCHASE"}
     // db.history.find({"TransactionType":trans},function(err,doc){ 
-    // db.transactiondetail.find({"TransactionType":trans,"orderstatus":"completed"},function(err,doc){ 
-    // db.transactiondetail.find({"Transaction":trans,"orderStatus":"completed"},function(err,doc){ 
+    // db.transactionDetail.find({"TransactionType":trans,"orderstatus":"completed"},function(err,doc){ 
+    // db.transactionDetail.find({"Transaction":trans,"orderStatus":"completed"},function(err,doc){ 
      if(trans == "Regular Sale"){
-          db.saleinvoice.find({"Transaction":trans,"status":"completed"},function(err,doc){ 
+          db.saleInvoice.find({"Transaction":trans,"status":"completed"},function(err,doc){ 
          
              res.json(doc);
          });
         }else{
-           // db.saleinvoice.find({ $and:[ {"voucherNo" : {  $ne: null } }, {  "Transaction" : "Urd Purchase"}]}
-           db.saleinvoice.find({ $and:[ {"voucherNo" : {  $ne: null } }, {  "Transaction" :trans}]},function(err,doc){ 
+           // db.saleInvoice.find({ $and:[ {"voucherNo" : {  $ne: null } }, {  "Transaction" : "Urd Purchase"}]}
+           db.saleInvoice.find({ $and:[ {"voucherNo" : {  $ne: null } }, {  "Transaction" :trans}]},function(err,doc){ 
          
-         // db.saleinvoice.find({"Transaction":trans},function(err,doc){ 
+         // db.saleInvoice.find({"Transaction":trans},function(err,doc){ 
          
              res.json(doc);
          });
@@ -3537,13 +3807,13 @@ app.delete('/historydelete/:udelete',function(req,res)
     db.history.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
 })
 })
-// delete of barcodesummarydelete
-app.delete('/barcodesummarydelete/:udelete',function(req,res)
+// delete of barCodeSummaryarydelete
+app.delete('/barCodeSummaryarydelete/:udelete',function(req,res)
 {
    //console.log("i got the delete request");
     var id=req.params.udelete;
     //console.log(id);
-    db.barcodesumm.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
+    db.barCodeSummary.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
 })
 })
 // for barcode delete
@@ -3555,16 +3825,16 @@ app.delete('/deletebarcode/:udelete',function(req,res)
     barcode = parseInt(barcode)
     db.batch.remove({ barcode:barcode}, function(err, docs) {
 })
-     db.transactiondetail.remove({ "barcode" :barcode});
-     db.transactiondetail.remove({ "refid":barcode});
-      db.transactiondetail.remove({  "compositeRef":barcode});
+     db.transactionDetail.remove({ "barcode" :barcode});
+     db.transactionDetail.remove({ "refid":barcode});
+      db.transactionDetail.remove({  "compositeRef":barcode});
 })
 
-//for deleting inprogress regular saleinvoice data
+//for deleting inprogress regular saleInvoice data
 app.delete('/deleteinprogress:id',function(req,res){
   var ids=req.params.id;
   console.log(ids+"ids ids ds ids ids");
-  db.saleinvoice.remove({_id: mongojs.ObjectId(ids)},function(err,doc){
+  db.saleInvoice.remove({_id: mongojs.ObjectId(ids)},function(err,doc){
 
   })
 })
@@ -3575,7 +3845,7 @@ app.get('/getTaxname:taxx',function(req,res)
     var taxxx = req.params.taxx;
    var taxnamee=(taxxx);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
      db.tax.find({"taxname": taxnamee},function(err,doc){     
       
         res.json(doc);
@@ -3588,7 +3858,7 @@ app.get('/getTaxAlias:taxx',function(req,res)
     var taxxx = req.params.taxx;
    var taxnamee=(taxxx);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
      db.tax.find({"aliasname": taxnamee},function(err,doc){     
       
         res.json(doc);
@@ -3614,7 +3884,7 @@ app.put('/updateBarcodeDataGeneration',function(req,res){
             res.json(doc);
         
         });  
-       db.transactiondetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+       db.transactionDetail.update({"refid":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
          "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
           "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,}},function(err,doc)
@@ -3625,7 +3895,7 @@ app.put('/updateBarcodeDataGeneration',function(req,res){
   
   
 
-        db.transactiondetail.update({"barcode":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
+        db.transactionDetail.update({"barcode":req.body.barcode},{$set:{"chgunt":req.body.chgunt,"purity":req.body.purity,"date":req.body.date,"desc":req.body.desc,
           "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
           "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,}},function(err,doc)
@@ -3639,7 +3909,7 @@ app.put('/editcompos',function(req,res) {
     console.log(req.body.compositenum)
     console.log(req.body)
 
-      db.transactiondetail.update({"compositenum":req.body.compositenum,"compositeRef":req.body.compositeRef},{$set:{"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
+      db.transactionDetail.update({"compositenum":req.body.compositenum,"compositeRef":req.body.compositeRef},{$set:{"chgunt":req.body.chgunt,"date":req.body.date,"desc":req.body.desc,
           "gpcs":req.body.gpcs,"gwt":req.body.gwt,"name":req.body.iname,"ntwt":req.body.ntwt,"rate":req.body.rate,"size":req.body.size,"taxval":req.body.taxval,"stwt":req.body.stwt,
         "wastage":req.body.wastage,"purity":req.body.purity,"stval":req.body.stval,"mrp":req.body.mrp,"labval":req.body.labval,'labamt':req.body.labamt,"labourTaxValue":req.body.labourTaxValue,'labamt':req.body.labamt,'stchg':req.body.stchg,
           "stonecal":req.body.stonecal,"pctcal":req.body.pctcal,"labcal":req.body.labcal,}},function(err,doc)
@@ -3696,7 +3966,7 @@ app.put('/editcompos',function(req,res) {
 
 //        var stockout=str_array[20];
 //    // var order = "available"
-//     // db.transactiondetail.insert({barcode:barcode,},function(err,doc){
+//     // db.transactionDetail.insert({barcode:barcode,},function(err,doc){
 //      db.batch.update({_id:mongojs.ObjectId(id)},{$set:{"barcode":bar,"chgunt":chgunt,"date":date,"desc":desc,
 //         "final":final,"gpcs":gpcs,"gwt":gwt,"name":iname,"ntwt":ntwt,"rate":rate,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,
 //         "wastage":wastage,"stval":stval,"labval":labval}},function(err,doc){
@@ -3727,7 +3997,7 @@ app.delete('/userit/:udelete',function(req,res)
     var str_array=str.split(",");
     var id=str_array[0];
     
-     db.transactiondetail.remove({_id:mongojs.ObjectId(id),"Transaction": { $ne: "Barcoding" }}, function(err, docs) {
+     db.transactionDetail.remove({_id:mongojs.ObjectId(id),"Transaction": { $ne: "Barcoding" }}, function(err, docs) {
       res.json("deleted");
     })
   
@@ -3735,11 +4005,11 @@ app.delete('/userit/:udelete',function(req,res)
 app.delete('/saleinv/:id',function(req,res)
 {
    var id = req.params.id;
-   console.log("i got the saleinvoice delete request ");
+   console.log("i got the saleInvoice delete request ");
     
     //console.log(name);
     
-     db.saleinvoice.remove({_id:mongojs.ObjectId(id)}, function(err, docs) {
+     db.saleInvoice.remove({_id:mongojs.ObjectId(id)}, function(err, docs) {
         res.json("deleted");
     })
 })
@@ -3787,7 +4057,7 @@ app.delete('/deleteTagsError/:update',function(req,res)
       res.json("deleted");
 })
 })
-//delete from barcodesumm a new one
+//delete from barCodeSummary a new one
 // app.put('/barcodedelete/:update',function(req,res)
 // {
 //     console.log("i got the tag update  request call call call");
@@ -3798,7 +4068,7 @@ app.delete('/deleteTagsError/:update',function(req,res)
     
 //     var count = parseInt(str_array[0]);
 //     console.log(count)
-//     db.barcodesumm.update({"count":count},{"$set":{"status":"completed"}},function(err, docs) {
+//     db.barCodeSummary.update({"count":count},{"$set":{"status":"completed"}},function(err, docs) {
 // })
 // })
 //delete the barsumm record
@@ -3812,7 +4082,7 @@ app.delete('/barcodedelete/:update',function(req,res)
     
     var count = parseInt(str_array[0]);
     console.log(count)
-    db.barcodesumm.remove({"count":count})
+    db.barCodeSummary.remove({"count":count})
 })
 //summary count
 app.get('/summarycount/:update',function(req,res)
@@ -3887,9 +4157,18 @@ app.get('/getinvoice:trans',function(req,res)
 //         res.json(doc);
 // })
 // });
+//for getting receipt details
+app.get('/getStoredReceipt:bill',function(req,res){
+  var num=req.params.bill;
+  console.log("num num num num num num num num num");
+  db.receipts.find({"BillNo":num},function(err,doc){
+    console.log(doc+"data retrived");
+    res.json(doc);
+  })
+})
 app.put('/updateBatchTransaction/:update',function(req,res)
 {
-    //console.log("entered into put request for saleinvoicedata saleinvoicedata update ");
+    //console.log("entered into put request for saleInvoicedata saleInvoicedata update ");
     var str=req.params.update;
     //console.log(str);
     var str_array=str.split(",");
@@ -3938,7 +4217,7 @@ app.get('/listtran/:update',function(req,res)
     });
 });
 
-// delete from database saleinvoice
+// delete from database saleInvoice
 app.delete('/listDeleteEnter/:update',function(req,res)
 {
     var str=req.params.update;
@@ -3956,12 +4235,12 @@ app.delete('/listDeleteEnter/:update',function(req,res)
     console.log(prefix+" prefix "+typeno+" typeno")
     db.transactionInvoice.remove({ "prefix" : prefix,"typeno" : typeno });
 
-    db.saleinvoice.remove({ "voucherNo" : req.params.update})
+    db.saleInvoice.remove({ "voucherNo" : req.params.update})
      db.trDetails.remove({ "vocuherNumber" : req.params.update})
       db.trHeaders.remove({ "vocuherNumber" : req.params.update})
-       db.transactiondetail.remove({ "voucherNo" : req.params.update})
+       db.transactionDetail.remove({ "voucherNo" : req.params.update})
 
-    //   "voucherNo"  db.saleinvoice.remove({"partyname":partyname,"Transaction":trans}, function(err, docs) {
+    //   "voucherNo"  db.saleInvoice.remove({"partyname":partyname,"Transaction":trans}, function(err, docs) {
 // })
 })
 //for delete latest record
@@ -4026,48 +4305,48 @@ app.delete('/useritemd/:update',function(req,res)
     db. useritem.remove({"partyname":partyname,"Transaction":trans}, function(err, docs) {
 })
 })
-// delete from database barcodetransactiondetailed
-app.delete('/transactiondetaild',function(req,res)
+// delete from database barcodetransactionDetailed
+app.delete('/transactionDetaild',function(req,res)
 {
-    console.log("transactiondetaild req.query.barcode req.query.barcode req.query.barcode")
+    console.log("transactionDetaild req.query.barcode req.query.barcode req.query.barcode")
     var bar=req.query.barcode;
     var barcode = parseInt(bar)
     console.log(barcode)
     //  barcode=parseInt(barcode);
 
-    db.transactiondetail.remove({"barcode":barcode}, function(err, docs) {
+    db.transactionDetail.remove({"barcode":barcode}, function(err, docs) {
 
 })
 })
-// delete from database transactiondetaile
-app.delete('/transactiondetaile',function(req,res)
+// delete from database transactionDetaile
+app.delete('/transactionDetaile',function(req,res)
 {
      console.log("req.query.barcode req.query.barcode req.query.barcode req.query.barcode")
    
      var barcode=req.query.barcode;
     console.log(barcode)
-    db.transactiondetail.remove({"refid":barcode}, function(err, docs) {
+    db.transactionDetail.remove({"refid":barcode}, function(err, docs) {
 })
 })
 
 //for item html get details
-app.get('/getinventorygroupmaster',function(req,res)
+app.get('/getinventoryGroupMaster',function(req,res)
 {
-    db.inventorygroupmaster.find(function(err,doc){
+    db.inventoryGroupMaster.find(function(err,doc){
         res.json(doc);
 })
 })
 //for item html get details
-app.get('/getitemtype',function(req,res)
+app.get('/getitemType',function(req,res)
 {
-    db.itemtype.find(function(err,doc){
+    db.itemType.find(function(err,doc){
         res.json(doc);
 })
 })
 //for item html get details
-app.get('/getsalescategorymaster',function(req,res)
+app.get('/getsalesCategoryMaster',function(req,res)
 {
-    db.salescategorymaster.find(function(err,doc){
+    db.salesCategoryMaster.find(function(err,doc){
         res.json(doc);
 })
 })
@@ -4107,7 +4386,7 @@ app.get('/getitemdata',function(req,res)
 //       }
 //       else{
 //         sale1 =" "+sale1;
-//      db.items.find({ItemType: sale1},function(err,doc)
+//      db.items.find({itemType: sale1},function(err,doc)
 //     {
 //         res.json(doc);
 //     })
@@ -4131,7 +4410,7 @@ app.get('/getfilter/:update',function(req,res)
       }
       else{
         sale1 =" "+sale1;
-     db.items.find({ItemType: sale1}).sort({_id:-1},function(err,doc)
+     db.items.find({itemType: sale1}).sort({_id:-1},function(err,doc)
     {
         res.json(doc);
     })
@@ -4160,7 +4439,7 @@ app.put('/editeditem',function(req,res){
       //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
      db.items.update({_id : mongojs.ObjectId(id)},{$set:{"Name":req.body.Name,"Desc":req.body.Desc ,"Hsc":req.body.Hsc ,"InvGroupName":req.body.InvGroupName,"SaleCategory":req.body.SaleCategory,
          "Outofstate":req.body.Outofstate ,"Withinstate":req.body.Withinstate,"comboItem":req.body.comboItem,"marginReport":req.body.marginReport,
-         "ItemType":req.body.ItemType}},function(err,doc)
+         "itemType":req.body.itemType}},function(err,doc)
         {
           // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
          // console.log(doc); "SalesTax":req.body.salesTax,
@@ -4355,7 +4634,7 @@ app.get('/getname:taxx',function(req,res)
    //  var ta = req.params.ta;
    // var taxn=(ta);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
      db.taxation.find({"name": taxnamee,},function(err,doc){     
       
         res.json(doc);
@@ -4369,7 +4648,7 @@ app.get('/getaliasname:taxx',function(req,res)
    //  var ta = req.params.ta;
    // var taxn=(ta);
   
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+   // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
      db.taxation.find({"aliasname": taxnamee,},function(err,doc){     
       
         res.json(doc);
@@ -4383,7 +4662,7 @@ app.get('/getaliasname:taxx',function(req,res)
 //    //  var ta = req.params.ta;
 //    // var taxn=(ta);
   
-//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//    // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
 //      db.items.find({"Name": taxnamee,},function(err,doc){     
       
 //         res.json(doc);
@@ -4397,7 +4676,7 @@ app.get('/getaliasname:taxx',function(req,res)
 //    //  var ta = req.params.ta;
 //    // var taxn=(ta);
   
-//    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+//    // db.transactionDetail.find({"barcode": tax1},function(err,doc){     
 //      db.items.find({"InvGroupName": taxnamee,},function(err,doc){     
       
 //         res.json(doc);
@@ -4447,7 +4726,7 @@ console.log("jjjjjjj")
 
   //  app.get('/sales',  function (req, res) {
    
-  //     db.inventorygroupmaster.aggregate([{$project:{"SalesAcc.AccNo":1}},
+  //     db.inventoryGroupMaster.aggregate([{$project:{"SalesAcc.AccNo":1}},
   //                                         {$unwind:"$SalesAcc"},
   //                                         {$group:{_id:"$SalesAcc.AccNo"}}
  
@@ -4519,7 +4798,7 @@ app.post('/opaltx', function (req, res) {
 //           // console.log(fromdate)
 //        }
 
-//   db.transactiondetail.find({ date: {$gte:(fromdate), $lt: (reportdate)}},function (err, docs) {
+//   db.transactionDetail.find({ date: {$gte:(fromdate), $lt: (reportdate)}},function (err, docs) {
 //           //console.log(docs);
 //           res.json(docs);
 //     });
@@ -4582,13 +4861,13 @@ app.get('/issueonedate/:data',function (req, res) {
     //from date  weight inputweight
     
 
-  // db.transactiondetail.find({ date: {$gte:(fromdate), $lt: (reportdate)}},function (err, docs) {
+  // db.transactionDetail.find({ date: {$gte:(fromdate), $lt: (reportdate)}},function (err, docs) {
   //         //console.log(docs);
   //         res.json(docs);
   //   });
   if(barcode == "yes"){
         console.log("if yes");
-        db.transactiondetail.aggregate([
+        db.transactionDetail.aggregate([
                  {$match:{"Transaction": { $ne: NaN }, "barcodeNumber": { $ne: NaN }, "orderStatus":"completed" , date: { $gt:(fromdate), $lt: (reportdate) }}},
                  {$group:{_id:report ,weight:{$sum:inputweight},gpcs:{$sum:"$gpcs"}}},{ $sort : { _id: 1 } }
                  ],function (err, docs) {
@@ -4598,7 +4877,7 @@ app.get('/issueonedate/:data',function (req, res) {
 
   }else{
           console.log("else no");
-          db.transactiondetail.aggregate([
+          db.transactionDetail.aggregate([
                  {$match:{"Transaction": { $ne: NaN },"barcodeNumber": NaN, "orderStatus":"completed" , date: { $gt:(fromdate), $lt: (reportdate) }}},
                  {$group:{_id:report ,weight:{$sum:inputweight},gpcs:{$sum:"$gpcs"}}},{ $sort : { _id: 1 } }
                  ],function (err, docs) {
@@ -4635,7 +4914,7 @@ app.get('/receiveonedate/:data',  function (req, res) {
     console.log("fromdate "+fromdate)
     //from date  weight inputweight
     if("purity" == report1){
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
                  {$match:{'refid': {$exists: true, $ne: null }, date: { $gt:(fromdate), $lt: (reportdate) }}},
                  {$group:{_id :{purity:"$purity",itemName:"$itemName"} ,weight:{$sum:inputweight},gpcs:{$sum:"$gpcs"}}},{ $sort : { _id: 1 } }
                  ],function (err, docs) {
@@ -4645,7 +4924,7 @@ app.get('/receiveonedate/:data',  function (req, res) {
       
     }else{
 
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
                  {$match:{'refid': {$exists: true, $ne: null }, date: { $gt:(fromdate), $lt: (reportdate) }}},
                  {$group:{_id:report ,weight:{$sum:inputweight},gpcs:{$sum:"$gpcs"}}},{ $sort : { _id: 1 } }
                  ],function (err, docs) {
@@ -4657,11 +4936,11 @@ app.get('/receiveonedate/:data',  function (req, res) {
         
 });
 //purity in report
-app.get('/inventorygroupmasterdetails',function(req,res)
+app.get('/inventoryGroupMasterdetails',function(req,res)
 {
-   // console.log("inventorygroupmasterdetails request from index");
+   // console.log("inventoryGroupMasterdetails request from index");
 
-    db.inventorygroupmaster.find({},function(err,doc){
+    db.inventoryGroupMaster.find({},function(err,doc){
      //   console.log(doc);
         res.json(doc);
 })
@@ -4674,9 +4953,9 @@ app.get('/itemreport2',function(req,res)
     var itemgroupid=req.params.inGrpId;
 
     console.log("Item purity details function called-----"+itemgroupid)
-  db.transactiondetail.aggregate([
+  db.transactionDetail.aggregate([
     { "$lookup": { 
-        "from": "inventorygroupvaluenotation", 
+        "from": "inventoryGroupValueNotation", 
         "localField": "purity", 
         "foreignField": "ValueNotation", 
         "as": "collection2_doc"
@@ -4692,7 +4971,7 @@ app.get('/itemreport2',function(req,res)
     {$group:{_id :{purity:"$purity",itemName:"$itemName"}, gwt:{$sum:"$gwt"},gpcs:{$sum:"$gpcs"},ntwt:{$sum:"$ntwt"}}}
    
 ],function(err,doc){
-   // db.inventorygroupvaluenotation.find({InvGroupID:itemgroupid},function(err,doc){
+   // db.inventoryGroupValueNotation.find({InvGroupID:itemgroupid},function(err,doc){
      //   console.log(doc);
         res.json(doc);
 })
@@ -4713,8 +4992,8 @@ app.get('/getpartydetails:name',function(req,res)
         res.json(doc);
 })
 })
-// in mainpgae getinventorygroupvaluenotation
-app.get('/getinventorygroupvaluenotation/:data',function(req,res)
+// in mainpgae getinventoryGroupValueNotation
+app.get('/getinventoryGroupValueNotation/:data',function(req,res)
 {
   
 //    var date = new Date();
@@ -4729,23 +5008,22 @@ app.get('/getinventorygroupvaluenotation/:data',function(req,res)
     var str_array=str.split(",");
      var currentdate=str_array[0];
 
-    db.inventorygroupvaluenotationdaily.find({date:currentdate},function(err,doc){
+    db.inventoryGroupValueNotationDaily.find({date:currentdate},function(err,doc){
         //console.log(doc);
         res.json(doc);
 })
 })
 //last date
-app.get('/getinventorygroupvaluenotationlast',function(req,res)
+app.get('/getinventoryGroupValueNotationlast',function(req,res)
 {
 
-    db.inventorygroupvaluenotationdaily.find({}).sort({_id:-1}).limit(1,function(err,doc){
+    db.inventoryGroupValueNotationDaily.find({}).sort({_id:-1}).limit(1,function(err,doc){
         //console.log(doc);
         res.json(doc);
 })
 })
  
-  app.get('/todayinventorygroupvaluenotation/:data',function(req,res)
-{
+app.get('/todayinventoryGroupValueNotation/:data',function(req,res){
      var str=req.params.data;
    
     var str_array=str.split(",");
@@ -4759,7 +5037,7 @@ app.get('/getinventorygroupvaluenotationlast',function(req,res)
    //{count:b},
    //var currentdate = new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString();
      currentdate =currentdate.slice(0, 10);
-    db.inventorygroupvaluenotationdaily.find({date: { $gt:(currentdate)}},function(err,doc){
+    db.inventoryGroupValueNotationDaily.find({date: { $gt:(currentdate)}},function(err,doc){
         //console.log(doc);
         res.json(doc);
 })
@@ -4768,19 +5046,19 @@ app.get('/getinventorygroupvaluenotationlast',function(req,res)
 app.get('/groupAndCategoryBarcode',function(req,res){
     console.log("groupAndCategoryBarcode");
     
-      // db.transactiondetail.find(
+      // db.transactionDetail.find(
       //            {refid:Number(req.query.barcode)}
       //    ,function (err,doc) {
           
       //      // body...
       //    })
-      db.transactiondetail.find({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},function (err,doc) {
+      db.transactionDetail.find({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},function (err,doc) {
           //console.log(doc.length);
           console.log(" barcoded "+doc.length);
           res.json(doc);
          // res.json(doc);
           //upDateCall()
-          })//db.transactiondetail.find
+          })//db.transactionDetail.find
      //}
    // var itemgroupid=req.params.inGrpId;
 });
@@ -4795,7 +5073,7 @@ app.get('/stockDetaildisplayBarcodedItems',function(req,res){
      if (req.query.SaleCategory != undefined && req.query.InvGroupName != undefined ) {
      //  console.log(req.query.InvGroupName);
      // console.log(req.query.SaleCategory);
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
                  {$match:{refid: { $exists: true },comboBarcode: { $exists: false }, "stats" : "Inprogress",   "InvGroupName" :req.query.InvGroupName, "SaleCategory" : req.query.SaleCategory,"reset" : {$ne:true}}}
          ],function (err,doc) {
           console.log(doc.length);
@@ -4815,7 +5093,7 @@ app.get('/stockTotalCall',function(req,res){
      if (req.query.SaleCategory != undefined && req.query.InvGroupName != undefined ) {
      //  console.log(req.query.InvGroupName);
      // console.log(req.query.SaleCategory);
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
                  {$match:{refid: { $exists: true },comboBarcode: { $exists: false }, "stats" : "Inprogress",   "InvGroupName" :req.query.InvGroupName, "SaleCategory" : req.query.SaleCategory,}},
         {
        $group:
@@ -4839,7 +5117,7 @@ app.get('/stockResetTrue',function(req,res){
      if (req.query.SaleCategory != undefined && req.query.InvGroupName != undefined ) {
      //  console.log(req.query.InvGroupName);
      // console.log(req.query.SaleCategory);
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
                  {$match:{refid: { $exists: true },comboBarcode: { $exists: false }, "stats" : "Inprogress",   "InvGroupName" :req.query.InvGroupName, "SaleCategory" : req.query.SaleCategory, "reset" : true}}
          ],function (err,doc) {
           console.log(doc.length);
@@ -4852,28 +5130,28 @@ app.get('/stockResetTrue',function(req,res){
 app.get('/stockCodedBarcodedItems',function(req,res){
     console.log("stockCodedBarcodedItems");
     console.log(req.query.barcode);
-      db.transactiondetail.find({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},function (err,doc) {
+      db.transactionDetail.find({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},function (err,doc) {
           console.log(doc.length);
          // res.json(doc);
           upDateCall()
-          })//db.transactiondetail.find
+          })//db.transactionDetail.find
 function upDateCall() {
-   db.transactiondetail.update({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},{$set:{"reset":true}},function (err,doc) {
+   db.transactionDetail.update({"refid" :  Number(req.query.barcode) , comboBarcode: { $exists: false }},{$set:{"reset":true}},function (err,doc) {
           console.log(doc.length);
          // res.json(doc);
             aggregateCall()
-          })//db.transactiondetail.update
+          })//db.transactionDetail.update
 }//function upDateCall() {
  function aggregateCall() {
 
 // body...
-           db.transactiondetail.aggregate([
+           db.transactionDetail.aggregate([
                  {$match:{refid: { $exists: true },comboBarcode: { $exists: false }, "stats" : "Inprogress",   "InvGroupName" :req.query.InvGroupName, "SaleCategory" : req.query.SaleCategory, "reset" : true}}
          ],function (err,doc) {
           console.log(doc.length);
           res.json(doc);
            
-         })//db.transactiondetail.aggregate
+         })//db.transactionDetail.aggregate
  }          
 
            
@@ -4883,7 +5161,7 @@ app.get('/stockUninstallReset',function(req,res){
     console.log("stockUninstallReset");
      console.log(req.query.id);
      console.log(req.params.id);
-     db.transactiondetail.update({_id:mongojs.ObjectId(req.query.id)},{$set:{"reset":false }},function(err,doc)
+     db.transactionDetail.update({_id:mongojs.ObjectId(req.query.id)},{$set:{"reset":false }},function(err,doc)
         {
         res.json(doc);
         //console.log(doc)
@@ -4917,7 +5195,7 @@ app.get('/stockVerifyPreview',function(req,res){
   function openingBalanceCall() {
     //  console.log("openingBalanceCall");
       return new Promise(function (resolve,reject) { 
-         db.transactiondetail.aggregate([
+         db.transactionDetail.aggregate([
       {$match:
           {date: { $gt:(fromdate), $lt: (reportdate)},stockInward:{  $ne: null },$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ] }
       },    
@@ -4936,7 +5214,7 @@ app.get('/stockVerifyPreview',function(req,res){
   ],function(err,doc1){         
     
       // console.log(doc1[0]);   
-       db.transactiondetail.aggregate([
+       db.transactionDetail.aggregate([
 {$match:
       //db.inventory.find( { $and: [ { barcode: { $ne: undefined } }, { barcode: { $exists: true } } ] } )
       {date: { $gt:(fromdate), $lt: (reportdate) },stockInward:{  $ne: null },$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ] }
@@ -5017,7 +5295,7 @@ app.get('/stockVerifyPreview',function(req,res){
   function inwardBalanceCall() {
      return new Promise(function (resolve,reject) {
      // console.log("inwardBalanceCall");
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
 {$match:
       {date:{ $gt:(samedateStart), $lt: (samedateEnd) },stockInward:"yes",$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ]},
 },
@@ -5043,7 +5321,7 @@ app.get('/stockVerifyPreview',function(req,res){
   function outwardBalanceCall() {
       //console.log("outwardBalanceCall");
        return new Promise(function (resolve,reject) {
-      db.transactiondetail.aggregate([
+      db.transactionDetail.aggregate([
 {$match:
       {date: {$gt:(samedateStart), $lt: (samedateEnd) },stockInward:"no",$and: [ { barcode: { $ne: "undefined" } }, { barcode: { $exists: true } } ]},
 },
@@ -5439,7 +5717,7 @@ updateReport();
 })
 
 
-app.post('/postinventorygroupvaluenotation/:data',function(req,res)
+app.post('/postinventoryGroupValueNotation/:data',function(req,res)
 {
     var str=req.params.data;
    
@@ -5455,6 +5733,7 @@ app.post('/postinventorygroupvaluenotation/:data',function(req,res)
      var InvGroupName=str_array[5];
      var date=str_array[6];
      var update=str_array[7];
+     var id = str_array[8];
      console.log(update)
      console.log(str)
 
@@ -5462,25 +5741,31 @@ app.post('/postinventorygroupvaluenotation/:data',function(req,res)
     // console.log(req.body[0].date4)
     // console.log(req.body[0].InvGroupID)
     //  console.log("date displayed uplokk")
-   //  db.inventorygroupvaluenotationdaily.insert(req.body,function(err,doc)
+   //  db.inventoryGroupValueNotationDaily.insert(req.body,function(err,doc)
    //  {
    //     console.log(doc)
    // res.json(doc);
    //  })
    if(update == "equal" ){
-    console.log("update");
-   db.inventorygroupvaluenotationdaily.update({"NotationID":NotationID ,"InvGroupID" :InvGroupID,"ValueNotation":ValueNotation,"ConversionPercentage":ConversionPercentage,
-      "InvGroupName":InvGroupName,date:date},{$set:{"Rate":Rate}},function(err,doc)
+    console.log("update call");
+   // db.inventoryGroupValueNotationDaily.update({"NotationID":NotationID ,"InvGroupID" :InvGroupID,"ValueNotation":ValueNotation,"ConversionPercentage":ConversionPercentage,
+   //    "InvGroupName":InvGroupName,date:date},{$set:{"Rate":Rate}},function(err,doc)
+   //      {
+   //          //console.log(doc)
+   //          res.json(doc);
+   //      })
+  
+      db.inventoryGroupValueNotationDaily.update({_id : mongojs.ObjectId(id)},{$set:{"Rate":Rate }},function(err,doc)
         {
-            console.log(doc)
+            //console.log(doc)
             res.json(doc);
         })
   }else{
       console.log("insert");
-    db.inventorygroupvaluenotationdaily.insert({"NotationID":NotationID ,"InvGroupID" :InvGroupID,"ValueNotation":ValueNotation,"ConversionPercentage":ConversionPercentage,
+    db.inventoryGroupValueNotationDaily.insert({"NotationID":NotationID ,"InvGroupID" :InvGroupID,"ValueNotation":ValueNotation,"ConversionPercentage":ConversionPercentage,
       "Rate":Rate,"InvGroupName":InvGroupName,date:date},function(err,doc)
         {
-            console.log(doc)
+           // console.log(doc)
             res.json(doc);
         })
   }
@@ -5510,7 +5795,7 @@ app.post('/user12/:data',function(req,res){
     var voucher = str_array[length - 1];
     for(var i =0;i<length - 1;i++){
     //  console.log("here is the length "+str_array[i]);
-      db.transactiondetail.update({_id:mongojs.ObjectId(str_array[i])},{$set:{"voucherNo":voucher }},function(err,doc)
+      db.transactionDetail.update({_id:mongojs.ObjectId(str_array[i])},{$set:{"voucherNo":voucher }},function(err,doc)
         {
         //res.json(doc);
         //console.log(doc)
@@ -5525,7 +5810,7 @@ app.post('/user12/:data',function(req,res){
       var id=str_array[0];
       var trans=str_array[1];
       var voucher=str_array[2];
-      db.transactiondetail.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher,"Transaction":trans}},function(err,doc){
+      db.transactionDetail.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher,"Transaction":trans}},function(err,doc){
         res.json(doc);
       })
     });
@@ -5543,7 +5828,7 @@ app.post('/saleInvoiceInvoice/:data',function(req,res)
    // console.log(length);
     var voucher = str_array[1];
     
-     db.saleinvoice.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher,"status":"completed"}},function(err,doc)
+     db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"voucherNo":voucher,"status":"completed"}},function(err,doc)
         {
         res.json(doc);
         //console.log(doc)
@@ -5551,14 +5836,14 @@ app.post('/saleInvoiceInvoice/:data',function(req,res)
    
     
      })
-app.get('/getSaleInvoicedata/:data',function(req,res){ 
+app.get('/getsaleInvoicedata/:data',function(req,res){ 
   var str=req.params.data;
     //console.log(str);
      var str_array=str.split(",");
     //console.log( str_array.length);
     var id = str_array[0];
   
-     db.saleinvoice.find({_id:mongojs.ObjectId(id),"voucherNo": { $exists: true }},function(err,doc){
+     db.saleInvoice.find({_id:mongojs.ObjectId(id),"voucherNo": { $exists: true }},function(err,doc){
         res.json(doc);
         //console.log(doc)
        });
@@ -5585,13 +5870,13 @@ app.get('/getLoginDetails',function(req,res)
 //to convert string into number
 // function convertionCall() {
 //   console.log(" conversion call ");
-//   db.transactiondetail.find().forEach( function (x) {
+//   db.transactionDetail.find().forEach( function (x) {
 //    // if (x.outofstateigst != 'null') {
 //       x.outofstateigst = parseInt(x.outofstateigst);
 //       //}
 //       x.withinstatecgst = parseInt(x.withinstatecgst);
 //       x.withinstatesgst = parseInt(x.withinstatesgst);
-//       db.transactiondetail.save(x);
+//       db.transactionDetail.save(x);
 //   });
 // }
 
@@ -5600,7 +5885,17 @@ app.get('/trCollectionCreation/:data',function(req,res){
     //console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
      configurationCall();   
    // console.log("entered into new  trans data");
-    console.log("Discount Given Discount GivenDiscount getinventorygroupvaluenotation trCollectionCreation")
+//    function changeNumberType(voucher) {
+//     db.trDetails.find().forEach( function (x) {
+// x.amount = Number(x.amount);
+// db.trDetails.save(x);
+// });
+        // db.transactionInvoice.update({"TransactionClass":classType})
+                     
+        //  db.trDetails.update({voucherId:voucher}, { $set: {"TransactionNo": 1 }}, { multi: true })
+       // db.trHeaders.find({voucherId:128}).forEach( function(obj) { obj.amount = new parseFloat( obj.amount );db.trHeaders.save(obj); } );
+   //}
+    console.log("Discount Given Discount GivenDiscount getinventoryGroupValueNotation trCollectionCreation")
    res.json("100");
    var taxDuplicateCheck = [];
  var str=req.params.data;
@@ -5659,7 +5954,7 @@ app.get('/trCollectionCreation/:data',function(req,res){
     findCall(req.query.salesIds);
     
     function findCall(argument) {
-       db.saleinvoice.find({ "_id" : mongojs.ObjectId(argument)},function (err,res) {
+       db.saleInvoice.find({ "_id" : mongojs.ObjectId(argument)},function (err,res) {
     //console.log(res);
     //res.json(res)
      
@@ -5682,9 +5977,9 @@ app.get('/trCollectionCreation/:data',function(req,res){
      if (res[0].adj == 'null') {
         amountTotal = res[0].invoiceValue;
      }else{
-        amountTotal = Number(res[0].invoiceValue) + Number(res[0].adj) ;
+        amountTotal = Decimal128.fromString(res[0].invoiceValue) + Decimal128.fromString(res[0].adj) ;
      }
-     
+     //Decimal128.fromString("636.45")
      amountNet = res[0].netamt;
      // console.log(suffix );
      //console.log(res[0].partyname);
@@ -5705,9 +6000,9 @@ app.get('/trCollectionCreation/:data',function(req,res){
                      if (voucherType == "RD Purchase") {
                          gstCall("Cash Paid", amountTotal);
                      }else{
-                              gstCall("Cash on hand", amountTotal);
+                            //  gstCall("Cash on hand", amountTotal);
                           }
-               
+                    defaultBalanceSubscriber(name);
              }else{
                     defaultBalanceSubscriber(name);
                   }
@@ -5725,8 +6020,8 @@ app.get('/trCollectionCreation/:data',function(req,res){
 
             defaultBalanceSubscriber(name);
              refId = "";
-             db.transactiondetail.find({ "_id" : mongojs.ObjectId(str_array[0])},function (err,request) {
-                            //    db.transactiondetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
+             db.transactionDetail.find({ "_id" : mongojs.ObjectId(str_array[0])},function (err,request) {
+                            //    db.transactionDetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
                            salesPerson =  request[0].salesPerson;
                   gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Cr','L035') 
            
@@ -5801,8 +6096,8 @@ app.get('/trCollectionCreation/:data',function(req,res){
                   DefaultBalance = 'Cr';
               }
               voucherRowNumber++;
-            db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:currentdate,
-           accountId:name,amount:amountTotal,transType:DefaultBalance},function (err,res) {
+            db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate: new Date(currentdate),
+           accountId:name,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
            
             })
        };//insertCall
@@ -5814,8 +6109,8 @@ app.get('/trCollectionCreation/:data',function(req,res){
               // m++;
               // taxCaluclations(m);
               if (m >= 0) {
-                   db.transactiondetail.find({ "_id" : mongojs.ObjectId(str_array[m])},function (err,request) {
-                            //    db.transactiondetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
+                   db.transactionDetail.find({ "_id" : mongojs.ObjectId(str_array[m])},function (err,request) {
+                            //    db.transactionDetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
                            salesPerson =  request[0].salesPerson;
                             //vocuherNumber = request[0].voucherNo;
                             if (request[0].Transaction == "RD Purchase") {
@@ -5834,10 +6129,10 @@ app.get('/trCollectionCreation/:data',function(req,res){
                                  }
                             function noRepeatedCall() {
                                   if (request[0].taxSelection != 'undefined') {
-                                       db.transactiondetail.find({ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo },function (err,data) {
+                                       db.transactionDetail.find({ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo },function (err,data) {
                                            console.log(" taxSelection "+request[0].taxSelection+" len "+data.length);
                                           
-                                    db.transactiondetail.aggregate([{$match:{ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo}},
+                                    db.transactionDetail.aggregate([{$match:{ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo}},
                                             { "$lookup": {  "from": "tax",   "localField":   "taxname", "foreignField":  "taxSelection", "as": "taxCollection"}},
                   
                                              { "$unwind": "$taxCollection" },
@@ -5909,7 +6204,7 @@ app.get('/trCollectionCreation/:data',function(req,res){
                             }//noRepeatedCall
                             
                           
-                  })//transactiondetail
+                  })//transactionDetail
 
               }// if (m == 0)
          }//  if (m<length)
@@ -5937,8 +6232,9 @@ app.get('/trCollectionCreation/:data',function(req,res){
             }
    
               voucherRowNumber++;
-             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:currentdate,
-                 accountId:accountName,amount:amountTotal,transType:DefaultBalance},function (err,res) {
+              amountTotal = parseFloat(amountTotal).toFixed(2);
+             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:new Date(currentdate),
+                 accountId:accountName,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
            
             })
 }//gstInsertCall
@@ -5949,10 +6245,10 @@ app.get('/trCollectionCreation/:data',function(req,res){
    if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
    // if(voucherType.toUpperCase().match(/SALE/g)  == "SALE"){
     //alert("Sale ")
-    db.transactiondetail.aggregate([
+    db.transactionDetail.aggregate([
       {$match:{"voucherNo" :argument  }},
        { "$lookup": { 
-                            "from": "inventorygroupmaster", 
+                            "from": "inventoryGroupMaster", 
                             "localField":   "SalesAcc", 
                             "foreignField":  "AccNo", 
                             "as": "inventorygroup"
@@ -5985,10 +6281,10 @@ app.get('/trCollectionCreation/:data',function(req,res){
     }else if(voucherType == 'Urd Purchase' || voucherType == "RD Purchase" ||voucherType == "Sale Return" ||voucherType == "Receipt Voucher"){
      //}else if(voucherType.toUpperCase().match(/PURCHASE/g) == "PURCHASE"){
      
-          db.transactiondetail.aggregate([
+          db.transactionDetail.aggregate([
       {$match:{"voucherNo" :argument  }},
          { "$lookup": { 
-                            "from": "inventorygroupmaster", 
+                            "from": "inventoryGroupMaster", 
                             "localField":   "PurchaseAcc" , 
                             "foreignField":  "AccNo", 
                             "as": "inventorygroup"
@@ -6029,9 +6325,10 @@ app.get('/trCollectionCreation/:data',function(req,res){
        // res.json(doc);
            console.log("voucherType voucherType voucherType voucherType voucherType "+salesPerson)
           // console.log(doc);
-          db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
-                amount:amountTotal,numberOfDetails:voucherRowNumber,userId:salesPerson},function (err,res) {
+          db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+                amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
                
+               // changeNumberType(voucherId)
                 if (voucherType != 'Urd Purchase') {
                       voucherId =  voucherId+1;
                       voucherRowNumber = 0;
@@ -6058,8 +6355,8 @@ app.get('/trCollectionCreation/:data',function(req,res){
 function receiptAndPaymentCallTrDetails  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
            
               voucherRowNumber++;
-             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:currentdate,
-                 accountId:accountName,amount:amountTotal,transType:DefaultBalance},function (err,res) {
+             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:new Date(currentdate),
+                 accountId:accountName,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
                   
                if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
                     inVoiceCall('Receipts',inVoiceSeriesConfig) 
@@ -6176,8 +6473,9 @@ function inVoiceCall(Transaction,voucherSeriesType) {
 
  function receiptAndPaymentCallTrHeaders(vocuherNumber,voucherType,voucherClass,suffix) {
                            
-   db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:currentdate,prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
-                amount:amountNet,numberOfDetails:voucherRowNumber,userId:salesPerson},function (err,res) {
+   db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+                amount: Decimal128.fromString(amountNet),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
+               // changeNumberType(voucherId)
                })
  }//receiptAndPaymentCall
 
@@ -6243,7 +6541,7 @@ app.get('/reportResult/:data',  function (req, res) {
 
     console.log(" reportdate reportonedate reportonedate reportdate  "+reportdate)
  // function document() {
-  db.transactiondetail.aggregate([
+  db.transactionDetail.aggregate([
                  //{$match:{'refid': {$exists: true, $ne: null }, date: { $gt:(fromdate), $lt: (reportdate) }}},
                {$match:{ "stockPoint" : stockPoint,stockInward:"yes", date: { $gt:(fromdate), $lt: (reportdate) }}},
                
@@ -6271,7 +6569,7 @@ app.get('/reportResult/:data',  function (req, res) {
                  result =result;
                  console.log("remainingItems "+remainingItems.length);
                    // body...
-                   db.transactiondetail.aggregate([
+                   db.transactionDetail.aggregate([
                     //{$match:{"Transaction": { $ne: NaN }, "barcodeNumber": { $ne: NaN }, "orderStatus":"completed" , date: { $gt:(fromdate), $lt: (reportdate) }}},
                       {$match:{ "stockPoint" : stockPoint,orderStatus: { $exists: true },stockInward:"no", date: { $gt:(fromdate), $lt: (reportdate) }}},
               
@@ -6677,7 +6975,7 @@ app.get('/reportResult/:data',  function (req, res) {
   }) //reportResult
 //groupWiseControllers
 app.get('/groupWiseHeaders',function(req,res){
-   db.inventorygroupmaster.find({}).sort({"sortOrder" :1},function(err,doc)
+   db.inventoryGroupMaster.find({}).sort({"sortOrder" :1},function(err,doc)
     {
         res.json(doc);
         //console.log(doc);
@@ -6704,7 +7002,7 @@ sort_order[ "group" ] = 1;
 //testCall()
 //for dumy
 // app.get('/dummygroupWiseHeaders',function(req,res){
-//    db.inventorygroupmaster_copy.find({}).sort({"sortOrder" :1},function(err,doc)
+//    db.inventoryGroupMaster_copy.find({}).sort({"sortOrder" :1},function(err,doc)
 //     {
 //         res.json(doc);
 //         //console.log(doc);
@@ -6719,11 +7017,21 @@ app.get('/printCompositeItems',function(req,res){
    
     console.log("i received a get request from user");
    
-    db.transactiondetail.findOne({"compositeRef":Number(req.query.compositeRef),"compositenum":Number(req.query.compositenum)},function(err,doc1){
+    db.transactionDetail.findOne({"compositeRef":Number(req.query.compositeRef),"compositenum":Number(req.query.compositenum)},function(err,doc1){
        // console.log(doc1.compositenum);
         res.json(doc1);
     })
 })
+
+//for getting bill data for pdf.html
+app.get('/getbilldata:num',function(req,res){
+  var billno=req.params.num;
+  console.log( " cjdsfhjdgfhj "+billno)
+  db.receipts.find({"BillNo":billno},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+});
 
 app.get('/getGroupWisePreview',function(req,res){
 
@@ -6751,8 +7059,8 @@ app.get('/getGroupWisePreview',function(req,res){
  // let set = new Set();
   var array = [];
  // console.log("req.query.fromdate "+req.query.fromdate+"  req.query.todate "+ req.query.todate+" wt "+req.query.Wt);
- // db.transactiondetail.aggregate([])
-    db.transactiondetail.aggregate([
+ // db.transactionDetail.aggregate([])
+    db.transactionDetail.aggregate([
       {$match:
       {date: { $gt:(req.query.fromdate), $lt: (req.query.todate) },
        "Transaction" : req.query.Transaction,
@@ -6762,7 +7070,7 @@ app.get('/getGroupWisePreview',function(req,res){
       },
 },
 { "$lookup": { 
-        "from": "inventorygroupmaster", 
+        "from": "inventoryGroupMaster", 
         "localField": "InvGroupName", 
         "foreignField": "InvGroupName", 
         "as": "collection2_doc"
@@ -6806,8 +7114,8 @@ app.get('/getGroupWisePreview',function(req,res){
       ],function(err,doc){
 
       // console.log("doc.length "+doc.length)
-           db.inventorygroupmaster.find({}).sort({"sortOrder" :1},function(err,result){
-        //    db.inventorygroupmaster.find({}).sort({"sortOrder" :1},function(err,result){
+           db.inventoryGroupMaster.find({}).sort({"sortOrder" :1},function(err,result){
+        //    db.inventoryGroupMaster.find({}).sort({"sortOrder" :1},function(err,result){
           
           for (var j =0 ,len = result.length-1 ; j <= len; j++) {
 
@@ -6932,8 +7240,14 @@ app.use(express.static(__dirname + '/subscriber_images'));
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
 require('./public/inventoryDbs/defaultCollections')(app);
-app.listen(8090); 
-console.log("server running on port 8090");
+app.listen(8000); 
+console.log("server running on port 8000");
+//var MongoClient = require('mongodb').MongoClient;
 
+
+// db.tags2.insertOne({ x: NumberDecimal('0.1') })
+//db.tags2.insert({a:Decimal128.fromString("636.45")})
+// var X=new NumberDecimal("100");
+// db.tags2.insert({a: X})
 
 exports = module.exports = app;

@@ -6,13 +6,13 @@
     var path = require('path');
     var ObjectID = require('mongodb').ObjectID;
     var mongojs=require('mongojs');
-    var db=mongojs('inventory202',['user','tags','transaction','saleinvoice','mode','transactiondetail','batch','bank',
+    var db=mongojs('inventory200',['user','tags','transaction','saleInvoice','mode','transactionDetail','batch','bank',
   'transactionSeriesInvoice','itemrate','item','menu','order','useritem','purity','uom','pct','labcal','useradj',
-  'barcodesumm','stockpointmaster','configurations','inventorygroupmaster','salescategorymaster','itemtype','taxrate',
-  'items','tax','taxation','inventoryGroupAccMaster','inventorygroupvaluenotationdaily','salesPerson','loginDetails',
+  'barCodeSummary','stockPointMaster','configurations','inventoryGroupMaster','salesCategoryMaster','itemType','taxrate',
+  'items','tax','taxation','inventoryGroupValueNotation','inventoryGroupValueNotationDaily','salesPerson','loginDetails',
   'trHeaders','gIControlTables','history','ledgerActs','ledgeraccounts','mainclasses','maingroups','mcIds',
   'roundOffConfig','sgIds','subgroups','subscribers','trDetails','transactionInvoice','ugIds','updatelist','user',
-  'users','merchantDetails','trail','staff']);
+  'users','merchantDetails','trail','staff','cardType']);
 
     /* -------------------------------------------------------------------------
                             Initialization - Start
@@ -49,20 +49,20 @@
                 }
 
           })
-          db.itemtype.find(function (err, itemtypeValues) {
-                if (itemtypeValues.length == 0) {
-                    var itemtypeInsert = defaultDropDown.dropDown[1];
-                    //console.log(itemtypeInsert.maingroup.length);
-                    for (var itemtypeIndex = 0; itemtypeIndex < itemtypeInsert.maingroup.length; itemtypeIndex++) {
-                            var itemtypeObj = { "ItemTypeId": itemtypeInsert.maingroup[itemtypeIndex].ItemTypeId, "TypeName": itemtypeInsert.maingroup[itemtypeIndex].TypeName }
-                            db.itemtype.insert(itemtypeObj, function (err, mc) { });
+          db.itemType.find(function (err, itemTypeValues) {
+                if (itemTypeValues.length == 0) {
+                    var itemTypeInsert = defaultDropDown.dropDown[1];
+                    //console.log(itemTypeInsert.maingroup.length);
+                    for (var itemTypeIndex = 0; itemTypeIndex < itemTypeInsert.maingroup.length; itemTypeIndex++) {
+                            var itemTypeObj = { "itemTypeId": itemTypeInsert.maingroup[itemTypeIndex].itemTypeId, "TypeName": itemTypeInsert.maingroup[itemTypeIndex].TypeName }
+                            db.itemType.insert(itemTypeObj, function (err, mc) { });
                     }           
                 }
           })
            db.bank.find(function (err, bankValues) {
                 if (bankValues.length == 0) {
                     var bankInsert = defaultDropDown.dropDown[2];
-                    //console.log(itemtypeInsert.maingroup.length);
+                    //console.log(itemTypeInsert.maingroup.length);
                     for (var bankIndex = 0; bankIndex < bankInsert.maingroup.length; bankIndex++) {
                             var bankObj = { "name": bankInsert.maingroup[bankIndex].name }
                             db.bank.insert(bankObj, function (err, mc) { });
@@ -72,7 +72,7 @@
            db.mode.find(function (err, modeValues) {
                 if (modeValues.length == 0) {
                     var modeInsert = defaultDropDown.dropDown[3];
-                    //console.log(itemtypeInsert.maingroup.length);
+                    //console.log(itemTypeInsert.maingroup.length);
                     for (var modeIndex = 0; modeIndex < modeInsert.maingroup.length; modeIndex++) {
                             var modeObj = { "name": modeInsert.maingroup[modeIndex].name }
                             db.mode.insert(modeObj, function (err, mc) { });
@@ -82,7 +82,7 @@
            db.labcal.find(function (err, labcalValues) {
                 if (labcalValues.length == 0) {
                     var labcalInsert = defaultDropDown.dropDown[4];
-                    //console.log(itemtypeInsert.maingroup.length);
+                    //console.log(itemTypeInsert.maingroup.length);
                     for (var labcalIndex = 0; labcalIndex < labcalInsert.maingroup.length; labcalIndex++) {
                             var labcalObj = { "name": labcalInsert.maingroup[labcalIndex].name }
                             db.labcal.insert(labcalObj, function (err, mc) { });
@@ -92,7 +92,7 @@
           db.uom.find(function (err, uomValues) {
                 if (uomValues.length == 0) {
                     var uomInsert = defaultDropDown.dropDown[5];
-                    //console.log(itemtypeInsert.maingroup.length);
+                    //console.log(itemTypeInsert.maingroup.length);
                     for (var uomIndex = 0; uomIndex < uomInsert.maingroup.length; uomIndex++) {
                             var uomObj = { "name": uomInsert.maingroup[uomIndex].name }
                             db.uom.insert(uomObj, function (err, mc) { });
@@ -109,23 +109,33 @@
                     }           
                 }
           })
-          db.salescategorymaster.find(function (err, salescategorymasterValues) {
-                if (salescategorymasterValues.length == 0) {
-                    var salescategorymasterInsert = defaultDropDown.dropDown[7];
+          db.salesCategoryMaster.find(function (err, salesCategoryMasterValues) {
+                if (salesCategoryMasterValues.length == 0) {
+                    var salesCategoryMasterInsert = defaultDropDown.dropDown[7];
                     
-                    for (var salescategorymasterIndex = 0; salescategorymasterIndex < salescategorymasterInsert.maingroup.length; salescategorymasterIndex++) {
-                            var salescategorymasterObj = { "SaleCategoryNo": salescategorymasterInsert.maingroup[salescategorymasterIndex].SaleCategoryNo,"SaleCategoryType": salescategorymasterInsert.maingroup[salescategorymasterIndex].SaleCategoryType,"SortedOrderNo": salescategorymasterInsert.maingroup[salescategorymasterIndex].SortedOrderNo }
-                            db.salescategorymaster.insert(salescategorymasterObj, function (err, mc) { });
+                    for (var salesCategoryMasterIndex = 0; salesCategoryMasterIndex < salesCategoryMasterInsert.maingroup.length; salesCategoryMasterIndex++) {
+                            var salesCategoryMasterObj = { "SaleCategoryNo": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryNo,"SaleCategoryType": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryType,"SortedOrderNo": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SortedOrderNo }
+                            db.salesCategoryMaster.insert(salesCategoryMasterObj, function (err, mc) { });
                     }           
                 }
           })
-          db.stockpointmaster.find(function (err, stockpointmasterValues) {
-                if (stockpointmasterValues.length == 0) {
-                    var stockpointmasterInsert = defaultDropDown.dropDown[8];
+          db.stockPointMaster.find(function (err, stockPointMasterValues) {
+                if (stockPointMasterValues.length == 0) {
+                    var stockPointMasterInsert = defaultDropDown.dropDown[8];
                     
-                    for (var stockpointmasterIndex = 0; stockpointmasterIndex < stockpointmasterInsert.maingroup.length; stockpointmasterIndex++) {
-                            var stockpointmasterObj = { "stockpointid": stockpointmasterInsert.maingroup[stockpointmasterIndex].stockpointid,"stockpointname": stockpointmasterInsert.maingroup[stockpointmasterIndex].stockpointname }
-                            db.stockpointmaster.insert(stockpointmasterObj, function (err, mc) { });
+                    for (var stockPointMasterIndex = 0; stockPointMasterIndex < stockPointMasterInsert.maingroup.length; stockPointMasterIndex++) {
+                            var stockPointMasterObj = { "stockpointid": stockPointMasterInsert.maingroup[stockPointMasterIndex].stockpointid,"stockpointname": stockPointMasterInsert.maingroup[stockPointMasterIndex].stockpointname }
+                            db.stockPointMaster.insert(stockPointMasterObj, function (err, mc) { });
+                    }           
+                }
+          })
+          db.cardType.find(function (err, cardTypeValues) {
+                if (cardTypeValues.length == 0) {
+                    var cardTypeInsert = defaultDropDown.dropDown[14];
+                    //console.log(itemTypeInsert.maingroup.length);
+                    for (var cardTypeIndex = 0; cardTypeIndex < cardTypeInsert.maingroup.length; cardTypeIndex++) {
+                            var cardTypeObj = { "name": cardTypeInsert.maingroup[cardTypeIndex].name }
+                            db.cardType.insert(cardTypeObj, function (err, mc) { });
                     }           
                 }
           })
@@ -147,66 +157,66 @@
                     }           
                 }
           })
-          db.inventorygroupvaluenotation.find(function (err, inventorygroupvaluenotationValues) {
-                if (inventorygroupvaluenotationValues.length == 0) {
-                    var inventorygroupvaluenotationInsert = defaultDropDown.dropDown[10];
+          db.inventoryGroupValueNotation.find(function (err, inventoryGroupValueNotationValues) {
+                if (inventoryGroupValueNotationValues.length == 0) {
+                    var inventoryGroupValueNotationInsert = defaultDropDown.dropDown[10];
                     
-                    for (var inventorygroupvaluenotationIndex = 0; inventorygroupvaluenotationIndex < inventorygroupvaluenotationInsert.maingroup.length; inventorygroupvaluenotationIndex++) {
-                            var inventorygroupvaluenotationObj = { "NotationID": inventorygroupvaluenotationInsert.maingroup[inventorygroupvaluenotationIndex].NotationID,
-                                                                    "InvGroupID": inventorygroupvaluenotationInsert.maingroup[inventorygroupvaluenotationIndex].InvGroupID,
-                                                                    "ValueNotation": inventorygroupvaluenotationInsert.maingroup[inventorygroupvaluenotationIndex].ValueNotation,
-                                                                    "ConversionPercentage": inventorygroupvaluenotationInsert.maingroup[inventorygroupvaluenotationIndex].ConversionPercentage,
-                                                                    "Rate": inventorygroupvaluenotationInsert.maingroup[inventorygroupvaluenotationIndex].Rate 
+                    for (var inventoryGroupValueNotationIndex = 0; inventoryGroupValueNotationIndex < inventoryGroupValueNotationInsert.maingroup.length; inventoryGroupValueNotationIndex++) {
+                            var inventoryGroupValueNotationObj = { "NotationID": inventoryGroupValueNotationInsert.maingroup[inventoryGroupValueNotationIndex].NotationID,
+                                                                    "InvGroupID": inventoryGroupValueNotationInsert.maingroup[inventoryGroupValueNotationIndex].InvGroupID,
+                                                                    "ValueNotation": inventoryGroupValueNotationInsert.maingroup[inventoryGroupValueNotationIndex].ValueNotation,
+                                                                    "ConversionPercentage": inventoryGroupValueNotationInsert.maingroup[inventoryGroupValueNotationIndex].ConversionPercentage,
+                                                                    "Rate": inventoryGroupValueNotationInsert.maingroup[inventoryGroupValueNotationIndex].Rate 
                                                                 
                                                                 }
-                            db.inventorygroupvaluenotation.insert(inventorygroupvaluenotationObj, function (err, mc) { });
+                            db.inventoryGroupValueNotation.insert(inventoryGroupValueNotationObj, function (err, mc) { });
                     }           
                 }
           })
-          db.inventorygroupmaster.find(function (err, inventorygroupmasterValues) {
-                if (inventorygroupmasterValues.length == 0) {
-                    var inventorygroupmasterInsert = defaultDropDown.dropDown[11];
+          db.inventoryGroupMaster.find(function (err, inventoryGroupMasterValues) {
+                if (inventoryGroupMasterValues.length == 0) {
+                    var inventoryGroupMasterInsert = defaultDropDown.dropDown[11];
                     
-                    for (var inventorygroupmasterIndex = 0; inventorygroupmasterIndex < inventorygroupmasterInsert.maingroup.length; inventorygroupmasterIndex++) {
-                            var inventorygroupmasterObj = { "InvGroupID": inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].InvGroupID,
-                                                                    "InvGroupName": inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].InvGroupName,
-                                                                    "Alias": inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].Alias,
-                                                                    "sortOrder": inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].sortOrder,
+                    for (var inventoryGroupMasterIndex = 0; inventoryGroupMasterIndex < inventoryGroupMasterInsert.maingroup.length; inventoryGroupMasterIndex++) {
+                            var inventoryGroupMasterObj = { "InvGroupID": inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].InvGroupID,
+                                                                    "InvGroupName": inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].InvGroupName,
+                                                                    "Alias": inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].Alias,
+                                                                    "sortOrder": inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].sortOrder,
                                                                     "PurchaseAcc" :[
                                                                                     {
-                                                                                         "AccId": inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].PurchaseAcc[0].AccId,
-                                                                                         "AccNo" : inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].PurchaseAcc[0].AccNo
+                                                                                         "AccId": inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].PurchaseAcc[0].AccId,
+                                                                                         "AccNo" : inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].PurchaseAcc[0].AccNo
                                                                   
                                                                                      }
                                                                                     ],
                                                                      "SalesAcc" :[
                                                                                     {
-                                                                                         "AccId": inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].SalesAcc[0].AccId,
-                                                                                         "AccNo" : inventorygroupmasterInsert.maingroup[inventorygroupmasterIndex].SalesAcc[0].AccNo
+                                                                                         "AccId": inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].SalesAcc[0].AccId,
+                                                                                         "AccNo" : inventoryGroupMasterInsert.maingroup[inventoryGroupMasterIndex].SalesAcc[0].AccNo
                                                                   
                                                                                      }
                                                                                     ]               
                                                                    
                                                                 }
-                            db.inventorygroupmaster.insert(inventorygroupmasterObj, function (err, mc) { });
+                            db.inventoryGroupMaster.insert(inventoryGroupMasterObj, function (err, mc) { });
                     }           
                 }
           })
-          db.inventorygroupvaluenotationdaily.find(function (err, inventorygroupvaluenotationdailyValues) {
-                if (inventorygroupvaluenotationdailyValues.length == 0) {
-                    var inventorygroupvaluenotationdailyInsert = defaultDropDown.dropDown[12];
+          db.inventoryGroupValueNotationDaily.find(function (err, inventoryGroupValueNotationDailyValues) {
+                if (inventoryGroupValueNotationDailyValues.length == 0) {
+                    var inventoryGroupValueNotationDailyInsert = defaultDropDown.dropDown[12];
                     
-                    for (var inventorygroupvaluenotationdailyIndex = 0; inventorygroupvaluenotationdailyIndex < inventorygroupvaluenotationdailyInsert.maingroup.length; inventorygroupvaluenotationdailyIndex++) {
-                            var inventorygroupvaluenotationdailyObj = { "NotationID": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].NotationID,
-                                                                    "InvGroupID": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].InvGroupID,
-                                                                    "ValueNotation": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].ValueNotation,
-                                                                    "ConversionPercentage": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].ConversionPercentage,
-                                                                    "Rate": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].Rate, 
-                                                                    "InvGroupName": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].InvGroupName,
-                                                                    "date": inventorygroupvaluenotationdailyInsert.maingroup[inventorygroupvaluenotationdailyIndex].date
+                    for (var inventoryGroupValueNotationDailyIndex = 0; inventoryGroupValueNotationDailyIndex < inventoryGroupValueNotationDailyInsert.maingroup.length; inventoryGroupValueNotationDailyIndex++) {
+                            var inventoryGroupValueNotationDailyObj = { "NotationID": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].NotationID,
+                                                                    "InvGroupID": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].InvGroupID,
+                                                                    "ValueNotation": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].ValueNotation,
+                                                                    "ConversionPercentage": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].ConversionPercentage,
+                                                                    "Rate": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].Rate, 
+                                                                    "InvGroupName": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].InvGroupName,
+                                                                    "date": inventoryGroupValueNotationDailyInsert.maingroup[inventoryGroupValueNotationDailyIndex].date
                                                                 
                                                                 }
-                            db.inventorygroupvaluenotationdaily.insert(inventorygroupvaluenotationdailyObj, function (err, mc) { });
+                            db.inventoryGroupValueNotationDaily.insert(inventoryGroupValueNotationDailyObj, function (err, mc) { });
                     }           
                 }
           })
