@@ -231,6 +231,27 @@ module.exports = function (app) {
 	/* -------------------------------------------------------------------------
 						API's to manage subscribers
 	   ------------------------------------------------------------------------- */
+	// function functionCount () {
+	// 	console.log(" function count ")
+	// 	LedgerAccount.count( { accountName: {$exists: true}} , function (err, result) {
+	// 		console.log(" result "+result);
+	// 		console.log(" result ledger account display "+"L0"+result);
+
+	// 	})
+	// }
+	// functionCount()
+	var ledgerAccountCount = null;
+	app.get('/api/subscriberLedgerAccount', function (req, res) {
+		LedgerAccount.count( { accountIds: {$exists: true}} , function (err, count) {
+			if (err) {
+				res.send(err);
+			}
+			console.log(" result ledger account display "+"L0"+count);
+			ledgerAccountCount = "L0"+count ;
+			res.json(count);
+		});
+	});
+
 	app.get('/api/subscriber', function (req, res) {
 		Subscriber.find(function (err, subscribers) {
 			if (err) {
@@ -262,17 +283,17 @@ module.exports = function (app) {
 				break;
 			case "2": // Subscriber
 				ledgerObj = {
-					accountName: subscriber, groupID: "SG11", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: DEBIT
+					accountName: subscriber, groupID: "SG11", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: DEBIT,accountIds:ledgerAccountCount
 				}
 				break;
 			case "3": // Customer
 				ledgerObj = {
-					accountName: subscriber, groupID: "SG1", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: DEBIT
+					accountName: subscriber, groupID: "SG1", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: DEBIT,accountIds:ledgerAccountCount
 				}
 				break;
 			case "4": // Supplier
 				ledgerObj = {
-					accountName: subscriber, groupID: "SG6", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: CREDIT
+					accountName: subscriber, groupID: "SG6", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: CREDIT,accountIds:ledgerAccountCount
 				}
 				break;
 		}
@@ -295,6 +316,10 @@ module.exports = function (app) {
 			});
 		} else {
 			if (ledgerObj != null) {
+				console.log(ledgerObj)
+				//ledgerObj.accountIds = ledgerAccountCount ;
+				console.log(" ledgerObj "+ledgerAccountCount)
+				console.log(ledgerObj)
 				LedgerAccount.create(ledgerObj, function (err, result) {
 					if (result != null) {
 						// once the legder is created, update the subscriber table with reference

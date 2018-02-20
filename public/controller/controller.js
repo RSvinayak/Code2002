@@ -5,7 +5,9 @@ function($scope,$http,$window,$filter,$timeout,$q,ControllerService){
     $scope.schmat="";
     $scope.totmat="";
     var fixdec= null;
-    $scope.billType=null;
+    // $scope.Cash=0;
+    // $scope.Card=0;
+    // $scope.Credit=0;
     $scope.receiptprint=0;
     // $scope.paymode="Cash";
         //for default name
@@ -799,10 +801,10 @@ $scope.updateEditTransaction = function(){
                 // +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+saleInvoiceStatus;
                 // console.log(update)
 
-                var update=saleInvoceEditId+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
-                +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ saleInvoiceStatus+","+ $scope.saleinv[0].dis
-                +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals +","+ $scope.transaction;
-                console.log(update)
+                 var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
+                            +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
+                            +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals+","+$scope.transaction+","+$scope.discount+","+$scope.ccamt+","+$scope.ccamt1;
+                      console.log(update);   
 
                 $http.put('/saleinvoicedata12/'+update).success(function(response)
                      {
@@ -1559,10 +1561,10 @@ function finalCalAfterRemove(rvalue,length) {
                   $scope.ccamt1 = 0;
                    $scope.ccamt = 0;
 
-                 var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
-                     +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
-                      +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals;
-                 console.log(update);
+                  var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
+                            +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
+                            +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals+","+$scope.transaction+","+$scope.discount+","+$scope.ccamt+","+$scope.ccamt1;
+                      console.log(update);   
                  $http.put('/saleinvoicedata12/'+update).success(function(response){
                             //alert("sale invoice");
 
@@ -1603,11 +1605,10 @@ function finalCalAfterRemove(rvalue,length) {
                   $scope.discount = 0;
                   $scope.ccamt1 = 0;
                    $scope.ccamt = 0;
-
-                 var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
-                     +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
-                      +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals;
-                 console.log(update);
+                  var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
+                            +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
+                            +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals+","+$scope.transaction+","+$scope.discount+","+$scope.ccamt+","+$scope.ccamt1;
+                      console.log(update);   
                  $http.put('/saleinvoicedata12/'+update).success(function(response){
                             //alert("sale invoice");
 
@@ -1632,14 +1633,20 @@ function finalCalAfterRemove(rvalue,length) {
       $http.get('/voucherNoGetDetailsSaleInvoice/'+voucherNoGet).success(function(response){ 
             console.log(response);
             $scope.saleinv = response;
+                 $scope.discount = parseFloat (response[0].discount);
+            $scope.discount1 = response[0].discount
+            $scope.ccamt = parseFloat (response[0].cardCharges);
+            $scope.ccamt1 =  response[0].char
+            $scope.decimals =  response[0].roundOffValue;
            
-            $scope.discount = parseFloat (response[0].dis);
-            $scope.discount1 =parseFloat (response[0].dis);
-            $scope.ccamt =  parseFloat (response[0].char);
-             $scope.ccamt1 = parseFloat( response[0].char);
-            $scope.decimals = parseFloat( response[0].decimals);
-            //alert(" $scope.decimals "+$scope.decimals+" response[0].decimals "+response[0].decimals);
-            if(response[0].decimals == undefined || response[0].decimals == 'undefined' || response[0].decimals == ""||  response[0].decimals == NaN ||  response[0].decimals == "NaN"){
+           
+            // $scope.discount = parseFloat (response[0].discount);
+            // $scope.discount1 =parseFloat (response[0].discount);
+            // $scope.ccamt =  parseFloat (response[0].cardCharges);
+            //  $scope.ccamt1 = parseFloat( response[0].char);
+            // $scope.decimals = parseFloat( response[0].roundOffValue);
+            // //alert(" $scope.decimals "+$scope.decimals+" response[0].decimals "+response[0].decimals);
+            if(response[0].roundOffValue == undefined || response[0].roundOffValue == 'undefined' || response[0].roundOffValue == ""||  response[0].roundOffValue == NaN ||  response[0].roundOffValue == "NaN"){
                          // alert("un "+$scope.decimals);
                           //alert("decimals "+$scope.decimals);
                           $scope.decimals = 0;
@@ -1693,19 +1700,36 @@ $scope.finalCal=function(){
 
              //alert("finalCalTax "+$scope.saleinv[0].tax);
             // alert(" saleInvoiceLength!=0 && $scope.userit.length !=0 "+saleInvoiceLength)
-                        $scope.discount = parseFloat (response[0].dis);
-                        $scope.discount1 =parseFloat (response[0].dis);
-                        $scope.ccamt =  parseFloat (response[0].char);
-                        $scope.ccamt1 = parseFloat( response[0].char);
-                        $scope.decimals = parseFloat( response[0].decimals);
+                        // $scope.discount = parseFloat (response[0].dis);
+                        // $scope.discount1 =parseFloat (response[0].dis);
+                        // $scope.ccamt =  parseFloat (response[0].char);
+                        // $scope.ccamt1 = parseFloat( response[0].char);
+                        // $scope.decimals = parseFloat( response[0].decimals);
+
+                         $scope.discount = parseFloat (response[0].discount);
+            $scope.discount1 = response[0].discount
+            $scope.ccamt = parseFloat (response[0].cardCharges);
+            $scope.ccamt1 =  response[0].char
+            $scope.decimals =  response[0].roundOffValue;
+           
+            // $scope.discount = parseFloat (response[0].discount);
+            // $scope.discount1 = parseFloat (response[0].discount);
+            // $scope.ccamt =  parseFloat (response[0].cardCharges);
+            // $scope.ccamt1 = parseFloat( response[0].char).toFixed($scope.rupeesDecimalPoints);
+            // $scope.decimals = parseFloat( response[0].roundOffValue);
+            // //alert(" $scope.decimals "+$scope.decimals+" response[0].decimals "+response[0].decimals);
+           
+
+
                         // alert($scope.decimals)
                         $scope.saleinv=response;
                         // console.log( response[0].decimals)
                         //   console.log($scope.decimals)
-                        if(response[0].decimals == undefined || response[0].decimals == ""|| response[0].decimals == NaN){
+                         if(response[0].roundOffValue == undefined || response[0].roundOffValue == 'undefined' || response[0].roundOffValue == ""||  response[0].roundOffValue == NaN ||  response[0].roundOffValue == "NaN"){
                          // alert("un "+$scope.decimals);
+                          //alert("decimals "+$scope.decimals);
                           $scope.decimals = 0;
-                        }
+            }
           }
           else if(saleInvoiceLength!=0 && $scope.userit.length == 0){//$scope.saleinv.length!=0
 
@@ -2977,12 +3001,15 @@ $scope.finalNetAmount = function (value){
         // alert( $scope.decimals +" $scope.decimals ")
         // $scope.decimals = parseFloat ($scope.decimals).toFixed($scope.rupeesDecimalPoints);
         $scope.saleinv[0].subtol1 = parseFloat (n).toFixed($scope.rupeesDecimalPoints);
+        
          // $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
          if($scope.discount==undefined && $scope.ccamt1==undefined){
       // alert("no no no no no no"+$scope.saleinv[0].subtol);
           $scope.saleinv[0].invoiceValue=$scope.saleinv[0].subtol;
           $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
          }else{
+           $scope.saleinv[0].char = parseFloat ($scope.ccamt1).toFixed($scope.rupeesDecimalPoints);
+       
           $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
          }
 
@@ -3008,6 +3035,8 @@ $scope.finalNetAmount = function (value){
               $scope.saleinv[0].invoiceValue=$scope.saleinv[0].subtol;
               $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
             }else{
+              $scope.saleinv[0].char = parseFloat ($scope.ccamt1).toFixed($scope.rupeesDecimalPoints);
+       
               $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
              }
             // $scope.minusinvoice=$scope.saleinv[0].subtol1;
@@ -3025,6 +3054,8 @@ $scope.finalNetAmount = function (value){
             $scope.saleinv[0].invoiceValue=$scope.saleinv[0].subtol;
             $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
           }else{
+          $scope.saleinv[0].char = parseFloat ($scope.ccamt1).toFixed($scope.rupeesDecimalPoints);
+       
           $scope.saleinv[0].netamt=$scope.saleinv[0].invoiceValue;
          }
         // $scope.minusinvoice=$scope.saleinv[0].subtol1; 
@@ -3432,10 +3463,13 @@ $scope.newCharges=function(){
       $scope.discount1=$scope.discount;
         $scope.ccamt1=$scope.discount1;
       $scope.invoice=$scope.saleinv[0].subtol-$scope.ccamt1;
+      // $scope.saleinv[0].dis = $scope.discount;
+               
       $scope.finalNetAmount($scope.invoice);
     }
     else if($scope.discount==null || $scope.discount==" "){
       $scope.ccamt1=$scope.ccamt;
+     // $scope.saleinv[0].char = $scope.ccamt;
       $scope.invoice=$scope.saleinv[0].subtol-$scope.ccamt1;
       $scope.finalNetAmount($scope.invoice);
     }
@@ -3443,8 +3477,12 @@ $scope.newCharges=function(){
   // alert("charges1111111"+$scope.ccamt);
   $scope.discount1=$scope.discount;
    $scope.ccamt=$scope.ccamt;
+  // $scope.saleinv[0].dis = $scope.discount;
+   
   // alert("ccamtsssssssssssssss"+$scope.ccamt2);
+  $scope.finalNetAmount($scope.invoice);
   $scope.ccamt1=$scope.discount1-parseInt($scope.ccamt);
+  //$scope.saleinv[0].char = $scope.ccamt1;
   // alert("chargesssss"+$scope.ccamt1);
   // alert("hi"+$scope.saleinv[0].subtol);
   $scope.invoice=$scope.saleinv[0].subtol-$scope.ccamt1;
@@ -3670,10 +3708,11 @@ $scope.removeSelectedRows = function() {
                 $scope.saleinv[0].status="In Progress"
                 $scope.saleinv[0].partyname=$scope.partyname;
         
-              var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
-                 +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
-                 +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals;
-                 console.log(update);
+             
+                  var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
+                            +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
+                            +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals+","+$scope.transaction+","+$scope.discount+","+$scope.ccamt+","+$scope.ccamt1;
+                      console.log(update);      
                  $http.put('/saleinvoicedata12/'+update).success(function(response){
                   // alert("sale invoice");
                   console.log(response);
@@ -4725,7 +4764,13 @@ $scope.resu ;
                             $scope.saleinv[0].partyname=$scope.partyname;
                             $scope.saleinv[0].status="In Progress";
                             $scope.saleinv[0].date = new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString();
-                            $scope.saleinv[0].decimals = $scope.decimals ;
+                            //$scope.saleinv[0].decimals = $scope.decimals ;
+                            $scope.saleinv[0].roundOffValue = $scope.decimals ;
+                            //$scope.saleinv[0].dis = $scope.discount ;
+                            $scope.saleinv[0].discount = $scope.discount ;
+                            $scope.saleinv[0].cardCharges = $scope.ccamt ;
+                            $scope.saleinv[0].charges = $scope.ccamt1 ;
+
                             console.log($scope.saleinv);
                                //alert("id null "+$scope.saleinv);
                             $scope.saleinv[0].billtype = $scope.billtype;
@@ -4803,14 +4848,23 @@ $scope.resu ;
                             $scope.saleinv[0].partyname=$scope.partyname;
                             var update=$scope.saleinv[0]._id+","+$scope.saleinv[0].partyname+","+$scope.saleinv[0].taxableval+","+$scope.saleinv[0].tax+","+$scope.saleinv[0].subtol
                             +","+$scope.saleinv[0].adj+","+$scope.saleinv[0].labourValue+","+$scope.saleinv[0].labourtax+","+ $scope.saleinv[0].status+","+ $scope.saleinv[0].dis
-                            +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals;
+                            +","+$scope.saleinv[0].char+","+$scope.saleinv[0].netamt+","+$scope.saleinv[0].invoiceValue+","+$scope.decimals+","+$scope.transaction+","+$scope.discount+","+$scope.ccamt+","+$scope.ccamt1;
                             console.log(update)
+
+                              //alert(" tdeydddchjdchuj reurfrru n")
+                            //$scope.saleinv[0].roundOffValue = $scope.decimals ;
+                            //$scope.saleinv[0].dis = $scope.discount ;
+                            // $scope.saleinv[0].discount = $scope.discount ;
+                            // $scope.saleinv[0].cardCharges = $scope.ccamt ;
+                            // $scope.saleinv[0].charges = $scope.ccamt1 ;
+
                             // alert(" update update .saleinv[0].billtype "+$scope.saleinv[0].billtype);
 
                            // alert($scope.saleinv[0].char);
                            console.log($scope.saleinv[0]._id);
                              window.sessionStorage.setItem("saleinvoicedata_id",$scope.saleinv[0]._id);
-                               
+                                $scope.saleids=$scope.saleinv[0]._id;
+                                window.sessionStorage.setItem("siid",JSON.stringify($scope.saleids));
                             $http.put('/saleinvoicedata12/'+update).success(function(response){
                                       
                             })
@@ -4933,39 +4987,7 @@ $scope.dateValid=function(){
                         alert("please select date");
                         flag=1;
                       }
-                  //  if( $scope.partyname ==null||$scope.partyname ==undefined||$scope.partyname =="" ){ 
-                  //  alert("Please Select Partyname")
-                  //   flag = 1; 
-                  //   //return; 
-                  // }
-
-
-                   // if( $scope.disableMrp[i] ==true ){
-                   //   if($scope.userit[i].mrp == null || $scope.userit[i].mrp == undefined || $scope.userit[i].mrp =="")
-                   //     {
-                   //         alert("Please enter the value of mrp")
-                   //         return;
-                   //      }
-                   // }
-
-                 // if( $scope.disableMrp[i] !=true ){
-
-                      // if($scope.transaction !='Issue Voucher'&& $scope.transaction !='Receipt Voucher'&&$scope.transaction !='Approval Out'
-                      //   && $scope.transaction !='Approval Return'){
-                        //       if($scope.transaction=="Regular Sale"||$scope.transaction=="RD Purchase"
-
-                        //         ||$scope.transaction=="Urd Purchase"||$scope.transaction=="Approval Sale"){
-                        //        // alert("jai ganesh");
-                        //      // alert($scope.userit[i].billtype);
-                        //        if($scope.userit[i].billtype == null || $scope.userit[i].billtype == "undefined"|| $scope.userit[i].billtype == undefined|| $scope.userit[i].billtype =="")
-                        //          {
-                        //           // if($scope.transaction !='Issue Voucher'&& $scope.transaction !='Receipt Voucher'&&$scope.transaction !='Approval Out'
-                        //           //   && $scope.transaction !='Approval Return'){
-                        //           alert("Please Select BillType");
-                        //           flag = 1;
-                        //           return;
-                        //           }
-                        // }
+                 
                       if($scope.userit[i].purity == null || $scope.userit[i].purity == undefined || $scope.userit[i].purity =="")
                        {
                         alert("Please Select Purity");
@@ -5121,288 +5143,6 @@ $scope.dateValid=function(){
         }
         
      } //save function closer
-// $scope.save=function(pay){
-
-//     arrcon = []
-//     flag = 0 ;
-//     $scope.dataTargetCall = "";
-
-//     if (pay == true) {
-//         payAlert = true;
-//       //alert(" true")
-//     }else{
-//         payAlert = false;
-//     }
-//         //alert($scope.item.barcode);$scope.partyname
-//         window.sessionStorage.setItem("remarks",$scope.remarks);
-//        //  $scope.userit[0].partyname = $scope.partyname;
-//         console.log($scope.userit);
-//         console.log($scope.userit.length);
-//         //validation purpose
-//         // alert($scope.userit.length);
-//         if(flag == 0){
-
-//           if (0 == $scope.userit.length) {
-//                        // do stuff
-//                        alert("Please Select Mandatory Fields");
-//                        return;
-//                    }
-                 
-//              for(let i=0;i<=$scope.userit.length-1;i++) {  
-//               // if($scope.transaction!="Approval Sale"){
-//                     $scope.userit[i].billtype = $scope.billtype;
-//                   // }
-//                    if($scope.userit[i].itemName == null || $scope.userit[i].itemName == undefined || $scope.userit[i].itemName =="" )
-//                    {
-//                       alert("Please Select Item");
-//                       flag = 1;
-//                        return;
-//                    }
-//                    if($scope.transaction!="Valuation"){
-//                        if( $scope.userit[i].stockPoint ==null||$scope.userit[i].stockPoint==undefined||$scope.userit[i].stockPoint =="" ){
-                       
-//                              alert("Please Select Stock Pt")
-//                              flag = 1;
-//                              return;
-                         
-//                          }
-//                       }
-//                         if($scope.transaction!='Opening Stock'){
-//                      if( $scope.partyname ==null||$scope.partyname ==undefined||$scope.partyname =="" ){
-                     
-//                            alert("Please Select Partyname")
-//                            flag = 1;
-//                                   //return;
-                       
-// <<<<<<< HEAD
-//                         }
-//                       }
-//                         if($scope.transaction=="Sale Return" || $scope.transaction=="Purchase Return"
-//                     ||$scope.transaction=="Approval Sale"){
-//                              alert($scope.checklength+"in save");
-//                             if($scope.checklength==0){
-//                               alert("please select the checkbox");
-//                               flag=1;
-//                               return;
-//                             }
-
-
-//                     }
-//                    //for matching date
-                  
-//                       // if($scope.date==null||$scope.date==undefined||$scope.date==" "){
-//                       //   alert("please select date");
-//                       //   flag=1;
-//                       // }
-// =======
-//                    }
-//                       if($scope.date==null||$scope.date==undefined||$scope.date==" "){
-//                         alert("please select date");
-//                         flag=1;
-//                       }
-// >>>>>>> 8b85df3ecb8f882c338247563e8f1846dcd8aef6
-//                   //  if( $scope.partyname ==null||$scope.partyname ==undefined||$scope.partyname =="" ){ 
-//                   //  alert("Please Select Partyname")
-//                   //   flag = 1; 
-//                   //   //return; 
-//                   // }
-
-
-//                    // if( $scope.disableMrp[i] ==true ){
-//                    //   if($scope.userit[i].mrp == null || $scope.userit[i].mrp == undefined || $scope.userit[i].mrp =="")
-//                    //     {
-//                    //         alert("Please enter the value of mrp")
-//                    //         return;
-//                    //      }
-//                    // }
-
-//                  // if( $scope.disableMrp[i] !=true ){
-
-//                       // if($scope.transaction !='Issue Voucher'&& $scope.transaction !='Receipt Voucher'&&$scope.transaction !='Approval Out'
-//                       //   && $scope.transaction !='Approval Return'){
-//                               if($scope.transaction=="Regular Sale"||$scope.transaction=="RD Purchase"
-
-//                                 ||$scope.transaction=="Urd Purchase"||$scope.transaction=="Approval Sale"){
-//                                // alert("jai ganesh");
-//                              // alert($scope.userit[i].billtype);
-//                                if($scope.userit[i].billtype == null || $scope.userit[i].billtype == "undefined"|| $scope.userit[i].billtype == undefined|| $scope.userit[i].billtype =="")
-//                                  {
-//                                   // if($scope.transaction !='Issue Voucher'&& $scope.transaction !='Receipt Voucher'&&$scope.transaction !='Approval Out'
-//                                   //   && $scope.transaction !='Approval Return'){
-//                                   alert("Please Select BillType");
-//                                   flag = 1;
-//                                   return;
-//                                   }
-//                         }
-//                       if($scope.userit[i].purity == null || $scope.userit[i].purity == undefined || $scope.userit[i].purity =="")
-//                        {
-//                         alert("Please Select Purity");
-//                         flag = 1;
-//                         return;
-//                        }
-//                        var gwt5=parseFloat($scope.userit[i].gwt)
-//                      if($scope.userit[i].gwt == null || $scope.userit[i].gwt == undefined || $scope.userit[i].gwt =="" || gwt5 == NaN)
-//                        {
-//                          alert("Please Select Proper Gross Weight");
-//                          flag = 1;
-//                          return;
-//                       }
-//                //  }
-               
-
-//                 if($scope.userit[i].gpcs == null || $scope.userit[i].gpcs == undefined || $scope.userit[i].gpcs =="" )
-//                   {
-//                       alert("Please Select Proper Gpcs");
-//                       flag = 1;
-//                       return;
-//                    }
-//                  if($scope.userit[i].uom == undefined  )
-//                    {
-//                      $scope.userit[i].uom = "Gms"; 
-//                    }
-//                    if($scope.userit[i].taxSelection == null || $scope.userit[i].taxSelection == undefined || $scope.userit[i].taxSelection =="" )
-//                   {  
-//                       if ($scope.transaction != "Urd Purchase") {
-//                               alert("Please Select Tax");
-//                             flag = 1;
-//                             return;
-//                       }
-                      
-
-//                    }
-
-//                    // var checkv;
-// <<<<<<< HEAD
-//                    // if($scope.transaction=="Sale Return" || $scope.transaction=="Purchase Return"
-//                    //  ||$scope.transaction=="Approval Sale"){
-//                    //           alert($scope.checklength+"in save");
-//                    //          if($scope.checklength==0){
-//                    //            alert("please select the checkbox");
-//                    //            flag=1;
-//                    //            return;
-//                    //          }
-
-
-//                    //  }
-// =======
-//                    if($scope.transaction=="Sale Return" || $scope.transaction=="Purchase Return"
-//                     ||$scope.transaction=="Approval Sale"){
-//                             // alert(checklength+"in save");
-//                             if(checklength==0){
-//                               alert("please select the checkbox");
-//                               flag=1;
-//                               return;
-//                             }
-
-
-//                     }
-// >>>>>>> 8b85df3ecb8f882c338247563e8f1846dcd8aef6
-//                 if($scope.userit[i].salesPerson == null || $scope.userit[i].salesPerson == undefined || $scope.userit[i].salesPerson =="" )
-//                   {
-//                       alert("Please Select Sales person");
-//                       flag = 1;
-//                       return;
-//                    }
-
-//                    // if($scope.transaction !='Issue Voucher' && $scope.transaction !='Receipt Voucher'&&
-//                    //  $scope.transaction !='Approval Out' && $scope.transaction != 'Approval Return'){
-//                        if($scope.transaction=="Approval Sale"){
-
-//                                 // alert("AS")
-//                                 if($scope.userit[i].AccNo == null || $scope.userit[i].AccNo == "undefined"||$scope.userit[i].AccNo == undefined || $scope.userit[i].AccNo =="" )
-//                                   {
-//                                // if($scope.transaction=="Approval Sale"){
-//                                 // alert("ASinner")
-//                                 alert("Please Select Acc No");
-//                                 flag = 1;
-//                                 return;
-//                                }
-//                         }
-//                    if($scope.refId == null || $scope.refId == undefined || $scope.refId =="" ){  
-
-//                       if ($scope.transaction == "RD Purchase") {
-//                         alert("Please Select Refid");
-//                       flag = 1;
-//                       return;
-//                       }
-
-                      
-//                    }
-             
-//                  if(i == $scope.userit.length-1 ){
-                   
-//                 //          if ($scope.transaction == "Valuation") {
-//                 //               // alert("if in if");
-//                 //             $scope.valuationPrint();
-//                 //              // flagCall();
-//                 //           }\
-//                            flagCall();
-//                 //            if($scope.transaction == "Receipt Voucher"||$scope.transaction == "Sale Return"||$scope.transaction == "Purchase Return"
-
-//                 //             ||$scope.transaction == "Issue Voucher"||$scope.transaction=="Approval Out"
-
-//                 //             ||$scope.transaction=='Approval Return'){
-                            
-//                 //            // alert("through approval");
-//                 //              $scope.inoviceNumberGeneration();
-//                 //                  setTimeout($scope.valuationPrint(), 1000);
-
-//                 //             }
-          
-//                     } 
-                  
-//                                  if($scope.transaction=="Approval Sale" && $scope.indexSelected.length!=null){
-                                
-//                                      console.log($scope.userit.length);
-//                                      console.log($scope.voucherid.length);
-//                                    $scope.availableGroups = (function () {
-//                                     var assignedGroupsIds = {};
-//                                     var groupsIds = {};
-//                                     var result = [];
-//                                       console.log("available");
-//                                     $scope.userit.forEach(function (el, i) {
-//                                       console.log("userit");
-//                                       assignedGroupsIds[el._id] = $scope.userit[i];
-//                                        console.log(assignedGroupsIds);
-//                                     });
-
-//                                     $scope.voucherid.forEach(function (el, i) {
-//                                       console.log("voucherid"+$scope.voucherid[i]);
-//                                       groupsIds[el.id] = $scope.voucherid[i];
-//                                       console.log(groupsIds);
-//                                     });
-
-//                                     for (var i in groupsIds) {
-//                                         if (assignedGroupsIds.hasOwnProperty(i)) {
-//                                           console.log("hi");
-//                                             result.push(assignedGroupsIds[i]);
-//                                             console.log(result);
-//                                              window.sessionStorage.setItem('myapp',JSON.stringify('result'));
-//                                         }
-//                                     }
-//                                       console.log("end"+result);
-//                                   return result;    
-//                                 }());
-//                                    console.log($scope.availableGroups);
-//                                     $scope.userit=$scope.availableGroups;
-//                                     // if($scope.transaction!="Sale Return"&&$scope.transaction!="Purchase Return"){
-//                                      if($scope.transaction=="Approval Sale"){
-//                                       // alert("in save appsale");
-//                                       arrcon=[];
-//                                       for(j=0;j<$scope.availableGroups.length;j++){
-                                        
-//                                          $scope.idUpadtesCall($scope.availableGroups[j]._id);
-//                                       }
-//                                      // }
-//                                      }    
-//                                               flagCall();
-                                          
-//                                  }
-
-//               }
-//         }
-        
-//      } //save function closer
       //only for transaction valuation
        $scope.valuationPrint = function(){
             // alert("vadskjdrfjk");
@@ -5412,62 +5152,6 @@ $scope.dateValid=function(){
              $window.location.href = "pdf.html"; 
                          }, 500);
        }
- // $scope.valuationPrintCall= function(){
- //         // alert("= function(){")
- //         console.log($scope.userit.length);
- //         var requestCallPrint = $scope.userit.length - 1;
- //         arrcon = [];
- //         for (var i = $scope.userit.length - 1; i >= 0; i--) {
- //          console.log($scope.userit[i]);
- //             var data = $scope.transaction+","+$scope.userit[i].barcodeNumber+","+$scope.userit[i].chgunt+","+$scope.userit[i].date+","+$scope.userit[i].desc+","
- //                     +$scope.userit[i].final+","+$scope.userit[i].gpcs+","+$scope.userit[i].gwt+","+$scope.userit[i].itemName+","+$scope.userit[i].ntwt+","+$scope.partyname+","
- //                     +$scope.userit[i].size+","+$scope.userit[i].taxval+","+$scope.userit[i].taxamt+","+$scope.userit[i].stwt+","+$scope.userit[i].wastage+","+$scope.userit[i].stval+","
- //                     +$scope.userit[i].labval+","+$scope.userit[i].rate +","+ $scope.userit[i]._id +","+$scope.userit[i].StockFrom+","+$scope.userit[i].StockTo+","
- //                     +$scope.userit[i].withinstatecgst+","+$scope.userit[i].withinstatesgst +","+ $scope.userit[i].outofstateigst;
-               
-       
- //          var data1 = data+","+$scope.userit[i].stockPoint+","+$scope.userit[i].stockInward+","+$scope.userit[i].Hsc+
- //                               ","+$scope.userit[i].purity+","+$scope.userit[i].pctcal+","+$scope.userit[i].labcal+","+$scope.userit[i].uom+
- //                               ","+$scope.userit[i].stonecal+","+$scope.userit[i].salesPerson +","+$scope.userit[i].AccNo +","+$scope.userit[i].labourTaxValue+
- //                               ","+$scope.userit[i].labamt+","+$scope.userit[i].urdAdjustment+","+$scope.userit[i].stchg +","+$scope.userit[i].comboItem +","+$scope.userit[i].mrp +
- //                               ","+ $scope.userit[i].billType+","+$scope.userit[i].taxSelection;
- //                                console.log(data1)
- //                               //  var date3 = new Date()
- //                                $http.post('/savedata1/'+data1).success(function(response){
-                         
- //                                 console.log(response)
- //                               //  if(arrcon.indexOf($scope.userit[i]._id) == -1) {
- //             // alert("entered to remove duplicates ")
- //               arrcon.push(response._id);
- //               window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
- //              requestCallPrint --;
- //              console.log(requestCallPrint)
- //              if (requestCallPrint == -1) {
- //                alert(" requestCallPrint "+requestCallPrint+i);
- //                $window.location.href = "pdf.html"; 
- //              }
- //               console.log(arrcon)
- //              //alert(arrcon)
- //             // }
-
- //            })
- //               } 
-
- //                $http.post('/saleinvoicedata',$scope.saleinv).success(function(response){
- //                      // alert("saved successfully $scope.saleinv[0]._id==null");
- //                    console.log(response);
- //                    console.log(response[0]._id);
- //                    window.sessionStorage.setItem("saleinvoicedata_id",response[0]._id);
- //                     // if($scope.transaction !="Urd Purchase"){
- //                     //      $scope.inoviceNumberGeneration();
- //                     //   }
- //                    // window.sessionStorage.setItem("userids",JSON.stringify(arrcon));
- //                 });                    
-
- //          // $window.location.href = "pdf.html"; 
-
- // }
-
     //for confirm the page
         $scope.inoviceNumberUrd= function(){
           if($scope.transaction == "Urd Purchase"){
@@ -5519,32 +5203,6 @@ $scope.dateValid=function(){
                                                                        //alert(response)
                                                             }) ;
                                                         }
-// <<<<<<< HEAD
-
-                                                        // }
-                             //                            else{
-                             //                              // alert("app sale");
-                             //                              var apps=JSON.parse(window.sessionStorage.getItem('myapp'));
-
-                             // // var voucherid=window.sessionStorage.getItem("selectedId");
-                             //                           console.log(apps.length);
-                             //                        for(var i=0;i<=apps.length-1;i++){
-                             //                          console.log(apps[i].id);
-                             //                          user1=apps[i].id;
-                             //                          var usecase = user1 +","+$scope.invoice; 
-                             //                            console.log(usecase);
-                             //                            $http.post('/user12/'+usecase).success(function(response){
-                             //                                       console.log(response);
-                             //                                       //alert(response)
-                             //                            }) ;
-                             //                        }
-                             //                       }
-// =======
-//                                                       // }
-// >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
-                                       // });
-
-                        //  });//http
                 });
                           $scope.userit=[];
         }
@@ -5653,869 +5311,6 @@ $scope.dateValid=function(){
                               
     }//main closer
    
-//     $scope.inoviceNumberGeneration= function(){
-//           //  alert("inove generation in pay button ");
-//           var customerDetails = $scope.transaction+","+$scope.partyname;
-
-//           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-//             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"||$scope.transaction=='Approval Return'
-//               ||$scope.transaction == "Sale Return"|| $scope.transaction == "Purchase Return"||$scope.transaction=="Approval Out"){
-//               // alert("issue voucher no"+arrcon);
-
-//           $http.get('/getprefix'+$scope.transaction).success(function(response){
-//             console.log(response);
-//             console.log(response[0].TransactionPrefix);
-//             var prefix1=response[0].TransactionPrefix;
-//             console.log(response[0].StartingTransactionTypeNo);
-//             var typeNo1=response[0].StartingTransactionTypeNo;
-//             var updat=prefix1+","+typeNo1;
-//             // console.log(myinvoice);
-//             $http.get('/transactionsto/'+updat).success(function(response){ 
-//                   console.log(response);
-//                   var num=response+1;
-//                   var updat=prefix1+","+num;
-//             $http.post('/transactionstoc/'+updat).success(function(response){
-//               console.log("inserting into transaction ");
-//               console.log(response);
-//               $scope.invoice = response.prefix+response.typeno;
-//                                 console.log($scope.invoice);
-//                                 // if($scope.transaction=='Approval Return'){
-//                                 //   alert("approval return");
-//                                 //   arrcon=JSON.stringify(window.sessionStorage.getItem("userids"));
-//                                 //   console.log(arrcon);
-//                                 // }
-//                                  // alert(arrcon+"while assign");
-//                        console.log(arrcon+"myids myids myids myidsmyids");
-                          
-//                            console.log(arrcon.length);
-//                             if($scope.transaction!='Approval Return'){
-//                              for(var j=0;j<arrcon.length;j++){
-//                              // user1 = window.sessionStorage.getItem("userids2[o]");
-//                              console.log(arrcon[j]);
-//                            user1=arrcon[j];
-
-//                            var usecase = user1 +","+$scope.invoice; 
-//                                 console.log(usecase);
-//                                 $http.post('/user12/'+usecase).success(function(response){
-//                                            console.log(response);
-//                                            //alert(response)
-//                                 }) ;
-//                             }
-//                            }
-//                            else{
-//                              // var voucherid=window.sessionStorage.getItem("selectedId");
-//                               console.log($scope.voucherid.length);
-//                             for(var i=0;i<=voucherid.length-1;i++){
-//                               console.log(voucherid[i].id);
-//                               user1=voucherid[i].id;
-//                               var usecase = user1 +","+$scope.invoice; 
-//                                 console.log(usecase);
-//                                 $http.post('/user12/'+usecase).success(function(response){
-//                                            console.log(response);
-//                                            //alert(response)
-//                                 }) ;
-//                             }
-//                            }
-//                         });
-
-//                       });
-//                       });
-//                     $scope.userit=[];
-//                       }
-
-//           else{
-// // <<<<<<< HEAD
-//                // alert("else zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-//            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-//             //alert("else");
-//            // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-//                                 console.log(saleinvoice_id )
-//                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-//                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
-//                                         // $scope.mylinkPdf = "pdf.html";
-//                                         console.log(response);
-//                                         var latestVoucherNo = response[0];
-                                        
-//                                        if (response.length == 0) {
-//                                           // alert($scope.transaction);
-//                                            $http.get('/getinvoice'+$scope.transaction).success(function(response){
-//                                                      invoice =response[0];
-//                                                      console.log( response[0])
-//                                                      prefix = invoice.TransactionPrefix;
-//                                                      typeno = invoice.StartingTransactionTypeNo;
-
-//                                                      console.log( invoice.TransactionPrefix)
-//                                                      console.log( invoice.StartingTransactionTypeNo)
-//                                                      var updat = invoice.TransactionPrefix+","+invoice.StartingTransactionTypeNo;
-                                     
-//                                                      $http.get('/transactionsto/'+updat).success(function(response){ 
-                                                      
-//                                                             console.log("i got replay")
-//                                                             console.log(response);
-//                                                            // alert(response+"response");
-//                                                             var num = response+1;
-//                                                            // alert(num+'num');
-//                                                             var updat =invoice.TransactionPrefix+","+num;
-//                                                             console.log(updat);
-//                                                             $http.post('/transactionstoc/'+updat).success(function(response){ 
-                                                             
-//                                                                     console.log("i got replay")
-//                                                                     console.log(response);
-//                                                                     console.log(response.prefix);
-//                                                                     console.log(response.typeno);
-//                                                                     $scope.invoice = response.prefix+response.typeno;
-//                                                                     console.log($scope.invoice);
-//                                                                     // if( editedInvoiceCheck == "true"){
-//                                                                     //     $scope.invoice = editedInvoice ;
-//                                                                     //}
-//                                                                   // }
-//                                                                   if($scope.transaction=="Approval Sale"){
-//                                                                     // alert("hi");
-//                                                                     console.log(window.sessionStorage.getItem("selectedId"));
-//                                                                      var user1=JSON.parse(window.sessionStorage.getItem("selectedId"));
-//                                                                      console.log(user1.length);
-//                                                                      console.log($scope.voucherid.length);
-//                                                                     for(var i=0;i<$scope.voucherid.length;i++){
-//                                                                       // alert("hello");
-//                                                                     // var user1=JSON.parse(window.sessionStorage.getItem("selectedId"));
-//                                                                       var user1=$scope.voucherid[i].id;
-//                                                                     console.log(user1);
-//                                                                      var usecase = user1+","+$scope.transaction+","+$scope.invoice; 
-//                                                                      console.log(usecase);
-//                                                                     console.log($scope.invoice);
-//                                                                     $http.put('/user13/'+usecase).success(function(response){
-//                                                                                console.log(response);
-//                                                                                //alert(response)
-//                                                                     })
-//                                                                       }
-//                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-//                                                                     console.log(saleinvoice_id )
-//                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-//                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-//                                                                       console.log(response);
-//                                                                     });
-                                                                  
-//                                                                 }
-//                                                                   else{
-//                                                                     var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-                                                                  
-//                                                                     //     alert(" generate new "+"user1 "+user1.length)
-//                                                                     var usecase = user1+","+$scope.invoice; 
-//                                                                     console.log(JSON.stringify(user1.id));
-//                                                                     console.log(usecase);
-//                                                                     $http.post('/user12/'+usecase).success(function(response){
-//                                                                                console.log(response);
-//                                                                                //alert(response)
-//                                                                     }) 
-                                                                   
-//                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-//                                                                     console.log(saleinvoice_id )
-//                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-//                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-//                                                                             // $scope.mylinkPdf = "pdf.html";
-//                                                                            // alert("updated sale voucher number");
-//                                                                             if($scope.transaction == "Urd Purchase"){
-//                                                                              $window.location.href = "pdf.html"; 
-//                                                                             }
-//                                                                              console.log($scope.mylinkPdf)
-//                                                                              console.log(response);
-
-//                                                                     }) 
-//                                                                   }
-
-//                                                             })                   
-//                                                      }) 
-//                                                 })//getinvoice closer
-
-//                                         }else{
-                                         
-//                                          // $scope.invoice = latestVoucherNo.voucherNo ;
-//                                              // alert("  else  "+latestVoucherNo.voucherNo);
-//                                            var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-    
-//                                           var usecase = user1 +","+latestVoucherNo.voucherNo; 
-//                                           console.log(user1);
-//                                        //   alert(" update existing "+"user1 "+user1.length)
-//                                 $http.post('/user12/'+usecase).success(function(response){
-//                                            console.log(response);
-//                                            //alert(response)
-//                                 }) 
-//                                         }
-                                       
-//                                          console.log($scope.mylinkPdf)
-//                                          console.log(response);
-
-//                                 })
-//             }//else open
-                               
-
-// //     }//main closer
-//   $scope.inoviceNumberGeneration= function(){
-//             alert("inove generation in pay button"+arrcon);
-//     }//main closer
-//   $scope.inoviceNumberGeneration= function(){
-//           //  alert("inove generation in pay button ");
-// >>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7
-//           var customerDetails = $scope.transaction+","+$scope.partyname;
-
-//           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-//          if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"||$scope.transaction == "Approval Return"
-//               ||$scope.transaction == "Sale Return"|| $scope.transaction == "Purchase Return"||$scope.transaction=="Approval Out"){
-//                                // alert("issue voucher no"+arrcon);
-//                          //    $http.get('/trCollectionCreation',{params:{"salesIds":saleinvoice_id,"userIds":user1,"trail":"yes"}}).success(function(response){  
-//                          // })    
-//                 $http.get('/getprefix',{params:{transaction:$scope.transaction,invoiceVoucher:$scope.inVoiceSeries}}).success(function(response){
-//                   console.log(response);
-//                  // alert(" response "+response)
-//                   // console.log(response[0].TransactionPrefix);
-//                    // var prefix1=response[0].TransactionPrefix;
-//                   // console.log(response[0].StartingTransactionTypeNo);
-//                    // var typeNo1=response[0].StartingTransactionTypeNo;
-//                   // var updat=prefix1+","+typeNo1;
-//                           // console.log(myinvoice);
-//                           // $http.get('/transactionsto/'+updat).success(function(response){ 
-//                           //       console.log(response);
-//                           //       var num=response+1;
-//                           //       var updat=prefix1+","+num;
-//                                         // $http.post('/transactionstoc/'+updat).success(function(response){
-//                                         //   console.log("inserting into transaction ");
-//                                         //   console.log(response);
-//                                           $scope.invoice = response;
-//                                          // $scope.invoice = response.prefix+response.typeno;  
-//                                                             console.log($scope.invoice);
-//                                                             // alert(arrcon+"while assign");
-//                                                    console.log(arrcon+"myids myids myids myidsmyids");
-                                                      
-//                                                        console.log(arrcon.length);
-
-//                                                         // if($scope.transaction!='Approval Return'){
-
-//                                                         if($scope.transaction!='Approval Return'){
-
-//                                                          for(var j=0;j<arrcon.length;j++){
-//                                                          // user1 = window.sessionStorage.getItem("userids2[o]");
-//                                                          console.log(arrcon[j]);
-//                                                        user1=arrcon[j];
-
-//                                                        var usecase = user1 +","+$scope.invoice; 
-//                                                             console.log(usecase);
-//                                                             $http.post('/user12/'+usecase).success(function(response){
-//                                                                        console.log(response);
-//                                                                        //alert(response)
-//                                                             }) ;
-//                                                         }
-
-//                                                        // }
-//                            //                              else{
-//                            //   // var voucherid=window.sessionStorage.getItem("selectedId");
-//                            //    console.log($scope.voucherid.length);
-//                            //  for(var i=0;i<=voucherid.length-1;i++){
-//                            //    console.log(voucherid[i].id);
-//                            //    user1=voucherid[i].id;
-//                            //    var usecase = user1 +","+$scope.invoice; 
-//                            //      console.log(usecase);
-//                            //      $http.post('/user12/'+usecase).success(function(response){
-//                            //                 console.log(response);
-//                            //                 //alert(response)
-//                            //      }) ;
-//                            //  }
-//                            // }
-
-// // =======
-// //                                 $http.post('/user12/'+usecase).success(function(response){
-// //                                            console.log(response);
-// //                                            //alert(response)
-// //                                 }) 
-// //                                         }
-                                       
-// //                                          console.log($scope.mylinkPdf)
-// //                                          console.log(response);
-
-// //                                 })
-// //             }//else open
-                               
-// //     }//main closer
-   
-// // //     $scope.inoviceNumberGeneration= function(){
-// // //           //  alert("inove generation in pay button ");
-// // //           var customerDetails = $scope.transaction+","+$scope.partyname;
-
-// // //           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-// // //             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"||$scope.transaction=='Approval Return'
-// // //               ||$scope.transaction == "Sale Return"|| $scope.transaction == "Purchase Return"||$scope.transaction=="Approval Out"){
-// // //               // alert("issue voucher no"+arrcon);
-
-// // //           $http.get('/getprefix'+$scope.transaction).success(function(response){
-// // //             console.log(response);
-// // //             console.log(response[0].TransactionPrefix);
-// // //             var prefix1=response[0].TransactionPrefix;
-// // //             console.log(response[0].StartingTransactionTypeNo);
-// // //             var typeNo1=response[0].StartingTransactionTypeNo;
-// // //             var updat=prefix1+","+typeNo1;
-// // //             // console.log(myinvoice);
-// // //             $http.get('/transactionsto/'+updat).success(function(response){ 
-// // //                   console.log(response);
-// // //                   var num=response+1;
-// // //                   var updat=prefix1+","+num;
-// // //             $http.post('/transactionstoc/'+updat).success(function(response){
-// // //               console.log("inserting into transaction ");
-// // //               console.log(response);
-// // //               $scope.invoice = response.prefix+response.typeno;
-// // //                                 console.log($scope.invoice);
-// // //                                 // if($scope.transaction=='Approval Return'){
-// // //                                 //   alert("approval return");
-// // //                                 //   arrcon=JSON.stringify(window.sessionStorage.getItem("userids"));
-// // //                                 //   console.log(arrcon);
-// // //                                 // }
-// // //                                  // alert(arrcon+"while assign");
-// // //                        console.log(arrcon+"myids myids myids myidsmyids");
-                          
-// // //                            console.log(arrcon.length);
-// // //                             if($scope.transaction!='Approval Return'){
-// // //                              for(var j=0;j<arrcon.length;j++){
-// // //                              // user1 = window.sessionStorage.getItem("userids2[o]");
-// // //                              console.log(arrcon[j]);
-// // //                            user1=arrcon[j];
-
-// // //                            var usecase = user1 +","+$scope.invoice; 
-// // //                                 console.log(usecase);
-// // //                                 $http.post('/user12/'+usecase).success(function(response){
-// // //                                            console.log(response);
-// // //                                            //alert(response)
-// // //                                 }) ;
-// // //                             }
-// // //                            }
-// // //                            else{
-// // //                              // var voucherid=window.sessionStorage.getItem("selectedId");
-// // //                               console.log($scope.voucherid.length);
-// // //                             for(var i=0;i<=voucherid.length-1;i++){
-// // //                               console.log(voucherid[i].id);
-// // //                               user1=voucherid[i].id;
-// // //                               var usecase = user1 +","+$scope.invoice; 
-// // //                                 console.log(usecase);
-// // //                                 $http.post('/user12/'+usecase).success(function(response){
-// // //                                            console.log(response);
-// // //                                            //alert(response)
-// // //                                 }) ;
-// // //                             }
-// // //                            }
-// // //                         });
-
-// // //                       });
-// // //                       });
-// // //                     $scope.userit=[];
-// // //                       }
-
-// // //           else{
-// // // // <<<<<<< HEAD
-// // //                // alert("else zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-// // //            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// // //             //alert("else");
-// // //            // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-// // //                                 console.log(saleinvoice_id )
-// // //                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-// // //                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
-// // //                                         // $scope.mylinkPdf = "pdf.html";
-// // //                                         console.log(response);
-// // //                                         var latestVoucherNo = response[0];
-                                        
-// // //                                        if (response.length == 0) {
-// // //                                           // alert($scope.transaction);
-// // //                                            $http.get('/getinvoice'+$scope.transaction).success(function(response){
-// // //                                                      invoice =response[0];
-// // //                                                      console.log( response[0])
-// // //                                                      prefix = invoice.TransactionPrefix;
-// // //                                                      typeno = invoice.StartingTransactionTypeNo;
-
-// // //                                                      console.log( invoice.TransactionPrefix)
-// // //                                                      console.log( invoice.StartingTransactionTypeNo)
-// // //                                                      var updat = invoice.TransactionPrefix+","+invoice.StartingTransactionTypeNo;
-                                     
-// // //                                                      $http.get('/transactionsto/'+updat).success(function(response){ 
-                                                      
-// // //                                                             console.log("i got replay")
-// // //                                                             console.log(response);
-// // //                                                            // alert(response+"response");
-// // //                                                             var num = response+1;
-// // //                                                            // alert(num+'num');
-// // //                                                             var updat =invoice.TransactionPrefix+","+num;
-// // //                                                             console.log(updat);
-// // //                                                             $http.post('/transactionstoc/'+updat).success(function(response){ 
-                                                             
-// // //                                                                     console.log("i got replay")
-// // //                                                                     console.log(response);
-// // //                                                                     console.log(response.prefix);
-// // //                                                                     console.log(response.typeno);
-// // //                                                                     $scope.invoice = response.prefix+response.typeno;
-// // //                                                                     console.log($scope.invoice);
-// // //                                                                     // if( editedInvoiceCheck == "true"){
-// // //                                                                     //     $scope.invoice = editedInvoice ;
-// // //                                                                     //}
-// // //                                                                   // }
-// // //                                                                   if($scope.transaction=="Approval Sale"){
-// // //                                                                     // alert("hi");
-// // //                                                                     console.log(window.sessionStorage.getItem("selectedId"));
-// // //                                                                      var user1=JSON.parse(window.sessionStorage.getItem("selectedId"));
-// // //                                                                      console.log(user1.length);
-// // //                                                                      console.log($scope.voucherid.length);
-// // //                                                                     for(var i=0;i<$scope.voucherid.length;i++){
-// // //                                                                       // alert("hello");
-// // //                                                                     // var user1=JSON.parse(window.sessionStorage.getItem("selectedId"));
-// // //                                                                       var user1=$scope.voucherid[i].id;
-// // //                                                                     console.log(user1);
-// // //                                                                      var usecase = user1+","+$scope.transaction+","+$scope.invoice; 
-// // //                                                                      console.log(usecase);
-// // //                                                                     console.log($scope.invoice);
-// // //                                                                     $http.put('/user13/'+usecase).success(function(response){
-// // //                                                                                console.log(response);
-// // //                                                                                //alert(response)
-// // //                                                                     })
-// // //                                                                       }
-// // //                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// // //                                                                     console.log(saleinvoice_id )
-// // //                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-// // //                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-// // //                                                                       console.log(response);
-// // //                                                                     });
-                                                                  
-// // //                                                                 }
-// // //                                                                   else{
-// // //                                                                     var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-                                                                  
-// // //                                                                     //     alert(" generate new "+"user1 "+user1.length)
-// // //                                                                     var usecase = user1+","+$scope.invoice; 
-// // //                                                                     console.log(JSON.stringify(user1.id));
-// // //                                                                     console.log(usecase);
-// // //                                                                     $http.post('/user12/'+usecase).success(function(response){
-// // //                                                                                console.log(response);
-// // //                                                                                //alert(response)
-// // //                                                                     }) 
-                                                                   
-// // //                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// // //                                                                     console.log(saleinvoice_id )
-// // //                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-// // //                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-// // //                                                                             // $scope.mylinkPdf = "pdf.html";
-// // //                                                                            // alert("updated sale voucher number");
-// // //                                                                             if($scope.transaction == "Urd Purchase"){
-// // //                                                                              $window.location.href = "pdf.html"; 
-// // //                                                                             }
-// // //                                                                              console.log($scope.mylinkPdf)
-// // //                                                                              console.log(response);
-
-// // //                                                                     }) 
-// // //                                                                   }
-
-// // //                                                             })                   
-// // //                                                      }) 
-// // //                                                 })//getinvoice closer
-
-// // //                                         }else{
-                                         
-// // //                                          // $scope.invoice = latestVoucherNo.voucherNo ;
-// // //                                              // alert("  else  "+latestVoucherNo.voucherNo);
-// // //                                            var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-    
-// // //                                           var usecase = user1 +","+latestVoucherNo.voucherNo; 
-// // //                                           console.log(user1);
-// // //                                        //   alert(" update existing "+"user1 "+user1.length)
-// // //                                 $http.post('/user12/'+usecase).success(function(response){
-// // //                                            console.log(response);
-// // //                                            //alert(response)
-// // //                                 }) 
-// // //                                         }
-                                       
-// // //                                          console.log($scope.mylinkPdf)
-// // //                                          console.log(response);
-
-
-//                                                        }
-//                                                         else{
-//                              // var voucherid=window.sessionStorage.getItem("selectedId");
-//                               console.log($scope.voucherid.length);
-//                             for(var i=0;i<=voucherid.length-1;i++){
-//                               console.log(voucherid[i].id);
-//                               user1=voucherid[i].id;
-//                               var usecase = user1 +","+$scope.invoice; 
-//                                 console.log(usecase);
-//                                 $http.post('/user12/'+usecase).success(function(response){
-//                                            console.log(response);
-//                                            //alert(response)
-//                                 }) ;
-//                             }
-//                            }
-
-// // =======
-// //                                 $http.post('/user12/'+usecase).success(function(response){
-// //                                            console.log(response);
-// //                                            //alert(response)
-// //                                 }) 
-// //                                         }
-                                       
-// //                                          console.log($scope.mylinkPdf)
-// //                                          console.log(response);
-
-// //                                 })
-// //             }//else open
-                               
-// //     }//main closer
-   
-// // //     $scope.inoviceNumberGeneration= function(){
-// // //           //  alert("inove generation in pay button ");
-// // //           var customerDetails = $scope.transaction+","+$scope.partyname;
-
-// // //           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-// // //             if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"||$scope.transaction=='Approval Return'
-// // //               ||$scope.transaction == "Sale Return"|| $scope.transaction == "Purchase Return"||$scope.transaction=="Approval Out"){
-// // //               // alert("issue voucher no"+arrcon);
-
-// // //           $http.get('/getprefix'+$scope.transaction).success(function(response){
-// // //             console.log(response);
-// // //             console.log(response[0].TransactionPrefix);
-// // //             var prefix1=response[0].TransactionPrefix;
-// // //             console.log(response[0].StartingTransactionTypeNo);
-// // //             var typeNo1=response[0].StartingTransactionTypeNo;
-// // //             var updat=prefix1+","+typeNo1;
-// // //             // console.log(myinvoice);
-// // //             $http.get('/transactionsto/'+updat).success(function(response){ 
-// // //                   console.log(response);
-// // //                   var num=response+1;
-// // //                   var updat=prefix1+","+num;
-// // //             $http.post('/transactionstoc/'+updat).success(function(response){
-// // //               console.log("inserting into transaction ");
-// // //               console.log(response);
-// // //               $scope.invoice = response.prefix+response.typeno;
-// // //                                 console.log($scope.invoice);
-// // //                                 // if($scope.transaction=='Approval Return'){
-// // //                                 //   alert("approval return");
-// // //                                 //   arrcon=JSON.stringify(window.sessionStorage.getItem("userids"));
-// // //                                 //   console.log(arrcon);
-// // //                                 // }
-// // //                                  // alert(arrcon+"while assign");
-// // //                        console.log(arrcon+"myids myids myids myidsmyids");
-                          
-// // //                            console.log(arrcon.length);
-// // //                             if($scope.transaction!='Approval Return'){
-// // //                              for(var j=0;j<arrcon.length;j++){
-// // //                              // user1 = window.sessionStorage.getItem("userids2[o]");
-// // //                              console.log(arrcon[j]);
-// // //                            user1=arrcon[j];
-
-// // //                            var usecase = user1 +","+$scope.invoice; 
-// // //                                 console.log(usecase);
-// // //                                 $http.post('/user12/'+usecase).success(function(response){
-// // //                                            console.log(response);
-// // //                                            //alert(response)
-// // //                                 }) ;
-// // //                             }
-// // //                            }
-// // //                            else{
-// // //                              // var voucherid=window.sessionStorage.getItem("selectedId");
-// // //                               console.log($scope.voucherid.length);
-// // //                             for(var i=0;i<=voucherid.length-1;i++){
-// // //                               console.log(voucherid[i].id);
-// // //                               user1=voucherid[i].id;
-// // //                               var usecase = user1 +","+$scope.invoice; 
-// // //                                 console.log(usecase);
-// // //                                 $http.post('/user12/'+usecase).success(function(response){
-// // //                                            console.log(response);
-// // //                                            //alert(response)
-// // //                                 }) ;
-// // //                             }
-// // //                            }
-// // //                         });
-
-// // //                       });
-// // //                       });
-// // //                     $scope.userit=[];
-// // //                       }
-
-// // //           else{
-// // // // <<<<<<< HEAD
-// // //                // alert("else zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-// // //            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// // //             //alert("else");
-// // //            // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-// // //                                 console.log(saleinvoice_id )
-// // //                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-// // //                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
-// // //                                         // $scope.mylinkPdf = "pdf.html";
-// // //                                         console.log(response);
-// // //                                         var latestVoucherNo = response[0];
-                                        
-// // //                                        if (response.length == 0) {
-// // //                                           // alert($scope.transaction);
-// // //                                            $http.get('/getinvoice'+$scope.transaction).success(function(response){
-// // //                                                      invoice =response[0];
-// // //                                                      console.log( response[0])
-// // //                                                      prefix = invoice.TransactionPrefix;
-// // //                                                      typeno = invoice.StartingTransactionTypeNo;
-
-// // //                                                      console.log( invoice.TransactionPrefix)
-// // //                                                      console.log( invoice.StartingTransactionTypeNo)
-// // //                                                      var updat = invoice.TransactionPrefix+","+invoice.StartingTransactionTypeNo;
-                                     
-// // //                                                      $http.get('/transactionsto/'+updat).success(function(response){ 
-                                                      
-// // //                                                             console.log("i got replay")
-// // //                                                             console.log(response);
-// // //                                                            // alert(response+"response");
-// // //                                                             var num = response+1;
-// // //                                                            // alert(num+'num');
-// // //                                                             var updat =invoice.TransactionPrefix+","+num;
-// // //                                                             console.log(updat);
-// // //                                                             $http.post('/transactionstoc/'+updat).success(function(response){ 
-                                                             
-// // //                                                                     console.log("i got replay")
-// // //                                                                     console.log(response);
-// // //                                                                     console.log(response.prefix);
-// // //                                                                     console.log(response.typeno);
-// // //                                                                     $scope.invoice = response.prefix+response.typeno;
-// // //                                                                     console.log($scope.invoice);
-// // //                                                                     // if( editedInvoiceCheck == "true"){
-// // //                                                                     //     $scope.invoice = editedInvoice ;
-// // //                                                                     //}
-// // //                                                                   // }
-// // //                                                                   if($scope.transaction=="Approval Sale"){
-// // //                                                                     // alert("hi");
-// // //                                                                     console.log(window.sessionStorage.getItem("selectedId"));
-// // //                                                                      var user1=JSON.parse(window.sessionStorage.getItem("selectedId"));
-// // //                                                                      console.log(user1.length);
-// // //                                                                      console.log($scope.voucherid.length);
-// // //                                                                     for(var i=0;i<$scope.voucherid.length;i++){
-// // //                                                                       // alert("hello");
-// // //                                                                     // var user1=JSON.parse(window.sessionStorage.getItem("selectedId"));
-// // //                                                                       var user1=$scope.voucherid[i].id;
-// // //                                                                     console.log(user1);
-// // //                                                                      var usecase = user1+","+$scope.transaction+","+$scope.invoice; 
-// // //                                                                      console.log(usecase);
-// // //                                                                     console.log($scope.invoice);
-// // //                                                                     $http.put('/user13/'+usecase).success(function(response){
-// // //                                                                                console.log(response);
-// // //                                                                                //alert(response)
-// // //                                                                     })
-// // //                                                                       }
-// // //                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// // //                                                                     console.log(saleinvoice_id )
-// // //                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-// // //                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-// // //                                                                       console.log(response);
-// // //                                                                     });
-                                                                  
-// // //                                                                 }
-// // //                                                                   else{
-// // //                                                                     var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-                                                                  
-// // //                                                                     //     alert(" generate new "+"user1 "+user1.length)
-// // //                                                                     var usecase = user1+","+$scope.invoice; 
-// // //                                                                     console.log(JSON.stringify(user1.id));
-// // //                                                                     console.log(usecase);
-// // //                                                                     $http.post('/user12/'+usecase).success(function(response){
-// // //                                                                                console.log(response);
-// // //                                                                                //alert(response)
-// // //                                                                     }) 
-                                                                   
-// // //                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-// // //                                                                     console.log(saleinvoice_id )
-// // //                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-// // //                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-// // //                                                                             // $scope.mylinkPdf = "pdf.html";
-// // //                                                                            // alert("updated sale voucher number");
-// // //                                                                             if($scope.transaction == "Urd Purchase"){
-// // //                                                                              $window.location.href = "pdf.html"; 
-// // //                                                                             }
-// // //                                                                              console.log($scope.mylinkPdf)
-// // //                                                                              console.log(response);
-
-// // //                                                                     }) 
-// // //                                                                   }
-
-// // //                                                             })                   
-// // //                                                      }) 
-// // //                                                 })//getinvoice closer
-
-// // //                                         }else{
-                                         
-// // //                                          // $scope.invoice = latestVoucherNo.voucherNo ;
-// // //                                              // alert("  else  "+latestVoucherNo.voucherNo);
-// // //                                            var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-    
-// // //                                           var usecase = user1 +","+latestVoucherNo.voucherNo; 
-// // //                                           console.log(user1);
-// // //                                        //   alert(" update existing "+"user1 "+user1.length)
-// // //                                 $http.post('/user12/'+usecase).success(function(response){
-// // //                                            console.log(response);
-// // //                                            //alert(response)
-// // //                                 }) 
-// // //                                         }
-                                       
-// // //                                          console.log($scope.mylinkPdf)
-// // //                                          console.log(response);
-
-
-// // //                                 })
-// // //             }//else open
-                               
-// // //     }//main closer
-// //   $scope.inoviceNumberGeneration= function(){
-// //           //  alert("inove generation in pay button ");
-// //           var customerDetails = $scope.transaction+","+$scope.partyname;
-
-// //           var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-// //          if($scope.transaction == "Issue Voucher" || $scope.transaction == "Receipt Voucher"
-// //               ||$scope.transaction == "Sale Return"|| $scope.transaction == "Purchase Return"||$scope.transaction=="Approval Out"){
-// //                               // alert("issue voucher no"+arrcon);
-// //                          //    $http.get('/trCollectionCreation',{params:{"salesIds":saleinvoice_id,"userIds":user1,"trail":"yes"}}).success(function(response){  
-// //                          // })    
-// //                 $http.get('/getprefix',{params:{transaction:$scope.transaction,invoiceVoucher:$scope.inVoiceSeries}}).success(function(response){
-// //                   console.log(response);
-// //                  // alert(" response "+response)
-// //                   // console.log(response[0].TransactionPrefix);
-// //                   // var prefix1=response[0].TransactionPrefix;
-// //                   // console.log(response[0].StartingTransactionTypeNo);
-// //                   // var typeNo1=response[0].StartingTransactionTypeNo;
-// //                   // var updat=prefix1+","+typeNo1;
-// //                           // console.log(myinvoice);
-// //                           // $http.get('/transactionsto/'+updat).success(function(response){ 
-// //                           //       console.log(response);
-// //                           //       var num=response+1;
-// //                           //       var updat=prefix1+","+num;
-// //                                         // $http.post('/transactionstoc/'+updat).success(function(response){
-// //                                         //   console.log("inserting into transaction ");
-// //                                         //   console.log(response);
-// //                                           $scope.invoice = response;
-// //                                          // $scope.invoice = response.prefix+response.typeno;  
-// //                                                             console.log($scope.invoice);
-// //                                                             // alert(arrcon+"while assign");
-// //                                                    console.log(arrcon+"myids myids myids myidsmyids");
-                                                      
-// //                                                        console.log(arrcon.length);
-// //                                                          for(var j=0;j<arrcon.length;j++){
-// //                                                          // user1 = window.sessionStorage.getItem("userids2[o]");
-// //                                                          console.log(arrcon[j]);
-// //                                                        user1=arrcon[j];
-
-// //                                                        var usecase = user1 +","+$scope.invoice; 
-// //                                                             console.log(usecase);
-// //                                                             $http.post('/user12/'+usecase).success(function(response){
-// //                                                                        console.log(response);
-// //                                                                        //alert(response)
-// //                                                             }) ;
-// //                                                         }
-// //                                                       // }
-// // >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
-//                                        // });
-
-//                         //  });//http
-//                 });
-//                           $scope.userit=[];
-//         }
-
-//           else{
-// // <<<<<<< HEAD
-//                // alert("else zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-//            var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-//             //alert("else");
-//            // var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-
-//                                 console.log(saleinvoice_id )
-//                                 var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-//                                 $http.get('/getSaleInvoicedata/'+saleInvoiceData ).success(function(response){
-//                                         // $scope.mylinkPdf = "pdf.html";
-//                                         console.log(response);
-//                                         var latestVoucherNo = response[0];
-                                        
-//                                        if (response.length == 0) {
-                                          
-//                                           // $http.get('/getinvoice'+$scope.transaction).success(function(response){
-                                           
-//                                             $http.get('/getprefix',{params:{transaction:$scope.transaction,invoiceVoucher:$scope.inVoiceSeries}}).success(function(response){
-//                                                       console.log(response);
-//                                                      // alert(" response "+response)          // invoice =response[0];
-//                                                      // console.log( response[0])
-//                                                      // prefix = invoice.TransactionPrefix;
-//                                                      // typeno = invoice.StartingTransactionTypeNo;
-
-//                                                      // console.log( invoice.TransactionPrefix)
-//                                                      // console.log( invoice.StartingTransactionTypeNo)
-//                                                      // var updat = invoice.TransactionPrefix+","+invoice.StartingTransactionTypeNo;
-                                     
-//                                                     // $http.get('/transactionsto/'+updat).success(function(response){ 
-                                                      
-//                                                            //  console.log("i got replay")
-//                                                            //  console.log(response);
-//                                                            // // alert(response+"response");
-//                                                            //  var num = response+1;
-//                                                            // // alert(num+'num');
-//                                                            //  var updat =invoice.TransactionPrefix+","+num;
-//                                                            //  // $http.post('/transactionstoc/'+updat).success(function(response){ 
-                                                             
-//                                                             //         console.log("i got replay")
-//                                                             //         console.log(response);
-//                                                             //         console.log(response.prefix);
-//                                                             //         console.log(response.typeno);
-//                                                                     $scope.invoice = response;
-
-//                                                                     console.log($scope.invoice);
-//                                                                     // if( editedInvoiceCheck == "true"){
-//                                                                     //     $scope.invoice = editedInvoice ;
-//                                                                     // } 
-//                                                                     var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-//                                                                     //     alert(" generate new "+"user1 "+user1.length)
-//                                                                     var usecase = user1 +","+$scope.invoice; 
-//                                                                     console.log(user1)
-//                                                                     $http.post('/user12/'+usecase).success(function(response){
-//                                                                                console.log(response);
-//                                                                                //alert(response)
-//                                                                     }) 
-//                                                                     var saleinvoice_id = window.sessionStorage.getItem("saleinvoicedata_id");
-//                                                                     console.log(saleinvoice_id )
-//                                                                     var saleInvoiceData = saleinvoice_id +","+$scope.invoice;       
-//                                                                     $http.post('/saleInvoiceInvoice/'+saleInvoiceData ).success(function(response){
-//                                                                             // $scope.mylinkPdf = "pdf.html";
-//                                                                            // alert("updated sale voucher number");
-//                                                                             if($scope.transaction == "Urd Purchase"){
-//                                                                              $window.location.href = "pdf.html"; 
-//                                                                             }
-//                                                                              console.log($scope.mylinkPdf)
-//                                                                              console.log(response);
-
-//                                                                     }) 
-
-//                                                            // })                   
-//                                                     // }) 
-//                                                 })//getinvoice closer
-
-//                                         }else{
-                                         
-//                                          // $scope.invoice = latestVoucherNo.voucherNo ;
-//                                              // alert("  else  "+latestVoucherNo.voucherNo);
-//                                            var user1 = JSON.parse(window.sessionStorage.getItem("userids"));
-    
-//                                           var usecase = user1 +","+latestVoucherNo.voucherNo; 
-//                                           console.log(user1);
-//                                        //   alert(" update existing "+"user1 "+user1.length)
-//                                 $http.post('/user12/'+usecase).success(function(response){
-//                                            console.log(response);
-//                                            //alert(response)
-//                                 }) 
-//                                         }
-                                       
-//                                          console.log($scope.mylinkPdf)
-//                                          console.log(response);
-
-//                                 })
-//             }//else open
-                               
-//     }//main closer
 
 $scope.user = {};
 var tpcs = null;
@@ -6878,8 +5673,8 @@ $scope.confirmOrder1=function(bill,pname){
    // $scope.seleccted=bill;
    $scope.receiptprint=0;
    $scope.saleId=$scope.saleinv[0]._id;
-  setTimeout($scope.confirmOrder(),2000);
-  setTimeout($scope.confirmation(bill,$scope.saleId,pname),6000);
+  setTimeout($scope.confirmOrder(),5000);
+  setTimeout($scope.confirmation(bill,$scope.saleId,pname),7000);
 
 }
 
@@ -6916,8 +5711,9 @@ $scope.confirmation=function(bill1,sale,name){
         })
         // if(response.length!=0){
           window.sessionStorage.setItem("rprint",$scope.receiptprint);
+           // window.sessionStorage.setItem("partyname",JSON.stringify($scope.pname));
+          // window.sessionStorage.setItem("partyname",JSON.stringify($scope.pname));
            window.sessionStorage.setItem("partyname",JSON.stringify($scope.pname));
-          
           window.location.href='receipts.html';
         // }
     }
@@ -6945,294 +5741,9 @@ $scope.confirmOrder = function(){
         })
         .then(function (){
           $scope.afterConfirm();
-           //just for time being fixed not identifed root cause
-                 // $scope.saleinv[0].taxableval = "Tax";
-                 // $scope.saleinv[0].tax="Discount";
-                 //  $scope.saleinv[0].invoiceValue = "Adjustment";
-                 // $scope.saleinv[0].netamt =  "Invoice Value";
+           // $scope.saleinv[0].netamt =  "Invoice Value";
         })
  }//confirm
-// $scope.receiptprint=0;
-// window.sessionStorage.setItem("rprint",0);
-
-//     $scope.gwtCal=function(gwt,$index)
-//     {
-//         //alert("gwtcal called");
-//         //alert($index+gwt);
-//        var gwt=gwt;
-//         //$scope.gwt.splice($index,0,gwt);
-//         //alert($scope.gwt[$index]);
-//        $scope.netwtarr[$index]=gwt;
-//        //alert($scope.netwtarr[$index]);
-//        $scope.chararr[$index]=gwt;
-//        $scope.taxablearr[$index]=gwt;
-//        var taxcal=$scope.taxablearr[$index]/100;
-//     //alert(taxcal);
-//        $scope.taxarr[$index]=taxcal;
-//     //alert($scope.taxarr[$index]);
-//        var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-//     //alert(totalcal);
-//        $scope.totvalarr[$index]=totalcal;
-//         //alert($scope.taxablearr[$index]);
-//        console.log($scope.netwtarr[$index]);
-//         //alert("gwt calculation function");
-//         //alert("taxable value is")
-//         //alert($scope.taxablearr[$index]);
-//        $scope.getTotTaxVal();
-//        $scope.getTotTaxAmt();
-//        $scope.getFinalVal();
-//     }
-
-
-
-// $scope.stwtCal=function(stwt,$index,gwt)
-// {
-//     //alert("HI");
-//     var stwt=stwt;
-//     var gwt=gwt;
-//     //$scope.stwt.splice($index,0,stwt);
-//     //alert($scope.stwt[$index])
-//     //var gwt=gwt;
-//     //alert(stwt);
-//     var ntwtcal=gwt-stwt;
-//     //alert(ntwtcal);
-//     $scope.netwtarr[$index]=ntwtcal;
-//     //alert($scope.netwtarr[$index]);
-// }
-
-// $scope.wasCal=function(was,$index)
-//     {
-//         //alert("wascal called");
-//         var was=was;
-//         //alert(was);
-//         var charcal=parseFloat(was)+parseFloat($scope.netwtarr[$index])
-//         //alert(charcal);
-//         $scope.chararr.splice($index,0,charcal)
-//         $http.get('/itemrate').success(function(response){
-//         $scope.irate=response;
-
-//         var rate=$scope.irate[0].rate;
-//         //alert(rate);
-//         //alert($scope.chararr[$index]);
-//         var taxablecal=$scope.chararr[$index]*rate;
-//         //alert(taxablecal);
-//         $scope.taxablearr[$index]=taxablecal;
-//         var taxcal=$scope.taxablearr[$index]/100;
-//         $scope.taxarr[$index]=taxcal;
-//         var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-    
-//         $scope.totvalarr[$index]=totalcal;
-//         $scope.getTotTaxVal();
-//         $scope.getTotTaxAmt();
-//         $scope.getFinalVal();
-// })
-// }
-
-// $scope.labCal=function(labamt,$index)
-// {
-//     //alert("labamt called");
-//     $scope.labamt=labamt;
-//     //alert(labamt);
-//     var labcal=parseFloat(labamt)+parseFloat($scope.taxablearr[$index])
-//     //alert(labcal);
-//     $scope.taxablearr[$index]=labcal;
-//     var taxcal=$scope.taxablearr[$index]/100;
-//     //alert(taxcal);
-//     $scope.taxarr[$index]=taxcal;
-//     //alert($scope.taxarr[$index]);
-//     var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-//     //alert(totalcal);
-//     $scope.totvalarr[$index]=totalcal;
-//     $scope.getTotTaxVal();
-//     $scope.getTotTaxAmt();
-//     $scope.getFinalVal();
-//     //alert($scope.totvalarr[$index]);
-// }
-// $scope.stchgCal=function(stchg,$index)
-// {
-//    // alert("stchg called");
-//     var stcal=parseFloat(stchg)+parseFloat($scope.taxablearr[$index])
-//     $scope.taxablearr[$index]=stcal;
-//      var taxcal=$scope.taxablearr[$index]/100;
-//     //alert(taxcal);
-//     $scope.taxarr[$index]=taxcal;
-//     //alert($scope.taxarr[$index]);
-//     var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-//     //alert(totalcal);
-//     $scope.totvalarr[$index]=totalcal;
-//     $scope.getTotTaxVal();
-//     $scope.getTotTaxAmt();
-//     $scope.getFinalVal();
-
-//     //alert($scope.totvalarr[$index]);
-// }
-
-// // $scope.mrpCal=function(mrp,$index){
-// //  //alert("mrpfunction called")
-// //  $scope.taxablearr[$index]=mrp;
-// //   var taxcal=$scope.taxablearr[$index]/100;
-// //     //alert(taxcal);
-// //     $scope.taxarr[$index]=taxcal;
-// //     //alert($scope.taxarr[$index]);
-// //     var totalcal=parseFloat($scope.taxarr[$index])+parseFloat($scope.taxablearr[$index]);
-// //     //alert(totalcal);
-// //     $scope.totvalarr[$index]=totalcal;
-// //     $scope.getTotTaxVal();
-// //     $scope.getTotTaxAmt();
-// //     $scope.getFinalVal();
-
-// // }
-//     $scope.select=function(){
-//         var mrp=$scope.user.mrp;
-//         var pcs=$scope.user.pcs;
-//         $scope.total=pcs*mrp;
-//     $http.post('/useritem',$scope.user).success(function(response){
-//     });
-    
-//         //alert("HIiiiiiiiiiiii");
-         
-//         //alert(taxval);
-    
-//          //alert($scope.taxval);
-
-//         //alert($scope.dis);
-//         var data=$scope.user.mySelectValue;
-//        // alert(data);
-
-//         var data1=$scope.user.mySelectValue1;
-//        // alert(data1);
-//         var labamt1=parseFloat($scope.user.labamt);
-//         //alert(data1);
-//         $scope.gwt=$scope.user.gwt;
-//         $scope.wastage=$scope.user.was;
-//         $scope.pct=$scope.user.pct;
-
-//         if($scope.pct=="Add%")
-//         {
-//            // alert("HI PCT")
-//             $scope.wastage=($scope.wastage*$scope.gwt)/100;
-//            // alert($scope.wastage);
-//             return $scope.wastage;
-//         }
-
-//         $scope.charunit=parseFloat($scope.gwt)+parseFloat($scope.wastage);
-//        // alert("charge units is"+$scope.charunit);
-//          //var stwt=$scope.user.stwt;
-//         //alert(stwt);
-//        // $scope.ntwt=$scope.gwt-stwt;
-//         /*if($scope.ntwt==null)
-//         {
-//             alert($scope.gwt);
-            
-
-//             $scope.total=$scope.gwt*$scope.taxval;
-            
-//         }
-//         else{
-            
-        
-//         }*/
-//         /*else{
-            
-//         }*/
-//         //return $scope.total;
-//         //alert($scope.ntwt);
-//         //alert($scope.total);
-        
-//         //alert("hi"+$scope.total);
-//         $scope.total=$scope.charunit*$scope.taxval+labamt1;
-//       //  alert($scope.total);
-//         $scope.tax=$scope.total/100;
-//          $scope.dis=$scope.user.dis;
-//         if($scope.dis==null)
-//         {
-//             //alert("null value");
-//             $scope.subtol=$scope.total+$scope.tax;
-//             return $scope.subtol;
-//         }
-         
-//         //alert($scope.wastage);
-//         $scope.cca=$scope.user.cca;
-//         $scope.subtol=$scope.total+$scope.tax-$scope.dis;
-//         $scope.amount=$scope.user.amt;
-//         if($scope.user.trans=="Amount")
-//         {
-//         if($scope.amount==null)
-//         {
-//            $scope.netwt=$scope.cca+$scope.subtol-$scope.amount; 
-//            return $scope.netwt;
-//         }
-//         $scope.netwt=$scope.cca+$scope.subtol-$scope.amount;
-//         $scope.netwt1=$scope.netwt.toFixed(2);
-//     }
-//     else {
-//         $scope.mate=$scope.amount;
-//         $scope.charunit=parseFloat($scope.gwt)+parseFloat($scope.wastage)-$scope.mate;
-//         $scope.total=$scope.charunit*$scope.taxval+labamt1;
-//          //  alert($scope.total);
-//         $scope.tax=$scope.total/100;
-//         $scope.netwt=$scope.cca+$scope.subtol;
-//         $scope.netwt1=$scope.netwt.toFixed(2);
-//     }
-
-   
-//         //alert($scope.netwt)
-//         refresh();
-//         //});
-
-//      }
-        //var data3=wt;
-        //var data4=pcs;
-        ////alert(wt);
-        //alert(pcs);
-         //var orders=data+","+data1+","+data3+","+data4;
-         /*$http.post('/orders',$scope.user).success(function(response){
-         });*/
-         //alert(orders);
-        /*$http.put('/order/'+orders).success(function(response)
-        {
-        $scope.result=response;
-    })*/
-        /*$http.post('/users',$scope.user).success(function(response){
-        var username=response.name;*/
-        //alert(mySelectValue);
-        //alert(mySelectValue1);
-    //}
-    
-    //alert($scope.mySelectValue);
-
-    // $scope.ShowConfirm = function () {
-    //             if ($window.confirm("Cash advance?")) {
-    //                 window.location.href="cashadv.html";
-    //             } else {
-    //                  window.location.href="index.html";
-    //             }
-    //         }
-    /*$scope.sayHi = function() {
-    alert('hi!')
-  }*/
-    /*$scope.itotal= window.sessionStorage.getItem("cal");
-    //alert($scope.itotal);
-    $scope.count=1;
-    $scope.v1="0";
-     $scope.mobile=function(mobile){
-        var ph=mobile;
-        console.log(ph);
-        window.sessionStorage.setItem("ph",ph);
-        //alert(ph);
-        $http.post('/',$scope.user).success(function(response){
-        $scope.id=response._id;
-        window.location.href="menu.html";
-    })
-    }
-     $scope.name= window.sessionStorage.getItem("Name");
-   $scope.Rs=window.sessionStorage.getItem("RS");
-    */
-    // $scope.addon=function()
-    // {
-    //     //alert("HI");
-    // //alert(mySelectValue);
-    // }
 
         $http.get('/cash').success(function(response){
           console.log(response);
@@ -7305,83 +5816,6 @@ $scope.confirmOrder = function(){
       //alert(" confi here")
     })
 
-// //clear()
-// $scope.clear=function(){
-//   alert("clicked on clear button");
-//   // $scope.amount='';
-//   // $scope.date=null;
-//   // $scope.cardnos1="";
-//   // $scope.bank="";
-//   // $scope.chequeno="";
-//   // $scope.appno="";
-//   // $scope.ctype="";
-//   // $scope.cardnos="";
-//   // $scope.chequeno1=null;
-//     $scope.rpamt=[];
-//     $scope.totals="";
-// }
-// //for total amount Calculation
-//  $scope.total1=0;
-// $scope.totalAmount=function($index){
-//   // alert("amount"+index);
-// // $scope.total1=0;
-
-//   $scope.total1 += $scope.rpamt[$index].amount;
-//   // alert($scope.total1);
-//   $scope.totals=$scope.total1;
-// }
-
-// $scope.newRow=function(){
-//   $scope.rpamt.push({
-//     'paymode':"",
-//     'amount':"",
-//     'bank':"",
-//     'chequeno':"",
-//     'dates':"",
-//     'cardnos':"",
-//     'ctype':"",
-//     'appno':"",
-//     'partname':""
-//   })
-// }
-// $scope.billDate=new Date();
-//    //for inserting values into collection
-//    // $scope.receipt=[];
-//    // $scope.dates=new date();
-//    $scope.insertReceipt=function(){
-//       alert("clicked on save"+$scope.rpamt.length);
-//       for(i=0;i<=$scope.rpamt.length-1;i++){
-
-//       $scope.rdata=$scope.rpamt[i].paymode+","+$scope.rpamt[i].amount+","+$scope.rpamt[i].bank+","+$scope.rpamt[i].chequeno+","+$scope.rpamt[i].dates+","+$scope.rpamt[i].cardnos+","+$scope.rpamt[i].ctype+","+$scope.rpamt[i].appno+","+$scope.partyname;
-//       alert($scope.rdata);
-//       $http.post('/receiptdata/'+$scope.rdata).success(function(response){
-//         alert("called server");
-//         console.log(response);
-//       })
-//     }
-//    }
-
-   //  $scope.add=function()
-   //  {
-   //     $http.post('/users',$scope.user).success(function(response){
-   //     $scope.names=response;
-   //  })
-   // }
-    // $scope.delete=function(name)
-    // {
-    //     //alert("hi")
-    //     var mp= window.sessionStorage.getItem("ph");
-    //     var iname=name;
-    //     var itemname=mp+","+iname;
-    //     //alert(iname);
-    //     $http.delete('/item/'+itemname);
-    //     window.location.reload();
-    // }
-
-    //  $("a[data-tab-destination]").on('click', function() {
-    //     var tab = $(this).attr('data-tab-destination');
-    //     $("#"+tab).click();
-    // });
     }]);
 
 
@@ -7396,6 +5830,10 @@ function($scope,$http,$window){
    var subtotal1 = 0;
    var fixdec = 2;
    //used for display array
+   $scope.Billtype=null;
+   $scope.Mode=null;
+   // $scope.Card=0;
+   // $scope.Credit=0;
    var l = 0;
    $scope.userdisplay = []; 
    //var 
@@ -7414,9 +5852,19 @@ function($scope,$http,$window){
     var editedInvoice = window.sessionStorage.getItem("editedInvoice");
     var urdIdsValue =  JSON.parse(window.sessionStorage.getItem("urdIds"));
     $scope.billnum=window.sessionStorage.getItem("billnumber");
+    $scope.usernamedetails = window.sessionStorage.getItem("username")
+ 
     // $scope.billt=window.sessionStorage.getItem("typebill");
      // alert("bill bill  "+$scope.billt);
      // $scope.billType=$scope.billt;
+     if ($scope.billnum == 'Credit') {
+      alert(" credit")
+     }else if ($scope.billnum == 'Cash') {
+       alert(" cash ")
+     }
+
+
+
    if($scope.trans=="Approval Sale"){
      // alert("saleuser")
     var user1 =window.sessionStorage.getItem("selectedId");
@@ -7430,10 +5878,26 @@ else{
 $scope.Cash=0;
 $scope.Card=0;
 $scope.Credit=0;
-  if($scope.billnum != undefined||$scope.billnum != null){
+//alert($scope.billnum+"bill");
+  if($scope.billnum != undefined||$scope.billnum != undefined||$scope.billnum != null){
+    if($scope.billnum == null) {
+      $scope.Billtype = null;
+    };
     $http.get('/getbilldata'+$scope.billnum).success(function(response){
       console.log(response);
+      // alert(response.length);
+      if (response.length == 0) {
+        // alert("false");
+        $scope.printReceipt = false;
+      }
+      else{
+        $scope.printReceipt = true;
+        $http.get('/receipetCreation',{params:{"BillNo":$scope.billnum,"voucherNo": response[0].voucherNo,"userId":$scope.usernamedetails}}).success(function(response){
+        })
+      }
       $scope.billdata=response;
+      window.sessionStorage.setItem("billnumber",null);
+
     })
   }
     // console.log(useritdata)
@@ -7478,16 +5942,14 @@ $scope.Credit=0;
     // $http.post('/user12/'+usecase).success(function(response){
                                                            
     //trcollection creation
-     function trdetailsInsert() {
-         $http.get('/trCollectionCreation/'+usecase,{params:{"salesIds":saleinvoice_id,"userIds":user1,"trail":"yes"}}).success(function(response){  
+     function trdetailsInsert(billtype) {
+         $http.get('/trCollectionCreation/'+usecase,{params:{"salesIds":saleinvoice_id,"userIds":user1,"trail":"yes","Billtype":billtype}}).success(function(response){  
          })       
      }
      //trdetailsInsert();
-    if ($scope.trans == "Urd Purchase"||$scope.trans == "RD Purchase"||$scope.trans == "Regular Sale") {
-         // setTimeout(trdetailsInsert(), 2000); 
-    };
+    
    // $scope.billType=""; 
-// window.sessionStorage.setItem("billType","null");
+ window.sessionStorage.setItem("billType","null");
  var printconfiguration=null;
  var printLabour=null;
  var printWastage=null;
@@ -7559,13 +6021,34 @@ $scope.Credit=0;
            $http.get('/getsaleinvoice_id'+saleinvoice_id).success(function(response){ 
            
                 console.log(response)
-                $scope.Billtype=response[0].billtype;
+                $scope.Billtype = response[0].billtype;
+                //voucherNo
+               // alert(" $scope.Billtype "+$scope.Billtype);
+                if ($scope.Billtype == "Credit") {
+                   //alert(" $scope.Billtype "+$scope.Billtype);
+                       $http.get('/getReceivableAmount'+response[0].partyname).success(function(response){
+                            $scope.netReceivable = response[0].Due.$numberDecimal;
+                       })
+                        if ($scope.trans == "Urd Purchase"||$scope.trans == "RD Purchase"||$scope.trans == "Regular Sale") {
+                                setTimeout(trdetailsInsert("Credit"), 2000); 
+                          };
+                        
+
+                 }
+                 else if ($scope.Billtype == "Cash") {
+                        if ($scope.trans == "Urd Purchase"||$scope.trans == "RD Purchase"||$scope.trans == "Regular Sale") {
+                                setTimeout(trdetailsInsert("Cash"), 2000); 
+                          };
+
+                       //alert(" $scope.Billtype "+$scope.Billtype);
+              
+                 };
               if($scope.trans == "Valuation"){
            
                  $http.delete('/saleinv/'+response[0]._id)
        
               }
-         
+        // window.sessionStorage.setItem("Billtype",null);
             // console.log(response[0].dis)
          
           $scope.subtotal = response[0].subtol;
@@ -7576,7 +6059,8 @@ $scope.Credit=0;
           if( $scope.trans == "Regular Sale"){
               $scope.adj = response[0].adj;
               $scope.discount = response[0].dis;
-              $scope.charge = response[0].char;
+             // $scope.charge = response[0].char;
+             $scope.charge = (parseFloat($scope.subtotal) - parseFloat($scope.nett)).toFixed(2);
           }
 
          // alert("the value "+$scope.adj)
@@ -7632,6 +6116,7 @@ $scope.Credit=0;
 
 
         })////getsaleinvoice_id
+
       $http.get('/getpartydetails'+ $scope.partyname ).success(function(response){
 
             console.log(response)

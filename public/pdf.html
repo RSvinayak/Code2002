@@ -231,11 +231,11 @@ display: block;
     </style>
     </head>
     <body style="background-color:FFE4B5;" ng-controller="PdfCntrl" >
-    <div class='menujohanes' style=" position:sticky;top:0;z-index: 1;";
-  >
-        <ul class='dark_menu'>
+    <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
+        
+       <ul class='dark_menu' >
           
-<li >
+<li  >
             <a>
               Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                
@@ -247,7 +247,7 @@ display: block;
                 </a>
               </li>
                <li>
-                <a href="list.html">
+                <a href="List.html">
                   List
                 </a>
               </li>
@@ -287,7 +287,7 @@ display: block;
                 </li>
 
                <li>
-                <a href="item.html">
+                <a href="Item.html">
                   Item
                 </a>
               </li>
@@ -326,28 +326,61 @@ display: block;
             </ul>
           </li>
           <li >
-            <a href='Tax Configuration.html'>
+            <a href="Tax Configuration.html">
               Tax Configuration
             </a>
-         <!--    <ul>
+            <!-- <ul>
                 
 
                <li>
                 <a href="indextaxation.html">
                   Tax Structure
                 </a>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <a href="taxation.html">
                   Tax Name
                 </a>
-              </li>
+              </li> -->
              
               
-            </ul> -->
+            <!-- </ul> -->
           </li>
             
         
+          </li>
+          <li >
+              <a href="dailyRates.html">
+              Daily Rates 
+            </a>
+            </li>
+           <li >
+            <a href='#'>
+              Accounts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="receipts.html">
+                
+                  Receipt
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="payments.html">
+                  
+                  Payment
+                </a>
+              </li>
+              <!-- <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li> -->
+             
+              
+            </ul>
           </li>
           <li  id="name1">
             <a>
@@ -366,12 +399,10 @@ display: block;
           
         </ul>
 
-        <!-- <form action='/search' id='search' method='get'>
-          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
-        </form> -->
         
-      </div>
-      <div class="center" ng-cloak >
+        
+      </div> 
+    <div class="center" ng-cloak >
         <h2></h2>
       </div>
       <div class="container"> 
@@ -562,7 +593,7 @@ City:{{city}}</p>
 <td>0</td>
 </tr>
 <tr ng-if = "charge1 != 0">
-  <td>CreditCard Charges </td>
+  <td>Charges </td>
   <td>{{charge1}}</td>
   <td>{{charge1}}</td>
 </tr>
@@ -632,7 +663,7 @@ City:{{city}}</p>
     </tr> 
     <tr ng-if="trans =='Regular Sale'">
       <th >Charge Total:</th>
-      <td  id="right2">{{charge}}</td>
+      <td  id="right2">-{{ charge}}</td>
     </tr> 
     <tr ng-if="trans =='Regular Sale'">
       <th >Credit Adjusted:</th>
@@ -645,6 +676,10 @@ City:{{city}}</p>
     <tr>
        <th >Invoice Value:</th>
       <td  id="right2"><b>{{nett}}</b></td>
+    </tr> 
+    <tr ng-if="Billtype == 'Credit'">
+       <th >Net Receivable:</th>
+      <td  id="right2"><b>{{netReceivable}}</b></td>
     </tr>  
 
 
@@ -666,10 +701,10 @@ City:{{city}}</p>
 
 <div class="row" ng-hide="trans =='Urd Purchase'||trans =='Valuation'|| trans =='Issue Voucher' || trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'||trans == 'Approval Out'||trans=='Approval Return'" ng-cloak>
 
-<div class="col-sm-4" ng-hide="trans=='Opening Stock'||Billtype=='Credit'||Billtype==null">
+<div class="col-sm-4" ng-show="(Billtype=='Cash' && printReceipt == false)">
 <table class="table table-bordered">
     <thead>
-      <!-- <tr><font color="white"> -->
+      <!-- <tr><font   cash color="white"> -->
       <tr>
       <th>Receipt Details</th>
         <th >OB</th>
@@ -686,13 +721,14 @@ City:{{city}}</p>
 </table>
 </div>
 
-<div class="col-sm-4" ng-hide="BillType == 'Cash'||Billtype=='null'">
+<div class="col-sm-4" ng-show="(Billtype == 'Credit' && printReceipt == true)">
+<!-- credit -->
 <table class="table table-bordered">
     <thead>
       <tr>
       <th>Receipt Details</th>
       <th>Mode</th>
-      <th>Amount</th>  
+      <th>Amount</th>
       </tr>
     </thead>
     <tbody ng-repeat="item in billdata">

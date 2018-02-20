@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 var LedgerAccountSchema = new mongoose.Schema({
   accountName: String,
+  accountIds: String,
   groupID: String,
   yearOpBalance: Number,
   opBalanceType: Boolean,

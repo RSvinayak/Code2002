@@ -9,19 +9,40 @@ myApp.controller('billpdfCntrl',['$scope','$http','$window',
  // alert("data111111111111111"+$scope.datarp);
  // $scope.dates=window.sessionStorage.getItem("date");
  $scope.dates=new Date();
- // alert("date"+$scope.dates);
+$scope.usernamedetails = window.sessionStorage.getItem("username")
+ 
  $scope.billnum=window.sessionStorage.getItem("billnumber");
  // alert("billnumber"+$scope.billnum);
 //for getting receipt data
 $http.get('/getStoredReceipt'+$scope.billnum).success(function(response){
   console.log(response);
   if(response.length != 0){
-  $scope.rpamt=response;
+  $scope.rpamt = response;
+  $scope.voucherNo = response[0].voucherNo;
+  receipetCreationCall()
+  receivableAmount(response[0].partyname)
   numberwords(response[0].PaidAmount.$numberDecimal);
   $scope.finalAmount=response[0].PaidAmount.$numberDecimal;
  
   }
 })
+
+  function receivableAmount (name) {
+    //alert(name)
+    $http.get('/getReceivableAmount'+name).success(function(response){
+        //console.log(response.Due.$numberDecimal);
+         console.log(response[0].Due.$numberDecimal);
+        $scope.netReceivable = response[0].Due.$numberDecimal;
+        //numberwords(response[0].Due.$numberDecimal)
+    })
+
+  }//receivableAmount
+  function receipetCreationCall () {
+      //alert("receipetCreationCall ");
+      //alert("details "+$scope.usernamedetails);
+      $http.get('/receipetCreation',{params:{"BillNo":$scope.billnum,"voucherNo": $scope.voucherNo,"userId":$scope.usernamedetails}}).success(function(response){
+      })
+  }//receipetCreationCall
 
     $http.get('/getmerchantdetails').success(function(response){
        //console.log(response);
@@ -76,9 +97,12 @@ var printconfiguration=null;
 
    }
 
+   //for net receivable amount
+
+
    //words function
-   var numberwords = function(total){ 
-alert("numberwords"+total)       
+    numberwords = function(total){ 
+// alert("numberwords"+total)       
         var amount = total;
     console.log(amount)
     var words = new Array();
@@ -169,7 +193,15 @@ alert("numberwords"+total)
         }
         words_string = words_string.split("  ").join(" ");
         console.log(words_string)
+        console.log($scope.wor)
         $scope.wor = words_string;
+        // if ($scope.wor == undefined) {
+        //   $scope.wor = words_string;
+        // }else{
+        //    $scope.due = words_string;
+        // }
+        
+       
     }
   }
   }]);

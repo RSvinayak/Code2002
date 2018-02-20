@@ -555,8 +555,9 @@ display: inline-block;
     
 </head>  
 <body style="background-color:FFE4B5;" ng-controller="FirstCntrl" >
-  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
-        <ul class='dark_menu' >
+  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;" >
+        
+       <ul class='dark_menu' >
           
 <li  >
             <a>
@@ -570,7 +571,7 @@ display: inline-block;
                 </a>
               </li>
                <li>
-                <a href="list.html">
+                <a href="List.html">
                   List
                 </a>
               </li>
@@ -610,7 +611,7 @@ display: inline-block;
                 </li>
 
                <li>
-                <a href="item.html">
+                <a href="Item.html">
                   Item
                 </a>
               </li>
@@ -705,8 +706,8 @@ display: inline-block;
               
             </ul>
           </li>
-          <li  id="name1">
-            <a>
+          <li  id="name1" >
+            <a >
              {{usernamedetails}}
                
             </a>
@@ -722,12 +723,10 @@ display: inline-block;
           
         </ul>
 
-        <!-- <form action='/search' id='search' method='get'>
-          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
-        </form> -->
         
-      </div>
-     <!--  <div ng-cloak>
+        
+      </div> 
+         <!--  <div ng-cloak>
         
       </div> -->
    <!-- <div class="btn-group btn-group-justified">
@@ -755,7 +754,7 @@ display: inline-block;
                     <select ng-model="transaction" class="  selectpicker" ng-change = "TransactionDetails();clearDisplay('TransactionName')" >
                       
 <!--  ng-init=" transaction = 'Regular Sale'"  -->
-                        <option ng-repeat="tran in transactions" ng-cloak >{{tran.TransactionType}}</option></select>
+                        <option ng-repeat="tran in transactions" ng-if="tran.TransactionType!='Payment' && tran.TransactionType!='Receipts'&& tran.TransactionType!='Receipt'" ng-cloak >{{tran.TransactionType}}</option></select>
                       
 
                   <!--   </select> -->
@@ -1263,7 +1262,7 @@ display: inline-block;
         <option  ng-repeat="stocks in stock "  >{{stocks.stockpointname}}</option>
         </select></td>
 
-       <td> <select ng-model="item.salesPerson" ng-disabled="usersalesperson == true">
+       <td> <select ng-model="item.salesPerson" >
        <option ng-repeat="sales in salesperson" ng-value="{{sales.name}}"  >{{sales.name}}</option>
        </select></td>
 
@@ -1324,11 +1323,11 @@ display: inline-block;
 <!-- >>>>>>> 61946425920cfde23eb0ef81e1ccb2a84ae6baa2 -->
     <!-- <div class="w3-card-6 w3-margin"> -->
       <br>
-        <header class="w3-container w3-light-grey w3-padding-8 w3-center">
+        <header class="w3-container w3-light-grey w3-padding-8 w3-center"ng-cloak>
      <!--    <h4 >DISCOUNT/CHARGES</h4> -->
-          <h4 >INVOICE CHARGES</h4>
+          <h4 ng-cloak>INVOICE CHARGES</h4>
         </header>
-          <table class="w3-table w3-PapayaWhip " id="de" >
+          <table class="w3-table w3-PapayaWhip " id="de" ng-cloak>
     <thead >
       <tr>
         <th>Name</th>
@@ -1398,7 +1397,7 @@ display: inline-block;
 <!-- ng-disabled="checkFinal()" ng-model='finalCal' disabled-->
 
   <div class="w3-quarter w3-container" ng-hide="!saleinv.length" >
-    <div class="w3-card-2 w3-margin" >
+    <div class="w3-card-2 w3-margin" ng-cloak>
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" >
    <h4 >FINAL CALCULATION </h4>
         </header>
@@ -1446,7 +1445,7 @@ display: inline-block;
       </div>
       <!-- {{minusinvoice}} -->
      <!--  </div> -->
-  <div class="col-md-2">
+  <div class="col-md-2" ng-cloak>
 
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 

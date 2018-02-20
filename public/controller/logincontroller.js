@@ -9,8 +9,8 @@ function($scope,$http,$rootScope){
 	$http.get('/getinventorygroupvaluenotationlast').success(function(response){
 		console.log(response[0].date);
 		//compareDate = new Date();
-		var lastDate  = new Date(((new Date(response[0].date).toISOString().slice(0, 23))+"-05:30")).toISOString();
-     
+		// var lastDate  = new Date(((new Date(response[0].date).toISOString().slice(0, 23))+"-05:30")).toISOString();
+     	var lastDate  = response[0].date;
 		 var currentDate  = new Date(((new Date().toISOString().slice(0, 23))+"-05:30")).toISOString();
      
 		console.log(currentDate+" "+lastDate);
@@ -74,11 +74,11 @@ function($scope,$http,$rootScope){
 		 window.sessionStorage.setItem("desgination",desgination);
 				
 		if(validation == 1 && dailyRateCall == false){
-				
+				// alert("Please check Details Daily again")
 				$scope.myloginlink = "dailyRates.html";
 				
 		}else if (validation == 1 && dailyRateCall == true){
-				//alert("Please check Details again")
+				// alert("Please check Details Ttt again")
 				$scope.myloginlink = "Transaction.html";
 				
 		}else{

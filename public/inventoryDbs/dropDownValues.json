@@ -124,24 +124,34 @@
             
              "maingroup": [
                                     {
-                                            "name" : "Person1",
-                                            "password" : "7",
+                                            "name" : "Lingaraj",
+                                            "password" : "777",
                                             "desgination" : "Billing Person"
                                               },
                                     {
-                                           "name" : "Person2",
-                                            "password" : "2",
-                                            "desgination" : "Sales Person"
+                                           "name" : "Vinayak",
+                                            "password" : "222",
+                                            "desgination" : "Billing Person"
                                             },
                                             {
-                                           "name" : "Person3",
-                                            "password" : "1",
-                                            "desgination" : "Sales Person"
+                                           "name" : "Balakrishna",
+                                            "password" : "111",
+                                            "desgination" : "Billing Person"
                                             },
                                             {
-                                           "name" : "Person4",
-                                            "password" : "3",
-                                            "desgination" : "Sales Person"
+                                           "name" : "JayaPrakash",
+                                            "password" : "333",
+                                            "desgination" :"Billing Person"
+                                            },
+                                            {
+                                           "name" : "RadhaKrishna",
+                                            "password" : "444",
+                                            "desgination" : "Billing Person"
+                                            },
+                                            {
+                                           "name" : "Balavanth",
+                                            "password" : "555",
+                                            "desgination" : "Billing Person"
                                             }
                                     
                          ]
@@ -153,19 +163,48 @@
                                  
                                     {
                                           "SaleCategoryNo" : "1",
-                                            "SaleCategoryType" : "Mangalsutra",
-                                            "SortedOrderNo" : "1"
+                                            "SaleCategoryType" : "Pooja Articles",
+                                            "SortedOrderNo" : "1",
+                                            "PrnFileName":"BC_BangalesTemplate.txt"
                                               },
+
+                                            {
+                                            "SaleCategoryNo" : "2",
+                                            "SaleCategoryType" : "Gift Articles",
+                                            "SortedOrderNo" : "2",
+                                            "PrnFileName":"BC_BangalesTemplate.txt"
+                                             },
                                             {
                                             "SaleCategoryNo" : "3",
-                                            "SaleCategoryType" : "Top",
-                                            "SortedOrderNo" : "3"
+                                            "SaleCategoryType" : "Utensils",
+                                            "SortedOrderNo" : "3",
+                                            "PrnFileName":"BC_BangalesTemplate.txt"
                                              },
                                             {
                                                  "SaleCategoryNo" : "4",
-                                                "SaleCategoryType" : "Ring",
-                                                "SortedOrderNo" : "4"
+                                                "SaleCategoryType" : "Vigrahas",
+                                                "SortedOrderNo" : "4",
+                                                "PrnFileName":"BC_BangalesTemplate.txt"
+                                           },
+                                            {
+                                                 "SaleCategoryNo" : "5",
+                                                "SaleCategoryType" : "Wearables",
+                                                "SortedOrderNo" : "5",
+                                                "PrnFileName":"BC_BangalesTemplate.txt"
+                                           },
+                                            {
+                                                 "SaleCategoryNo" : "6",
+                                                "SaleCategoryType" : "Old Silver",
+                                                "SortedOrderNo" : "6",
+                                                "PrnFileName":"BC_BangalesTemplate.txt"
+                                           },
+                                            {
+                                                 "SaleCategoryNo" : "7",
+                                                "SaleCategoryType" : "Bullion",
+                                                "SortedOrderNo" : "7",
+                                                "PrnFileName":"BC_BangalesTemplate.txt"
                                            }
+
                                     
                          ]
          },
@@ -541,61 +580,22 @@
             "dropDownName": "inventorygroupmaster",
             
              "maingroup": [
-                                   {
-  
-                                        "InvGroupID" : "01",
-                                        "InvGroupName" : "Diamond",
-                                        "Alias" : "pure Diamond",
-                                        "sortOrder" : 7,
-                                        "PurchaseAcc" : [ 
-                                            {
-                                                "AccNo" : "DA Purchase",
-                                                "AccId" : "L032"
-                                            }
-                                        ],
-                                        "SalesAcc" : [ 
-                                            {
-                                                "AccNo" : "DA Sales",
-                                                "AccId" : "L031"
-                                            }
-                                        ]
-                                    },
-
-                                    {
-                                        
-                                        "InvGroupID" : "02",
-                                        "InvGroupName" : "Gold Bullion",
-                                        "Alias" : "pure gold",
-                                        "sortOrder" : 2,
-                                        "PurchaseAcc" : [ 
-                                            {
-                                                "AccNo" : "GB Purchase",
-                                                "AccId" : "L029"
-                                            }
-                                        ],
-                                        "SalesAcc" : [ 
-                                            {
-                                                "AccNo" : "GB Sales",
-                                                "AccId" : "L004"
-                                            }
-                                        ]
-                                    },
-
+                                  
                                     {
                                       
                                         "InvGroupID" : "03",
-                                        "InvGroupName" : "Gold Ornaments",
-                                        "Alias" : "Ornaments",
+                                        "InvGroupName" : "Old Silver",
+                                        "Alias" : "old sliver",
                                         "sortOrder" : 3,
                                         "PurchaseAcc" : [ 
                                             {
-                                                "AccNo" : "GO Purchase",
+                                                "AccNo" : "OS Purchase",
                                                 "AccId" : "L017"
                                             }
                                         ],
                                         "SalesAcc" : [ 
                                             {
-                                                "AccNo" : "GO Sales",
+                                                "AccNo" : "OS Sales",
                                                 "AccId" : "L003"
                                             }
                                         ]
@@ -607,7 +607,7 @@
                                     {
                                        
                                         "InvGroupID" : "06",
-                                        "InvGroupName" : "Sliver Articles",
+                                        "InvGroupName" : "Silver Articles",
                                         "Alias" : " silver",
                                         "sortOrder" : 6,
                                         "PurchaseAcc" : [ 
@@ -627,7 +627,7 @@
                                     {
                                         
                                         "InvGroupID" : "07",
-                                        "InvGroupName" : "Sliver Bullion",
+                                        "InvGroupName" : "Silver Bullion",
                                         "Alias" : "silver Bullion",
                                         "sortOrder" : 1,
                                         "PurchaseAcc" : [ 
@@ -926,11 +926,11 @@
 {
   
     "accountIds" : "L003",
-    "accountName" : "GO Sales",
+    "accountName" : "OS Sales",
     "sortOrder" : 1,
     "grpId" : "MG9",
     "alias" : "",
-    "remark" : "Gold ornaments sale"
+    "remark" : "old silver sale"
 },
 
 
@@ -990,7 +990,7 @@
 {
     
     "accountIds" : "L009",
-    "accountName" : "SA sales",
+    "accountName" : "SA Sales",
     "sortOrder" : 3,
     "grpId" : "MG9",
     "alias" : "",
@@ -1006,7 +1006,24 @@
     "alias" : "",
     "remark" : "Sales silver bullion"
 },
-
+{
+  
+    "accountIds" : "Lc11",
+    "accountName" : "Cash from card",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash from card"
+},
+{
+  
+    "accountIds" : "Lq11",
+    "accountName" : "Cash from cheque",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash from cheque"
+},
 
 {
   
@@ -1075,11 +1092,11 @@
 {
    
     "accountIds" : "L017",
-    "accountName" : "GO Purchase",
+    "accountName" : "OS Purchase",
     "sortOrder" : 1,
     "grpId" : "MG12",
     "alias" : "",
-    "remark" : "Gold ornaments purchase"
+    "remark" : "old silver purchase"
 },
 
 
@@ -1231,8 +1248,538 @@
                                             }
                                     
                          ]
-         }
+         },
+          {
+            "dropDownName": "items",
+            
+             "maingroup": [
+{ 
+"Name" : "Silver Arati Set", 
+"Hsc" : "Silver Arati Set",
+"Desc" : "Silver Arati Set",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Bowl", 
+"Hsc" : "Silver Bowl",
+"Desc" : "Silver Bowl",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Bracelet", 
+"Hsc" : "Silver Bracelet",
+"Desc" : "Silver Bracelet",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Gift Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Bullion", 
+"Hsc" : "Silver Bullion",
+"Desc" : "Silver Bullion",
+"InvGroupName" : "Silver Bullion",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Bullion",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Glass", 
+"Hsc" : "Silver Glass",
+"Desc" : "Silver Glass",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Kadaga", 
+"Hsc" : "Silver Kadaga",
+"Desc" : "Silver Kadaga",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
 
+{ 
+"Name" : "Silver Miscellaneous Item", 
+"Hsc" : "Silver Miscellaneous Item",
+"Desc" : "Silver Miscellaneous Item",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Gift Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Neck Chain", 
+"Hsc" : "Silver Neck Chain",
+"Desc" : "Silver Neck Chain",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+
+{ 
+"Name" : "Silver Plate", 
+"Hsc" : "Silver Plate",
+"Desc" : "Silver Plate",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Spoon", 
+"Hsc" : "Silver Spoon",
+"Desc" : "Silver Spoon",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Tambi", 
+"Hsc" : "Silver Tambi",
+"Desc" : "Silver Tambi",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Panchapathre", 
+"Hsc" : "Panchapathre",
+"Desc" : "Panchapathre",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Uddarane", 
+"Hsc" : "Uddarane",
+"Desc" : "Uddarane",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Ollele", 
+"Hsc" : "Ollele",
+"Desc" : "Ollele",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Karadge", 
+"Hsc" : "Karadge",
+"Desc" : "Karadge",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Leg chain", 
+"Hsc" : "Leg chain",
+"Desc" : "Leg chain",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Toe chain", 
+"Hsc" : "Toe chain",
+"Desc" : "Toe chain",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Gatti vigraha", 
+"Hsc" : "Gatti vigraha",
+"Desc" : "Gatti vigraha",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Vigrahas",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Tollu vigraha", 
+"Hsc" : "Tollu vigraha",
+"Desc" : "Tollu vigraha",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Vigrahas",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Kum kum batlu", 
+"Hsc" : "Kum kum batlu",
+"Desc" : "Kum kum batlu",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Karimani bale", 
+"Hsc" : "Karimani bale",
+"Desc" : "Karimani bale",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Screw Deepa", 
+"Hsc" : "Screw Deepa",
+"Desc" : "Screw Deepa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Nanda Deepa", 
+"Hsc" : "Nanda Deepa",
+"Desc" : "Nanda Deepa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Neelanjana Deepa", 
+"Hsc" : "Neelanjana Deepa",
+"Desc" : "Neelanjana Deepa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Moggu Deepa", 
+"Hsc" : "Moggu Deepa",
+"Desc" : "Moggu Deepa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Nakas Deepa", 
+"Hsc" : "Nakas Deepa",
+"Desc" : "Nakas Deepa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Plain Deepa", 
+"Hsc" : "Plain Deepa",
+"Desc" : "Plain Deepa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver rings", 
+"Hsc" : "Silver rings",
+"Desc" : "Silver rings",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Flower butti", 
+"Hsc" : "Flower butti",
+"Desc" : "Flower butti",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Cradle", 
+"Hsc" : "Cradle",
+"Desc" : "Cradle",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Plate Design", 
+"Hsc" : "Silver Plate Design",
+"Desc" : "Silver Plate Design",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Tambige Lakshmi", 
+"Hsc" : "Silver Tambige Lakshmi",
+"Desc" : "Silver Tambige Lakshmi",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Lakshmi Face", 
+"Hsc" : "Lakshmi Face",
+"Desc" : "Lakshmi Face",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Sandlewood Bowl ", 
+"Hsc" : "Sandlewood Bowl ",
+"Desc" : "Sandlewood Bowl ",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+
+{ 
+"Name" : "Ghee Lamp", 
+"Hsc" : "Ghee Lamp",
+"Desc" : "Ghee Lamp",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Cow & Calf ", 
+"Hsc" : "Cow & Calf ",
+"Desc" : "Cow & Calf ",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Sandle wood sticking stand", 
+"Hsc" : "Sandle wood sticking stand",
+"Desc" : "Sandle wood sticking stand",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Snake", 
+"Hsc" : "Snake",
+"Desc" : "Snake",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Gift Article", 
+"Hsc" : "Gift Article",
+"Desc" : "Gift Article",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Gift Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Cocunut", 
+"Hsc" : "Silver Cocunut",
+"Desc" : "Silver Cocunut",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+
+{ 
+"Name" : "Bell", 
+"Hsc" : "Bell",
+"Desc" : "Bell",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Kalasa", 
+"Hsc" : "Kalasa",
+"Desc" : "Kalasa",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Kai Kadaga", 
+"Hsc" : "Kai Kadaga",
+"Desc" : "Kai Kadaga",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver Dollar", 
+"Hsc" : "Silver Dollar",
+"Desc" : "Silver Dollar",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Gift Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Karmani Sara ", 
+"Hsc" : "Karmani Sara ",
+"Desc" : "Karmani Sara ",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Kai Chain", 
+"Hsc" : "Kai Chain",
+"Desc" : "Kai Chain",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Minchu", 
+"Hsc" : "Minchu",
+"Desc" : "Minchu",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Udidara", 
+"Hsc" : "Udidara",
+"Desc" : "Udidara",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Vishnuvardhan Bale", 
+"Hsc" : "Vishnuvardhan Bale",
+"Desc" : "Vishnuvardhan Bale",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Kalu Muri", 
+"Hsc" : "Kalu Muri",
+"Desc" : "Kalu Muri",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Arathi Plate", 
+"Hsc" : "Arathi Plate",
+"Desc" : "Arathi Plate",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver cup design", 
+"Hsc" : "Silver cup design",
+"Desc" : "Silver cup design",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Utensils",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Lamp Design", 
+"Hsc" : "Lamp Design",
+"Desc" : "Lamp Design",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Kum kum batlu design", 
+"Hsc" : "Kum kum batlu design",
+"Desc" : "Kum kum batlu design",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Pooja Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Watch", 
+"Hsc" : "Watch",
+"Desc" : "Watch",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Gift Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Silver photo  frame", 
+"Hsc" : "Silver photo  frame",
+"Desc" : "Silver photo  frame",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Gift Articles",
+"comboItem" : "no"
+},
+{ 
+"Name" : "Ear Ring", 
+"Hsc" : "Ear Ring",
+"Desc" : "Ear Ring",
+"InvGroupName" : "Silver Articles",
+"ItemType" : " Manufactured",
+"SaleCategory" : " Wearables",
+"comboItem" : "no"
+}
+
+
+
+
+
+
+
+                            
+                            ]
+                        }
                 
        
        
