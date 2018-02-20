@@ -555,8 +555,9 @@ display: inline-block;
     
 </head>  
 <body style="background-color:FFE4B5;" ng-controller="FirstCntrl" >
-  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
-        <ul class='dark_menu' >
+  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;" >
+        
+       <ul class='dark_menu' >
           
 <li  >
             <a>
@@ -570,7 +571,7 @@ display: inline-block;
                 </a>
               </li>
                <li>
-                <a href="list.html">
+                <a href="List.html">
                   List
                 </a>
               </li>
@@ -610,7 +611,7 @@ display: inline-block;
                 </li>
 
                <li>
-                <a href="item.html">
+                <a href="Item.html">
                   Item
                 </a>
               </li>
@@ -705,8 +706,8 @@ display: inline-block;
               
             </ul>
           </li>
-          <li  id="name1">
-            <a>
+          <li  id="name1" >
+            <a >
              {{usernamedetails}}
                
             </a>
@@ -722,12 +723,10 @@ display: inline-block;
           
         </ul>
 
-        <!-- <form action='/search' id='search' method='get'>
-          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
-        </form> -->
         
-      </div>
-     <!--  <div ng-cloak>
+        
+      </div> 
+         <!--  <div ng-cloak>
         
       </div> -->
    <!-- <div class="btn-group btn-group-justified">
@@ -755,7 +754,7 @@ display: inline-block;
                     <select ng-model="transaction" class="  selectpicker" ng-change = "TransactionDetails();clearDisplay('TransactionName')" >
                       
 <!--  ng-init=" transaction = 'Regular Sale'"  -->
-                        <option ng-repeat="tran in transactions" ng-cloak >{{tran.TransactionType}}</option></select>
+                        <option ng-repeat="tran in transactions" ng-if="tran.TransactionType!='Payment' && tran.TransactionType!='Receipts'&& tran.TransactionType!='Receipt'" ng-cloak >{{tran.TransactionType}}</option></select>
                       
 
                   <!--   </select> -->

@@ -114,7 +114,7 @@
                     var salesCategoryMasterInsert = defaultDropDown.dropDown[7];
                     
                     for (var salesCategoryMasterIndex = 0; salesCategoryMasterIndex < salesCategoryMasterInsert.maingroup.length; salesCategoryMasterIndex++) {
-                            var salesCategoryMasterObj = { "SaleCategoryNo": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryNo,"SaleCategoryType": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryType,"SortedOrderNo": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SortedOrderNo }
+                            var salesCategoryMasterObj = { "SaleCategoryNo": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryNo,"SaleCategoryType": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryType,"SortedOrderNo": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SortedOrderNo,"SaleCategoryType": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].SaleCategoryType,"PrnFileName": salesCategoryMasterInsert.maingroup[salesCategoryMasterIndex].PrnFileName }
                             db.salesCategoryMaster.insert(salesCategoryMasterObj, function (err, mc) { });
                     }           
                 }
@@ -136,6 +136,27 @@
                     for (var cardTypeIndex = 0; cardTypeIndex < cardTypeInsert.maingroup.length; cardTypeIndex++) {
                             var cardTypeObj = { "name": cardTypeInsert.maingroup[cardTypeIndex].name }
                             db.cardType.insert(cardTypeObj, function (err, mc) { });
+                    }           
+                }
+          })
+           db.items.find(function (err, itemsValues) {
+                if (itemsValues.length == 0) {
+                    var itemsInsert = defaultDropDown.dropDown[15];
+                    //console.log(itemTypeInsert.maingroup.length);
+                    for (var itemsIndex = 0; itemsIndex < itemsInsert.maingroup.length; itemsIndex++) {
+                            var itemsObj = { "Name": itemsInsert.maingroup[itemsIndex].Name,
+                                              "Hsc": itemsInsert.maingroup[itemsIndex].Hsc,
+                                              "Desc": itemsInsert.maingroup[itemsIndex].Desc,
+                                              "InvGroupName": itemsInsert.maingroup[itemsIndex].InvGroupName,
+                                              "ItemType": itemsInsert.maingroup[itemsIndex].ItemType,
+                                              "SaleCategory": itemsInsert.maingroup[itemsIndex].SaleCategory,
+                                              "comboItem": itemsInsert.maingroup[itemsIndex].comboItem,
+
+
+                                           }
+                           
+                                                
+                            db.items.insert(itemsObj, function (err, mc) { });
                     }           
                 }
           })

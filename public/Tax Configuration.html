@@ -1,4 +1,4 @@
-F<!DOCTYPE>
+<!DOCTYPE>
 <html ng-app="myApp">
 <head>
   <!-- Latest compiled and minified CSS -->
@@ -354,10 +354,11 @@ margin-top: -12px;
 
 
 <body style="background-color:FFE4B5;" ng-controller="AppCtrl">
-  <div class='menujohanes'>
-        <ul class='dark_menu'>
+  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
+        
+       <ul class='dark_menu' >
           
-<li >
+<li  >
             <a>
               Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                
@@ -369,7 +370,7 @@ margin-top: -12px;
                 </a>
               </li>
                <li>
-                <a href="list.html">
+                <a href="List.html">
                   List
                 </a>
               </li>
@@ -409,7 +410,7 @@ margin-top: -12px;
                 </li>
 
                <li>
-                <a href="item.html">
+                <a href="Item.html">
                   Item
                 </a>
               </li>
@@ -449,7 +450,7 @@ margin-top: -12px;
           </li>
           <li >
             <a href="Tax Configuration.html">
-              Tax configuration
+              Tax Configuration
             </a>
             <!-- <ul>
                 
@@ -458,8 +459,8 @@ margin-top: -12px;
                 <a href="indextaxation.html">
                   Tax Structure
                 </a>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <a href="taxation.html">
                   Tax Name
                 </a>
@@ -470,6 +471,39 @@ margin-top: -12px;
           </li>
             
         
+          </li>
+          <li >
+              <a href="dailyRates.html">
+              Daily Rates 
+            </a>
+            </li>
+           <li >
+            <a href='#'>
+              Accounts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="receipts.html">
+                
+                  Receipt
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="payments.html">
+                  
+                  Payment
+                </a>
+              </li>
+              <!-- <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li> -->
+             
+              
+            </ul>
           </li>
           <li  id="name1">
             <a>
@@ -488,12 +522,10 @@ margin-top: -12px;
           
         </ul>
 
-        <!-- <form action='/search' id='search' method='get'>
-          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
-        </form> -->
         
-      </div>
-     <!--  <div ng-cloak>
+        
+      </div> 
+         <!--  <div ng-cloak>
         
       </div> -->
    <!-- <div class="btn-group btn-group-justified">

@@ -29,6 +29,8 @@ angular.module('CFApp').factory('ManageSubscriberService', ['$http', '$q',  func
                         data: subscriber
                 });
         }
+        
+
 
         var updatePartyKYCDetails = function(id, kycData){
                return $http({
@@ -44,6 +46,12 @@ angular.module('CFApp').factory('ManageSubscriberService', ['$http', '$q',  func
                         method: 'GET',
                 });
         }
+        var countLedgerAccount = function(id, subscriber){
+                return $http({
+                        url: '/api/subscriberLedgerAccount',
+                        method: 'GET'
+                });
+        }
     
         return {
             getSubscribers: getSubscribers,
@@ -51,6 +59,7 @@ angular.module('CFApp').factory('ManageSubscriberService', ['$http', '$q',  func
             updateSubscriber: updateSubscriber,
             updatePartyKYCDetails: updatePartyKYCDetails,
             getSubscriberImages: getSubscriberImages,
-            getDropDownListData: getDropDownListData
+            getDropDownListData: getDropDownListData,
+            countLedgerAccount:countLedgerAccount
         }
 }]);

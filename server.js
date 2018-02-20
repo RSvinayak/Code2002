@@ -2077,7 +2077,7 @@ app.put('/newAccountstatus:status',function(req,res){
   console.log(accountstatus);
   console.log("i will be insertinbg a field"+ids+"........."+accountstatus);
   db.saleInvoice.update({ "_id":mongojs.ObjectId(ids)},{"$set":{"AccountStatus":accountstatus}},function(err,doc){
-    console.log(doc+"3333333333333333333333333");
+    //console.log(doc+"3333333333333333333333333");
     res.json(doc);
   })
 })
@@ -2106,6 +2106,10 @@ app.get("/getvoucherAmount:vno",function(req,res){
   });
 });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
 //for getting voucherids foer receipts
 app.get('/getvoucherids:name',function(req,res){
   console.log("selected partyname is ");
@@ -2113,9 +2117,17 @@ app.get('/getvoucherids:name',function(req,res){
   console.log("partyname is "+ pname);
   // db.saleInvoice.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
     // {$group:{_id:{voucherNo:"$voucherNo",date:"$date",net:"$netamt"}}}],function(err,doc){
+<<<<<<< HEAD
      db.saleInvoice.find({"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
 }).sort({_id:-1},function(err,doc){
      res.json(doc);
+=======
+   db.saleInvoice.find({"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
+}).sort({_id:-1},function(err,doc){
+
+
+    res.json(doc);
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
     console.log(doc+"voucher No and dates");
     });
 })
@@ -2253,7 +2265,8 @@ app.post('/paymentdata/:datas',function(req,res){
 app.get('/receipetCreation',function(req,res){   
       var BillNo = req.query.BillNo;
       var voucherNo = req.query.voucherNo;
-      console.log(" BillNo "+BillNo);
+       var userId = req.query.userId;
+      console.log(" BillNo  userId "+BillNo+req.query.userId);
 
       var voucherId = 0;
       var currentdate = null;
@@ -2318,7 +2331,23 @@ app.get('/receipetCreation',function(req,res){
                   console.log(documents);
                   amountNet = documents[0].PaidAmount;
                   narration = documents[0].Narration;
-                  trDetailsInsertCall(documents[0].PaidAmount,name,'Dr')
+                  customerDetails(name); 
+                    function customerDetails(name) {
+                      db.subscribers.find({subscriber:name},function (err,subscriber) {
+                        console.log(subscriber)
+                        console.log("subscriber                                         call ")
+                        console.log(subscriber[0].ledgerID);
+                          db.ledgeraccounts.find({"_id" : mongojs.ObjectId(subscriber[0].ledgerID)},function (err,ledger) {
+                            console.log(ledger)
+                            //console.log("subscriber                                         call ")
+                            console.log(ledger[0].accountIds);
+                            trDetailsInsertCall(documents[0].PaidAmount,ledger[0].accountIds,'Dr')
+                            //defaultBalanceSubscriber(ledger[0].accountIds);
+                          })
+
+                      })
+                  }//customerDetails
+                  // trDetailsInsertCall(documents[0].PaidAmount,name,'Dr')
                   //trHeaderCall (documents[0].PaidAmount,documents[0].Narration)
                   for (var billNoIndex = documents.length - 1;billNoIndex >= 0; billNoIndex--) {
                     //Things[i]
@@ -2339,7 +2368,7 @@ app.get('/receipetCreation',function(req,res){
        
 
         }else if (Mode == "Cheque"){
-            trDetailsInsertCall(Amount,'LQ11','Cr',index)
+            trDetailsInsertCall(Amount,'Lq11','Cr',index)
        
         }
         // body...
@@ -2353,19 +2382,143 @@ app.get('/receipetCreation',function(req,res){
            
             })
             if (index == 0) {
-                trHeaderCall (amountNet,narration);
+                  //trHeaderCall (amountNet,narration);
+                  if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+                      inVoiceCall('Receipts',inVoiceSeriesConfig,amountNet,narration) 
+                  }else{
+                      inVoiceCall('Payment',inVoiceSeriesConfig,amountNet,narration) 
+                  }
             };
+
       }//trdetails
 
-    
- ////////   
- function trHeaderCall (amountTotal,narration) {
-         var amountTotal = parseFloat(amountTotal).toFixed(rupeesDecimalPoints);
+      ///
+      function inVoiceCall(Transaction,voucherSeriesType,amountNet,narration) {
+          console.log("  inVoiceCall inVoiceCallinVoiceCall check ");
+
+          var Transaction = Transaction;
+
+          var voucherSeriesType =  voucherSeriesType;
+          var classType = null;
+          db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
+
+              // console.log(doc);
+              classType = doc[0].TransactionClass;
+          })
+          db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+            //
+          console.log(" record transactionInvoice "+doc.length);
+          if (doc.length == 0) {
+              console.log(" insert call ");
+              insertNewTransactionInvoice();
+          }else{
+                  console.log(" update  call ");
+                  insertUpdateTransactionInvoice();
+               }
+          })//transactionInvoice
+      function insertNewTransactionInvoice() {
+      // console.log(" insertNewTransactionInvoice call ");
+      db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
+
+            // console.log(doc);
+            if (voucherSeriesType == "StartingTransactionClassNo" ) {
+                    var voucherSeries =  doc[0].StartingTransactionClassNo ;
+                    db.transactionInvoice.find({"TransactionClass":classType},function(err,doc1){
+                        if (doc1.length == 0) {
+                         // var TransactionNoCheck = 
+                          voucherSeries =  doc[0].StartingTransactionClassNo ;
+                
+                        }else{
+                          voucherSeries = Number(doc1[0].TransactionNo) +1;
+                        }
+                      //console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      //console.log(" if multi  check udate call "+doc1[0].TransactionNo);
+                      db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true })
+                           
+                      db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
+                          "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
+                           //console.log(" transactionInvoice call ");
+                            console.log(doc.TransactionPrefix+doc.TransactionNo);
+                             receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
+                             //res.json(doc.TransactionPrefix+doc.TransactionNo);
+                        })
+                    })
+          
+            }else{
+                    var voucherSeries =  doc[0].StartingTransactionTypeNo ;
+                      db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
+                          "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
+                           //console.log(" transactionInvoice call ");
+                          console.log(doc.TransactionPrefix+doc.TransactionNo);
+                          // res.json(doc.TransactionPrefix+doc.TransactionNo);
+                           receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
+
+                        })
+
+                 }
+          
+      })
+      }//insertNewTransactionInvoice
+      function insertUpdateTransactionInvoice() {
+      console.log("insertUpdateTransactionInvoice");
+
+      if (voucherSeriesType == "StartingTransactionClassNo" ) {
+              
+                    //var voucherSeries =  doc[0].StartingTransactionClassNo ;
+          
+               db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true },function(err,doc){
+                    
+                    db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+                    
+                      console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      console.log(" if multi "+classType);
+                     //  res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix,amountNet,narration)
+                             
+                    })
+                     // console.log(doc.TransactionPrefix+doc.TransactionNo);
+                })
+      }else{
+              db.transactionInvoice.update({"TransactionType":Transaction},  { $inc: {"TransactionNo": 1 }},function(err,doc){
+                    
+                    db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+                    
+                      console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      console.log("else one "+classType);
+                      // res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
+                      receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix,amountNet,narration)
+                             
+                    })
+                     // console.log(doc.TransactionPrefix+doc.TransactionNo);
+                })
+           }
+
+
+      }//insertUpdateTransactionInvoice
+      //});
+      }//inVoiceCall
+////
+
+function receiptAndPaymentCallTrHeaders(vocuherNumber,voucherType,voucherClass,suffix,amountTotal,narration) {
+      var amountTotal = parseFloat(amountTotal).toFixed(rupeesDecimalPoints);
           
           db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:'',
-              amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:'',narration:narration,remarks:''},function (err,res) {
-          })
-  }//trHeaderCall
+              amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:req.query.userId,narration:narration,remarks:''},function (err,res) {
+          })                     
+   // db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+   //              amount: Decimal128.fromString(amountNet),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
+   //             // changeNumberType(voucherId)
+   //             })
+ }//receiptAndPaymentCall
+    
+ ////////   
+ // function trHeaderCall (amountTotal,narration) {
+ //         var amountTotal = parseFloat(amountTotal).toFixed(rupeesDecimalPoints);
+          
+ //          db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:'',
+ //              amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:req.query.userId,narration:narration,remarks:''},function (err,res) {
+ //          })
+ //  }//trHeaderCall
 
 })
 
@@ -3311,10 +3464,14 @@ app.put('/salesnew/:apple',function(req,res){
 
    db.saleInvoice.update({"partyname":pname,"voucherNo":voucher},{$set:{"taxableval":taxableval2,
      "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2,"netAmount":Decimal128.fromString(netValue)}},function(err,doc){
+<<<<<<< HEAD
       
     //     db.saleInvoice.insert({_id:mongojs.ObjectId(pid),"taxableval":taxableval2,
     // "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2,"Transaction":trans}},function(err,doc){
+=======
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
       
+   
 
 
       res.json(doc);
@@ -3477,21 +3634,46 @@ var dis = str_array[9];
     }
     var netamt = str_array[11];
      var invoiceValue = str_array[12];
-      var decimals = str_array[13];
+      var decimals = parseFloat(str_array[13]).toFixed(rupeesDecimalPoints);
       var transaction = str_array[14];
+<<<<<<< HEAD
+=======
+
+      // var discount = str_array[15];
+      // var cardCharges = str_array[16];
+       var discount = parseFloat(str_array[15]).toFixed(rupeesDecimalPoints);
+
+       var cardCharges = parseFloat(str_array[16]).toFixed(rupeesDecimalPoints);
+
+      var charges = parseFloat(str_array[17]).toFixed(rupeesDecimalPoints);
+
+      console.log(" discount "+discount+" cardCharges "+cardCharges+" charges "+charges)
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
       var netValue = parseFloat(netamt).toFixed(rupeesDecimalPoints);
 
       //console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-      if(transaction == "RegularSale"){
+      if(transaction == "Regular Sale"){
           db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
+<<<<<<< HEAD
             "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue,"netAmount":Decimal128.fromString(netValue)}},function(err,doc){
+=======
+            "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"roundOffValue":decimals,"invoiceValue":invoiceValue,
+            "netAmount":Decimal128.fromString(netValue),"discount":discount,"cardCharges" :cardCharges,"charges":charges}},function(err,doc){
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
               res.json(doc);
+              console.log(" id match call here ")
               console.log(doc);
           })
         }else{
           db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
+<<<<<<< HEAD
             "labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue,"netAmount":Decimal128.fromString(netValue)}},function(err,doc){
+=======
+            "labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"roundOffValue":decimals,"invoiceValue":invoiceValue,
+            "netAmount":Decimal128.fromString(netValue),"discount":discount,"cardCharges" :cardCharges,"charges":charges}},function(err,doc){
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
               res.json(doc);
+
               console.log(doc);
           })
 
@@ -4359,6 +4541,7 @@ app.get('/getStoredReceipt:bill',function(req,res){
   })
 })
 
+<<<<<<< HEAD
 //for getting payment details
 app.get('/getStoredPayment:bill',function(req,res){
   var num=req.params.bill;
@@ -4370,27 +4553,42 @@ app.get('/getStoredPayment:bill',function(req,res){
 })
 
 
+=======
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
 //for getting receipt details
 app.get('/getReceivableAmount:name',function(req,res){
   var name=req.params.name;
   console.log("num num num num num num num num num");
   db.saleInvoice.aggregate([{$match:{"partyname":name,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
+<<<<<<< HEAD
     { $group:{_id:{partyname:"$partyname",},Balance:{$sum:"$netAmount"} }},
     { "$lookup": { 
         "from": "receipts", 
         "localField": "partyname", 
         "foreignField": "_id.partyname", 
+=======
+     { $group:{_id:{partyname:"$partyname","voucherNo":"$voucherNo"},Balance:{$sum:"$netAmount"} }},
+    { "$lookup": { 
+        "from": "receipts", 
+        "localField": "voucherNo", 
+        "foreignField":"_id.voucherNo" , 
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
         "as": "collection2_doc"
     }}, 
     { "$unwind": "$collection2_doc" },
     { "$redact": { 
         "$cond": [
+<<<<<<< HEAD
             { "$eq": [ "$_id.partyname", "$collection2_doc.partyname" ] }, 
+=======
+            { "$eq": [ "$_id.voucherNo", "$collection2_doc.voucherNo" ] }, 
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
             "$$KEEP", 
             "$$PRUNE"
         ]
     }},
          {
+<<<<<<< HEAD
           $project: { "_id.partyname":1,"collection2_doc.partyname":1, "collection2_doc.Amount":1,"Balance":1},    
               
      },
@@ -4401,6 +4599,24 @@ app.get('/getReceivableAmount:name',function(req,res){
               
      },
     
+=======
+          $project: { "_id.partyname":1,"collection2_doc.partyname":1,"collection2_doc.voucherNo":1, "_id.voucherNo":1,"collection2_doc.Amount":1,"Balance":1},    
+              
+     },
+   { $group:{_id:{partyname:"$_id.partyname","voucherNo":"$_id.voucherNo", "voucherNo1":"$collection2_doc.voucherNo","Balance" : "$Balance" },Payment:{$sum:"$collection2_doc.Amount"}, }},
+    
+   
+    {
+          $project:{"_id.partyname":1, "_id.Balance":1, "_id.voucherNo":1,Payment:1},    
+              
+     },
+        { $group:{_id:{partyname:"$_id.partyname",},Payment:{$sum:"$Payment"},Balance:{$sum:"$_id.Balance"}}},
+     
+    {
+          $project:{  Due: { $subtract:["$Balance","$Payment"]},Payment:1,Balance:1},    
+              
+     }, 
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
     ],function(err,doc){
     console.log(doc);
     res.json(doc);
@@ -4410,6 +4626,7 @@ app.get('/getReceivableAmount:name',function(req,res){
   //   res.json(doc);
   // })
 })
+<<<<<<< HEAD
 
 //getting payment receivable amount
 //for getting receipt details
@@ -4452,6 +4669,8 @@ app.get('/getpaymentReceivableAmount:name',function(req,res){
 
 
 
+=======
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
 app.put('/updateBatchTransaction/:update',function(req,res)
 {
     //console.log("entered into put request for saleInvoicedata saleInvoicedata update ");
@@ -6191,6 +6410,12 @@ app.get('/trCollectionCreation/:data',function(req,res){
     var length = str_array.length;
     //console.log(length);
     var voucher = str_array[length - 1];
+    var salesIds=req.query.salesIds;
+    var userIds = req.query.userIds;
+    var trailRepeat = req.query.trail;
+     var billTypeForAccounts = req.query.Billtype;
+     console.log(" billTypeForAccounts "+req.query.Billtype)
+    var userIdData = null;
     // for(var i =0;i<length ;i++){
     //   console.log("str_array[i] "+str_array[i])
     // }
@@ -6209,10 +6434,7 @@ app.get('/trCollectionCreation/:data',function(req,res){
                voucherId++;
              }
     })
-    var salesIds=req.query.salesIds;
-    var userIds = req.query.userIds;
-    var trailRepeat = req.query.trail;
-    var userIdData = null;
+    
    // console.log("trailRepeat trailRepeat "+trailRepeat)
     if (trailRepeat  == "yes") {
 
@@ -6238,10 +6460,24 @@ app.get('/trCollectionCreation/:data',function(req,res){
       var salesPerson = null;
       var refId ;
     findCall(req.query.salesIds);
+    function customerDetails(name) {
+      db.subscribers.find({subscriber:name},function (err,subscriber) {
+        console.log(subscriber)
+        console.log("subscriber                                         call ")
+        console.log(subscriber[0].ledgerID);
+          db.ledgeraccounts.find({"_id" : mongojs.ObjectId(subscriber[0].ledgerID)},function (err,ledger) {
+            console.log(ledger)
+            //console.log("subscriber                                         call ")
+            console.log(ledger[0].accountIds);
+            defaultBalanceSubscriber(ledger[0].accountIds);
+          })
+
+      })
+    }
     
     function findCall(argument) {
        db.saleInvoice.find({ "_id" : mongojs.ObjectId(argument)},function (err,res) {
-    //console.log(res);
+    console.log(res);
     //res.json(res)
      
   currentdate =  res[0].date ;
@@ -6260,7 +6496,7 @@ app.get('/trCollectionCreation/:data',function(req,res){
      vocuherNumber = res[0].voucherNo;
      suffix = res[0].voucherNo.slice(0, 2);
      name = res[0].partyname ;
-     if (res[0].adj == 'null') {
+          if (res[0].adj == 'null') {
         amountTotal = res[0].invoiceValue;
      }else{
         amountTotal = Decimal128.fromString(res[0].invoiceValue) + Decimal128.fromString(res[0].adj) ;
@@ -6290,16 +6526,25 @@ app.get('/trCollectionCreation/:data',function(req,res){
                           }
                     defaultBalanceSubscriber(name);
              }else{
-                    defaultBalanceSubscriber(name);
+                     customerDetails(name)
+
+                    //defaultBalanceSubscriber(name);
                   }
            
-             if (res[0].dis!=0) {
-               gstCall("Discount Given",res[0].dis);
-             }
+               if (res[0].discount!=0 && res[0].discount!='' && res[0].discount!='NaN' && res[0].discount!= 'undefined') {
+                  console.log(" res[0].discount "+res[0].discount)
+                  gstCall("Discount Given", parseFloat (res[0].discount));
+               }
 
-             if (res[0].decimals!=0 && res[0].decimals!='' && res[0].decimals!='NaN' && res[0].decimals!= 'undefined') {
-               gstCall("Round off sales",res[0].decimals);
+             if (res[0].roundOffValue!=0 && res[0].roundOffValue!='' && res[0].roundOffValue!='NaN' && res[0].roundOffValue!= 'undefined') {
+                    console.log(" res[0].roundOffValue "+res[0].roundOffValue)
+                 
+                    gstCall("Round off sales", parseFloat (res[0].roundOffValue));
              }
+               if (res[0].cardCharges!=0 && res[0].cardCharges!='' && res[0].cardCharges!='NaN' && res[0].cardCharges!= 'undefined') {
+                 console.log(" res[0].cardCharges "+res[0].cardCharges)
+                  gstCall("Other charges collected", parseFloat (res[0].cardCharges));
+               }
              groupDetails(vocuherNumber);
              taxCaluclations(m=0);
       }else{ // if (voucherType != "Urd Purchase") 
@@ -6327,52 +6572,54 @@ app.get('/trCollectionCreation/:data',function(req,res){
      // call (res[0].Transaction,)
      function defaultBalanceSubscriber(party) {
        // body...
-    // console.log("defaultBalanceSubscriber call")
+     console.log("defaultBalanceSubscriber call"+party)
 
-       db.subscribers.aggregate([
-      {$match:{"subscriber" : party }},
-             { "$lookup": { 
-                            "from": "ledgeraccounts", 
-                            "localField":   "accountName", 
-                            "foreignField": "subscriber", 
-                            "as": "ledger"
-                         }
-            },
-             {$unwind:"$ledger"},
-             //{$match:{"subscriber" : "Arun","ledger._id" :ObjectId("59e05d2296096c1c9c69babd")}},
-              { "$project" :{ "subscriber" :1,"ledger.groupID":1,cmpTo: { $cmp: [ "$ledgerID", "$ledger._id"] }}},
-              {$match:{"cmpTo" :0 }},
-               { "$lookup": { 
-                            "from": "subgroups", 
-                            "localField":  "SGID", 
-                            "foreignField": "ledger.groupID", 
-                            "as": "subgroup"
-                         }
-            },
-            // {$unwind:"$subgroup"},
-            //   { "$project" :{ "subscriber" :1,"subgroup.MGID":1,cmpTo1: { $cmp: [ "$subgroup.SGID", "$ledger.groupID"] }}},
-            //   {$match:{"cmpTo1" :0 }},
-            //                  { "$lookup": { 
-            //                 "from": "maingroups", 
-            //                 "localField":   "MGID", 
-            //                 "foreignField": "subgroup.MGID", 
-            //                 "as": "mggroup"
-            //              }
-            // },
-             // {$unwind:"$mggroup"},
-             //  { "$project" :{ "subscriber" :1,"subgroup.MGID":1,"mggroup.MGID":1,"subgroup.SGID":1,"ledger.groupID":1,"mggroup.DefaultBalance":1 ,cmpTo2: { $cmp: [ "$subgroup.MGID", "$mggroup.MGID"] }}},
-             //  {$match:{"cmpTo2" :0 }},
-             //  { "$project" :{ "mggroup.DefaultBalance" :1}}
+   //     db.subscribers.aggregate([
+   //    {$match:{"subscriber" : party }},
+   //           { "$lookup": { 
+   //                          "from": "ledgeraccounts", 
+   //                          "localField":   "accountName", 
+   //                          "foreignField": "subscriber", 
+   //                          "as": "ledger"
+   //                       }
+   //          },
+   //           {$unwind:"$ledger"},
+   //           //{$match:{"subscriber" : "Arun","ledger._id" :ObjectId("59e05d2296096c1c9c69babd")}},
+   //            { "$project" :{ "subscriber" :1,"ledger.groupID":1,cmpTo: { $cmp: [ "$ledgerID", "$ledger._id"] }}},
+   //            {$match:{"cmpTo" :0 }},
+   //             { "$lookup": { 
+   //                          "from": "subgroups", 
+   //                          "localField":  "SGID", 
+   //                          "foreignField": "ledger.groupID", 
+   //                          "as": "subgroup"
+   //                       }
+   //          },
+   //          // {$unwind:"$subgroup"},
+   //          //   { "$project" :{ "subscriber" :1,"subgroup.MGID":1,cmpTo1: { $cmp: [ "$subgroup.SGID", "$ledger.groupID"] }}},
+   //          //   {$match:{"cmpTo1" :0 }},
+   //          //                  { "$lookup": { 
+   //          //                 "from": "maingroups", 
+   //          //                 "localField":   "MGID", 
+   //          //                 "foreignField": "subgroup.MGID", 
+   //          //                 "as": "mggroup"
+   //          //              }
+   //          // },
+   //           // {$unwind:"$mggroup"},
+   //           //  { "$project" :{ "subscriber" :1,"subgroup.MGID":1,"mggroup.MGID":1,"subgroup.SGID":1,"ledger.groupID":1,"mggroup.DefaultBalance":1 ,cmpTo2: { $cmp: [ "$subgroup.MGID", "$mggroup.MGID"] }}},
+   //           //  {$match:{"cmpTo2" :0 }},
+   //           //  { "$project" :{ "mggroup.DefaultBalance" :1}}
              
               
-           ],function (err,result) {
-        //console.log(result[0].mggroup.DefaultBalance);
-         // body...
-         insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr');
-         // console.log("date         id     is   look       here insertCall ");
-   // searchCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat)
+   //         ],function (err,result) {
+   //      //console.log(result[0].mggroup.DefaultBalance);
+   //       // body...
+   //      // insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr');
+   //       // console.log("date         id     is   look       here insertCall ");
+   // // searchCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat)
   
-       })
+   //     })
+        insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,party,amountTotal,concat,'Dr');
+        
 
      }//defaultBalance
        function insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance) {
@@ -6615,25 +6862,29 @@ app.get('/trCollectionCreation/:data',function(req,res){
                 amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
                
                // changeNumberType(voucherId)
-                if (voucherType != 'Urd Purchase') {
-                      voucherId =  voucherId+1;
-                      voucherRowNumber = 0;
+                // var billTypeForAccounts = req.query.Billtype;
+               // check
+                if (billTypeForAccounts == 'Cash') {
+                      if (voucherType != 'Urd Purchase') {
+                            voucherId =  voucherId+1;
+                            voucherRowNumber = 0;
 
-                     if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
-                          //DefaultBalance = 'Dr';
-                          insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Dr');
-                          //gstCall("Cash on hand", amountTotal);
-                          receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Cr','L011')
-                     
-                     }else{
-                          DefaultBalance = 'Cr';
-                          insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance);
-                         // gstCall("Cash on hand", amountTotal);
-                          receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr','L013')
-                     }
-             }//urd purchase  
+                           if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+                                //DefaultBalance = 'Dr';
+                                insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Dr');
+                                //gstCall("Cash on hand", amountTotal);
+                                receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Cr','L011')
+                           
+                           }else{
+                                DefaultBalance = 'Cr';
+                                insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance);
+                               // gstCall("Cash on hand", amountTotal);
+                                receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr','L013')
+                           }
+                      }//urd purchase  
+                }//if (billTypeForAccounts == 'Cash') {};
 
-          })
+          })//db.trHeaders
       
    
  }//trHeader
@@ -7315,6 +7566,7 @@ db.receipts.find({"BillNo":data},function(err,doc){
 });
 
 
+<<<<<<< HEAD
 //for reprinting  payment data
 app.get('/reprintpaymentdata:repdata',function(req,res){
 var data=req.params.repdata;
@@ -7334,6 +7586,8 @@ db.payments.find({"BillNo":data},function(err,doc){
 });
 
 
+=======
+>>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
 // printCompositeItems in pdf
 app.get('/printCompositeItems',function(req,res){
     var compositeRef = req.query.compositeRef;
