@@ -387,7 +387,7 @@ display: block;
   <!-- <p>Lorem Ipsum dolor set amet....</p> -->
 </article>
 <!-- <h3 align="center">Tax Invoice[{{billType}}]</h3>//25/4 -->
-<h3 align="center" ng-cloak>Tax Invoice[{{Billtype}}]</h3>
+<h3 align="center" ng-if="trans == 'Regular Sale'" ng-cloak>Tax Invoice[{{Billtype}}]</h3>
 <div class="row">
 
 <div class="col-sm-10" ng-hide="trans=='Opening Stock'">
@@ -404,7 +404,10 @@ City:{{city}}</p>
 </div>
 <div ng-cloak ng-if="trans !='Valuation'&&trans!='Opening Stock'">Invoice No:{{invoice}}<br>
   <!-- <p>Invoice No:B1393<br> -->
-  Date:{{FromDate | date }}</p>
+  Date:{{FromDate | date }}<br>
+ <h5 ng-if="trans=='RD Purchase'&&printReceipt==true">Payment BillNo:{{bill}}</h5>
+ <h5 ng-if="trans=='Regular Sale'&&printReceipt==true">Receipt BillNo:{{bill}}</h5>
+</p>
 </div>
 </div>
     <!-- <h1><font color="black">{{partyname}}</h1> -->
@@ -562,7 +565,7 @@ City:{{city}}</p>
 <td>0</td>
 </tr>
 <tr ng-if = "charge1 != 0">
-  <td>CreditCard Charges </td>
+  <td>Charges </td>
   <td>{{charge1}}</td>
   <td>{{charge1}}</td>
 </tr>
@@ -657,21 +660,22 @@ City:{{city}}</p>
 
 </div>
 <!-- <<<<<<< HEAD -->
-<br><h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans !='Sale Return'&&trans !='Purchase Return'&&trans !='Approval Out'&&trans!='Approval Return'&&trans!='Opening Stock'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
+<h4 ng-if="trans !='Urd Purchase'&&trans !='Issue Voucher'&&trans !='Receipt Voucher'&&trans !='Sale Return'&&trans !='Purchase Return'&&trans !='Approval Out'&&trans!='Approval Return'&&trans!='Opening Stock'" ng-cloak><font color="black">AMOUNT IN WORDS:{{wor}}{{"only"}}</h4>
 <h4 ng-if="trans =='Urd Purchase'" ng-cloak><font color="black">Invoice Value In Words:{{wor}}{{"only"}}</h4>
 
 
 
 
 
-<div class="row" ng-hide="trans =='Urd Purchase'||trans =='Valuation'|| trans =='Issue Voucher' || trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'||trans == 'Approval Out'||trans=='Approval Return'" ng-cloak>
-
-<div class="col-sm-4" ng-hide="trans=='Opening Stock'||Billtype=='Credit'||Billtype==null">
+<!-- <div class="row" ng-hide="trans =='Urd Purchase'||trans =='Valuation'|| trans =='Issue Voucher' || trans =='Receipt Voucher'||trans =='Sale Return'||trans == 'Purchase Return'||trans == 'Approval Out'||trans=='Approval Return'" ng-cloak> -->
+<div class="row" ng-show="trans == 'Regular Sale' || trans == 'RD Purchase'">
+<div class="col-sm-4" ng-show="(Billtype=='Cash' && printReceipt == false)">
 <table class="table table-bordered">
     <thead>
-      <!-- <tr><font color="white"> -->
+      <!-- <tr><font   cash color="white"> -->
       <tr>
-      <th>Receipt Details</th>
+      <th ng-if="trans=='Regular Sale'">Receipt Details</th>
+      <th ng-if="trans == 'RD Purchase'">Payment Details</th>
         <th >OB</th>
         <th>Dr/cr</th>
       </tr>
@@ -686,13 +690,15 @@ City:{{city}}</p>
 </table>
 </div>
 
-<div class="col-sm-4" ng-hide="BillType == 'Cash'||Billtype=='null'">
+<div class="col-sm-4" ng-show="(Billtype == 'Credit' && printReceipt == true)">
+<!-- credit -->
 <table class="table table-bordered">
     <thead>
       <tr>
-      <th>Receipt Details</th>
+      <th ng-if="trans=='Regular Sale'">Receipt Details</th>
+      <th ng-if="trans == 'RD Purchase'">Payment Details</th>
       <th>Mode</th>
-      <th>Amount</th>  
+      <th>Amount</th>
       </tr>
     </thead>
     <tbody ng-repeat="item in billdata">
@@ -700,7 +706,7 @@ City:{{city}}</p>
        <td>
        <td>{{item.Mode}}</td>
        <td>{{item.Amount.$numberDecimal}}</td>
-      
+      <!-- <td>{{item.PaidAmount.$numberDecimal}}</td> -->
 </tr>
 <!-- <tr>
 <td>CC/DC</td>
@@ -714,6 +720,8 @@ City:{{city}}</p>
 </table>
 </div>
 </div>
+<h3 ng-if="trans=='RD Purchase'&&printReceipt==true">Net Payable Amount:{{payable}}</h3>
+<h3 ng-if="trans=='Regular Sale'&&printReceipt==true">Net Receivable Amount:{{payable}}</h3>
 <table ng-show="trans=='Issue Voucher'|| trans=='Receipt Voucher'">
  <tr> 
   <td style="padding:0 500px 0 100px;">Party Signature</td>

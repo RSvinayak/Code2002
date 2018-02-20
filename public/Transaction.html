@@ -1263,7 +1263,7 @@ display: inline-block;
         <option  ng-repeat="stocks in stock "  >{{stocks.stockpointname}}</option>
         </select></td>
 
-       <td> <select ng-model="item.salesPerson" ng-disabled="usersalesperson == true">
+       <td> <select ng-model="item.salesPerson" >
        <option ng-repeat="sales in salesperson" ng-value="{{sales.name}}"  >{{sales.name}}</option>
        </select></td>
 
@@ -1324,11 +1324,11 @@ display: inline-block;
 <!-- >>>>>>> 61946425920cfde23eb0ef81e1ccb2a84ae6baa2 -->
     <!-- <div class="w3-card-6 w3-margin"> -->
       <br>
-        <header class="w3-container w3-light-grey w3-padding-8 w3-center">
+        <header class="w3-container w3-light-grey w3-padding-8 w3-center"ng-cloak>
      <!--    <h4 >DISCOUNT/CHARGES</h4> -->
-          <h4 >INVOICE CHARGES</h4>
+          <h4 ng-cloak>INVOICE CHARGES</h4>
         </header>
-          <table class="w3-table w3-PapayaWhip " id="de" >
+          <table class="w3-table w3-PapayaWhip " id="de" ng-cloak>
     <thead >
       <tr>
         <th>Name</th>
@@ -1398,7 +1398,7 @@ display: inline-block;
 <!-- ng-disabled="checkFinal()" ng-model='finalCal' disabled-->
 
   <div class="w3-quarter w3-container" ng-hide="!saleinv.length" >
-    <div class="w3-card-2 w3-margin" >
+    <div class="w3-card-2 w3-margin" ng-cloak>
         <header class="w3-container w3-light-grey w3-padding-8 w3-center" >
    <h4 >FINAL CALCULATION </h4>
         </header>
@@ -1446,14 +1446,14 @@ display: inline-block;
       </div>
       <!-- {{minusinvoice}} -->
      <!--  </div> -->
-  <div class="col-md-2">
+  <div class="col-md-2" ng-cloak>
 
   <button ng-if = " edituseritButton == true"  ng-click="updateEditTransaction()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Update</button>
 
-  <button  ng-if = " edituseritButton != true && transaction != 'Valuation'&&transaction != 'Issue Voucher' && transaction != 'Receipt Voucher'&& transaction != 'Sale Return'&& transaction != 'Purchase Return'&&transaction!='Approval Return'&&transaction!='RD Purchase'&&transaction!='Urd Purchase'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>
-  <button ng-if="(transaction=='RD Purchase'||transaction=='Urd Purchase')&& (edituseritButton != true)" ng-click="save()"
+  <button  ng-if = " edituseritButton != true && transaction != 'Valuation'&&transaction != 'Issue Voucher' && transaction != 'Receipt Voucher'&& transaction != 'Sale Return'&& transaction != 'Purchase Return'&&transaction!='Approval Return'&&transaction!='Urd Purchase'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Save</button>
+  <!-- <button ng-if="(transaction=='RD &&transaction!='RD Purchase'&&Purchase'||transaction=='Urd Purchase')&& (edituseritButton != true)" ng-click="save()"
   class="btn btn-success" id="buttonwidth" ng-disabled="
-  reqColor()">Pay</button>
+  reqColor()">Pay1</button> -->
   <button  ng-if = "transaction == 'Sale Return'||transaction == 'Purchase Return'||transaction=='Approval Return'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Return</button>
  <!--  <button  ng-if = "transaction == 'Purchase Return'"  ng-click="save()" class="btn btn-success" id="buttonwidth"  ng-disabled="reqColor()">Return</button> -->
   <br>
@@ -1480,9 +1480,9 @@ display: inline-block;
  ng-click="save();inoviceNumberGeneration()" -->
 <!-- <<<<<<< HEAD -->
 
-<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher'||transaction == 'Receipt Voucher' ||transaction == 'RD Purchase' ||transaction == 'Valuation')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher' && transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()"  >Confirm</button>
+<button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher'||transaction == 'Receipt Voucher' ||transaction == 'Valuation')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher' && transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()" >Confirm</button>
 
-<!-- =======data-toggle="modal"  ng-href={{dataTargetCall}}
+<!--||transaction == 'RD Purchase'  =======data-toggle="modal"  ng-href={{dataTargetCall}}
 <button ng-hide ="(desgination != 'Billing Person' || transaction == 'Issue Voucher')" class="btn btn-primary" id="buttonwidth" ng-show="transaction != 'Issue Voucher'&& transaction != 'Receipt Voucher'&&transaction!='RD Purchase'&&transaction!='Sale Return'&&transaction!='Purchase Return'&&transaction != 'Approval Out'&&transaction!='Approval Return'"  ng-click="save(true);inoviceNumberGeneration()" ng-disabled="reqColorPay()" data-toggle="modal"  ng-href={{dataTargetCall}} >Pay</button>
 >>>>>>> 57bef8a482557fa32c9777e301321c950fbc21b7 -->
 
@@ -1576,8 +1576,8 @@ display: inline-block;
 </div>
 </div><br>
 
-<a href="pdf.html"><button  class="btn btn-primary" id="buttonwidth"  ng-click = "confirmOrder()">Confirm</button></a>
-<!-- <button type="button" class="btn btn-primary" id="button" ng-click = "confirm()">Confirm</button> -->
+<!-- <button  class="btn btn-primary" id="buttonwidth"  ng-click = "confirmOrder()">Confirm1</button> -->
+<!-- <button type="button" class="btn btn-primary" <a href="pdf.html"></a>id="button" ng-click = "confirm()">Confirm</button> -->
 
              
              <!-- <img src="https://www.webdesign.123coimbatore.com/images/payment-option-banner.jpg" height="200px" width="300px">

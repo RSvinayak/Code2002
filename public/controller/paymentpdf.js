@@ -3,6 +3,7 @@ myApp.controller('billpdfCntrl',['$scope','$http','$window',
   function($scope,$http,$window){
     $scope.pname=window.sessionStorage.getItem("pname");
  $scope.billtype=window.sessionStorage.getItem("Billtype");
+ // $scope.voucherId=window.sessionStorage.getItem("voucher");
  // $scope.amounttotal=window.sessionStorage.getItem("tamount");
  // alert($scope.amounttotal+"amount");
  // $scope.datarp=window.sessionStorage.getItem("rpdata");
@@ -13,10 +14,11 @@ myApp.controller('billpdfCntrl',['$scope','$http','$window',
  $scope.billnum=window.sessionStorage.getItem("billnumber");
  // alert("billnumber"+$scope.billnum);
 //for getting receipt data
-$http.get('/getStoredReceipt'+$scope.billnum).success(function(response){
+$http.get('/getStoredPayment'+$scope.billnum).success(function(response){
   console.log(response);
   if(response.length != 0){
   $scope.rpamt=response;
+  $scope.voucherId=response[0].vocherNo;
   receivableAmount(response[0].partyname)
   numberwords(response[0].PaidAmount.$numberDecimal);
   $scope.finalAmount=response[0].PaidAmount.$numberDecimal;
@@ -26,7 +28,7 @@ $http.get('/getStoredReceipt'+$scope.billnum).success(function(response){
 
   function receivableAmount (name) {
     //alert(name)
-    $http.get('/getReceivableAmount'+name).success(function(response){
+    $http.get('/getpaymentReceivableAmount'+name).success(function(response){
         //console.log(response.Due.$numberDecimal);
          console.log(response[0].Due.$numberDecimal);
         numberwords(response[0].Due.$numberDecimal)

@@ -112,6 +112,23 @@ app.get('/greycolor',function(req,res)
         
      }))
   })
+
+//for cheque no validation
+app.get('/checknovalidation:datas',function(req,res){
+  console.log("cheque no validation for same current account")
+  var check=req.params.datas;
+  console.log(check);
+  var check_array=check.split(",");
+  var cno=check_array[0];
+  var cbank=check_array[1];
+  console.log(cno);
+  db.payments.find({"Bank":cbank,"ChequeNo":cno},function(err,doc){
+    console.log(doc+"ggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+    res.json(doc);
+  })
+})
+
+
 app.get('/bardata',function(req,res)
 {
     //console.log("i received a get request from index");
@@ -1135,10 +1152,17 @@ app.post('/batchdata1',function(req,res){
 app.post('/saleInvoicedata',function(req,res){
     
     //var document={name:name,city:city,no:no,email:email,street:street};
+
+  
     db.saleInvoice.insert(req.body,function(err,doc){
         res.json(doc);
-      
-})
+        console.log(" id in sale invoicw "+doc._id+" amount "+doc.netamt)
+         console.log(" id in sale invoicw "+doc[0]._id+" amount "+doc[0].netamt);
+        var netAmount = parseFloat(doc[0].netamt).toFixed(rupeesDecimalPoints);
+ 
+  
+         db.saleInvoice.update({ "_id":mongojs.ObjectId(doc[0]._id)},{"$set":{"netAmount" : Decimal128.fromString(netAmount)}})
+     })
 })
 app.post('/bardata',function(req,res){
     console.log("date bardata "+req.body.date);
@@ -1904,12 +1928,37 @@ var id =req.query.id;
     });
 })
 
-//for getting partynames in receipt
-app.get('/partynames',function(req,res){
-  db.subscribers.find(function(err,doc){
-    res.json(doc);
+//for getting customer partynames in receipt
+app.get('/partynames:trans',function(req,res){
+//   db.subscribers.find({"data.party_type.id":3},function(err,doc){
+//     res.json(doc);
+// })tyname search serach
+console.log("called par1111111111111111111111");
+ var transaction = req.params.trans;
+    var party_type_id = null;
+    if (transaction == "Payments") {
+      
+       party_type_id = "4";
+    }else{
+       party_type_id = "3";
+    }
+    console.log("i received a get request from user");
+   // db.user.find(function(err,doc){
+    db.subscribers.find({"data.party_type.id":party_type_id},function(err,doc){
+        //console.log(doc);
+        res.json(doc);
+    })
 })
-});
+
+// });
+
+// //for getting supplier partynames
+// app.get('/partynames1',function(req,res){
+//   db.subscribers.find({"data.party_type.id":4},function(err,doc){
+//     res.json(doc);
+//   });
+// });
+
 
 app.get('/bank',function(req,res)
 {
@@ -1948,6 +1997,31 @@ app.get('/gettotalcount',function(req,res){
   });
 });
 
+//receipt no
+app.get('/getprefixs1',function(req,res ){
+  console.log("1111111111111111111111111111111111111111")
+  // var tran=req.params.tra;
+db.transactionSeriesInvoice.find({"TransactionType":'Payments'},function(err,doc12){
+    console.log(" check datafrwsdtywefdqwetyfqewfty ");
+    console.log(doc12[0]);
+    console.log(doc12);
+    res.json(doc12);
+});
+});
+
+//for getting totalcount
+app.get('/gettotalcount1',function(req,res){
+  db.transactionInvoice.count({"prefix":'PA'},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+});
+
+
+
+
+
+
 //for inserting billNo to transactionInvoice
 app.put('/insertbill:values',function(req,res){
   var dataz=req.params.values;
@@ -1977,6 +2051,22 @@ app.post('/AccountStatusReceipt:values',function(req,res){
    });
  
 })
+
+//for payments
+app.post('/AccountStatusPayments:values',function(req,res){
+  var insertbill = req.params.values;
+  //console.log(insertbill +"1111111111111111111111111111");
+  var insertbill_array=insertbill.split(",");
+  //var voucher = insertbill_array[0];
+  db.saleInvoice.update({"voucherNo":insertbill_array[0]},{$set:{"AccountStatus":"completed"}},function(err,doc){
+    
+      res.json(doc);
+      console.log("replayyyyyyyyyyyyyyyyyyyyy "+insertbill_array[0]);
+      console.log(doc);
+      
+   });
+ 
+})
 //FOR INSERTING New field into saleinvoice
 app.put('/newAccountstatus:status',function(req,res){
   console.log("inserting new status status status status1111111111111111");
@@ -1992,17 +2082,56 @@ app.put('/newAccountstatus:status',function(req,res){
   })
 })
 
+//for getting recent voucherno
+app.get('/getRecentVoucherNo:rid',function(req,res){
+  console.log("getting the voucher number just recently created")
+  var id = req.params.rid;
+  console.log(id+"  ffddfdfdfdfd");
+   db.saleInvoice.find({_id:mongojs.ObjectId(id)},function(err,doc){
+        
+        res.json(doc);
+  });
+});
+
+
+
+//for getting final amount
+app.get("/getvoucherAmount:vno",function(req,res){
+  console.log("selected voucher no's final amount");
+  var voucher=req.params.vno;
+  console.log(voucher);
+  db.saleInvoice.find({"voucherNo":voucher},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+});
+
 //for getting voucherids foer receipts
 app.get('/getvoucherids:name',function(req,res){
   console.log("selected partyname is ");
   var pname=req.params.name;
   console.log("partyname is "+ pname);
-  db.saleInvoice.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
-    {$group:{_id:{voucherNo:"$voucherNo",date:"$date",net:"$netamt"}}}],function(err,doc){
-    res.json(doc);
+  // db.saleInvoice.aggregate([{$match:{"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
+    // {$group:{_id:{voucherNo:"$voucherNo",date:"$date",net:"$netamt"}}}],function(err,doc){
+     db.saleInvoice.find({"partyname":pname,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
+}).sort({_id:-1},function(err,doc){
+     res.json(doc);
     console.log(doc+"voucher No and dates");
     });
 })
+
+//get voucherids for payments
+app.get('/paymentids:name',function(req,res){
+  console.log("partyname party party party121111111111111");
+  var pname = req.params.name;
+  console.log("partyname is"+ pname);
+  db.saleInvoice.find({"partyname":pname,"Transaction":"RD Purchase","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}
+}).sort({_id:-1},function(err,doc){
+  console.log(doc);
+  res.json(doc);
+});
+});
+
 
 
 //for getting  receipts details
@@ -2019,6 +2148,19 @@ app.get('/getRecepietData:voucher',function(req,res){
   //   console.log(doc+"voucher No and dates");
   //   });
 })
+
+//for getting remaining amount details
+app.get('/getPaymentData:voucher',function(req,res){
+  console.log("selected partyname is ");
+  // var voucher = req.params.voucher;
+  // console.log("partyname is "+ voucher);
+  db.payments.find({"voucherNo" : req.params.voucher,"voucherStatus" : "InProgress"},function(err,doc){
+    res.json(doc);
+  });
+});
+
+
+
 //for inserting into receipt
 app.post('/receiptdata/:datas',function(req,res){
   console.log("inserting into receipts+99999999999999999999");
@@ -2031,12 +2173,12 @@ app.post('/receiptdata/:datas',function(req,res){
   var bank=rdata1_array[2];
   var chequeno=rdata1_array[3];
   var chequeDate = rdata1_array[4];
-  // if (chequeDate != 'undefined') {
-  //   console.log(" date n "+ chequeDate);
-  //   chequeDate = new Date(chequeDate);
-  // }else{
-  //   chequeDate = null;
-  // }
+  if (chequeDate != 'undefined') {
+    console.log(" date n "+ chequeDate);
+    chequeDate = new Date(chequeDate);
+  }else{
+    chequeDate = null;
+  }
   
   var cardnos=rdata1_array[5];
   var ctype=rdata1_array[6];
@@ -2060,6 +2202,53 @@ app.post('/receiptdata/:datas',function(req,res){
     res.json(doc);
   })
 })
+
+////for inserting into payments
+app.post('/paymentdata/:datas',function(req,res){
+  console.log("inserting into payments+99999999999999999999");
+  var rdata1=req.params.datas;
+
+  var rdata1_array=rdata1.split(",");
+  console.log(rdata1_array)
+  var mode=rdata1_array[0];
+  var amount=rdata1_array[1];
+  var bank=rdata1_array[2];
+  var chequeno=rdata1_array[3];
+  var chequeDate = rdata1_array[4];
+  if (chequeDate != 'undefined') {
+    console.log(" date n "+ chequeDate);
+    chequeDate = new Date(chequeDate);
+  }else{
+    chequeDate = null;
+  }
+  
+  var cardnos=rdata1_array[5];
+  var ctype=rdata1_array[6];
+  var appno=rdata1_array[7];
+  var pname=rdata1_array[8];
+  var bdate=rdata1_array[9];
+  var bill=rdata1_array[10];
+  var narrate=rdata1_array[11];
+  var totals=rdata1_array[12];
+  var voucher=rdata1_array[13];
+  var voucherStatus = rdata1_array[14];
+  var netBalance = rdata1_array[15];
+   amount = parseFloat(amount).toFixed(rupeesDecimalPoints);
+   totals = parseFloat(totals).toFixed(rupeesDecimalPoints);
+   netBalance = parseFloat(netBalance).toFixed(rupeesDecimalPoints);
+  //db.receipts.insert({"name":"gvhdfgfehyu"})
+  db.payments.insert({"Mode":mode,"Amount":Decimal128.fromString(amount),"Bank":bank,"ChequeNo":chequeno,"Date":chequeDate,"CardNo":cardnos,"CardType":ctype,"ApprovalNo":appno,"partyname":pname,"BilledDate":new Date(bdate),
+    "BillNo":bill,"Narration":narrate,"PaidAmount":Decimal128.fromString(totals),"voucherNo":voucher,"voucherStatus":voucherStatus,'netBalance':Decimal128.fromString(netBalance)},function(err,doc){
+     console.log(" checking data here ");
+     console.log(doc);
+    res.json(doc);
+  })
+})
+
+
+
+
+
 // recepiet data trdetails and trheader
 app.get('/receipetCreation',function(req,res){   
       var BillNo = req.query.BillNo;
@@ -3115,12 +3304,13 @@ app.put('/salesnew/:apple',function(req,res){
   var pname=sal_array[5];
   console.log(pname);
   var voucher=sal_array[6];
-  console.log(voucher);
-  // var trans=sal_array[7];
-  // console.log(trans);
+  console.log(voucher);      
+  var netValue = parseFloat(invoice2).toFixed(rupeesDecimalPoints);
+  
   var pid=null;
+
    db.saleInvoice.update({"partyname":pname,"voucherNo":voucher},{$set:{"taxableval":taxableval2,
-     "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2}},function(err,doc){
+     "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2,"netAmount":Decimal128.fromString(netValue)}},function(err,doc){
       
     //     db.saleInvoice.insert({_id:mongojs.ObjectId(pid),"taxableval":taxableval2,
     // "tax":tax2,"subtol":subtol2,"invoiceValue":invoice2,"netamt":invoice2,"Transaction":trans}},function(err,doc){
@@ -3289,16 +3479,18 @@ var dis = str_array[9];
      var invoiceValue = str_array[12];
       var decimals = str_array[13];
       var transaction = str_array[14];
+      var netValue = parseFloat(netamt).toFixed(rupeesDecimalPoints);
+
       //console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
       if(transaction == "RegularSale"){
           db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
-            "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue}},function(err,doc){
+            "status":status,"labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue,"netAmount":Decimal128.fromString(netValue)}},function(err,doc){
               res.json(doc);
               console.log(doc);
           })
         }else{
           db.saleInvoice.update({_id:mongojs.ObjectId(id)},{$set:{"partyname":partyname,"taxableval":taxableval,"tax":tax,"subtol":subtol,"adj":adj,
-            "labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue}},function(err,doc){
+            "labourtax":labourtax,"labourValue":labourValue,"dis":dis,"char":char,"netamt":netamt,"decimals":decimals,"invoiceValue":invoiceValue,"netAmount":Decimal128.fromString(netValue)}},function(err,doc){
               res.json(doc);
               console.log(doc);
           })
@@ -4166,6 +4358,100 @@ app.get('/getStoredReceipt:bill',function(req,res){
     res.json(doc);
   })
 })
+
+//for getting payment details
+app.get('/getStoredPayment:bill',function(req,res){
+  var num=req.params.bill;
+  console.log("num num num num num num num num num");
+  db.payments.find({"BillNo":num},function(err,doc){
+    console.log(doc+"data retrived");
+    res.json(doc);
+  })
+})
+
+
+//for getting receipt details
+app.get('/getReceivableAmount:name',function(req,res){
+  var name=req.params.name;
+  console.log("num num num num num num num num num");
+  db.saleInvoice.aggregate([{$match:{"partyname":name,"Transaction":"Regular Sale","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
+    { $group:{_id:{partyname:"$partyname",},Balance:{$sum:"$netAmount"} }},
+    { "$lookup": { 
+        "from": "receipts", 
+        "localField": "partyname", 
+        "foreignField": "_id.partyname", 
+        "as": "collection2_doc"
+    }}, 
+    { "$unwind": "$collection2_doc" },
+    { "$redact": { 
+        "$cond": [
+            { "$eq": [ "$_id.partyname", "$collection2_doc.partyname" ] }, 
+            "$$KEEP", 
+            "$$PRUNE"
+        ]
+    }},
+         {
+          $project: { "_id.partyname":1,"collection2_doc.partyname":1, "collection2_doc.Amount":1,"Balance":1},    
+              
+     },
+   { $group:{_id:{partyname:"$_id.partyname", "Balance" : "$Balance" },Payment:{$sum:"$collection2_doc.Amount"}, }},
+    
+    {
+          $project:{  Due: { $subtract:["$_id.Balance","$Payment"]},Payment:1},    
+              
+     },
+    
+    ],function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  })
+  // db.receipts.find({"BillNo":num},function(err,doc){
+  //   console.log(doc+"data retrived");
+  //   res.json(doc);
+  // })
+})
+
+//getting payment receivable amount
+//for getting receipt details
+app.get('/getpaymentReceivableAmount:name',function(req,res){
+  var name=req.params.name;
+  console.log("num num num num num num num num num");
+  db.saleInvoice.aggregate([{$match:{"partyname":name,"Transaction":"RD Purchase","AccountStatus":'Inprogress',"voucherNo":{$ne:"null"}}},
+    { $group:{_id:{partyname:"$partyname",},Balance:{$sum:"$netAmount"} }},
+    { "$lookup": { 
+        "from": "payments", 
+        "localField": "partyname", 
+        "foreignField": "_id.partyname", 
+        "as": "collection2_doc"
+    }}, 
+    { "$unwind": "$collection2_doc" },
+    { "$redact": { 
+        "$cond": [
+            { "$eq": [ "$_id.partyname", "$collection2_doc.partyname" ] }, 
+            "$$KEEP", 
+            "$$PRUNE"
+        ]
+    }},
+         {
+          $project: { "_id.partyname":1,"collection2_doc.partyname":1, "collection2_doc.Amount":1,"Balance":1},    
+              
+     },
+   { $group:{_id:{partyname:"$_id.partyname", "Balance" : "$Balance" },Payment:{$sum:"$collection2_doc.Amount"}, }},
+    
+    {
+          $project:{  Due: { $subtract:["$_id.Balance","$Payment"]},Payment:1},    
+              
+     },
+    
+    ],function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+  });
+
+
+
+
 app.put('/updateBatchTransaction/:update',function(req,res)
 {
     //console.log("entered into put request for saleInvoicedata saleInvoicedata update ");
@@ -5838,7 +6124,7 @@ app.post('/saleInvoiceInvoice/:data',function(req,res)
      })
 app.get('/getsaleInvoicedata/:data',function(req,res){ 
   var str=req.params.data;
-    //console.log(str);
+    console.log(str+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
      var str_array=str.split(",");
     //console.log( str_array.length);
     var id = str_array[0];
@@ -7010,6 +7296,44 @@ sort_order[ "group" ] = 1;
  
 // })
 
+//for reprinting data
+app.get('/reprintdata:repdata',function(req,res){
+var data=req.params.repdata;
+console.log(data+"gggggggggggggggggggggg");
+// var data_array=data.split(",");
+// var bid=data_array[0];
+// console.log(bid);
+// var bmode=data_array[1];
+// console.log(bmode);
+// var bamount=data_array[2];
+// console.log(bamount);
+db.receipts.find({"BillNo":data},function(err,doc){
+  // db.receipts.find({"BillNo":"RP7","Mode":"Cash","Amount":740},function(err,doc){
+  console.log(doc);
+  res.json(doc);
+});
+});
+
+
+//for reprinting  payment data
+app.get('/reprintpaymentdata:repdata',function(req,res){
+var data=req.params.repdata;
+console.log(data+"gggggggggggggggggggggg");
+// var data_array=data.split(",");
+// var bid=data_array[0];
+// console.log(bid);
+// var bmode=data_array[1];
+// console.log(bmode);
+// var bamount=data_array[2];
+// console.log(bamount);
+db.payments.find({"BillNo":data},function(err,doc){
+  // db.receipts.find({"BillNo":"RP7","Mode":"Cash","Amount":740},function(err,doc){
+  console.log(doc);
+  res.json(doc);
+});
+});
+
+
 // printCompositeItems in pdf
 app.get('/printCompositeItems',function(req,res){
     var compositeRef = req.query.compositeRef;
@@ -7032,6 +7356,17 @@ app.get('/getbilldata:num',function(req,res){
     res.json(doc);
   });
 });
+
+//for getting payment bill data for pdf.html
+app.get('/getpaymentbilldata:num',function(req,res){
+  console.log("ffffffffffffffffffffffffffffffffffffffffff");
+  var bill=req.params.num;
+  console.log(bill+"fffffffffggggggggggggggggggggggggggggggggg");
+  db.payments.find({"BillNo":bill},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+  });
 
 app.get('/getGroupWisePreview',function(req,res){
 
@@ -7240,8 +7575,8 @@ app.use(express.static(__dirname + '/subscriber_images'));
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
 require('./public/inventoryDbs/defaultCollections')(app);
-app.listen(8000); 
-console.log("server running on port 8000");
+app.listen(8050); 
+console.log("server running on port 8050");
 //var MongoClient = require('mongodb').MongoClient;
 
 

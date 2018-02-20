@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
 
-    <title>ReceiptPdf</title>  
+    <title>PaymentPdf</title>  
     <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
@@ -386,7 +386,7 @@ display: block;
 </div>
 </article>
 <hr>
-<h3 align="center" ng-cloak>Receipt</h3>
+<h3 align="center" ng-cloak>Payment</h3>
 <div class="row">
 
 <!-- <div class="col-sm-10" >
@@ -397,10 +397,12 @@ Party Address:{{city}}<br>
 City:{{city}}</p>
  
 </div> -->
-<div ng-cloak style="margin-left:1000px;margin-right:100px;color:black">Bill No:{{billnum}}
+<div ng-cloak style="margin-left:900px;margin-right:100px;color:black">Payment No:{{billnum}}
   <br>
   <!-- <p>Invoice No:B1393<br> -->
-  Date:{{dates | date:"dd-MM-yyyy" }}</p>
+  Date:{{dates | date:"dd-MM-yyyy" }}
+  <br>
+   VoucherNo:{{voucherId}}
 </div>
 <hr>
 </div>
@@ -451,9 +453,9 @@ City:{{city}}</p>
 </div>
 </div>
 <br>
-<h4 style="margin-left:135px;"ng-cloak><font color="black"><b>Receipt Amount In Words:{{wor}}{{"only"}}</b></h4>
+<h4 style="margin-left:135px;"ng-cloak><font color="black"><b>Payment Amount In Words:{{wor}}{{"only"}}</b></h4>
 
-<h4 style="margin-left:135px;"ng-cloak><font color="black"><b>Net  Receivable Amount In Words:{{due}}{{"only"}}</b></h4>
+<!-- <h4 style="margin-left:135px;"ng-cloak><font color="black"><b>Net  Receivable Amount In Words:{{due}}{{"only"}}</b></h4> -->
 
 <br>
 <br>
@@ -514,5 +516,5 @@ City:{{city}}</p>
         });
     });
 </script> 
-<script type="text/javascript" src="controller/receiptpdf.js"></script> 
+<script type="text/javascript" src="controller/paymentpdf.js"></script> 
 </html>
